@@ -120,7 +120,8 @@ def build_story(o):
     # ------------------------------------------------------------- deposit
     a.heading("Deposit")
     dep = a.clause(
-        f"The tenant shall pay a security deposit of {b(AMT)} to the landlord on signing this contract. "
+        f"The tenant shall pay a security deposit of {b(AMT)} to the landlord, or to Botany Properties on the "
+        "landlord's behalf, on signing this contract. "
         "The deposit is refundable to the tenant on vacating, subject to:",
         subs=["the premises being returned in a satisfactory condition, allowing for reasonable wear and tear, "
               "and in the repainted and deep-cleaned condition required by this addendum",
@@ -203,7 +204,7 @@ def build_story(o):
     a.clause(
         "The tenant agrees to keep the property, including but not limited to all fixtures, fittings, "
         "furniture, appliances and electrical goods, in good and clean condition throughout the term of the "
-        "tenancy contract and to report any defect or damage to the landlord promptly in writing.")
+        "tenancy contract and to report any defect or damage to Botany Properties promptly in writing.")
     a.clause(
         "All maintenance and repair work in the property resulting from misuse, neglect or negligence by the "
         "tenant, the permitted occupants or their visitors is the responsibility of the tenant, irrespective "
@@ -291,7 +292,8 @@ def build_story(o):
                  for i in range(1, o["payment_lines"] + 1)]
     a.clause(
         f"The tenant agrees to pay the annual rent of {b(AMT)} by {b(NUM)} post-dated cheque(s) made "
-        "payable to the landlord, on the following dates (unused lines to be struck through):",
+        "payable to the landlord and delivered to Botany Properties, on the following dates (unused lines to "
+        "be struck through):",
         subs=pay_lines)
     a.clause(
         "In the event of a rent cheque not being honoured or bouncing, or a rent payment / wire transfer not "
@@ -354,10 +356,11 @@ def build_story(o):
         "to enter the property to inspect, maintain, repair, alter, improve or rebuild.")
     a.clause(
         "In the event that the tenant wishes to vacate or renew the lease at the end of the tenancy, they "
-        "should notify the landlord in writing 60 (sixty) days prior to the expiry date of the rental contract.")
+        "should notify Botany Properties in writing 60 (sixty) days prior to the expiry date of the rental "
+        "contract.")
     a.clause(
         "The parties agree that there may be instances where the tenant shall need to terminate the lease "
-        "early. In this event the tenant will provide the landlord with 3 (three) months' notice in writing "
+        "early. In this event the tenant will give 3 (three) months' notice in writing through Botany Properties "
         "and will pay an early-termination penalty equal to 2 (two) months' rent; the landlord agrees to "
         "refund any rent paid for the period after the termination date, less that penalty and any other "
         "sums due. The broker fee is not refundable on early termination.")
@@ -392,12 +395,17 @@ def build_story(o):
         "if an Arabic translation of this addendum is produced, the English text of the addendum shall "
         "prevail as between the parties.")
     a.clause(
-        "This property is LET ONLY by Botany Properties, and Botany Properties acts as a letting agent and does "
-        "not manage the property, hold any monies on account, or have responsibility or liability for the "
-        "landlord or the tenant. Once the tenant is in occupation, all communication is to be made directly "
-        "between landlord and tenant, save that the approval requests which this addendum requires to be "
-        "submitted through Botany Properties shall be forwarded by Botany Properties to the landlord for "
-        "decision, Botany Properties acting solely as a channel of communication.")
+        "This property is let and managed by Botany Properties on behalf of the landlord. For the whole "
+        "tenancy period, all communication, notices, requests, approvals, complaints and maintenance reports "
+        "from the tenant shall be made only through Botany Properties, and not directly to the landlord. Any "
+        "notice which this contract or the law requires the tenant to give to the landlord is validly given "
+        "when delivered in writing (including by email) to Botany Properties, and any notice given by Botany "
+        "Properties on behalf of the landlord is valid as if given by the landlord. Where required, and with "
+        "the landlord's approval, Botany Properties may collect rent cheques, cash and any other sums due "
+        "under this contract on behalf of the landlord and shall issue a receipt for each amount collected; "
+        "payment to Botany Properties in this way discharges the tenant's obligation to the landlord for that "
+        "amount. Botany Properties acts as the landlord's agent only and does not assume the landlord's "
+        "obligations under this contract.")
     a.clause(
         "Botany Properties has used its best endeavours to ascertain the DEWA premises number and chiller "
         "account details but will not be held liable for any inaccuracies.")
