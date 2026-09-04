@@ -356,10 +356,6 @@ def build_story(o):
         "In the event that the tenant wishes to vacate or renew the lease at the end of the tenancy, they "
         "should notify the landlord in writing 60 (sixty) days prior to the expiry date of the rental contract.")
     a.clause(
-        "Any change to the terms and conditions of the tenancy contract on renewal, other than the rent "
-        "increase provided for above, shall be notified by the landlord to the tenant in writing 90 (ninety) "
-        "days prior to the end of the contract.")
-    a.clause(
         "The parties agree that there may be instances where the tenant shall need to terminate the lease "
         "early. In this event the tenant will provide the landlord with 3 (three) months' notice in writing "
         "and will pay an early-termination penalty equal to 2 (two) months' rent; the landlord agrees to "
@@ -374,10 +370,15 @@ def build_story(o):
         "unless otherwise agreed between the tenant and the landlord.")
     a.clause(
         "If the landlord wishes to evict the tenant on expiry of the tenancy for a reason permitted by law, "
-        "the landlord must issue 12 (twelve) months' written notice to the tenant, attested by the notary "
-        "public and sent by recorded delivery. This is without prejudice to the landlord's right to terminate "
-        "the tenancy during its term for non-payment or other breach in accordance with the law and this "
-        "addendum.")
+        "the landlord will give the tenant 12 (twelve) months' written notice. The parties agree that such "
+        "notice may be given by email sent by Botany Properties, on behalf of the landlord, to the tenant's "
+        "email address stated in the tenancy contract, and that the tenant accepts such email as formal and "
+        "legal notice of eviction, without any requirement for notary public attestation, registered mail or "
+        "any other form of service. The notice is deemed received on the date the email is sent. This is in "
+        "line with article 7 of the tenancy contract, under which the parties have confirmed their email "
+        "addresses as the addresses for all formal and legal notifications. This is without prejudice to the "
+        "landlord's right to terminate the tenancy during its term for non-payment or other breach in "
+        "accordance with the law and this addendum.")
 
     # ------------------------------------------------------ other terms
     a.heading("Other Terms &amp; Conditions")
