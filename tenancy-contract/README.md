@@ -5,8 +5,14 @@ long-term tenancy contract and splices them into an issued Ejari contract PDF.
 
 ```
 pip install pymupdf reportlab
-python3 build_addendum.py <original_contract.pdf> <output_contract.pdf>
+python3 build_addendum.py <original_contract.pdf> <output_contract.pdf> [ejari_contract.pdf]
 ```
+
+The optional third argument is a blank or filled Unified Ejari Tenancy
+Contract downloaded from the Dubai Land Department; its pages replace the first
+three pages of the original in the output. `ejari_unified_contract_blank.pdf`
+is the blank DLD download, and `Botany_Tenancy_Contract_Template.pdf` is the
+assembled blank template: Ejari contract, additional conditions, Botany cover.
 
 Pages 1–3 (Ejari unified contract) and the final Botany cover page are copied
 from the original unchanged; the addendum pages in between are rebuilt from the

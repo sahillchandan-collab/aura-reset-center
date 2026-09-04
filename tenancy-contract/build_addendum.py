@@ -1,6 +1,6 @@
 """Rebuild the "additional conditions" addendum pages of the Botany tenancy contract.
 
-Usage: python3 build_addendum.py <original_contract.pdf> <output_contract.pdf>
+Usage: python3 build_addendum.py <original_contract.pdf> <output_contract.pdf> [ejari_contract.pdf]
 
 Pages 1-3 (Ejari unified contract) and the final Botany cover page are kept
 verbatim from the original; the addendum pages in between are regenerated as a
@@ -463,9 +463,14 @@ def render_addendum(out_path, header_png):
     doc.build(build_story(OPTIONS))
 
 
-def main(src, dst):
+def main(src, dst, ejari=None):
+    """src: previously issued Botany contract (source of header wordmark and
+    back cover). ejari: optional blank/filled Ejari contract PDF whose pages
+    replace the first three pages of src in the output."""
     register_fonts()
     src_doc = pymupdf.open(src)
+    front_doc = pymupdf.open(ejari) if ejari else src_doc
+    front_pages = len(front_doc) if ejari else 3
     header_png = HERE / "header.png"
     # render the header ("additional conditions" wordmark) straight from the
     # original page so its transparency / anti-aliasing is preserved
@@ -477,7 +482,7 @@ def main(src, dst):
     render_addendum(addendum_pdf, header_png)
 
     out = pymupdf.open()
-    out.insert_pdf(src_doc, from_page=0, to_page=2)          # Ejari contract pages 1-3
+    out.insert_pdf(front_doc, from_page=0, to_page=front_pages - 1)   # Ejari contract
     out.insert_pdf(pymupdf.open(str(addendum_pdf)))          # new addendum pages
     out.insert_pdf(src_doc, from_page=len(src_doc) - 1)      # Botany back cover
     out.save(dst, garbage=3, deflate=True)
@@ -485,4 +490,4 @@ def main(src, dst):
 
 
 if __name__ == "__main__":
-    main(sys.argv[1], sys.argv[2])
+    main(sys.argv[1], sys.argv[2], sys.argv[3] if len(sys.argv) > 3 else None)
