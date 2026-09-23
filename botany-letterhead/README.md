@@ -28,3 +28,5 @@ Layout rules the script encodes:
 - The stamp is a floating image anchored to the "Yours sincerely," paragraph, 150 x 150 px, tilted 8 degrees, placed 4.55 in from the left margin so it sits in the clear space to the right of the name, signature and date lines and never overlaps text.
 
 `examples/` holds the goAML authorisation letter to the UAE Financial Intelligence Unit built with this script.
+
+`build-vat-letter.js` is a second example that adds bullet and numbered lists and a summary table (VAT management representation letter to Alif Accounting and Tax Consultants). Use it as the starting point for any letter that needs lists or a table. Both scripts need the `docx` package on `NODE_PATH` or installed next to them.
