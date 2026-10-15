@@ -124,7 +124,8 @@ def build_story(o):
         "landlord's behalf, on signing this contract. "
         "The deposit is refundable to the tenant on vacating, subject to:",
         subs=["the premises being returned in a satisfactory condition, allowing for reasonable wear and tear, "
-              "and in the repainted and deep-cleaned condition required by this addendum",
+              "after deduction of the cost of repainting, deep cleaning and professional AC cleaning "
+              "required by this addendum on the tenant returning the apartment",
               "all keys, remotes and access cards being returned to the landlord",
               "the tenant providing final, settled bills and clearance certificates for DEWA, chiller / "
               "district cooling and any other service provider",
@@ -132,7 +133,8 @@ def build_story(o):
     a.clause(
         "The landlord may deduct from the security deposit only the following: (a) the cost of repairing loss "
         "or damage to the property, furniture, fixtures or appliances beyond reasonable wear and tear; (b) the "
-        "cost of repainting and deep cleaning where the tenant has not carried these out; (c) unpaid utility, "
+        "cost of repainting, deep cleaning and professional AC cleaning on the tenant returning the apartment; "
+        "(c) unpaid utility, "
         "chiller or service-provider bills; (d) unpaid rent, penalties, legal costs or community fines due under "
         "this contract; and (e) the cost of replacing lost keys, remotes and access cards. The landlord shall "
         "provide the tenant with an itemised statement of any deduction.")
@@ -264,13 +266,17 @@ def build_story(o):
     a.heading("Vacating condition")
     a.clause(
         "Upon vacating the property, the tenant will be responsible for filling any holes in the walls and "
-        "restoring any other modification to the surfaces to their original condition. The tenant shall, at "
-        "the tenant's own cost and before handing back the keys, (a) repaint all the internal walls and "
-        "ceilings of the apartment in the original colour and finish, and (b) professionally deep clean the "
-        "whole apartment, especially the bathrooms and kitchen, and return the property in a clean condition, "
-        "free of the tenant's belongings and rubbish. Should the tenant fail to do so, the landlord may have "
-        "the painting and cleaning carried out and deduct the cost from the security deposit, with any "
-        "shortfall payable by the tenant within 7 (seven) days of demand.")
+        "restoring any other modification to the surfaces to their original condition, and shall return the "
+        "property free of the tenant's belongings and rubbish. Upon the tenant returning the apartment, the "
+        "apartment shall be (a) repainted in full (all internal walls and ceilings, in the original colour and "
+        "finish), (b) deep cleaned throughout, especially the bathrooms and kitchen, and (c) have its "
+        "air-conditioning units, filters and ducts professionally cleaned and serviced. These works shall be "
+        "carried out professionally by contractors appointed by the landlord or Botany Properties, at the "
+        "cost of the tenant, and the cost shall be deducted from the tenant's security deposit. The tenant "
+        "agrees to this deduction in advance and acknowledges that it applies regardless of the length of "
+        "the tenancy or the condition in which the apartment is returned. Should the cost of these works, "
+        "together with any other permitted deduction, exceed the security deposit, the shortfall shall be "
+        "paid by the tenant within 7 (seven) days of demand.")
 
     # ------------------------------------------- fees and rent payments
     a.heading("Additional Fees | Rental Payments / Non-payments")
