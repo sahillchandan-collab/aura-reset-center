@@ -3,6 +3,7 @@
 Usage: python3 build_addendum.py [--renewal] <original_contract.pdf> <output_contract.pdf> [ejari_contract.pdf]
 
 --renewal: no broker commission; the tenant pays Botany a fixed renewal fee.
+--deal <file.json>: fill the Ejari page and the addendum blanks from the deal file.
 
 Pages 1-3 (Ejari unified contract) and the final Botany cover page are kept
 verbatim from the original; the addendum pages in between are regenerated as a
@@ -35,6 +36,10 @@ OPTIONS = {
     "fee_mode": "broker",
     "renewal_fee": "AED 1,500",
 }
+
+# deal data (None = blank template). Loaded from --deal <file.json>; see
+# deal_example.json for the keys.
+DEAL = None
 
 # fill-in blanks
 AMT = "AED&nbsp;__________________"
@@ -97,17 +102,29 @@ class Addendum:
         return self.n
 
 
-def deal_block():
-    """Fill-in header identifying the contract this addendum belongs to."""
-    rows = [
-        [Paragraph("Property (unit / building / community):", FILL), Paragraph(LINE + "________", FILL)],
-        [Paragraph("Landlord name:", FILL), Paragraph(LINE + "________", FILL)],
-        [Paragraph("Tenant name(s):", FILL), Paragraph(LINE + "________", FILL)],
-        [Paragraph("Tenancy period:", FILL),
-         Paragraph(f"from&nbsp;{DATE}&nbsp;&nbsp;to&nbsp;{DATE}", FILL)],
-        [Paragraph("Annual rent / security deposit:", FILL),
-         Paragraph(f"{AMT}&nbsp;&nbsp;/&nbsp;&nbsp;{AMT}", FILL)],
-    ]
+def deal_block(d=None):
+    """Header identifying the contract this addendum belongs to (blank or filled)."""
+    if d:
+        v = lambda t: Paragraph(b(t), FILL)  # noqa: E731
+        rows = [
+            [Paragraph("Property (unit / building / community):", FILL),
+             v(f"{d['property_no']}, {d['building']}, {d['location']}")],
+            [Paragraph("Landlord name:", FILL), v(d["owner"])],
+            [Paragraph("Tenant name(s):", FILL), v(d["tenant"])],
+            [Paragraph("Tenancy period:", FILL), v(f"from {d['from']} to {d['to']}")],
+            [Paragraph("Annual rent / security deposit:", FILL),
+             v(f"AED {d['rent']}  /  AED {d['deposit']}")],
+        ]
+    else:
+        rows = [
+            [Paragraph("Property (unit / building / community):", FILL), Paragraph(LINE + "________", FILL)],
+            [Paragraph("Landlord name:", FILL), Paragraph(LINE + "________", FILL)],
+            [Paragraph("Tenant name(s):", FILL), Paragraph(LINE + "________", FILL)],
+            [Paragraph("Tenancy period:", FILL),
+             Paragraph(f"from&nbsp;{DATE}&nbsp;&nbsp;to&nbsp;{DATE}", FILL)],
+            [Paragraph("Annual rent / security deposit:", FILL),
+             Paragraph(f"{AMT}&nbsp;&nbsp;/&nbsp;&nbsp;{AMT}", FILL)],
+        ]
     t = Table(rows, colWidths=[205, 285])
     t.setStyle(TableStyle([("VALIGN", (0, 0), (-1, -1), "BOTTOM"),
                            ("LEFTPADDING", (0, 0), (-1, -1), 8),
@@ -117,16 +134,20 @@ def deal_block():
             t, Spacer(1, 6)]
 
 
-def build_story(o):
+def build_story(o, d=None):
     a = Addendum()
-    a.story += deal_block()
+    a.story += deal_block(d)
     cap = b(o["minor_maintenance_cap"])
     pen = b(o["bounce_penalty"])
+    dep_amt = f"AED {d['deposit']}" if d else AMT
+    rent_amt = f"AED {d['rent']}" if d else AMT
+    n_cheques = str(len(d["payments"])) if d else NUM
+    late_amt = (f"AED {d['late_charge']}" if d.get("late_charge") else "AED&nbsp;________") if d else AMT
 
     # ------------------------------------------------------------- deposit
     a.heading("Deposit")
     dep = a.clause(
-        f"The tenant shall pay a security deposit of {b(AMT)} to the landlord, or to Botany Properties on the "
+        f"The tenant shall pay a security deposit of {b(dep_amt)} to the landlord, or to Botany Properties on the "
         "landlord's behalf, on signing this contract. "
         "The deposit is refundable to the tenant on vacating, subject to:",
         subs=["the premises being returned in a satisfactory condition, allowing for reasonable wear and tear, "
@@ -183,8 +204,11 @@ def build_story(o):
         "(including through Airbnb, Booking.com or any similar platform), without the prior written approval "
         "of the landlord. Any breach entitles the landlord to terminate the tenancy in accordance with the law "
         "and to retain the security deposit in addition to any other remedy.")
-    occ = [f"Name:&nbsp;{LINE}&nbsp;&nbsp;&nbsp;ID / passport no.:&nbsp;{LINE[:26]}"
-           for _ in range(o["occupant_lines"])]
+    if d:
+        occ = [f"Name:&nbsp;{b(n)}&nbsp;&nbsp;&nbsp;ID / passport no.:&nbsp;{b(i)}" for n, i in d["occupants"]]
+    else:
+        occ = [f"Name:&nbsp;{LINE}&nbsp;&nbsp;&nbsp;ID / passport no.:&nbsp;{LINE[:26]}"
+               for _ in range(o["occupant_lines"])]
     a.clause(
         "Only the individual(s) named below (the \"permitted occupants\") are permitted to reside in the "
         "premises for the tenancy period:",
@@ -310,13 +334,18 @@ def build_story(o):
         "The tenant shall be responsible for arranging insurance for their personal belongings and will not "
         "have the right to claim from the landlord for compensation for any losses or damages to those "
         "belongings during the tenancy contract.")
-    pay_lines = [f"Payment {i}&nbsp;&ndash;&nbsp;on or before&nbsp;{DATE}&nbsp;&nbsp;for the amount of&nbsp;{AMT}"
-                 for i in range(1, o["payment_lines"] + 1)]
+    if d:
+        pay_lines = [b(f"Payment {i}&nbsp;&ndash;&nbsp;on or before {dt} for the amount of AED {amt}")
+                     for i, (dt, amt) in enumerate(d["payments"], 1)]
+        tail = ":"
+    else:
+        pay_lines = [f"Payment {i}&nbsp;&ndash;&nbsp;on or before&nbsp;{DATE}&nbsp;&nbsp;for the amount of&nbsp;{AMT}"
+                     for i in range(1, o["payment_lines"] + 1)]
+        tail = " (unused lines to be struck through):"
     a.clause(
-        f"The tenant agrees to pay the annual rent of {b(AMT)} by {b(NUM)} post-dated cheque(s) made "
-        "payable to the landlord and delivered to Botany Properties, on the following dates (unused lines to "
-        "be struck through):",
-        subs=pay_lines)
+        f"The tenant agrees to pay the annual rent of {b(rent_amt)} by {b(n_cheques)} post-dated cheque(s) made "
+        f"payable to the landlord and delivered to Botany Properties, on the following dates{tail}",
+        subs=pay_lines, keep=len(pay_lines) <= 6)
     a.clause(
         "In the event of a rent cheque not being honoured or bouncing, or a rent payment / wire transfer not "
         "being received on or before the date agreed above, the tenant agrees:",
@@ -325,7 +354,7 @@ def build_story(o):
             "charges. The penalty must be paid within 24 (twenty-four) hours of the cheque bouncing or the "
             "payment falling due. In addition, the outstanding rent must be cleared in full, by cash or bank "
             "transfer, within 72 (seventy-two) hours of the due date.",
-            f"that in addition to the penalty above, a late-payment charge of {b(AMT)} per day shall apply "
+            f"that in addition to the penalty above, a late-payment charge of {b(late_amt)} per day shall apply "
             "for each day the rent remains unpaid after the 72-hour period, until the rent is received in "
             "full.",
             "that if the penalty is not paid within the 24-hour period, the landlord holds all rights to open "
@@ -483,7 +512,37 @@ def render_addendum(out_path, header_png):
     doc = BaseDocTemplate(str(out_path), pagesize=A4, title="Tenancy contract - additional conditions",
                           author="Botany Properties")
     doc.addPageTemplates([PageTemplate(id="p", frames=[frame], onPage=on_page)])
-    doc.build(build_story(OPTIONS))
+    doc.build(build_story(OPTIONS, DEAL))
+
+
+def fill_ejari(page, d):
+    """Overlay the deal data onto page 1 of the blank DLD Ejari contract."""
+    L, R = 110, 400          # value x for the left / right label columns
+    f = dict(fontname="helv", fontsize=8, color=(0, 0, 0))
+
+    def put(x, y, text):
+        page.insert_text((x, y), str(text), **f)
+
+    put(50, 118, d["contract_date"])
+    # owner / lessor
+    put(L, 179, d["owner"]); put(L, 201, d["lessor"]); put(L, 224, d["lessor_eid"])
+    put(160, 246, d.get("lessor_license", "NA")); put(450, 246, d.get("lessor_authority", "NA"))
+    put(L, 271, d["lessor_email"]); put(L, 293, d["lessor_phone"])
+    # tenant
+    put(L, 349, d["tenant"]); put(L, 371, d["tenant_eid"])
+    put(160, 394, d.get("tenant_license", "NA")); put(450, 394, d.get("tenant_authority", "NA"))
+    put(L, 419, d["tenant_email"]); put(L, 441, d["tenant_phone"])
+    # property
+    usage_x = {"industrial": 152.5, "commercial": 259.5, "residential": 372.5}[d["usage"].lower()]
+    page.draw_circle((usage_x, 495), 2.6, color=(0, 0, 0), fill=(0, 0, 0))
+    put(L, 521, d["plot_no"]); put(R, 521, d["makani"])
+    put(L, 544, d["building"]); put(R, 544, d["property_no"])
+    put(L, 567, d["property_type"]); put(R, 567, d["area_sqm"])
+    put(L, 590, d["location"]); put(R, 590, d["dewa"])
+    # contract
+    put(150, 656, d["from"]); put(230, 656, d["to"]); put(R, 647, f"AED {d['contract_value']}")
+    put(L, 672, f"AED {d['rent']}"); put(R, 672, f"AED {d['deposit']}")
+    put(L, 694, d["mode_of_payment"])
 
 
 def main(src, dst, ejari=None):
@@ -505,6 +564,8 @@ def main(src, dst, ejari=None):
     render_addendum(addendum_pdf, header_png)
 
     out = pymupdf.open()
+    if DEAL and ejari:
+        fill_ejari(front_doc[0], DEAL)
     out.insert_pdf(front_doc, from_page=0, to_page=front_pages - 1)   # Ejari contract
     out.insert_pdf(pymupdf.open(str(addendum_pdf)))          # new addendum pages
     out.insert_pdf(src_doc, from_page=len(src_doc) - 1)      # Botany back cover
@@ -513,7 +574,13 @@ def main(src, dst, ejari=None):
 
 
 if __name__ == "__main__":
-    args = [a for a in sys.argv[1:] if not a.startswith("--")]
-    if "--renewal" in sys.argv:
+    import json
+    argv = sys.argv[1:]
+    if "--deal" in argv:
+        i = argv.index("--deal")
+        DEAL = json.load(open(argv[i + 1]))
+        del argv[i:i + 2]
+    args = [a for a in argv if not a.startswith("--")]
+    if "--renewal" in argv:
         OPTIONS["fee_mode"] = "renewal"
     main(args[0], args[1], args[2] if len(args) > 2 else None)

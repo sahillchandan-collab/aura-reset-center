@@ -1,0 +1,18 @@
+{
+  "contract_date": "15/10/2026",
+  "owner": "Owner Name", "lessor": "Lessor Name", "lessor_eid": "784-XXXX-XXXXXXX-X",
+  "lessor_license": "NA", "lessor_authority": "NA",
+  "lessor_email": "lessor@example.com", "lessor_phone": "+971 5X XXX XXXX",
+  "tenant": "Tenant Name", "tenant_eid": "784-XXXX-XXXXXXX-X",
+  "tenant_license": "NA", "tenant_authority": "NA",
+  "tenant_email": "tenant@example.com", "tenant_phone": "+971 5X XXX XXXX",
+  "usage": "Residential", "plot_no": "0000", "makani": "00000 00000",
+  "building": "Building Name", "property_no": "000", "property_type": "Flat",
+  "area_sqm": "00.00", "location": "Community", "dewa": "000000000",
+  "from": "01/11/2026", "to": "01/11/2027",
+  "contract_value": "44,000", "rent": "44,000", "deposit": "2,100",
+  "mode_of_payment": "12 Cheques",
+  "payments": [["November 1st, 2026", "3,667"]],
+  "occupants": [["Tenant Name", "784-XXXX-XXXXXXX-X"]],
+  "late_charge": ""
+}

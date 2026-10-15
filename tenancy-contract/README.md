@@ -8,6 +8,9 @@ pip install pymupdf reportlab
 python3 build_addendum.py [--renewal] <original_contract.pdf> <output_contract.pdf> [ejari_contract.pdf]
 ```
 
+`--deal <file.json>` fills the Ejari page 1 and every addendum blank from a deal
+file (see `deal_example.json` for the keys; keep real deal files out of git).
+
 `--renewal` produces the renewal variant (`Botany_Tenancy_Contract_Renewal.pdf`):
 no broker commission, the tenant pays Botany a fixed renewal fee (`OPTIONS["renewal_fee"]`,
 AED 1,500) and every later reference to the fee follows suit.
