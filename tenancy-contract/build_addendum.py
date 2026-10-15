@@ -1,6 +1,8 @@
 """Rebuild the "additional conditions" addendum pages of the Botany tenancy contract.
 
-Usage: python3 build_addendum.py <original_contract.pdf> <output_contract.pdf> [ejari_contract.pdf]
+Usage: python3 build_addendum.py [--renewal] <original_contract.pdf> <output_contract.pdf> [ejari_contract.pdf]
+
+--renewal: no broker commission; the tenant pays Botany a fixed renewal fee.
 
 Pages 1-3 (Ejari unified contract) and the final Botany cover page are kept
 verbatim from the original; the addendum pages in between are regenerated as a
@@ -28,6 +30,10 @@ OPTIONS = {
     "payment_lines": 4,       # blank cheque / payment lines
     "minor_maintenance_cap": "AED 1,000",   # standard Botany threshold
     "bounce_penalty": "AED 1,000",          # fixed by instruction
+    # "broker": new letting, tenant pays a broker commission (blank amount).
+    # "renewal": renewal contract, no commission, tenant pays a renewal fee.
+    "fee_mode": "broker",
+    "renewal_fee": "AED 1,500",
 }
 
 # fill-in blanks
@@ -143,17 +149,27 @@ def build_story(o):
         "of the tenant handing back possession and providing the documents listed in clause "
         f"{dep}. The deposit shall not be treated as rent and may not be used by the tenant to offset the "
         "last rent payment.")
-    broker = a.clause(
-        f"Upon signing this lease, the tenant shall pay Botany Properties a non-refundable broker fee of "
-        f"{b(AMT)} inclusive of VAT.")
+    renewal = o["fee_mode"] == "renewal"
+    fee = "renewal fee" if renewal else "broker fee"
+    if renewal:
+        broker = a.clause(
+            "This contract is a renewal of the tenant's existing tenancy of the premises. No broker commission "
+            "is payable by the tenant for this renewal. Upon signing this renewal, the tenant shall pay Botany "
+            f"Properties a non-refundable renewal fee of {b(o['renewal_fee'])} inclusive of VAT in respect of "
+            "drafting the renewal agreement, arranging the signing of the contracts for both parties and the "
+            "collection and delivery of rental cheques.")
+    else:
+        broker = a.clause(
+            f"Upon signing this lease, the tenant shall pay Botany Properties a non-refundable broker fee of "
+            f"{b(AMT)} inclusive of VAT.")
     a.clause(
         "Should the tenant decide to terminate the tenancy contract prior to the contract start date, the "
-        "security deposit and broker fee will be forfeited, and any rental cheques provided will be returned "
+        f"security deposit and {fee} will be forfeited, and any rental cheques provided will be returned "
         "to the tenant.")
     a.clause(
         "Should the landlord decide to terminate the tenancy contract prior to the contract start date, the "
         "landlord will return the security deposit and all rental cheques to the tenant and will refund the "
-        f"tenant the total sum of the broker fee referred to in clause {broker}.")
+        f"tenant the total sum of the {fee} referred to in clause {broker}.")
 
     # ---------------------------------------------------- use and occupancy
     a.heading("Use of premises &amp; occupancy")
@@ -327,9 +343,10 @@ def build_story(o):
             "are without prejudice to any other rights or remedies available to the landlord.",
         ], keep=False)
     a.clause(
-        f"Should Botany Properties renew this tenancy agreement, the tenant agrees to pay Botany Properties a "
-        f"renewal fee of {b(AMT)} inclusive of VAT in respect of drafting the renewal agreement, arranging "
-        "the signing of the contracts for both parties and the collection and delivery of rental cheques.")
+        f"Should Botany Properties renew this tenancy agreement{' again' if renewal else ''}, the tenant agrees "
+        f"to pay Botany Properties a renewal fee of {b(o['renewal_fee'] if renewal else AMT)} inclusive of VAT "
+        "in respect of drafting the renewal agreement, arranging the signing of the contracts for both parties "
+        "and the collection and delivery of rental cheques.")
     ej = a.n + 1
     a.clause(
         "It is common practice that the tenant is responsible to register the contract with EJARI. By signing "
@@ -369,7 +386,7 @@ def build_story(o):
         "early. In this event the tenant will give 3 (three) months' notice in writing through Botany Properties "
         "and will pay an early-termination penalty equal to 2 (two) months' rent; the landlord agrees to "
         "refund any rent paid for the period after the termination date, less that penalty and any other "
-        "sums due. The broker fee is not refundable on early termination.")
+        f"sums due. The {fee} is not refundable on early termination.")
     a.clause(
         "In the event that the landlord wishes to sell the property, the tenant agrees to allow access to the "
         "property for viewings, if reasonable notice (48 hours) is given. If the property is sold during the "
@@ -418,8 +435,8 @@ def build_story(o):
     a.clause(
         "The property will be handed over with all keys and access cards to the tenant, and the handover "
         "inspection report in clause "
-        f"{inv} signed, upon realisation of the first rental payment, the security deposit and the broker "
-        "fee, and not before the tenancy start date.")
+        f"{inv} signed, upon realisation of the first rental payment, the security deposit and the {fee}, "
+        "and not before the tenancy start date.")
     a.clause(
         "This addendum forms an integral part of the tenancy contract. In case of any inconsistency between "
         "the printed terms of the unified tenancy contract and this addendum, this addendum shall prevail to "
@@ -496,4 +513,7 @@ def main(src, dst, ejari=None):
 
 
 if __name__ == "__main__":
-    main(sys.argv[1], sys.argv[2], sys.argv[3] if len(sys.argv) > 3 else None)
+    args = [a for a in sys.argv[1:] if not a.startswith("--")]
+    if "--renewal" in sys.argv:
+        OPTIONS["fee_mode"] = "renewal"
+    main(args[0], args[1], args[2] if len(args) > 2 else None)

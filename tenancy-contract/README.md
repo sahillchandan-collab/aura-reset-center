@@ -5,8 +5,12 @@ long-term tenancy contract and splices them into an issued Ejari contract PDF.
 
 ```
 pip install pymupdf reportlab
-python3 build_addendum.py <original_contract.pdf> <output_contract.pdf> [ejari_contract.pdf]
+python3 build_addendum.py [--renewal] <original_contract.pdf> <output_contract.pdf> [ejari_contract.pdf]
 ```
+
+`--renewal` produces the renewal variant (`Botany_Tenancy_Contract_Renewal.pdf`):
+no broker commission, the tenant pays Botany a fixed renewal fee (`OPTIONS["renewal_fee"]`,
+AED 1,500) and every later reference to the fee follows suit.
 
 The optional third argument is a blank or filled Unified Ejari Tenancy
 Contract downloaded from the Dubai Land Department; its pages replace the first
