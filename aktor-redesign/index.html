@@ -1,0 +1,966 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AKTOR Group — A new era of evolution</title>
+<meta name="description" content="AKTOR Group: Constructions, Equity Participations, LNG, Renewables, Real Estate and Facility Management. Homepage redesign concept.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<!--
+  AKTOR homepage redesign concept.
+  Content is taken from the live aktor.gr homepage (Greek version, Oct 2026), translated to English.
+  Photography is hot-linked from aktor.gr/wp-content/uploads; each image has a colour fallback.
+  Live share price: wire the existing inbroker widget (symb=AKTR.ATH) into #sharePrice at launch.
+-->
+<style>
+:root{
+  /* AKTOR navy, from the current site */
+  --navy:#06203e; --navy-2:#0a2a4f; --navy-3:#0f3462; --ink:#041628;
+  --paper:#f4f2ee; --paper-2:#e9e5de; --white:#fff;
+  --line:rgba(255,255,255,.12); --line-dark:rgba(6,32,62,.12);
+  --muted:#93a3b8; --muted-dark:#5a6878;
+  /* Sector colours, from the current site */
+  --c-con:#ef434d; --c-eq:#1859a9; --c-lng:#ed6a3c; --c-ren:#00a98d; --c-re:#fbaa29; --c-fm:#00adee;
+  --accent:var(--c-con);
+  --radius:20px;
+  --gutter:clamp(16px,4vw,64px);
+  --max:1400px;
+  --serif:"Instrument Serif",Georgia,serif;
+  --sans:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,monospace;
+  --ease:cubic-bezier(.2,.7,.1,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--navy);color:var(--white);font-family:var(--sans);line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+::selection{background:var(--c-con);color:#fff}
+:focus-visible{outline:2px solid var(--c-fm);outline-offset:3px;border-radius:4px}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 var(--gutter)}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:12px}
+.eyebrow::before{content:"";width:28px;height:1px;background:currentColor;opacity:.6}
+.light .eyebrow{color:var(--muted-dark)}
+.h-xl{font-family:var(--serif);font-weight:400;font-size:clamp(44px,6.4vw,104px);line-height:.98;letter-spacing:-.03em}
+.h-xl em,.h-lg em{font-style:italic}
+.h-lg{font-family:var(--serif);font-weight:400;font-size:clamp(36px,4.6vw,72px);line-height:1.02;letter-spacing:-.02em}
+.lead{font-size:clamp(16px,1.3vw,19px);font-weight:300;color:#c6d1de;max-width:56ch}
+.light .lead{color:var(--muted-dark)}
+.pad{padding:clamp(90px,12vw,170px) 0}
+.light{background:var(--paper);color:var(--navy)}
+
+.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 24px;border-radius:999px;font-size:14px;font-weight:600;letter-spacing:.01em;transition:all .35s var(--ease);white-space:nowrap}
+.btn-solid{background:#fff;color:var(--navy)}
+.btn-solid:hover{background:var(--accent);color:#fff}
+.btn-ghost{border:1px solid rgba(255,255,255,.28)}
+.btn-ghost:hover{border-color:#fff;background:rgba(255,255,255,.08)}
+.btn-dark{background:var(--navy);color:#fff}
+.btn-dark:hover{background:var(--c-con)}
+.btn-line{border:1px solid var(--line-dark)}
+.btn-line:hover{border-color:var(--navy)}
+.arr{transition:transform .35s var(--ease)}
+.btn:hover .arr,a:hover > .arr{transform:translateX(4px)}
+
+/* ---------- NAV ---------- */
+.nav{position:fixed;inset:0 0 auto 0;z-index:50;transition:background .4s var(--ease),border-color .4s,transform .45s var(--ease);border-bottom:1px solid transparent}
+.nav.scrolled{background:rgba(6,32,62,.78);backdrop-filter:blur(18px) saturate(150%);-webkit-backdrop-filter:blur(18px) saturate(150%);border-color:var(--line)}
+.nav.hide{transform:translateY(-100%)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:80px;gap:24px}
+.logo{display:flex;align-items:center;gap:12px;font-weight:700;letter-spacing:.24em;font-size:17px}
+.logo-mark{display:grid;grid-template-columns:repeat(3,8px);gap:3px}
+.logo-mark i{width:8px;height:8px;border-radius:50%}
+.nav-links{display:flex;gap:30px;font-size:14px;font-weight:500;color:#cfd8e3}
+.nav-links a{position:relative;padding:6px 0;transition:color .25s}
+.nav-links a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--accent);transform:scaleX(0);transform-origin:right;transition:transform .45s var(--ease)}
+.nav-links a:hover{color:#fff}
+.nav-links a:hover::after{transform:scaleX(1);transform-origin:left}
+.nav-right{display:flex;align-items:center;gap:18px}
+.ticker-pill{font-family:var(--mono);font-size:12px;color:#cfd8e3;display:flex;align-items:center;gap:8px;padding:8px 14px;border:1px solid var(--line);border-radius:999px}
+.ticker-pill i{width:6px;height:6px;border-radius:50%;background:#3ddc97}
+.lang{font-family:var(--mono);font-size:12px;color:var(--muted);display:flex;gap:6px}
+.lang b{color:#fff;font-weight:400}
+.burger{display:none;width:46px;height:46px;border-radius:50%;border:1px solid var(--line);position:relative}
+.burger span{position:absolute;left:14px;right:14px;height:1.5px;background:#fff;transition:transform .35s var(--ease),top .35s}
+.burger span:nth-child(1){top:19px}.burger span:nth-child(2){top:26px}
+.menu-open .burger span:nth-child(1){top:22px;transform:rotate(45deg)}
+.menu-open .burger span:nth-child(2){top:22px;transform:rotate(-45deg)}
+.mobile-menu{position:fixed;inset:0;z-index:40;background:var(--navy);padding:110px var(--gutter) 32px;display:flex;flex-direction:column;justify-content:space-between;gap:32px;opacity:0;pointer-events:none;transition:opacity .4s var(--ease);overflow-y:auto}
+.menu-open .mobile-menu{opacity:1;pointer-events:auto}
+.mobile-menu nav a{font-family:var(--serif);font-size:clamp(34px,9vw,48px);line-height:1.15;display:block;border-bottom:1px solid var(--line);padding:10px 0}
+
+/* ---------- HERO ---------- */
+.hero{position:relative;min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;padding:140px 0 0;overflow:hidden;isolation:isolate;background:var(--ink)}
+.hero-bgs{position:absolute;inset:0;z-index:-2}
+.hero-bg{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transform:scale(1.08);transition:opacity 1.2s var(--ease),transform 6s linear}
+.hero-bg.active{opacity:1;transform:scale(1)}
+.hero::before{content:"";position:absolute;inset:0;z-index:-1;background:
+  linear-gradient(180deg,rgba(4,22,40,.55) 0%,rgba(4,22,40,.2) 35%,rgba(4,22,40,.85) 78%,var(--ink) 100%),
+  linear-gradient(90deg,rgba(4,22,40,.7) 0%,transparent 60%)}
+.hero-tint{position:absolute;inset:0;z-index:-1;background:var(--accent);mix-blend-mode:soft-light;opacity:.55;transition:background .8s var(--ease)}
+.hero h1{font-family:var(--serif);font-weight:400;font-size:clamp(56px,10vw,170px);line-height:.9;letter-spacing:-.035em;max-width:11ch}
+.hero h1 .line{display:block;overflow:hidden;padding-bottom:.06em}
+.hero h1 .line > span{display:inline-block;transform:translateY(105%);animation:rise 1.2s var(--ease) forwards}
+.hero h1 .line:nth-child(2) > span{animation-delay:.12s}
+.hero h1 em{font-style:italic;color:var(--accent);transition:color .8s var(--ease)}
+@keyframes rise{to{transform:none}}
+.hero-meta{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:40px;margin-top:36px;opacity:0;animation:fade 1s .6s var(--ease) forwards}
+@keyframes fade{to{opacity:1}}
+.hero-meta .lead{max-width:600px}
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap}
+.sector-bar{margin-top:56px;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(6,1fr);opacity:0;animation:fade 1s .9s var(--ease) forwards}
+.sector-tab{position:relative;display:flex;flex-direction:column;justify-content:flex-start;text-align:left;padding:22px 18px 26px 0;border-right:1px solid var(--line);color:#b3c0cf;transition:color .3s}
+.sector-tab:last-child{border-right:0}
+.sector-tab:not(:first-child){padding-left:18px}
+.sector-tab small{display:block;font-family:var(--mono);font-size:11px;color:var(--muted);margin-bottom:8px}
+.sector-tab span{font-size:15px;font-weight:600;line-height:1.3}
+.sector-tab::before{content:"";position:absolute;left:0;right:0;top:-1px;height:2px;background:var(--c);transform:scaleX(0);transform-origin:left}
+.sector-tab.active{color:#fff}
+.sector-tab.active::before{animation:progress 6s linear forwards}
+.sector-tab:hover{color:#fff}
+.sector-tab i{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--c);margin-right:8px;vertical-align:middle;position:relative;top:-1px}
+@keyframes progress{to{transform:scaleX(1)}}
+.paused .sector-tab.active::before{animation-play-state:paused}
+
+/* ---------- LEGACY MARQUEE ---------- */
+.marquee{border-bottom:1px solid var(--line);overflow:hidden;padding:24px 0;background:var(--ink)}
+.marquee-track{display:flex;width:max-content;animation:scroll 50s linear infinite}
+.marquee:hover .marquee-track{animation-play-state:paused}
+.marquee span{font-family:var(--serif);font-size:clamp(24px,2.6vw,36px);color:#d3dbe5;display:flex;align-items:center;gap:48px;padding-right:48px;white-space:nowrap}
+.marquee span::after{content:"";width:8px;height:8px;border-radius:50%;background:var(--c-con)}
+.marquee span:nth-child(6n+2)::after{background:var(--c-eq)}
+.marquee span:nth-child(6n+3)::after{background:var(--c-lng)}
+.marquee span:nth-child(6n+4)::after{background:var(--c-ren)}
+.marquee span:nth-child(6n+5)::after{background:var(--c-re)}
+.marquee span:nth-child(6n)::after{background:var(--c-fm)}
+@keyframes scroll{to{transform:translateX(-50%)}}
+
+/* ---------- STATEMENT ---------- */
+.statement{display:grid;grid-template-columns:260px minmax(0,1fr);gap:40px}
+.statement h2 .w{color:#3b5677;transition:color .5s}
+.statement h2 .w.on{color:#fff}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);margin-top:80px;border-top:1px solid var(--line)}
+.stat{padding:36px 24px 0 0}
+.stat:not(:first-child){padding-left:24px;border-left:1px solid var(--line)}
+.stat b{display:block;font-family:var(--serif);font-weight:400;font-size:clamp(52px,6vw,96px);line-height:1;letter-spacing:-.03em}
+.stat b sup{font-size:.36em;vertical-align:top;margin-left:4px;font-family:var(--sans);font-weight:600;letter-spacing:0}
+.stat span{display:block;color:var(--muted);font-size:14px;margin-top:14px;max-width:26ch}
+
+/* ---------- SECTORS (light) ---------- */
+.sec-head{display:flex;justify-content:space-between;align-items:end;gap:40px;margin-bottom:64px;flex-wrap:wrap}
+.sec-head .h-xl{margin-top:18px}
+.sec-head .lead{max-width:420px}
+.sectors{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.sector{position:relative;min-height:440px;border-radius:var(--radius);overflow:hidden;isolation:isolate;color:#fff;display:flex;flex-direction:column;justify-content:space-between;padding:28px;background:var(--c)}
+.sector .img{position:absolute;inset:0;z-index:-2;background-size:cover;background-position:center;transition:transform 1.4s var(--ease)}
+.sector::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(4,22,40,.15) 0%,rgba(4,22,40,.35) 45%,rgba(4,22,40,.92) 100%);transition:opacity .6s}
+.sector::after{content:"";position:absolute;inset:0;z-index:-1;background:var(--c);opacity:0;mix-blend-mode:multiply;transition:opacity .6s var(--ease)}
+.sector:hover .img{transform:scale(1.07)}
+.sector:hover::after{opacity:.55}
+.sector-top{display:flex;justify-content:space-between;align-items:center}
+.sector-top small{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:7px 12px;border-radius:999px;background:rgba(4,22,40,.45);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.18)}
+.dot{width:12px;height:12px;border-radius:50%;background:var(--c);box-shadow:0 0 0 4px rgba(255,255,255,.18)}
+.sector h3{font-family:var(--serif);font-weight:400;font-size:clamp(32px,2.8vw,44px);line-height:1;margin-bottom:12px}
+.sector p{font-size:15px;color:#dbe3ec;max-width:38ch;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.sector-link{display:inline-flex;align-items:center;gap:8px;margin-top:18px;font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+.sector-link::before{content:"";width:22px;height:1px;background:currentColor;transition:width .4s var(--ease)}
+.sector:hover .sector-link::before{width:40px}
+.sector.wide{grid-column:span 2}
+
+/* ---------- PROJECTS ---------- */
+.filters{display:flex;gap:8px;flex-wrap:wrap}
+.filter{padding:10px 16px;border-radius:999px;border:1px solid var(--line);font-size:13px;font-weight:600;color:#b3c0cf;transition:all .3s var(--ease);display:inline-flex;align-items:center;gap:8px}
+.filter i{width:7px;height:7px;border-radius:50%;background:var(--c,#fff)}
+.filter:hover{color:#fff;border-color:rgba(255,255,255,.4)}
+.filter.active{background:#fff;color:var(--navy);border-color:#fff}
+.rail-wrap{position:relative}
+.proj-rail{display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;padding:0 var(--gutter) 8px;scroll-padding:0 var(--gutter);scrollbar-width:none;cursor:grab}
+.proj-rail::-webkit-scrollbar{display:none}
+.proj-rail.drag{cursor:grabbing;scroll-snap-type:none}
+.proj{flex:0 0 min(440px,82vw);scroll-snap-align:start;user-select:none;transition:opacity .4s var(--ease)}
+.proj[hidden]{display:none}
+.proj-media{aspect-ratio:4/5;border-radius:var(--radius);overflow:hidden;position:relative;background:var(--c)}
+.proj-media .img{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform 1.2s var(--ease)}
+.proj-media::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(4,22,40,.75))}
+.proj:hover .proj-media .img{transform:scale(1.06)}
+.proj-tag{position:absolute;top:16px;left:16px;z-index:1;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:7px 12px;border-radius:999px;background:rgba(4,22,40,.55);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.16);display:flex;align-items:center;gap:8px}
+.proj-tag i{width:7px;height:7px;border-radius:50%;background:var(--c)}
+.proj-go{position:absolute;right:16px;bottom:16px;z-index:1;width:48px;height:48px;border-radius:50%;background:#fff;color:var(--navy);display:grid;place-items:center;transform:scale(.6);opacity:0;transition:all .45s var(--ease)}
+.proj:hover .proj-go{transform:none;opacity:1}
+.proj h3{font-family:var(--serif);font-weight:400;font-size:28px;line-height:1.1;margin-top:18px}
+.proj p{color:var(--muted);font-size:14px;margin-top:4px}
+.rail-foot{display:flex;align-items:center;gap:24px;margin-top:40px}
+.rail-progress{flex:1;height:1px;background:var(--line);position:relative}
+.rail-progress i{position:absolute;left:0;top:0;bottom:0;background:#fff;width:20%;transition:width .2s}
+.rail-ctrl{display:flex;gap:10px}
+.rail-ctrl button{width:52px;height:52px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;transition:all .3s}
+.rail-ctrl button:hover{background:#fff;color:var(--navy)}
+
+/* ---------- LNG FEATURE ---------- */
+.lng{position:relative;overflow:hidden;background:var(--ink)}
+.lng-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(40px,6vw,96px);align-items:center}
+.lng-media{position:relative;aspect-ratio:5/6;border-radius:var(--radius);overflow:hidden;background:var(--c-lng)}
+.lng-media .img{position:absolute;inset:0;background-size:cover;background-position:center}
+.lng-media::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(4,22,40,.85))}
+.lng-media figcaption{position:absolute;left:24px;right:24px;bottom:24px;z-index:1;display:flex;justify-content:space-between;align-items:end;gap:16px;font-size:13px;color:#cfd8e3}
+.lng-media figcaption b{display:block;font-family:var(--serif);font-weight:400;font-size:30px;color:#fff;line-height:1.1}
+.badge{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--c-lng)}
+.badge::before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor}
+.lng h2{margin:22px 0 26px}
+.lng h2 em{color:var(--c-lng)}
+.milestones{margin-top:40px;border-top:1px solid var(--line)}
+.milestone{display:grid;grid-template-columns:72px 1fr;gap:16px;padding:22px 0;border-bottom:1px solid var(--line);align-items:baseline}
+.milestone b{font-family:var(--serif);font-weight:400;font-size:40px;line-height:1;color:var(--c-lng)}
+.milestone span{font-size:16px;color:#dbe3ec}
+
+/* ---------- INVESTORS ---------- */
+.ir{display:grid;grid-template-columns:1fr 1.15fr;gap:20px;align-items:stretch}
+.card{border:1px solid var(--line-dark);border-radius:var(--radius);padding:36px;background:#fff}
+.share-card{background:var(--navy);color:#fff;border-color:var(--navy);display:flex;flex-direction:column;justify-content:space-between;gap:32px;position:relative;overflow:hidden}
+.share-card::after{content:"";position:absolute;right:-120px;top:-120px;width:320px;height:320px;border-radius:50%;border:1px solid rgba(255,255,255,.08);box-shadow:0 0 0 60px rgba(255,255,255,.02),0 0 0 120px rgba(255,255,255,.015)}
+.share-top{display:flex;justify-content:space-between;align-items:start;gap:16px}
+.share-top .sym{font-family:var(--mono);font-size:13px;color:var(--muted)}
+.share-top .ex{font-family:var(--mono);font-size:11px;padding:6px 10px;border:1px solid var(--line);border-radius:999px;color:#cfd8e3}
+.share-price{font-family:var(--serif);font-size:clamp(56px,6vw,88px);line-height:1;letter-spacing:-.02em}
+.share-price small{display:block;font-family:var(--sans);font-size:13px;color:var(--muted);margin-top:10px;letter-spacing:0}
+.share-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;border-top:1px solid var(--line);padding-top:22px}
+.share-meta div small{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.share-meta div span{font-size:15px;font-weight:600}
+.indices{display:flex;flex-wrap:wrap;gap:6px}
+.indices span{font-family:var(--mono);font-size:11px;padding:5px 9px;border-radius:6px;background:rgba(255,255,255,.07);color:#cfd8e3}
+.ir-links{display:flex;flex-direction:column}
+.ir-link{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:22px 0;border-bottom:1px solid var(--line-dark);transition:padding .4s var(--ease),color .3s}
+.ir-link:first-child{padding-top:0}
+.ir-link:hover{padding-left:10px;color:var(--c-eq)}
+.ir-link small{display:block;font-family:var(--mono);font-size:11px;color:var(--muted-dark);letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px}
+.ir-link span{font-size:18px;font-weight:600}
+.ir-link .go{width:40px;height:40px;flex:none;border-radius:50%;border:1px solid var(--line-dark);display:grid;place-items:center}
+
+/* ---------- SUSTAINABILITY ---------- */
+.esg{display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,6vw,96px);align-items:center}
+.esg h2 em{color:var(--c-ren)}
+.reports{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.report{display:block}
+.report-cover{aspect-ratio:3/4;border-radius:14px;overflow:hidden;position:relative;background:linear-gradient(160deg,var(--c-ren),#0b5f52);box-shadow:0 30px 60px -30px rgba(0,0,0,.6);transition:transform .6s var(--ease)}
+.report-cover .img{position:absolute;inset:0;background-size:cover;background-position:center}
+.report:hover .report-cover{transform:translateY(-8px) rotate(-1deg)}
+.report:nth-child(2):hover .report-cover{transform:translateY(-8px) rotate(1deg)}
+.report b{display:block;margin-top:16px;font-size:16px;font-weight:600}
+.report small{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.esg-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:32px}
+.esg-links a{padding:10px 16px;border-radius:999px;border:1px solid var(--line);font-size:13px;font-weight:600;transition:all .3s}
+.esg-links a:hover{background:var(--c-ren);border-color:var(--c-ren)}
+
+/* ---------- NEWS ---------- */
+.news{display:grid;grid-template-columns:1.25fr 1fr;gap:20px}
+.post-feature{position:relative;border-radius:var(--radius);overflow:hidden;min-height:520px;display:flex;flex-direction:column;justify-content:flex-end;padding:36px;color:#fff;isolation:isolate;background:var(--c-con)}
+.post-feature .img{position:absolute;inset:0;z-index:-2;background-size:cover;background-position:center;transition:transform 1.2s var(--ease)}
+.post-feature::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(4,22,40,.1),rgba(4,22,40,.9))}
+.post-feature:hover .img{transform:scale(1.05)}
+.post-feature h3{font-family:var(--serif);font-weight:400;font-size:clamp(28px,2.8vw,42px);line-height:1.08;max-width:22ch;margin-top:14px}
+.post-meta{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.post-meta .cat{display:inline-flex;align-items:center;gap:6px}
+.post-meta .cat::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--c,#fff)}
+.light .post-meta{color:var(--muted-dark)}
+.post-feature .post-meta{color:#cfd8e3}
+.post-list{display:flex;flex-direction:column}
+.post{display:block;padding:24px 0;border-bottom:1px solid var(--line-dark)}
+.post:first-child{padding-top:0}
+.post h4{font-size:19px;font-weight:600;line-height:1.35;margin-top:10px;letter-spacing:-.01em;transition:color .3s}
+.post:hover h4{color:var(--c-eq)}
+
+/* ---------- PEOPLE ---------- */
+.people{position:relative;overflow:hidden;isolation:isolate;min-height:640px;display:flex;align-items:center}
+.people .img{position:absolute;inset:0;z-index:-2;background-size:cover;background-position:center}
+.people::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(4,22,40,.95) 0%,rgba(4,22,40,.75) 45%,rgba(4,22,40,.2) 100%)}
+.people-inner{max-width:640px}
+.people h2{margin:22px 0 24px}
+.people h2 em{color:var(--c-fm)}
+.people .hero-cta{margin-top:36px}
+
+/* ---------- CTA + FOOTER ---------- */
+.cta{text-align:center;overflow:hidden;position:relative}
+.cta h2{font-family:var(--serif);font-weight:400;font-size:clamp(56px,10vw,170px);line-height:.92;letter-spacing:-.04em}
+.cta h2 em{font-style:italic;background:linear-gradient(90deg,var(--c-con),var(--c-lng),var(--c-re),var(--c-ren),var(--c-fm),var(--c-eq));-webkit-background-clip:text;background-clip:text;color:transparent}
+.cta .lead{margin:28px auto 40px;text-align:center}
+.cta .hero-cta{justify-content:center}
+
+footer{background:var(--ink);border-top:1px solid var(--line);padding:80px 0 32px}
+.foot{display:grid;grid-template-columns:1.5fr repeat(3,1fr);gap:40px}
+.foot h5{font-family:var(--mono);font-weight:400;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:20px}
+.foot ul{list-style:none;display:flex;flex-direction:column;gap:10px;font-size:15px;color:#cfd8e3}
+.foot ul a:hover{color:#fff}
+.socials{display:flex;gap:10px;margin-top:28px}
+.socials a{width:42px;height:42px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;transition:all .3s}
+.socials a:hover{background:#fff;color:var(--navy)}
+.socials svg{width:16px;height:16px;fill:currentColor}
+.foot-big{font-family:var(--serif);font-size:clamp(90px,24vw,380px);line-height:.8;letter-spacing:-.05em;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.12);margin:80px 0 28px;text-align:center;user-select:none}
+.foot-bottom{display:flex;justify-content:space-between;gap:16px 24px;flex-wrap:wrap;font-size:13px;color:var(--muted);padding-top:24px;border-top:1px solid var(--line)}
+.foot-bottom div{display:flex;gap:8px 24px;flex-wrap:wrap}
+.foot-bottom a:hover{color:#fff}
+
+/* Reveal */
+.reveal{opacity:0;transform:translateY(36px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+.d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width:1180px){
+  .nav-links,.ticker-pill,.lang,.nav-right .btn{display:none}
+  .burger{display:block}
+  .sector-bar{grid-template-columns:repeat(3,1fr)}
+  .sector-tab:nth-child(3){border-right:0}
+  .sector-tab:nth-child(4){padding-left:0}
+  .sector-tab:nth-child(n+4){border-top:1px solid var(--line)}
+  .sectors{grid-template-columns:repeat(2,1fr)}
+  .sector.wide{grid-column:span 2}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .stat{padding:32px 20px 32px 0!important;border-left:0!important;border-bottom:1px solid var(--line)}
+  .stat:nth-child(even){padding-left:20px!important;border-left:1px solid var(--line)!important}
+  .lng-grid,.ir,.esg,.news{grid-template-columns:1fr}
+  .lng-media{aspect-ratio:16/11}
+  .foot{grid-template-columns:1fr 1fr}
+  .foot > div:first-child{grid-column:1/-1}
+}
+@media (max-width:720px){
+  .hero{padding-top:120px}
+  .hero-meta{grid-template-columns:1fr}
+  .sector-bar{grid-template-columns:repeat(2,1fr)}
+  .sector-tab{padding:18px 12px 20px 0!important;border-right:1px solid var(--line)!important;border-top:1px solid var(--line)}
+  .sector-tab:nth-child(even){padding-left:12px!important;border-right:0!important}
+  .sector-tab:nth-child(-n+2){border-top:0}
+  .statement{grid-template-columns:1fr;gap:24px}
+  .stats{grid-template-columns:1fr}
+  .stat{padding:28px 0!important;border-left:0!important}
+  .sectors{grid-template-columns:1fr}
+  .sector.wide{grid-column:auto}
+  .sector{min-height:380px}
+  .card{padding:26px}
+  .share-meta{grid-template-columns:1fr 1fr}
+  .post-feature{min-height:420px;padding:26px}
+  .reports{gap:14px}
+  .people{min-height:560px}
+  .people::before{background:linear-gradient(180deg,rgba(4,22,40,.6),rgba(4,22,40,.95))}
+  .rail-ctrl{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  .reveal{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<header class="nav" id="nav">
+  <div class="wrap">
+    <a href="#top" class="logo" aria-label="AKTOR Group home">
+      <span class="logo-mark" aria-hidden="true">
+        <i style="background:var(--c-con)"></i><i style="background:var(--c-eq)"></i><i style="background:var(--c-lng)"></i>
+        <i style="background:var(--c-ren)"></i><i style="background:var(--c-re)"></i><i style="background:var(--c-fm)"></i>
+      </span>
+      AKTOR
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="#about">About</a>
+      <a href="#sectors">Sectors</a>
+      <a href="#projects">Projects</a>
+      <a href="#investors">Investors</a>
+      <a href="#sustainability">Sustainability</a>
+      <a href="#news">News</a>
+      <a href="#people">Careers</a>
+    </nav>
+    <div class="nav-right">
+      <a class="ticker-pill" href="https://aktor.gr/el/share-price/"><i></i>ATHEX: AKTR</a>
+      <div class="lang"><b>EN</b><span>/</span><a href="https://aktor.gr/">GR</a></div>
+      <a href="https://aktor.gr/epikoinoniste-mazi-mas/" class="btn btn-solid">Contact <span class="arr">→</span></a>
+      <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu"><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <nav aria-label="Mobile">
+    <a href="#about">About</a>
+    <a href="#sectors">Sectors</a>
+    <a href="#projects">Projects</a>
+    <a href="#investors">Investors</a>
+    <a href="#sustainability">Sustainability</a>
+    <a href="#news">News</a>
+    <a href="#people">Careers</a>
+  </nav>
+  <div style="display:flex;gap:12px;flex-wrap:wrap">
+    <a href="https://aktor.gr/epikoinoniste-mazi-mas/" class="btn btn-solid">Contact →</a>
+    <a href="https://aktor.gr/" class="btn btn-ghost">Ελληνικά</a>
+  </div>
+</div>
+
+<main id="top">
+
+<!-- HERO: auto-cycling sector showcase -->
+<section class="hero" id="hero">
+  <div class="hero-bgs" aria-hidden="true">
+    <div class="hero-bg active" style="background-color:#ef434d;background-image:url(https://aktor.gr/wp-content/uploads/2024/12/800_0548-post-HR_small-min-scaled.jpg)"></div>
+    <div class="hero-bg" style="background-color:#1859a9;background-image:url(https://aktor.gr/wp-content/uploads/2025/10/RIO-ANTIRIO-BRIDGE-1-1024x801.jpg)"></div>
+    <div class="hero-bg" style="background-color:#ed6a3c;background-image:url(https://aktor.gr/wp-content/uploads/2026/04/ATLANTIC-SEE_APPROVED-PHOTO.jpg)"></div>
+    <div class="hero-bg" style="background-color:#00a98d;background-image:url(https://aktor.gr/wp-content/uploads/2025/01/pexels-enrique72-10785841-1536x1024.jpg)"></div>
+    <div class="hero-bg" style="background-color:#fbaa29;background-image:url(https://aktor.gr/wp-content/uploads/2025/01/Real-estate-pic-to-be-used-as-main-Milos2-1.jpg)"></div>
+    <div class="hero-bg" style="background-color:#00adee;background-image:url(https://aktor.gr/wp-content/uploads/2026/05/FACILITY-MANAGEMENT_s-1.jpg)"></div>
+  </div>
+  <div class="hero-tint" aria-hidden="true"></div>
+
+  <div class="wrap" style="width:100%">
+    <div class="eyebrow" style="color:#cfd8e3;margin-bottom:28px">AKTOR Group of Companies</div>
+    <h1>
+      <span class="line"><span>A new era</span></span>
+      <span class="line"><span>of <em>evolution.</em></span></span>
+    </h1>
+    <div class="hero-meta">
+      <p class="lead">We are evolving from a primarily construction company into a diversified group across Renewables, LNG, Equity Participations, Facility Management and Real Estate, focused on the future and on maximum value for every stakeholder.</p>
+      <div class="hero-cta">
+        <a href="#sectors" class="btn btn-solid">Explore our sectors <span class="arr">→</span></a>
+        <a href="#projects" class="btn btn-ghost">Our projects</a>
+      </div>
+    </div>
+
+    <div class="sector-bar" role="tablist" aria-label="Sectors">
+      <button class="sector-tab active" role="tab" aria-selected="true" style="--c:var(--c-con)"><small>01</small><span><i></i>Constructions</span></button>
+      <button class="sector-tab" role="tab" aria-selected="false" style="--c:var(--c-eq)"><small>02</small><span><i></i>Equity Participations</span></button>
+      <button class="sector-tab" role="tab" aria-selected="false" style="--c:var(--c-lng)"><small>03</small><span><i></i>LNG</span></button>
+      <button class="sector-tab" role="tab" aria-selected="false" style="--c:var(--c-ren)"><small>04</small><span><i></i>Renewables</span></button>
+      <button class="sector-tab" role="tab" aria-selected="false" style="--c:var(--c-re)"><small>05</small><span><i></i>Real Estate</span></button>
+      <button class="sector-tab" role="tab" aria-selected="false" style="--c:var(--c-fm)"><small>06</small><span><i></i>Facility Management</span></button>
+    </div>
+  </div>
+</section>
+
+<!-- LEGACY MARQUEE -->
+<div class="marquee" aria-label="Landmark projects in the Group's track record">
+  <div class="marquee-track">
+    <span>Attiki Odos</span><span>Rio–Antirrio Bridge</span><span>Olympia Odos</span><span>Athens Metro</span><span>Thessaloniki Metro</span><span>TAP Gas Pipeline</span><span>Psyttaleia Wastewater Plant</span><span>New Acropolis Museum</span>
+    <span aria-hidden="true">Attiki Odos</span><span aria-hidden="true">Rio–Antirrio Bridge</span><span aria-hidden="true">Olympia Odos</span><span aria-hidden="true">Athens Metro</span><span aria-hidden="true">Thessaloniki Metro</span><span aria-hidden="true">TAP Gas Pipeline</span><span aria-hidden="true">Psyttaleia Wastewater Plant</span><span aria-hidden="true">New Acropolis Museum</span>
+  </div>
+</div>
+
+<!-- ABOUT / STATEMENT -->
+<section class="pad" id="about">
+  <div class="wrap">
+    <div class="statement">
+      <div class="eyebrow reveal">About the Group</div>
+      <div>
+        <h2 class="h-lg" id="scrubText">As one of the largest infrastructure groups in Greece, we are leading the transformation of our industry, creating infrastructure that enables people and communities to thrive.</h2>
+        <div style="margin-top:40px" class="reveal"><a href="https://aktor.gr/schetika-me-emas/" class="btn btn-ghost">The Group at a glance <span class="arr">→</span></a></div>
+      </div>
+    </div>
+    <div class="stats">
+      <div class="stat reveal"><b>~<span data-count="7000" data-sep="1">0</span></b><span>People across the Group</span></div>
+      <div class="stat reveal d1"><b><span data-count="6">0</span></b><span>Business sectors under one Group</span></div>
+      <div class="stat reveal d2"><b><span data-count="1.3" data-dec="1">0</span><sup>GW</sup></b><span>Renewables operating-capacity target by 2028</span></div>
+      <div class="stat reveal d3"><b>+<span data-count="85">0</span><sup>%</sup></b><span>Pro forma EBITDA growth, H1 2026</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTORS -->
+<section class="light pad" id="sectors">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="eyebrow reveal">Our sectors</div>
+        <h2 class="h-xl reveal">Six businesses.<br><em style="color:var(--c-con)">One</em> Group.</h2>
+      </div>
+      <p class="lead reveal">From the infrastructure that modernised Greece to the energy corridors of South-East Europe, each AKTOR business leads in its field.</p>
+    </div>
+
+    <div class="sectors">
+      <a class="sector wide reveal" href="https://aktor.gr/kataskevastikos-klados/" style="--c:var(--c-con)">
+        <div class="img" style="background-image:url(https://aktor.gr/wp-content/uploads/2025/06/AKTOR-GROUP_15052025_4-MIN-DRONE.00_00_07_23-1024x659.jpg)"></div>
+        <div class="sector-top"><small>AKTOR Constructions</small><span class="dot"></span></div>
+        <div>
+          <h3>Constructions</h3>
+          <p>Some of Greece's most important infrastructure: Attiki Odos, the Rio–Antirrio Bridge, Olympia Odos, the Athens and Thessaloniki Metros, the TAP pipeline, the Psyttaleia plant and the New Acropolis Museum.</p>
+          <span class="sector-link">Explore</span>
+        </div>
+      </a>
+      <a class="sector reveal d1" href="https://aktor.gr/symmetoches/" style="--c:var(--c-eq)">
+        <div class="img" style="background-image:url(https://aktor.gr/wp-content/uploads/2025/10/3_k_xylokastro_Update-1024x912.jpg)"></div>
+        <div class="sector-top"><small>AKTOR Equity</small><span class="dot"></span></div>
+        <div>
+          <h3>Equity Participations</h3>
+          <p>Strong foundations in developing, operating and maintaining concessions: motorways, waste management, buildings and fibre optics.</p>
+          <span class="sector-link">Explore</span>
+        </div>
+      </a>
+      <a class="sector reveal" href="https://aktor.gr/lng/" style="--c:var(--c-lng)">
+        <div class="img" style="background-image:url(https://aktor.gr/wp-content/uploads/2026/04/ATLANTIC-SEE_APPROVED-PHOTO.jpg)"></div>
+        <div class="sector-top"><small>AKTOR LNG</small><span class="dot"></span></div>
+        <div>
+          <h3>LNG</h3>
+          <p>Supplying LNG and natural gas to South-East Europe via the Vertical Energy Corridor.</p>
+          <span class="sector-link">Explore</span>
+        </div>
+      </a>
+      <a class="sector reveal d1" href="https://aktor.gr/ananeosimes-piges-energeias/" style="--c:var(--c-ren)">
+        <div class="img" style="background-image:url(https://aktor.gr/wp-content/uploads/2025/10/envir-2-1024x572.jpg)"></div>
+        <div class="sector-top"><small>AKTOR Renewables</small><span class="dot"></span></div>
+        <div>
+          <h3>Renewables</h3>
+          <p>Green energy generation and storage, targeting 1.3 GW of total operating capacity by 2028.</p>
+          <span class="sector-link">Explore</span>
+        </div>
+      </a>
+      <a class="sector reveal d2" href="https://aktor.gr/akinita/" style="--c:var(--c-re)">
+        <div class="img" style="background-image:url(https://aktor.gr/wp-content/uploads/2025/01/Real-estate-pic-to-be-used-as-main-Milos-1024x798.jpg)"></div>
+        <div class="sector-top"><small>AKTOR Real Estate</small><span class="dot"></span></div>
+        <div>
+          <h3>Real Estate</h3>
+          <p>High-quality property, premium offices and prime commercial assets: an integrated development platform.</p>
+          <span class="sector-link">Explore</span>
+        </div>
+      </a>
+      <a class="sector wide reveal" href="https://aktor.gr/diacheirisi-egkatastaseon/" style="--c:var(--c-fm)">
+        <div class="img" style="background-image:url(https://aktor.gr/wp-content/uploads/2024/12/ΑΚΤΩΡFM-Yποδομές.jpg)"></div>
+        <div class="sector-top"><small>AKTOR Facility Management</small><span class="dot"></span></div>
+        <div>
+          <h3>Facility Management</h3>
+          <p>Integrated services across airports, retail, hotels, renewables, data centres, motorways and healthcare. In 2025 the Group acquired 55% of five Oceanic Group companies in security and facility management.</p>
+          <span class="sector-link">Explore</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section class="pad" id="projects" style="overflow:hidden">
+  <div class="wrap">
+    <div class="sec-head" style="margin-bottom:40px">
+      <div>
+        <div class="eyebrow reveal">Explore our projects</div>
+        <h2 class="h-xl reveal">Landmarks,<br><em>in motion.</em></h2>
+      </div>
+      <a href="https://aktor.gr/projects/" class="btn btn-ghost reveal">All projects <span class="arr">→</span></a>
+    </div>
+    <div class="filters reveal" id="filters" role="group" aria-label="Filter projects by sector" style="margin-bottom:36px">
+      <button class="filter active" data-f="all">All</button>
+      <button class="filter" data-f="con" style="--c:var(--c-con)"><i></i>Constructions</button>
+      <button class="filter" data-f="eq" style="--c:var(--c-eq)"><i></i>Equity Participations</button>
+      <button class="filter" data-f="ren" style="--c:var(--c-ren)"><i></i>Renewables</button>
+      <button class="filter" data-f="re" style="--c:var(--c-re)"><i></i>Real Estate</button>
+      <button class="filter" data-f="fm" style="--c:var(--c-fm)"><i></i>Facility Management</button>
+    </div>
+  </div>
+
+  <div class="proj-rail" id="rail">
+    <a class="proj" data-s="con" style="--c:var(--c-con)" href="https://aktor.gr/projects/metro-thessalonikis/">
+      <div class="proj-media"><div class="img" style="background-image:url(https://aktor.gr/wp-content/uploads/2025/01/800_0548-post-HR_small-1024x683.jpg)"></div><span class="proj-tag"><i></i>Constructions</span><span class="proj-go">↗</span></div>
+      <h3>Thessaloniki Metro</h3><p>Thessaloniki, Greece</p>
+    </a>
+    <a class="proj" data-s="eq" style="--c:var(--c-eq)" href="https://aktor.gr/projects/gefyra-charilaos-trikoupis/">
+      <div class="proj-media"><div class="img" style="background-image:url(https://aktor.gr/wp-content/uploads/2025/10/RIO-ANTIRIO-BRIDGE-1-1024x801.jpg)"></div><span class="proj-tag"><i></i>Equity Participations</span><span class="proj-go">↗</span></div>
+      <h3>Charilaos Trikoupis Bridge</h3><p>Rio–Antirrio, Western Greece</p>
+    </a>
+    <a class="proj" data-s="con" style="--c:var(--c-con)" href="https://aktor.gr/projects/aftokinitodromos-notiodytikis-peloponnisou-kataskeues/">
+      <div class="proj-media"><div class="img" style="background-image:url(https://aktor.gr/wp-content/uploads/2025/06/AKTOR-GROUP_15052025_4-MIN-DRONE.00_00_07_23-1024x659.jpg)"></div><span class="proj-tag"><i></i>Constructions</span><span class="proj-go">↗</span></div>
+      <h3>South-West Peloponnese Motorway</h3><p>Peloponnese, Greece</p>
+    </a>
+    <a class="proj" data-s="con" style="--c:var(--c-con)" href="https://aktor.gr/projects/riviera-tower/">
+      <div class="proj-media"><div class="img" style="background-image:url(https://aktor.gr/wp-content/uploads/2025/01/AKTOR_RIVIERA-TOWER-1-1024x576.jpg)"></div><span class="proj-tag"><i></i>Constructions</span><span class="proj-go">↗</span></div>
+      <h3>Riviera Tower</h3><p>Athens Riviera, Greece</p>
+    </a>
+    <a class="proj" data-s="eq" style="--c:var(--c-eq)" href="https://aktor.gr/projects/olybia-odos-2/">
+      <div class="proj-media"><div class="img" style="background-image:url(https://aktor.gr/wp-content/uploads/2025/10/3_k_xylokastro_Update-1024x912.jpg)"></div><span class="proj-tag"><i></i>Equity Participations</span><span class="proj-go">↗</span></div>
+      <h3>Olympia Odos</h3><p>Motorway concession</p>
+    </a>
+    <a class="proj" data-s="con" style="--c:var(--c-con)" href="https://aktor.gr/projects/voreios-odikos-axonas-kritis-voak/">
+      <div class="proj-media"><div class="img" style="background-image:url(https://aktor.gr/wp-content/uploads/2025/01/1733830460782-1024x768.jpg)"></div><span class="proj-tag"><i></i>Constructions</span><span class="proj-go">↗</span></div>
+      <h3>Northern Road Axis of Crete (BOAK)</h3><p>Crete, Greece</p>
+    </a>
+    <a class="proj" data-s="con" style="--c:var(--c-con)" href="https://aktor.gr/projects/erga-roumanias/">
+      <div class="proj-media"><div class="img" style="background-image:url(https://aktor.gr/wp-content/uploads/2025/10/ROMANIA_BUCHAREST-RING_LOT3_2-1024x576.jpg)"></div><span class="proj-tag"><i></i>Constructions</span><span class="proj-go">↗</span></div>
+      <h3>Projects in Romania</h3><p>Bucharest Ring, Romania</p>
+    </a>
+    <a class="proj" data-s="eq" style="--c:var(--c-eq)" href="https://aktor.gr/projects/aftokinitodromos-moreas-3/">
+      <div class="proj-media"><div class="img" style="background-image:url(https://aktor.gr/wp-content/uploads/2025/06/35.4KM-LS_Z0498-1024x683.jpg)"></div><span class="proj-tag"><i></i>Equity Participations</span><span class="proj-go">↗</span></div>
+      <h3>Moreas Motorway</h3><p>Peloponnese, Greece</p>
+    </a>
+    <a class="proj" data-s="eq" style="--c:var(--c-eq)" href="https://aktor.gr/projects/aftokinitodromos-aigaiou/">
+      <div class="proj-media"><div class="img" style="background-image:url(https://aktor.gr/wp-content/uploads/2025/10/vlcsnap-2017-09-01-13h57m43s657_1-1024x581.jpg)"></div><span class="proj-tag"><i></i>Equity Participations</span><span class="proj-go">↗</span></div>
+      <h3>Aegean Motorway</h3><p>Motorway concession</p>
+    </a>
+    <a class="proj" data-s="ren" style="--c:var(--c-ren)" href="https://aktor.gr/projects/fotovoltaiko-parko-20-mw-sto-kilkis/">
+      <div class="proj-media"><div class="img" style="background-image:url(https://aktor.gr/wp-content/uploads/2025/10/envir-2-1024x572.jpg)"></div><span class="proj-tag"><i></i>Renewables</span><span class="proj-go">↗</span></div>
+      <h3>20 MW Solar Park</h3><p>Kilkis, Greece</p>
+    </a>
+    <a class="proj" data-s="ren" style="--c:var(--c-ren)" href="https://aktor.gr/projects/sunforce-one/">
+      <div class="proj-media"><div class="img" style="background-image:url(https://aktor.gr/wp-content/uploads/2025/06/andreas-gucklhorn-Ilpf2eUPpUE-unsplash-1-1024x767.jpg)"></div><span class="proj-tag"><i></i>Renewables</span><span class="proj-go">↗</span></div>
+      <h3>Sunforce One</h3><p>Solar generation</p>
+    </a>
+    <a class="proj" data-s="re" style="--c:var(--c-re)" href="https://aktor.gr/projects/xenodocheio-milos/">
+      <div class="proj-media"><div class="img" style="background-image:url(https://aktor.gr/wp-content/uploads/2025/01/Real-estate-pic-to-be-used-as-main-Milos-1024x798.jpg)"></div><span class="proj-tag"><i></i>Real Estate</span><span class="proj-go">↗</span></div>
+      <h3>Milos Hotel</h3><p>Milos, Cyclades</p>
+    </a>
+    <a class="proj" data-s="re" style="--c:var(--c-re)" href="https://aktor.gr/projects/ippokratous-3-5/">
+      <div class="proj-media"><div class="img" style="background-image:url(https://aktor.gr/wp-content/uploads/2025/01/Real-estate-pic-to-be-added-to-the-carousel-1024x683.jpg)"></div><span class="proj-tag"><i></i>Real Estate</span><span class="proj-go">↗</span></div>
+      <h3>Ippokratous 3–5</h3><p>Athens, Greece</p>
+    </a>
+    <a class="proj" data-s="re" style="--c:var(--c-re)" href="https://aktor.gr/projects/katoikies-prosopikou-ano-mera-mykonou/">
+      <div class="proj-media"><div class="img" style="background-image:url(https://aktor.gr/wp-content/uploads/2025/06/Picture1.jpg)"></div><span class="proj-tag"><i></i>Real Estate</span><span class="proj-go">↗</span></div>
+      <h3>Staff Housing, Ano Mera</h3><p>Mykonos, Greece</p>
+    </a>
+    <a class="proj" data-s="fm" style="--c:var(--c-fm)" href="https://aktor.gr/projects/diethnis-aerolimenas-hamad-international-airport-ntocha-katar/">
+      <div class="proj-media"><div class="img" style="background-image:url(https://aktor.gr/wp-content/uploads/2024/12/ΑΚΤΩΡFM-Yποδομές.jpg)"></div><span class="proj-tag"><i></i>Facility Management</span><span class="proj-go">↗</span></div>
+      <h3>Hamad International Airport</h3><p>Doha, Qatar</p>
+    </a>
+    <a class="proj" data-s="fm" style="--c:var(--c-fm)" href="https://aktor.gr/projects/diacheirisi-kai-syntirisi-tou-diktyou-metro-kai-tram-tis-ntocha-sto-katar/">
+      <div class="proj-media"><div class="img" style="background-image:url(https://aktor.gr/wp-content/uploads/2024/12/Άποψη-Εσωτερικού-Σταθμού-1-556x416-1.jpg)"></div><span class="proj-tag"><i></i>Facility Management</span><span class="proj-go">↗</span></div>
+      <h3>Doha Metro &amp; Lusail Tram</h3><p>Maintenance · Qatar</p>
+    </a>
+    <a class="proj" data-s="fm" style="--c:var(--c-fm)" href="https://aktor.gr/projects/marina-alimou/">
+      <div class="proj-media"><div class="img" style="background-image:url(https://aktor.gr/wp-content/uploads/2025/01/marina-alimou.jpg)"></div><span class="proj-tag"><i></i>Facility Management</span><span class="proj-go">↗</span></div>
+      <h3>Alimos Marina</h3><p>Athens, Greece</p>
+    </a>
+  </div>
+
+  <div class="wrap">
+    <div class="rail-foot">
+      <div class="rail-progress"><i id="railBar"></i></div>
+      <div class="rail-ctrl">
+        <button id="prev" aria-label="Previous projects">←</button>
+        <button id="next" aria-label="Next projects">→</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LNG FEATURE -->
+<section class="pad lng" id="lng">
+  <div class="wrap lng-grid">
+    <figure class="lng-media reveal">
+      <div class="img" style="background-image:url(https://aktor.gr/wp-content/uploads/2026/04/ATLANTIC-SEE_APPROVED-PHOTO.jpg)"></div>
+      <figcaption><div><b>Vertical Energy Corridor</b>Greece → South-East Europe</div><span class="badge">AKTOR LNG</span></figcaption>
+    </figure>
+    <div>
+      <span class="badge reveal">New sector</span>
+      <h2 class="h-xl reveal">Energy for a<br>whole <em>region.</em></h2>
+      <p class="lead reveal">AKTOR LNG uses Greece's position on Europe's Vertical Energy Corridor to supply LNG and to regasify, transport and sell natural gas to customers across South-East Europe. It diversifies the Group's revenue and strengthens the country's geopolitical role.</p>
+      <div class="milestones">
+        <div class="milestone reveal"><b>1st</b><span>Long-term US LNG agreement in Greek history</span></div>
+        <div class="milestone reveal d1"><b>2×</b><span>20-year LNG sale &amp; purchase agreements, with counterparties in Albania and Bosnia &amp; Herzegovina</span></div>
+        <div class="milestone reveal d2"><b>MoU</b><span>Memoranda of understanding for LNG sales to further European countries</span></div>
+      </div>
+      <a href="https://aktor.gr/lng/" class="btn btn-solid reveal" style="margin-top:40px">Discover AKTOR LNG <span class="arr">→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- INVESTORS -->
+<section class="light pad" id="investors">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="eyebrow reveal">Investor relations</div>
+        <h2 class="h-xl reveal">Transparency<br>&amp; <em style="color:var(--c-eq)">responsibility.</em></h2>
+      </div>
+      <p class="lead reveal">Annual and half-year results, the financial calendar, AGM materials, reports and shareholder information.</p>
+    </div>
+    <div class="ir">
+      <div class="card share-card reveal">
+        <div class="share-top">
+          <div><div class="sym">AKTOR GROUP · SHARE PRICE</div></div>
+          <span class="ex">ATHEX · MAIN MARKET</span>
+        </div>
+        <div class="share-price" id="sharePrice">AKTR<small>Live quote (15-min delay) loads from the ATHEX feed</small></div>
+        <div>
+          <div class="share-meta">
+            <div><small>ATHEX</small><span>AKTR</span></div>
+            <div><small>Bloomberg</small><span>AKTR GA</span></div>
+            <div><small>Reuters</small><span>AKTr.AT</span></div>
+          </div>
+          <div style="margin-top:22px">
+            <small style="display:block;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:10px">Index membership</small>
+            <div class="indices"><span>DKY</span><span>ATHEX_ESG</span><span>ASI</span><span>GD</span><span>DOM</span><span>FTSEM</span><span>SAGD</span><span>FTSEA</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="card reveal d1">
+        <div class="ir-links">
+          <a class="ir-link" href="https://aktor.gr/oikonomika-apotelesmata-etisia-deltia-kai-parousiaseis/"><div><small>Results</small><span>Financial results, reports &amp; presentations</span></div><span class="go">↗</span></a>
+          <a class="ir-link" href="https://aktor.gr/anakoinoseis-pros-to-ch-a/"><div><small>Regulatory</small><span>Stock exchange announcements</span></div><span class="go">↗</span></a>
+          <a class="ir-link" href="https://aktor.gr/oikonomiko-imerologio/"><div><small>Calendar</small><span>Financial calendar</span></div><span class="go">↗</span></a>
+          <a class="ir-link" href="https://aktor.gr/analytes/"><div><small>Coverage</small><span>Analysts</span></div><span class="go">↗</span></a>
+          <a class="ir-link" href="https://aktor.gr/kentro-ependyton/"><div><small>Hub</small><span>Investor Centre</span></div><span class="go">↗</span></a>
+          <a class="ir-link" href="https://aktor.gr/etairiki-diakyvernisi/"><div><small>Governance</small><span>Board, committees &amp; policies</span></div><span class="go">↗</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SUSTAINABILITY -->
+<section class="pad" id="sustainability">
+  <div class="wrap esg">
+    <div>
+      <div class="eyebrow reveal">Sustainable development</div>
+      <h2 class="h-xl reveal" style="margin:20px 0 26px">Built on<br><em>ESG principles.</em></h2>
+      <p class="lead reveal">Our sustainability policy reflects our commitment to Environmental, Social and Governance principles. It guides our activities and expresses our core values.</p>
+      <div class="esg-links reveal">
+        <a href="https://aktor.gr/stratigiki-esg/">ESG strategy</a>
+        <a href="https://aktor.gr/sva/">UN SDGs</a>
+        <a href="https://aktor.gr/diacheirisi-kindynon/">Risk management</a>
+        <a href="https://aktor.gr/el/viosimi-anaptyxi/#csr">CSR</a>
+        <a href="https://aktor.gr/poiotita-ygeia-kai-asfaleia/">Quality, health &amp; safety</a>
+      </div>
+    </div>
+    <div class="reports">
+      <a class="report reveal" href="https://aktor.gr/wp-content/uploads/2026/06/AKTOR-SUSTAINABILITY-2025_GR.pdf" target="_blank" rel="noopener">
+        <div class="report-cover"><div class="img" style="background-image:url(https://aktor.gr/wp-content/uploads/2026/06/AKTOR-SUSTAINABILITY-2025DC-1-scaled.jpg)"></div></div>
+        <b>Sustainability Report 2025</b><small>PDF · Latest</small>
+      </a>
+      <a class="report reveal d1" href="https://aktor.gr/wp-content/uploads/2025/06/AKTOR_ESG-REPORT_GR_WEB-ONLY.pdf" target="_blank" rel="noopener">
+        <div class="report-cover"><div class="img" style="background-image:url(https://aktor.gr/wp-content/uploads/2025/06/Aktor_SustainabilityReport_Sample2b_Spread-1-scaled.jpg)"></div></div>
+        <b>Sustainability Report 2024</b><small>PDF</small>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- NEWS -->
+<section class="light pad" id="news">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="eyebrow reveal">Newsroom</div>
+        <h2 class="h-xl reveal">Latest news.</h2>
+      </div>
+      <a href="https://aktor.gr/deltia-typou/" class="btn btn-line reveal">All press releases <span class="arr">→</span></a>
+    </div>
+    <div class="news">
+      <a class="post-feature reveal" href="https://aktor.gr/o-omilos-aktor-paradidei-ena-simantiko-ergo-pou-thorakizei-to-thriasio-pedio-apo-plimmyrika-fainomena/">
+        <div class="img" style="background-image:url(https://aktor.gr/wp-content/uploads/2025/10/fragma.jpg)"></div>
+        <div class="post-meta"><span class="cat" style="--c:var(--c-con)">Press release</span><span>8 Oct 2026</span></div>
+        <h3>AKTOR Group delivers a major project protecting the Thriasio Plain from flooding</h3>
+      </a>
+      <div class="post-list">
+        <a class="post reveal" href="https://aktor.gr/me-afxisi-tou-pro-forma-ebitda-kata-85-kai-ygii-chrimatooikonomiki-vasi-o-omilos-aktor-sto-proto-examino-tou-2026/">
+          <div class="post-meta"><span class="cat" style="--c:var(--c-eq)">Results</span><span>24 Sep 2026</span></div>
+          <h4>Pro forma EBITDA up 85% on a healthy financial base: AKTOR Group in H1 2026</h4>
+        </a>
+        <a class="post reveal d1" href="https://aktor.gr/the-ellinikon-sports-parkathlitikes-egkatastaseis-diethnon-prodiagrafon-me-ti-sfragida-tou-omilou-aktor/">
+          <div class="post-meta"><span class="cat" style="--c:var(--c-con)">Projects</span><span>18 Sep 2026</span></div>
+          <h4>The Ellinikon Sports Park: international-standard sports facilities built by AKTOR Group</h4>
+        </a>
+        <a class="post reveal d2" href="https://aktor.gr/al-exarchou-i-evropi-vrisketai-enopion-enos-dyskolou-perivallontos-kai-tha-prepei-na-analavei-drasi/">
+          <div class="post-meta"><span class="cat" style="--c:var(--c-lng)">Leadership</span><span>4 Sep 2026</span></div>
+          <h4>Al. Exarchou: Europe faces a difficult environment and must take action</h4>
+        </a>
+        <a class="post reveal d3" href="https://aktor.gr/o-omilos-aktor-paredose-tin-epektasi-kalamarias-tou-metro-thessalonikis-sto-elliniko-kratos/">
+          <div class="post-meta"><span class="cat" style="--c:var(--c-con)">Projects</span><span>27 Aug 2026</span></div>
+          <h4>AKTOR Group hands over the Kalamaria extension of the Thessaloniki Metro to the Greek State</h4>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PEOPLE -->
+<section class="people" id="people">
+  <div class="img" style="background-color:var(--navy-3);background-image:url(https://aktor.gr/wp-content/uploads/2024/11/11e1d046b1891950389f5ec2ab30825b-768x511.png)"></div>
+  <div class="wrap" style="width:100%">
+    <div class="people-inner">
+      <div class="eyebrow reveal" style="color:#cfd8e3">People &amp; culture</div>
+      <h2 class="h-xl reveal">Creating value<br>for <em>our people.</em></h2>
+      <p class="lead reveal">Our people are the key to our success. We are always looking for people with expertise, passion and vision to join a team that values excellence, innovation and integrity.</p>
+      <div class="hero-cta reveal">
+        <a href="https://aktor.gr/el/exelixi-karieras/#opportunities" class="btn btn-solid">Career opportunities <span class="arr">→</span></a>
+        <a href="https://aktor4thefuture.gr/" class="btn btn-ghost">Aktor4TheFuture</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="pad cta" id="contact">
+  <div class="wrap">
+    <div class="eyebrow reveal" style="justify-content:center">Get in touch</div>
+    <h2 class="reveal" style="margin-top:24px">Let's build<br><em>what's next.</em></h2>
+    <p class="lead reveal">Partners, investors, media or future colleagues: we'd like to hear from you.</p>
+    <div class="hero-cta reveal">
+      <a href="https://aktor.gr/epikoinoniste-mazi-mas/" class="btn btn-solid">Contact the Group <span class="arr">→</span></a>
+      <a href="https://aktor.gr/el/nea/#mediakit" class="btn btn-ghost">Media kit</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div>
+        <a href="#top" class="logo">
+          <span class="logo-mark" aria-hidden="true">
+            <i style="background:var(--c-con)"></i><i style="background:var(--c-eq)"></i><i style="background:var(--c-lng)"></i>
+            <i style="background:var(--c-ren)"></i><i style="background:var(--c-re)"></i><i style="background:var(--c-fm)"></i>
+          </span>AKTOR
+        </a>
+        <p style="color:var(--muted);margin-top:20px;max-width:340px;font-size:15px">One of the largest infrastructure groups in Greece, creating infrastructure that enables people and communities to thrive.</p>
+        <div class="socials">
+          <a href="https://www.linkedin.com/company/aktorgroup/" aria-label="LinkedIn" target="_blank" rel="noopener"><svg viewBox="0 0 448 512"><path d="M100.3 448H7.4V148.9h92.9zM53.8 108.1C24.1 108.1 0 83.5 0 53.8a53.8 53.8 0 0 1 107.6 0c0 29.7-24.1 54.3-53.8 54.3zM447.9 448h-92.7V302.4c0-34.7-.7-79.2-48.3-79.2-48.3 0-55.7 37.7-55.7 76.7V448h-92.8V148.9h89.1v40.8h1.3c12.4-23.5 42.7-48.3 87.9-48.3 94 0 111.3 61.9 111.3 142.3V448z"/></svg></a>
+          <a href="https://www.facebook.com/aktorgroup" aria-label="Facebook" target="_blank" rel="noopener"><svg viewBox="0 0 320 512"><path d="M279.1 288l14.2-92.7h-88.9v-60.1c0-25.4 12.4-50.1 52.2-50.1H297V6.3S260.4 0 225.4 0C152.3 0 104.5 44.4 104.5 124.7v70.6H23.1V288h81.4v224h100.2V288z"/></svg></a>
+          <a href="https://www.youtube.com/@aktorgroup/videos" aria-label="YouTube" target="_blank" rel="noopener"><svg viewBox="0 0 576 512"><path d="M549.7 124.1c-6.3-23.7-24.8-42.3-48.3-48.6C458.8 64 288 64 288 64S117.2 64 74.6 75.5c-23.5 6.3-42 24.9-48.3 48.6C14.9 167 14.9 256.4 14.9 256.4s0 89.4 11.4 132.3c6.3 23.6 24.8 41.5 48.3 47.8C117.2 448 288 448 288 448s170.8 0 213.4-11.5c23.5-6.3 42-24.2 48.3-47.8 11.4-42.9 11.4-132.3 11.4-132.3s0-89.4-11.4-132.3zM232.2 337.6V175.2l142.7 81.2-142.7 81.2z"/></svg></a>
+          <a href="https://www.instagram.com/aktorgroup" aria-label="Instagram" target="_blank" rel="noopener"><svg viewBox="0 0 448 512"><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8z"/></svg></a>
+          <a href="https://www.tiktok.com/@aktorgroup" aria-label="TikTok" target="_blank" rel="noopener"><svg viewBox="0 0 448 512"><path d="M448 209.9a210.1 210.1 0 0 1-122.8-39.3v178.8A162.6 162.6 0 1 1 185 188.3v89.9a74.6 74.6 0 1 0 52.2 71.2V0h88a121 121 0 0 0 1.9 22.2A122.2 122.2 0 0 0 381 102.4a121.4 121.4 0 0 0 67 20.1z"/></svg></a>
+        </div>
+      </div>
+      <div><h5>Company</h5><ul>
+        <li><a href="https://aktor.gr/el/schetika-me-emas/#groupataglance">The Group at a glance</a></li>
+        <li><a href="https://aktor.gr/el/schetika-me-emas/#missionvalues">Our purpose</a></li>
+        <li><a href="https://aktor.gr/stratigiki/">Growth strategy</a></li>
+        <li><a href="https://aktor.gr/dioikitiko-symvoulio/">Board of Directors</a></li>
+        <li><a href="https://aktor.gr/exelixi-karieras/">Careers</a></li>
+      </ul></div>
+      <div><h5>Sectors</h5><ul>
+        <li><a href="https://aktor.gr/kataskevastikos-klados/">Constructions</a></li>
+        <li><a href="https://aktor.gr/symmetoches/">Equity Participations</a></li>
+        <li><a href="https://aktor.gr/lng/">LNG</a></li>
+        <li><a href="https://aktor.gr/ananeosimes-piges-energeias/">Renewables</a></li>
+        <li><a href="https://aktor.gr/akinita/">Real Estate</a></li>
+        <li><a href="https://aktor.gr/diacheirisi-egkatastaseon/">Facility Management</a></li>
+      </ul></div>
+      <div><h5>Useful links</h5><ul>
+        <li><a href="https://aktor.gr/nea/">News</a></li>
+        <li><a href="https://aktor.gr/synentefxeis/">Interviews</a></li>
+        <li><a href="https://aktor.gr/el/oikonomika-apotelesmata-etisia-deltia-kai-parousiaseis/">Results &amp; presentations</a></li>
+        <li><a href="https://aktor.gr/epikoinonia-me-endiaferomenon-meri/">Stakeholders</a></li>
+        <li><a href="https://aktor.gr/epikoinoniste-mazi-mas/">Contact us</a></li>
+      </ul></div>
+    </div>
+    <div class="foot-big" aria-hidden="true">AKTOR</div>
+    <div class="foot-bottom">
+      <span>© 2026 AKTOR · GEMI No. 00040850100</span>
+      <div>
+        <a href="https://aktor.gr/el/politiki-cookies/">Cookie policy</a>
+        <a href="https://aktor.gr/el/dilosi-prostasias-prosopikon-dedomenon/">Privacy notice</a>
+        <a href="https://aktor.gr/el/oroi-chrisis-diadiktyakou-topou/">Terms of use</a>
+        <a href="https://aktor.gr/etairiki-diakyvernisi/#special-reports">Special reports (Art. 3C L.4706/2020)</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const root = document.documentElement;
+
+  // Nav: solid on scroll, hides on scroll down
+  const nav = document.getElementById('nav');
+  let lastY = 0;
+  addEventListener('scroll', () => {
+    const y = scrollY;
+    nav.classList.toggle('scrolled', y > 40);
+    nav.classList.toggle('hide', y > lastY && y > 500 && !document.body.classList.contains('menu-open'));
+    lastY = y;
+  }, {passive:true});
+
+  // Mobile menu
+  const burger = document.getElementById('burger');
+  const setMenu = open => {
+    document.body.classList.toggle('menu-open', open);
+    burger.setAttribute('aria-expanded', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  };
+  burger.addEventListener('click', () => setMenu(!document.body.classList.contains('menu-open')));
+  document.querySelectorAll('#mobileMenu a').forEach(a => a.addEventListener('click', () => setMenu(false)));
+  addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
+
+  // Hero sector cycle
+  const colors = ['--c-con','--c-eq','--c-lng','--c-ren','--c-re','--c-fm'];
+  const tabs = [...document.querySelectorAll('.sector-tab')];
+  const bgs = [...document.querySelectorAll('.hero-bg')];
+  const hero = document.getElementById('hero');
+  let idx = 0, timer;
+  const show = i => {
+    idx = i;
+    tabs.forEach((t, j) => { t.classList.toggle('active', j === i); t.setAttribute('aria-selected', j === i); });
+    bgs.forEach((b, j) => b.classList.toggle('active', j === i));
+    root.style.setProperty('--accent', `var(${colors[i]})`);
+    // restart the progress bar animation
+    const t = tabs[i]; t.classList.remove('active'); void t.offsetWidth; t.classList.add('active');
+  };
+  const start = () => { if (reduce) return; clearInterval(timer); timer = setInterval(() => show((idx + 1) % tabs.length), 6000); };
+  tabs.forEach((t, i) => t.addEventListener('click', () => { show(i); start(); }));
+  hero.addEventListener('mouseenter', () => { clearInterval(timer); hero.classList.add('paused'); });
+  hero.addEventListener('mouseleave', () => { hero.classList.remove('paused'); start(); });
+  start();
+
+  // Reveal on scroll + counters
+  const fmt = (v, el) => {
+    const dec = +(el.dataset.dec || 0);
+    const s = v.toFixed(dec);
+    return el.dataset.sep ? (+s).toLocaleString('en-US') : s;
+  };
+  const count = el => {
+    const end = +el.dataset.count, dur = 1600, t0 = performance.now();
+    if (reduce) { el.textContent = fmt(end, el); return; }
+    const step = t => {
+      const p = Math.min((t - t0) / dur, 1), e = 1 - Math.pow(1 - p, 4);
+      el.textContent = fmt(end * e, el);
+      if (p < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  };
+  const io = new IntersectionObserver(entries => entries.forEach(en => {
+    if (!en.isIntersecting) return;
+    en.target.classList.add('in');
+    en.target.querySelectorAll('[data-count]').forEach(count);
+    io.unobserve(en.target);
+  }), {threshold:.12, rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // Statement: words light up with scroll
+  const scrub = document.getElementById('scrubText');
+  scrub.innerHTML = scrub.textContent.trim().split(/\s+/).map(w => `<span class="w">${w}</span>`).join(' ');
+  const words = [...scrub.children];
+  const lightUp = () => {
+    const r = scrub.getBoundingClientRect(), vh = innerHeight;
+    const p = Math.min(Math.max((vh * .85 - r.top) / (r.height + vh * .3), 0), 1);
+    const n = Math.round(p * words.length);
+    words.forEach((w, i) => w.classList.toggle('on', i < n));
+  };
+  if (reduce) words.forEach(w => w.classList.add('on'));
+  else { addEventListener('scroll', lightUp, {passive:true}); lightUp(); }
+
+  // Projects: filter, buttons, drag, progress
+  const rail = document.getElementById('rail'), bar = document.getElementById('railBar');
+  const cards = [...rail.querySelectorAll('.proj')];
+  const prog = () => {
+    const max = rail.scrollWidth - rail.clientWidth;
+    bar.style.width = (max <= 0 ? 100 : 15 + 85 * rail.scrollLeft / max) + '%';
+  };
+  document.querySelectorAll('.filter').forEach(f => f.addEventListener('click', () => {
+    document.querySelectorAll('.filter').forEach(x => x.classList.toggle('active', x === f));
+    cards.forEach(c => c.hidden = f.dataset.f !== 'all' && c.dataset.s !== f.dataset.f);
+    rail.scrollTo({left:0}); prog();
+  }));
+  const step = () => (cards.find(c => !c.hidden)?.offsetWidth || 400) + 20;
+  document.getElementById('next').onclick = () => rail.scrollBy({left: step(), behavior:'smooth'});
+  document.getElementById('prev').onclick = () => rail.scrollBy({left: -step(), behavior:'smooth'});
+  rail.addEventListener('scroll', prog, {passive:true}); addEventListener('resize', prog); prog();
+  let down = false, moved = false, sx = 0, sl = 0;
+  rail.addEventListener('pointerdown', e => { if (e.pointerType !== 'mouse') return; down = true; moved = false; sx = e.clientX; sl = rail.scrollLeft; });
+  addEventListener('pointerup', () => { down = false; rail.classList.remove('drag'); });
+  rail.addEventListener('pointermove', e => {
+    if (!down) return;
+    if (Math.abs(e.clientX - sx) > 5) { moved = true; rail.classList.add('drag'); }
+    rail.scrollLeft = sl - (e.clientX - sx);
+  });
+  rail.addEventListener('click', e => { if (moved) { e.preventDefault(); moved = false; } }, true);
+  rail.addEventListener('dragstart', e => e.preventDefault());
+})();
+</script>
+</body>
+</html>
