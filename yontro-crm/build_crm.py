@@ -63,6 +63,11 @@ for i, (p, fee, v) in enumerate([("Launch", 5000, 10), ("Growth", 7500, 15), ("S
     st[f"H{i}"].font = Font(name=F, size=10, color="0000FF")
 st["F6"] = "Source: yontro.ae Packages section. Prices exclude 5% VAT."
 rng["Packages"] = "Settings!$F$2:$F$4"
+st["Q1"] = "Shoot times"
+for i in range(25):
+    c = st[f"Q{i+2}"]
+    c.value = dt.time(8 + i // 2, 30 * (i % 2))
+    c.number_format = "hh:mm"
 # rules
 st["R1"], st["S1"] = "Rule", "Value"
 rules = [
@@ -130,6 +135,16 @@ def dv(ws, col, source, prompt=None):
     v.errorTitle = "Not on the list"
     ws.add_data_validation(v)
     v.add(f"{col}2:{col}{LAST}")
+
+def date_dv(ws, col, single=False):
+    v = DataValidation(type="date", operator="between", formula1="DATE(2020,1,1)", formula2="DATE(2100,12,31)",
+                       allow_blank=True)
+    v.error = "Enter a date (double-click the cell in Google Sheets for a calendar)."
+    v.errorTitle = "Not a date"
+    v.prompt = "Double-click for a calendar"
+    v.showInputMessage = False
+    ws.add_data_validation(v)
+    v.add(col if single else f"{col}2:{col}{LAST}")
 
 def int_dv(ws, col, lo, hi):
     v = DataValidation(type="whole", operator="between", formula1=str(lo), formula2=str(hi), allow_blank=True)
@@ -208,6 +223,8 @@ def lead_tab(name, inbound):
     if inbound:
         dv(ws, L["Wants more of"], rng["Wants more of"])
     int_dv(ws, L["Follow-ups sent (0-4)"], 0, 4)
+    for h in (d0, "Last contact date", "Meeting date") + (("First response",) if inbound else ()):
+        date_dv(ws, L[h])
 
     # formatting rules
     s = L["Stage"]
@@ -292,6 +309,8 @@ dv(cl, LC["Back-out reason"], rng["Back-out reasons"])
 dv(cl, LC["Refund status"], rng["Refund status"])
 dv(cl, LC["Account manager"], rng["Team"])
 dv(cl, LC["Videographer"], rng["Team"])
+for h in ("Contract signed date", "Free video shoot date", "Free video delivered", "Refund date", "Plan start date"):
+    date_dv(cl, LC[h])
 S_ = LC["Status"]
 sref = f"{S_}2:{S_}{LAST}"
 cf(cl, sref, f'LEFT({S_}2,6)="Active"', "DFF3E3", "1E6B3A", True)
@@ -332,6 +351,9 @@ dv(sh, LS["Shoot type"], rng["Shoot types"])
 dv(sh, LS["Videographer"], rng["Team"])
 dv(sh, LS["Status"], rng["Shoot status"])
 int_dv(sh, LS["Revision rounds used"], 0, 9)
+date_dv(sh, LS["Shoot date"])
+date_dv(sh, LS["Delivered date"])
+dv(sh, LS["Time"], "Settings!$Q$2:$Q$26")
 fl = f"{LS['Flag']}2:{LS['Flag']}{LAST}"
 cf(sh, fl, f'LEFT({LS["Flag"]}2,4)="LATE"', "FF5A1F", "FFFFFF", True)
 cf(sh, fl, f'{LS["Flag"]}2="Over revision limit"', "FAD4D4", "9B1C1C", True)
@@ -357,15 +379,21 @@ for c in "HIJ":
     db.column_dimensions[c].width = 14
 db["B1"] = "YONTRO · CRM DASHBOARD"
 db["B1"].font = Font(name=F, size=18, bold=True, color=INK)
-db["B2"] = "Updates automatically from the Inbound, Outbound, Clients and Shoots tabs. Nothing to type here."
+db["B2"] = "Updates automatically from the Inbound, Outbound, Clients and Shoots tabs. Only the yellow cell is yours to change."
 db["B2"].font = Font(name=F, size=10, italic=True, color="6B665F")
-db["B3"], db["C3"] = "Today", "=TODAY()"
-db["B4"], db["C4"] = "Week starts (Monday)", "=C3-WEEKDAY(C3,2)+1"
-db["B5"], db["C5"] = "Month starts", "=DATE(YEAR(C3),MONTH(C3),1)"
-for r in (3, 4, 5):
+db["B3"], db["D3"] = "Day to view (pick a date)", "Leave blank to always show today"
+db["B4"], db["C4"] = "Showing", "=IF(C3=\"\",TODAY(),C3)"
+db["B5"], db["C5"] = "Week starts (Monday)", "=C4-WEEKDAY(C4,2)+1"
+db["B6"], db["C6"] = "Month starts", "=DATE(YEAR(C4),MONTH(C4),1)"
+for r in (3, 4, 5, 6):
     db[f"B{r}"].font = body
     db[f"C{r}"].font = bold
-    db[f"C{r}"].number_format = "dd-mmm-yy"
+    db[f"C{r}"].number_format = "ddd dd-mmm-yy"
+db["C3"].fill = fill("FFFF00")
+db["C3"].font = Font(name=F, size=10, bold=True, color="0000FF")
+db["C3"].comment = Comment("Double-click for a calendar. Clear the cell to go back to today.", "Yontro CRM")
+db["D3"].font = Font(name=F, size=9, italic=True, color="6B665F")
+date_dv(db, "C3", single=True)
 
 IB, OB = f"Inbound!$B$2:$B${LAST}", f"Outbound!$B$2:$B${LAST}"
 IS, OS = f"Inbound!${LI['Stage']}$2:${LI['Stage']}${LAST}", f"Outbound!${LO['Stage']}$2:${LO['Stage']}${LAST}"
@@ -408,71 +436,127 @@ def kpi(row, label, formula, fmt="0", col="B", vcol="C", note=None):
     if note:
         db[f"{vcol}{row}"].comment = Comment(note, "Yontro CRM")
 
-# This week
-section(7, "THIS WEEK")
-db["C8"], db["D8"], db["E8"] = "Inbound", "Outbound", "Total"
-for c in ("C8", "D8", "E8"):
-    db[c].font = Font(name=F, size=9, bold=True, color="6B665F")
-    db[c].alignment = Alignment(horizontal="right")
-rows = [("Leads added", f'=COUNTIFS({IB},">="&$C$4,{INm},"<>")', f'=COUNTIFS({OB},">="&$C$4,{ONm},"<>")'),
-        ("Meetings on the calendar this week",
-         f'=COUNTIFS({IM},">="&$C$4,{IM},"<"&$C$4+7)', f'=COUNTIFS({OM},">="&$C$4,{OM},"<"&$C$4+7)'),
-        ("Follow-ups due today or overdue",
-         f'=COUNTIF({IF_},"Follow up today")+COUNTIF({IF_},"OVERDUE follow-up")',
-         f'=COUNTIF({OF_},"Follow up today")+COUNTIF({OF_},"OVERDUE follow-up")'),
-        ("Leads to close (4 follow-ups sent)",
-         f'=COUNTIF({IF_},"Close – 4 follow-ups sent")', f'=COUNTIF({OF_},"Close – 4 follow-ups sent")')]
-for i, (lab, fi, fo) in enumerate(rows, start=9):
-    kpi(i, lab, fi)
-    db[f"D{i}"], db[f"E{i}"] = fo, f"=C{i}+D{i}"
-    for c in (f"D{i}", f"E{i}"):
-        db[c].font = Font(name=F, size=12, bold=True, color=INK)
+def section(row, title, col="B", span=4):
+    c = db[f"{col}{row}"]
+    c.value = title
+    c.font = Font(name=F, size=11, bold=True, color="FFFFFF")
+    start = ord(col) - 64
+    for i in range(start, start + span):
+        db.cell(row=row, column=i).fill = fill(INK)
+
+def kpi(row, label, formula, fmt="0", col="B", vcol="C", note=None):
+    db[f"{col}{row}"] = label
+    db[f"{col}{row}"].font = body
+    db[f"{vcol}{row}"] = formula
+    db[f"{vcol}{row}"].font = Font(name=F, size=12, bold=True, color=INK)
+    db[f"{vcol}{row}"].number_format = fmt
+    db[f"{vcol}{row}"].alignment = Alignment(horizontal="right")
+    for c in (f"{col}{row}", f"{vcol}{row}"):
         db[c].border = box
-db["E11"].font = Font(name=F, size=12, bold=True, color=ORANGE)
-kpi(13, "Avg inbound response time (hrs)", f'=IFERROR(AVERAGE({RT}),"-")', "0.0",
+    if note:
+        db[f"{vcol}{row}"].comment = Comment(note, "Yontro CRM")
+
+ILc, OLc = (f"Inbound!${LI['Last contact date']}$2:${LI['Last contact date']}${LAST}",
+            f"Outbound!${LO['Last contact date']}$2:${LO['Last contact date']}${LAST}")
+INx, ONx = (f"Inbound!${LI['Next follow-up due']}$2:${LI['Next follow-up due']}${LAST}",
+            f"Outbound!${LO['Next follow-up due']}$2:${LO['Next follow-up due']}${LAST}")
+IFr = f"Inbound!${LI['First response']}$2:${LI['First response']}${LAST}"
+CDl = f"Clients!${LC['Decision deadline']}$2:${LC['Decision deadline']}${LAST}"
+SDt = f"Shoots!${LS['Shoot date']}$2:${LS['Shoot date']}${LAST}"
+SNm = f"Shoots!${LS['Shoot ID']}$2:${LS['Shoot ID']}${LAST}"
+
+def split_rows(start, rows, orange=()):
+    db[f"C{start-1}"], db[f"D{start-1}"], db[f"E{start-1}"] = "Inbound", "Outbound", "Total"
+    for c in "CDE":
+        db[f"{c}{start-1}"].font = Font(name=F, size=9, bold=True, color="6B665F")
+        db[f"{c}{start-1}"].alignment = Alignment(horizontal="right")
+    for i, (lab, fi, fo) in enumerate(rows, start=start):
+        kpi(i, lab, fi)
+        db[f"D{i}"], db[f"E{i}"] = fo, f"=C{i}+D{i}"
+        for c in (f"D{i}", f"E{i}"):
+            db[c].font = Font(name=F, size=12, bold=True, color=INK)
+            db[c].border = box
+        if lab in orange:
+            db[f"E{i}"].font = Font(name=F, size=12, bold=True, color=ORANGE)
+
+# Daily
+section(8, "DAILY  ·  the day picked above")
+split_rows(10, [
+    ("New leads", f'=COUNTIFS({IB},">="&$C$4,{IB},"<"&$C$4+1,{INm},"<>")',
+     f'=COUNTIFS({OB},">="&$C$4,{OB},"<"&$C$4+1,{ONm},"<>")'),
+    ("Leads contacted", f'=COUNTIFS({ILc},$C$4,{INm},"<>")', f'=COUNTIFS({OLc},$C$4,{ONm},"<>")'),
+    ("Follow-ups due", f'=COUNTIFS({INx},$C$4)', f'=COUNTIFS({ONx},$C$4)'),
+    ("Sales meetings", f'=COUNTIFS({IM},">="&$C$4,{IM},"<"&$C$4+1)', f'=COUNTIFS({OM},">="&$C$4,{OM},"<"&$C$4+1)'),
+    ("Overdue follow-ups (live, as of today)", f'=COUNTIF({IF_},"OVERDUE follow-up")',
+     f'=COUNTIF({OF_},"OVERDUE follow-up")'),
+], orange=("Overdue follow-ups (live, as of today)",))
+kpi(15, "Inbound leads still waiting for a first reply (live)", f'=COUNTIFS({INm},"<>",{IFr},"")',
+    note="Target: reply within 1 hour.")
+db["C15"].font = Font(name=F, size=12, bold=True, color=ORANGE)
+kpi(16, "Shoots", f'=COUNTIFS({SDt},$C$4,{SNm},"<>")')
+kpi(17, "Free videos delivered", f'=COUNTIFS({CN},$C$4)')
+kpi(18, "Client decisions due", f'=COUNTIFS({CDl},$C$4,{CS},"Decision*")')
+kpi(19, "Contracts signed + paid", f'=COUNTIFS({CJ},$C$4)')
+kpi(20, "Cash collected (AED)", f'=SUMIFS({CK},{CJ},$C$4)', "#,##0")
+kpi(21, "Refunds waiting to be paid (live)", f'=COUNTIF({CRs},"Requested")+COUNTIF({CRs},"Approved")')
+
+# This week
+section(23, "THIS WEEK  ·  Monday to Sunday of the day picked")
+split_rows(25, [
+    ("Leads added", f'=COUNTIFS({IB},">="&$C$5,{IB},"<"&$C$5+7,{INm},"<>")',
+     f'=COUNTIFS({OB},">="&$C$5,{OB},"<"&$C$5+7,{ONm},"<>")'),
+    ("Sales meetings", f'=COUNTIFS({IM},">="&$C$5,{IM},"<"&$C$5+7)', f'=COUNTIFS({OM},">="&$C$5,{OM},"<"&$C$5+7)'),
+    ("Follow-ups due today or overdue (live)",
+     f'=COUNTIF({IF_},"Follow up today")+COUNTIF({IF_},"OVERDUE follow-up")',
+     f'=COUNTIF({OF_},"Follow up today")+COUNTIF({OF_},"OVERDUE follow-up")'),
+    ("Leads to close (4 follow-ups sent)",
+     f'=COUNTIF({IF_},"Close – 4 follow-ups sent")', f'=COUNTIF({OF_},"Close – 4 follow-ups sent")'),
+], orange=("Follow-ups due today or overdue (live)",))
+kpi(29, "Avg inbound response time (hrs, all time)", f'=IFERROR(AVERAGE({RT}),"-")', "0.0",
     note="Target: under 1 hour.")
 
 # This month
-section(15, "THIS MONTH")
-kpi(16, "Contracts signed + paid", f'=COUNTIFS({CJ},">="&$C$5)')
-kpi(17, "Cash collected at signing (AED)", f'=SUMIFS({CK},{CJ},">="&$C$5)', "#,##0")
-kpi(18, "Refunds paid (count)", f'=COUNTIFS({CRs},"Paid",{CRd},">="&$C$5)')
-kpi(19, "Refunds paid (AED)", f'=SUMIFS({CRa},{CRs},"Paid",{CRd},">="&$C$5)', "#,##0")
+section(31, "THIS MONTH  ·  of the day picked")
+mend = '"<"&EDATE($C$6,1)'
+kpi(32, "Contracts signed + paid", f'=COUNTIFS({CJ},">="&$C$6,{CJ},{mend})')
+kpi(33, "Cash collected at signing (AED)", f'=SUMIFS({CK},{CJ},">="&$C$6,{CJ},{mend})', "#,##0")
+kpi(34, "Refunds paid (count)", f'=COUNTIFS({CRs},"Paid",{CRd},">="&$C$6,{CRd},{mend})')
+kpi(35, "Refunds paid (AED)", f'=SUMIFS({CRa},{CRs},"Paid",{CRd},">="&$C$6,{CRd},{mend})', "#,##0")
 
 # Clients
-section(21, "CLIENTS")
-kpi(22, "Active clients", f'=COUNTIF({CS},"Active*")')
-kpi(23, "Monthly recurring revenue (AED, ex VAT)", f'=SUMIFS({CI},{CS},"Active*")', "#,##0")
-kpi(24, "Decisions pending", f'=COUNTIF({CS},"Decision*")')
-kpi(25, "Free videos to schedule / in production",
+section(37, "CLIENTS  ·  live")
+kpi(38, "Active clients", f'=COUNTIF({CS},"Active*")')
+kpi(39, "Monthly recurring revenue (AED, ex VAT)", f'=SUMIFS({CI},{CS},"Active*")', "#,##0")
+kpi(40, "Decisions pending", f'=COUNTIF({CS},"Decision*")')
+kpi(41, "Free videos to schedule / in production",
     f'=COUNTIF({CS},"Schedule free video")+COUNTIF({CS},"Free video in production")')
-kpi(26, "Trial-to-active rate", f'=IFERROR(COUNTIF({CS},"Active*")/(COUNTIF({CS},"Active*")+COUNTIF({CD},"Backed out")),"-")',
+kpi(42, "Trial-to-active rate", f'=IFERROR(COUNTIF({CS},"Active*")/(COUNTIF({CS},"Active*")+COUNTIF({CD},"Backed out")),"-")',
     "0%", note="Of clients whose free-video decision is settled, the share who stayed.")
-kpi(27, "Signed but payment not logged", f'=COUNTIF({CS},"Awaiting payment")')
+kpi(43, "Signed but payment not logged", f'=COUNTIF({CS},"Awaiting payment")')
 
 # Pipeline by stage
-section(7, "PIPELINE BY STAGE", "G", 4)
-db["H8"], db["I8"], db["J8"] = "Inbound", "Outbound", "Total"
-for c in ("H8", "I8", "J8"):
+section(8, "PIPELINE BY STAGE  ·  live", "G", 4)
+db["H9"], db["I9"], db["J9"] = "Inbound", "Outbound", "Total"
+for c in ("H9", "I9", "J9"):
     db[c].font = Font(name=F, size=9, bold=True, color="6B665F")
     db[c].alignment = Alignment(horizontal="right")
 stages = lists["A"][1]
-for i, stg in enumerate(stages, start=9):
-    db[f"G{i}"] = f"=Settings!A{i-7}"
+for i, stg in enumerate(stages, start=10):
+    db[f"G{i}"] = f"=Settings!A{i-8}"
     db[f"H{i}"] = f"=COUNTIF({IS},G{i})"
     db[f"I{i}"] = f"=COUNTIF({OS},G{i})"
     db[f"J{i}"] = f"=H{i}+I{i}"
     for c in "GHIJ":
         db[f"{c}{i}"].font = bold if c == "J" else body
         db[f"{c}{i}"].border = box
-r0 = 9 + len(stages)
+r0 = 10 + len(stages)
 db[f"G{r0}"] = "Total leads"
-db[f"H{r0}"], db[f"I{r0}"], db[f"J{r0}"] = f"=SUM(H9:H{r0-1})", f"=SUM(I9:I{r0-1})", f"=SUM(J9:J{r0-1})"
+db[f"H{r0}"], db[f"I{r0}"], db[f"J{r0}"] = f"=SUM(H10:H{r0-1})", f"=SUM(I10:I{r0-1})", f"=SUM(J10:J{r0-1})"
 for c in "GHIJ":
     db[f"{c}{r0}"].font = bold
 
 # Open leads by owner
-section(r0 + 2, "OPEN LEADS BY OWNER", "G", 4)
+section(r0 + 2, "OPEN LEADS BY OWNER  ·  live", "G", 4)
 db[f"H{r0+3}"], db[f"I{r0+3}"] = "Open leads", "Actions due"
 for c in (f"H{r0+3}", f"I{r0+3}"):
     db[c].font = Font(name=F, size=9, bold=True, color="6B665F")
@@ -566,9 +650,10 @@ lines = [
     ("kv", ("Grey cells / grey headers", "Formulas. Don't type here – they calculate themselves.")),
     ("kv", ("Row 2 on each tab", "An EXAMPLE row (grey italic). Overwrite or delete it once you start.")),
     ("kv", ("Settings tab", "Edit dropdown lists, package prices and the rules (follow-up gap, decision window).")),
+    ("kv", ("Dates", "Every date column has a date picker: double-click the cell in Google Sheets for a calendar. Shoot times have a dropdown.")),
     ("gap", None),
     ("h", "THE TABS"),
-    ("kv", ("Dashboard", "The weekly numbers. Read only.")),
+    ("kv", ("Dashboard", "Daily, weekly and monthly numbers. Pick any day in the yellow cell (blank = today). Everything else is read only.")),
     ("kv", ("Inbound", "Leads who came to us: website, WhatsApp, Instagram, referrals, walk-ins.  Owner: Usama")),
     ("kv", ("Outbound", "Leads we went after: Apollo, LinkedIn, Google Maps.  Owner: Usama")),
     ("kv", ("Clients", "Everyone who signed + paid: free video, decision window, refunds, active plan.  Owner: Lianna")),
@@ -620,7 +705,9 @@ for kind, v in lines:
         sh0[f"B{r}"].alignment = Alignment(vertical="top", wrap_text=True)
         sh0[f"B{r}"].border = sh0[f"C{r}"].border = box
     r += 1
-sh0["C31"].fill = fill("FFFF00")
+for row in sh0.iter_rows(min_col=2, max_col=2):
+    if row[0].value == "Decision window":
+        sh0.cell(row=row[0].row, column=3).fill = fill("FFFF00")
 
 # tab colours / order
 for ws, colr in ((sh0, ORANGE), (db, INK), (inb, "2E7D32"), (outb, "1565C0"), (cl, "6A1B9A"),
