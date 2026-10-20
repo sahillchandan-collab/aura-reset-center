@@ -68,6 +68,20 @@ for i in range(25):
     c = st[f"Q{i+2}"]
     c.value = dt.time(8 + i // 2, 30 * (i % 2))
     c.number_format = "hh:mm"
+DAYS_BACK, DAYS_AHEAD = 90, 180
+st["V1"] = "Date dropdown (rolls with today)"
+st["V2"] = f"=TODAY()-{DAYS_BACK}"
+for i in range(3, DAYS_BACK + DAYS_AHEAD + 3):
+    st[f"V{i}"] = f"=V{i-1}+1"
+for i in range(2, DAYS_BACK + DAYS_AHEAD + 3):
+    st[f"V{i}"].number_format = "ddd dd-mmm-yy"
+DATE_LIST = f"Settings!$V$2:$V${DAYS_BACK + DAYS_AHEAD + 2}"
+st["W1"] = "Times (all day)"
+for i in range(48):
+    c = st[f"W{i+2}"]
+    c.value = dt.time(i // 2, 30 * (i % 2))
+    c.number_format = "hh:mm"
+TIME_ALL, TIME_WORK = "Settings!$W$2:$W$49", "Settings!$Q$2:$Q$26"
 # rules
 st["R1"], st["S1"] = "Rule", "Value"
 rules = [
@@ -100,6 +114,9 @@ for col in "ABCDEFGHIJKLMNOP":
 st.column_dimensions["R"].width = 44
 st.column_dimensions["S"].width = 8
 st.column_dimensions["T"].width = 80
+st.column_dimensions["V"].width = 30
+st.column_dimensions["W"].width = 16
+st.column_dimensions["Q"].width = 14
 st.freeze_panes = "A2"
 
 # ---------------------------------------------------------------- helpers
@@ -136,15 +153,16 @@ def dv(ws, col, source, prompt=None):
     ws.add_data_validation(v)
     v.add(f"{col}2:{col}{LAST}")
 
-def date_dv(ws, col, single=False):
-    v = DataValidation(type="date", operator="between", formula1="DATE(2020,1,1)", formula2="DATE(2100,12,31)",
-                       allow_blank=True)
-    v.error = "Enter a date (double-click the cell in Google Sheets for a calendar)."
-    v.errorTitle = "Not a date"
-    v.prompt = "Double-click for a calendar"
-    v.showInputMessage = False
+def date_dv(ws, col, single=False, source=None):
+    """Dropdown of dates (or times). Warning only, so a date outside the list can still be typed."""
+    v = DataValidation(type="list", formula1=source or DATE_LIST, allow_blank=True, errorStyle="warning")
+    v.error = "That date isn't in the dropdown - keep it if it's correct."
+    v.errorTitle = "Check the date"
     ws.add_data_validation(v)
     v.add(col if single else f"{col}2:{col}{LAST}")
+
+def time_dv(ws, col, source):
+    date_dv(ws, col, source=source)
 
 def int_dv(ws, col, lo, hi):
     v = DataValidation(type="whole", operator="between", formula1=str(lo), formula2=str(hi), allow_blank=True)
@@ -164,7 +182,10 @@ CLOSED = '"Contract signed + paid","Closed – No response","Lost"'
 def lead_tab(name, inbound):
     ws = wb.create_sheet(name)
     cols = [("Lead ID", "input"),
-            ("Date received" if inbound else "Date added", "input"),
+            ("Date received" if inbound else "Date added", "input")]
+    if inbound:
+        cols += [("Time received", "input")]
+    cols += [
             ("Source", "input"), ("Business name", "input"), ("Industry", "input"),
             ("Contact name", "input"), ("Role", "input"), ("Phone / WhatsApp", "input"),
             ("Email", "input"), ("Instagram", "input")]
@@ -172,12 +193,13 @@ def lead_tab(name, inbound):
         cols += [("LinkedIn", "input")]
     cols += [("Area", "input")]
     if inbound:
-        cols += [("Wants more of", "input"), ("First response", "input"), ("Response time (hrs)", "calc")]
+        cols += [("Wants more of", "input"), ("First response date", "input"), ("First response time", "input"),
+                 ("Response time (hrs)", "calc")]
     else:
         cols += [("Apollo list / campaign", "input")]
     cols += [("Owner", "input"), ("Stage", "input"), ("Last contact date", "input"),
              ("Follow-ups sent (0-4)", "input"), ("Next follow-up due", "calc"),
-             ("Meeting date", "input"), ("Package discussed", "input"),
+             ("Meeting date", "input"), ("Meeting time", "input"), ("Package discussed", "input"),
              ("Lost / closed reason", "input"), ("Notes", "input"),
              ("Days open", "calc"), ("Action flag", "calc")]
     widths = {"Business name": 24, "Email": 24, "Notes": 34, "Action flag": 30, "Stage": 22,
@@ -185,12 +207,12 @@ def lead_tab(name, inbound):
               "Lead ID": 10, "Industry": 18, "Source": 15}
     L = build_table(ws, cols, widths)
     d0 = "Date received" if inbound else "Date added"
-    fmts = {d0: "dd-mmm-yy hh:mm" if inbound else "dd-mmm-yy", "Last contact date": "dd-mmm-yy",
-            "Next follow-up due": "dd-mmm-yy", "Meeting date": "dd-mmm-yy hh:mm",
+    fmts = {d0: "ddd dd-mmm-yy", "Last contact date": "ddd dd-mmm-yy",
+            "Next follow-up due": "ddd dd-mmm-yy", "Meeting date": "ddd dd-mmm-yy", "Meeting time": "hh:mm",
             "Days open": "0", "Phone / WhatsApp": "@"}
     if inbound:
-        fmts["First response"] = "dd-mmm-yy hh:mm"
-        fmts["Response time (hrs)"] = "0.0"
+        fmts.update({"Time received": "hh:mm", "First response date": "ddd dd-mmm-yy",
+                     "First response time": "hh:mm", "Response time (hrs)": "0.0"})
     style_rows(ws, cols, L, fmts)
 
     for r in range(2, LAST + 1):
@@ -211,8 +233,10 @@ def lead_tab(name, inbound):
             f'IF({nxt}="",IF({last}="","Make first contact",""),'
             f'IF(TODAY()>{nxt},"OVERDUE follow-up",IF(TODAY()={nxt},"Follow up today","")))))))')
         if inbound:
-            fr = f"{L['First response']}{r}"
-            ws[f"{L['Response time (hrs)']}{r}"] = f'=IF(OR({d}="",{fr}=""),"",ROUND(({fr}-{d})*24,1))'
+            fr, ft, tr = (f"{L['First response date']}{r}", f"{L['First response time']}{r}",
+                          f"{L['Time received']}{r}")
+            ws[f"{L['Response time (hrs)']}{r}"] = (
+                f'=IF(OR({d}="",{fr}=""),"",ROUND((({fr}+N({ft}))-({d}+N({tr})))*24,1))')
 
     dv(ws, L["Source"], rng["Inbound sources" if inbound else "Outbound sources"])
     dv(ws, L["Industry"], rng["Industries"])
@@ -223,8 +247,12 @@ def lead_tab(name, inbound):
     if inbound:
         dv(ws, L["Wants more of"], rng["Wants more of"])
     int_dv(ws, L["Follow-ups sent (0-4)"], 0, 4)
-    for h in (d0, "Last contact date", "Meeting date") + (("First response",) if inbound else ()):
+    for h in (d0, "Last contact date", "Meeting date") + (("First response date",) if inbound else ()):
         date_dv(ws, L[h])
+    time_dv(ws, L["Meeting time"], TIME_WORK)
+    if inbound:
+        time_dv(ws, L["Time received"], TIME_ALL)
+        time_dv(ws, L["First response time"], TIME_ALL)
 
     # formatting rules
     s = L["Stage"]
@@ -241,13 +269,16 @@ def lead_tab(name, inbound):
     # example row
     ex = dict(zip([c[0] for c in cols], [None] * len(cols)))
     if inbound:
-        ex.update({"Lead ID": "IN-0001", d0: dt.datetime(2026, 10, 15, 10, 12), "Source": "Website form",
+        ex.update({"Lead ID": "IN-0001", d0: dt.date(2026, 10, 15), "Time received": dt.time(10, 0),
+                   "Source": "Website form",
                    "Business name": "Pulse Fitness Club (EXAMPLE)", "Industry": "Fitness / wellness",
                    "Contact name": "Sara M.", "Role": "Owner", "Phone / WhatsApp": "+971 50 000 0000",
                    "Email": "sara@example.com", "Instagram": "@pulse.fitness.jlt", "Area": "JLT",
-                   "Wants more of": "Enquiries and bookings", "First response": dt.datetime(2026, 10, 15, 10, 41),
+                   "Wants more of": "Enquiries and bookings", "First response date": dt.date(2026, 10, 15),
+                   "First response time": dt.time(10, 30),
                    "Owner": "Usama", "Stage": "Proposal sent", "Last contact date": dt.date(2026, 10, 17),
-                   "Follow-ups sent (0-4)": 1, "Meeting date": dt.datetime(2026, 10, 16, 15, 0),
+                   "Follow-ups sent (0-4)": 1, "Meeting date": dt.date(2026, 10, 16),
+                   "Meeting time": dt.time(15, 0),
                    "Package discussed": "Growth", "Notes": "Example row – overwrite or delete."})
     else:
         ex.update({"Lead ID": "OUT-0001", d0: dt.date(2026, 10, 13), "Source": "Apollo",
@@ -280,10 +311,10 @@ ccols = [("Client ID", "input"), ("Lead ID", "input"), ("Business name", "input"
 LC = build_table(cl, ccols, {"Business name": 24, "Status": 34, "Notes": 34, "Email": 22, "Client ID": 10})
 assert LC["Business name"] == "C" and LC["Phone / WhatsApp"] == "E" and LC["Refund status"] == "S"
 style_rows(cl, ccols, LC, {"Monthly fee (AED)": "#,##0", "Amount paid (AED)": "#,##0",
-                           "Refund amount (AED)": "#,##0", "Contract signed date": "dd-mmm-yy",
-                           "Free video shoot date": "dd-mmm-yy", "Free video delivered": "dd-mmm-yy",
-                           "Decision deadline": "dd-mmm-yy", "Refund date": "dd-mmm-yy",
-                           "Plan start date": "dd-mmm-yy", "Minimum term ends": "dd-mmm-yy",
+                           "Refund amount (AED)": "#,##0", "Contract signed date": "ddd dd-mmm-yy",
+                           "Free video shoot date": "ddd dd-mmm-yy", "Free video delivered": "ddd dd-mmm-yy",
+                           "Decision deadline": "ddd dd-mmm-yy", "Refund date": "ddd dd-mmm-yy",
+                           "Plan start date": "ddd dd-mmm-yy", "Minimum term ends": "ddd dd-mmm-yy",
                            "Phone / WhatsApp": "@"})
 for r in range(2, LAST + 1):
     g = lambda h: f"{LC[h]}{r}"
@@ -337,7 +368,7 @@ scols = [("Shoot ID", "input"), ("Client ID", "input"), ("Business name", "calc"
          ("Video link", "input"), ("Notes", "input"), ("Flag", "calc")]
 LS = build_table(sh, scols, {"Business name": 24, "Location": 22, "Video link": 26, "Notes": 30, "Flag": 30})
 sh.freeze_panes = "D2"
-style_rows(sh, scols, LS, {"Shoot date": "dd-mmm-yy", "Delivered date": "dd-mmm-yy", "Time": "hh:mm"})
+style_rows(sh, scols, LS, {"Shoot date": "ddd dd-mmm-yy", "Delivered date": "ddd dd-mmm-yy", "Time": "hh:mm"})
 for r in range(2, LAST + 1):
     g = lambda h: f"{LS[h]}{r}"
     sh[g("Business name")] = (f'=IF({g("Client ID")}="","",IFERROR(INDEX(Clients!$C$2:$C${LAST},'
@@ -353,7 +384,7 @@ dv(sh, LS["Status"], rng["Shoot status"])
 int_dv(sh, LS["Revision rounds used"], 0, 9)
 date_dv(sh, LS["Shoot date"])
 date_dv(sh, LS["Delivered date"])
-dv(sh, LS["Time"], "Settings!$Q$2:$Q$26")
+time_dv(sh, LS["Time"], TIME_WORK)
 fl = f"{LS['Flag']}2:{LS['Flag']}{LAST}"
 cf(sh, fl, f'LEFT({LS["Flag"]}2,4)="LATE"', "FF5A1F", "FFFFFF", True)
 cf(sh, fl, f'{LS["Flag"]}2="Over revision limit"', "FAD4D4", "9B1C1C", True)
@@ -391,7 +422,7 @@ for r in (3, 4, 5, 6):
     db[f"C{r}"].number_format = "ddd dd-mmm-yy"
 db["C3"].fill = fill("FFFF00")
 db["C3"].font = Font(name=F, size=10, bold=True, color="0000FF")
-db["C3"].comment = Comment("Double-click for a calendar. Clear the cell to go back to today.", "Yontro CRM")
+db["C3"].comment = Comment("Pick a day from the dropdown. Clear the cell to go back to today.", "Yontro CRM")
 db["D3"].font = Font(name=F, size=9, italic=True, color="6B665F")
 date_dv(db, "C3", single=True)
 
@@ -460,7 +491,7 @@ ILc, OLc = (f"Inbound!${LI['Last contact date']}$2:${LI['Last contact date']}${L
             f"Outbound!${LO['Last contact date']}$2:${LO['Last contact date']}${LAST}")
 INx, ONx = (f"Inbound!${LI['Next follow-up due']}$2:${LI['Next follow-up due']}${LAST}",
             f"Outbound!${LO['Next follow-up due']}$2:${LO['Next follow-up due']}${LAST}")
-IFr = f"Inbound!${LI['First response']}$2:${LI['First response']}${LAST}"
+IFr = f"Inbound!${LI['First response date']}$2:${LI['First response date']}${LAST}"
 CDl = f"Clients!${LC['Decision deadline']}$2:${LC['Decision deadline']}${LAST}"
 SDt = f"Shoots!${LS['Shoot date']}$2:${LS['Shoot date']}${LAST}"
 SNm = f"Shoots!${LS['Shoot ID']}$2:${LS['Shoot ID']}${LAST}"
@@ -593,9 +624,9 @@ au.sheet_view.showGridLines = False
 heads = ["#", "When this happens…", "App", "…this happens automatically", "Writes to (tab → columns)", "Phase"]
 data = [
     (1, "Website form submitted", "yontro.ae → Make.com", "Add row, Source = Website form, Stage = New; alert Usama on WhatsApp",
-     "Inbound → Lead ID, Date received, Source, Business, Contact, Phone, Instagram, Wants more of", "1"),
-    (2, "Calendly meeting booked", "Calendly → Make.com", "Find lead by email/phone; set Stage = Meeting booked and Meeting date; reminder 24h before",
-     "Inbound / Outbound → Stage, Meeting date", "1"),
+     "Inbound → Lead ID, Date received, Time received, Source, Business, Contact, Phone, Instagram, Wants more of", "1"),
+    (2, "Calendly meeting booked", "Calendly → Make.com", "Find lead by email/phone; set Stage = Meeting booked, Meeting date and Meeting time; reminder 24h before",
+     "Inbound / Outbound → Stage, Meeting date, Meeting time", "1"),
     (3, "Prospects saved to an Apollo list", "Apollo → Make.com", "Add rows, skip duplicates by email or phone; Stage = New",
      "Outbound → Lead ID, Date added, Source, Business…Apollo list", "1"),
     (4, "Prospect replies to an Apollo sequence", "Apollo → Make.com", "Set Stage = Replied; Last contact date = today",
@@ -650,7 +681,7 @@ lines = [
     ("kv", ("Grey cells / grey headers", "Formulas. Don't type here – they calculate themselves.")),
     ("kv", ("Row 2 on each tab", "An EXAMPLE row (grey italic). Overwrite or delete it once you start.")),
     ("kv", ("Settings tab", "Edit dropdown lists, package prices and the rules (follow-up gap, decision window).")),
-    ("kv", ("Dates", "Every date column has a date picker: double-click the cell in Google Sheets for a calendar. Shoot times have a dropdown.")),
+    ("kv", ("Dates", "Every date and time cell has a dropdown menu – click the arrow and pick. Dates run 90 days back to 180 days ahead and roll forward each day. You can still type a date outside that range (you'll see a warning; keep it if it's right).")),
     ("gap", None),
     ("h", "THE TABS"),
     ("kv", ("Dashboard", "Daily, weekly and monthly numbers. Pick any day in the yellow cell (blank = today). Everything else is read only.")),
