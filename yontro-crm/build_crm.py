@@ -68,14 +68,6 @@ for i in range(25):
     c = st[f"Q{i+2}"]
     c.value = dt.time(8 + i // 2, 30 * (i % 2))
     c.number_format = "hh:mm"
-DAYS_BACK, DAYS_AHEAD = 90, 180
-st["V1"] = "Date dropdown (rolls with today)"
-st["V2"] = f"=TODAY()-{DAYS_BACK}"
-for i in range(3, DAYS_BACK + DAYS_AHEAD + 3):
-    st[f"V{i}"] = f"=V{i-1}+1"
-for i in range(2, DAYS_BACK + DAYS_AHEAD + 3):
-    st[f"V{i}"].number_format = "ddd dd-mmm-yy"
-DATE_LIST = f"Settings!$V$2:$V${DAYS_BACK + DAYS_AHEAD + 2}"
 st["W1"] = "Times (all day)"
 for i in range(48):
     c = st[f"W{i+2}"]
@@ -114,7 +106,6 @@ for col in "ABCDEFGHIJKLMNOP":
 st.column_dimensions["R"].width = 44
 st.column_dimensions["S"].width = 8
 st.column_dimensions["T"].width = 80
-st.column_dimensions["V"].width = 30
 st.column_dimensions["W"].width = 16
 st.column_dimensions["Q"].width = 14
 st.freeze_panes = "A2"
@@ -153,16 +144,26 @@ def dv(ws, col, source, prompt=None):
     ws.add_data_validation(v)
     v.add(f"{col}2:{col}{LAST}")
 
-def date_dv(ws, col, single=False, source=None):
-    """Dropdown of dates (or times). Warning only, so a date outside the list can still be typed."""
-    v = DataValidation(type="list", formula1=source or DATE_LIST, allow_blank=True, errorStyle="warning")
-    v.error = "That date isn't in the dropdown - keep it if it's correct."
-    v.errorTitle = "Check the date"
+def date_dv(ws, col, single=False):
+    """Date validation: Google Sheets shows its calendar picker when the cell is double-clicked."""
+    v = DataValidation(type="date", operator="between", formula1="DATE(2020,1,1)", formula2="DATE(2100,12,31)",
+                       allow_blank=True)
+    v.error = "Enter a date - double-click the cell for a calendar."
+    v.errorTitle = "Not a date"
     ws.add_data_validation(v)
-    v.add(col if single else f"{col}2:{col}{LAST}")
+    if single:
+        v.add(col)
+    else:
+        v.add(f"{col}2:{col}{LAST}")
+        ws[f"{col}1"].value = f"{ws[f'{col}1'].value} 📅"
 
 def time_dv(ws, col, source):
-    date_dv(ws, col, source=source)
+    """Dropdown of time slots. Warning only, so an exact time can still be typed."""
+    v = DataValidation(type="list", formula1=source, allow_blank=True, errorStyle="warning")
+    v.error = "That time isn't in the list - keep it if it's correct."
+    v.errorTitle = "Check the time"
+    ws.add_data_validation(v)
+    v.add(f"{col}2:{col}{LAST}")
 
 def int_dv(ws, col, lo, hi):
     v = DataValidation(type="whole", operator="between", formula1=str(lo), formula2=str(hi), allow_blank=True)
@@ -412,7 +413,7 @@ db["B1"] = "YONTRO · CRM DASHBOARD"
 db["B1"].font = Font(name=F, size=18, bold=True, color=INK)
 db["B2"] = "Updates automatically from the Inbound, Outbound, Clients and Shoots tabs. Only the yellow cell is yours to change."
 db["B2"].font = Font(name=F, size=10, italic=True, color="6B665F")
-db["B3"], db["D3"] = "Day to view (pick a date)", "Leave blank to always show today"
+db["B3"], db["D3"] = "Day to view 📅 (double-click)", "Leave blank to always show today"
 db["B4"], db["C4"] = "Showing", "=IF(C3=\"\",TODAY(),C3)"
 db["B5"], db["C5"] = "Week starts (Monday)", "=C4-WEEKDAY(C4,2)+1"
 db["B6"], db["C6"] = "Month starts", "=DATE(YEAR(C4),MONTH(C4),1)"
@@ -422,7 +423,7 @@ for r in (3, 4, 5, 6):
     db[f"C{r}"].number_format = "ddd dd-mmm-yy"
 db["C3"].fill = fill("FFFF00")
 db["C3"].font = Font(name=F, size=10, bold=True, color="0000FF")
-db["C3"].comment = Comment("Pick a day from the dropdown. Clear the cell to go back to today.", "Yontro CRM")
+db["C3"].comment = Comment("Double-click for a calendar. Clear the cell to go back to today.", "Yontro CRM")
 db["D3"].font = Font(name=F, size=9, italic=True, color="6B665F")
 date_dv(db, "C3", single=True)
 
@@ -681,7 +682,7 @@ lines = [
     ("kv", ("Grey cells / grey headers", "Formulas. Don't type here – they calculate themselves.")),
     ("kv", ("Row 2 on each tab", "An EXAMPLE row (grey italic). Overwrite or delete it once you start.")),
     ("kv", ("Settings tab", "Edit dropdown lists, package prices and the rules (follow-up gap, decision window).")),
-    ("kv", ("Dates", "Every date and time cell has a dropdown menu – click the arrow and pick. Dates run 90 days back to 180 days ahead and roll forward each day. You can still type a date outside that range (you'll see a warning; keep it if it's right).")),
+    ("kv", ("Dates", "Columns marked 📅 open a calendar: double-click the cell and pick the day. Time columns have a dropdown arrow. If a calendar ever doesn't open, run the 'Add date pickers' script (see below).")),
     ("gap", None),
     ("h", "THE TABS"),
     ("kv", ("Dashboard", "Daily, weekly and monthly numbers. Pick any day in the yellow cell (blank = today). Everything else is read only.")),
@@ -711,6 +712,12 @@ lines = [
     ("kv", ("Azeem", "Shoots: filter Videographer = Azeem. Update Status and Delivered date the day it happens.")),
     ("kv", ("Lianna", "Clients: work every 'Decision pending' row; onboard new signings; log refunds with a reason.")),
     ("kv", ("Owner", "Dashboard once a week.")),
+    ("gap", None),
+    ("h", "IF THE CALENDARS DON'T OPEN (one-time fix, 2 minutes)"),
+    ("kv", ("1", "In the Google Sheet: Extensions → Apps Script.")),
+    ("kv", ("2", "Delete what's there, paste the code from yontro-crm/date-pickers.gs, click Save.")),
+    ("kv", ("3", "Choose addDatePickers in the toolbar and click Run (allow access the first time).")),
+    ("kv", ("4", "Back in the sheet, double-click any 📅 cell – the calendar opens.")),
     ("gap", None),
     ("h", "AFTER A FOLLOW-UP"),
     ("kv", ("Update two cells", "Last contact date = today, and Follow-ups sent +1. The sheet works out the next due date.")),
