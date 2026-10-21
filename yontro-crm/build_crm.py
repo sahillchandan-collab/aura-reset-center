@@ -84,6 +84,8 @@ rules = [
     ("Free video delivery promise (working days)", 5, "From the website: delivered within five working days."),
     ("Minimum term (months)", 3, "From the website: three-month minimum, then month to month."),
     ("Max revision rounds per video", 2, "From the website FAQ: two rounds of changes included."),
+    ("Lead score for HOT", 70, "Lead qualification: 70+ = Hot. Book the meeting, send the proposal."),
+    ("Lead score for WARM", 40, "Lead qualification: 40-69 = Warm. Keep following up. Under 40 = Cold."),
 ]
 for i, (k, v, note) in enumerate(rules, start=2):
     st[f"R{i}"], st[f"S{i}"], st[f"T{i}"] = k, v, note
@@ -92,6 +94,35 @@ st["S4"].fill = fill("FFFF00")
 st["S4"].comment = Comment("Placeholder - the decision window has not been agreed yet.", "Yontro CRM")
 GAP, MAXF, WIN, DELIV, TERM, REV = ("Settings!$S$2", "Settings!$S$3", "Settings!$S$4",
                                     "Settings!$S$5", "Settings!$S$6", "Settings!$S$7")
+HOT, WARM = "Settings!$S$8", "Settings!$S$9"
+
+# lead qualification: question / answer / points (edit points on Settings, formulas follow)
+QUAL = [
+    ("Budget AED 5k+/mo?", [("Yes", 25), ("Maybe", 10), ("No", 0)]),
+    ("Decision-maker?", [("Yes", 15), ("Influencer", 8), ("No", 0)]),
+    ("Someone on camera?", [("Yes", 15), ("Maybe", 8), ("No", 0)]),
+    ("OK with 3-month term?", [("Yes", 10), ("Unsure", 5), ("No", 0)]),
+    ("Start timeline", [("This month", 15), ("1–3 months", 8), ("Later", 2)]),
+    ("Social media gap", [("Big gap", 10), ("Some", 5), ("Already strong", 2)]),
+]
+st["Y1"], st["Z1"], st["AA1"] = "Qualification question", "Answer", "Points"
+qrng, r_ = {}, 2
+for q, answers in QUAL:
+    qrng[q] = f"Settings!$Z${r_}:$Z${r_ + len(answers) - 1}"
+    for a, pts in answers:
+        st[f"Y{r_}"], st[f"Z{r_}"], st[f"AA{r_}"] = q, a, pts
+        st[f"AA{r_}"].font = Font(name=F, size=10, color="0000FF", bold=True)
+        r_ += 1
+st[f"Y{r_}"], st[f"Z{r_}"], st[f"AA{r_}"] = "Industry fit (automatic)", "Core industry", 10
+st[f"Y{r_+1}"], st[f"Z{r_+1}"], st[f"AA{r_+1}"] = "Industry fit (automatic)", "Other industry", 5
+for k in (r_, r_ + 1):
+    st[f"AA{k}"].font = Font(name=F, size=10, color="0000FF", bold=True)
+FIT_CORE, FIT_OTHER = f"Settings!$AA${r_}", f"Settings!$AA${r_+1}"
+QY, QZ, QA = (f"Settings!$Y$2:$Y${r_+1}", f"Settings!$Z$2:$Z${r_+1}", f"Settings!$AA$2:$AA${r_+1}")
+st["AC1"] = "Core industries"
+for i, ind in enumerate(["Hospitality / F&B", "Retail", "Real estate", "Entertainment", "Fitness / wellness"], start=2):
+    st[f"AC{i}"] = ind
+CORE = "Settings!$AC$2:$AC$6"
 for c in st[1]:
     if c.value:
         c.font, c.fill = hdr_font, hdr_fill
@@ -108,6 +139,13 @@ st.column_dimensions["S"].width = 8
 st.column_dimensions["T"].width = 80
 st.column_dimensions["W"].width = 16
 st.column_dimensions["Q"].width = 14
+st.column_dimensions["Y"].width = 26
+st.column_dimensions["Z"].width = 16
+st.column_dimensions["AA"].width = 8
+st.column_dimensions["AC"].width = 20
+for c in st[1]:
+    if c.value:
+        c.font, c.fill = hdr_font, hdr_fill
 st.freeze_panes = "A2"
 
 # ---------------------------------------------------------------- helpers
@@ -198,6 +236,8 @@ def lead_tab(name, inbound):
                  ("Response time (hrs)", "calc")]
     else:
         cols += [("Apollo list / campaign", "input")]
+    cols += [(q, "input") for q, _ in QUAL]
+    cols += [("Lead score", "calc"), ("Rating", "calc"), ("Red flags", "calc")]
     cols += [("Owner", "input"), ("Stage", "input"), ("Last contact date", "input"),
              ("Follow-ups sent (0-4)", "input"), ("Next follow-up due", "calc"),
              ("Meeting date", "input"), ("Meeting time", "input"), ("Package discussed", "input"),
@@ -205,7 +245,8 @@ def lead_tab(name, inbound):
              ("Days open", "calc"), ("Action flag", "calc")]
     widths = {"Business name": 24, "Email": 24, "Notes": 34, "Action flag": 30, "Stage": 22,
               "Apollo list / campaign": 22, "Lost / closed reason": 22, "Wants more of": 20,
-              "Lead ID": 10, "Industry": 18, "Source": 15}
+              "Lead ID": 10, "Industry": 18, "Source": 15, "Red flags": 30, "Rating": 18,
+              "Lead score": 9, **{q: 13 for q, _ in QUAL}}
     L = build_table(ws, cols, widths)
     d0 = "Date received" if inbound else "Date added"
     fmts = {d0: "ddd dd-mmm-yy", "Last contact date": "ddd dd-mmm-yy",
@@ -227,12 +268,27 @@ def lead_tab(name, inbound):
         refunded = (f'OR(COUNTIFS(Clients!$C$2:$C${LAST},{b},Clients!$S$2:$S${LAST},"Paid")>0,'
                     f'AND({ph}<>"",COUNTIFS(Clients!$E$2:$E${LAST},{ph},Clients!$S$2:$S${LAST},"Paid")>0))')
         nxt = f"{L['Next follow-up due']}{r}"
+        qa = [f"{L[q]}{r}" for q, _ in QUAL]
+        answered = f"COUNTA({qa[0]}:{qa[-1]})"
+        ind = f"{L['Industry']}{r}"
+        pts = "+".join(f'SUMIFS({QA},{QY},"{q}",{QZ},{c})' for (q, _), c in zip(QUAL, qa))
+        fit = f'IF({ind}="",0,IF(COUNTIF({CORE},{ind})>0,{FIT_CORE},{FIT_OTHER}))'
+        sc = f"{L['Lead score']}{r}"
+        ws[sc] = f'=IF(OR({b}="",{answered}=0),"",{pts}+{fit})'
+        ws[f"{L['Rating']}{r}"] = (
+            f'=IF({b}="","",IF({answered}=0,"Not scored",IF({answered}<{len(QUAL)},'
+            f'"Partly scored ("&{answered}&"/{len(QUAL)})",IF({sc}>={HOT},"Hot",IF({sc}>={WARM},"Warm","Cold")))))')
+        bud, cam = f"{L['Budget AED 5k+/mo?']}{r}", f"{L['Someone on camera?']}{r}"
+        ws[f"{L['Red flags']}{r}"] = (
+            f'=IF({b}="","",IF(AND({bud}="No",{cam}="No"),"🚩 Budget  ·  🚩 No one on camera",'
+            f'IF({bud}="No","🚩 Budget under AED 5k",IF({cam}="No","🚩 No one on camera",""))))')
         ws[f"{L['Action flag']}{r}"] = (
             f'=IF({b}="","",IF({refunded},"⚠ Refunded before – no free video",'
             f'IF({closed},"",IF({stg}="","Set a stage",'
+            f'IF(AND({stg}="Proposal sent",{answered}<{len(QUAL)}),"Score this lead – proposal sent unscored",'
             f'IF(N({fu})>={MAXF},"Close – 4 follow-ups sent",'
             f'IF({nxt}="",IF({last}="","Make first contact",""),'
-            f'IF(TODAY()>{nxt},"OVERDUE follow-up",IF(TODAY()={nxt},"Follow up today","")))))))')
+            f'IF(TODAY()>{nxt},"OVERDUE follow-up",IF(TODAY()={nxt},"Follow up today",""))))))))')
         if inbound:
             fr, ft, tr = (f"{L['First response date']}{r}", f"{L['First response time']}{r}",
                           f"{L['Time received']}{r}")
@@ -248,6 +304,8 @@ def lead_tab(name, inbound):
     if inbound:
         dv(ws, L["Wants more of"], rng["Wants more of"])
     int_dv(ws, L["Follow-ups sent (0-4)"], 0, 4)
+    for q, _ in QUAL:
+        dv(ws, L[q], qrng[q])
     for h in (d0, "Last contact date", "Meeting date") + (("First response date",) if inbound else ()):
         date_dv(ws, L[h])
     time_dv(ws, L["Meeting time"], TIME_WORK)
@@ -266,6 +324,15 @@ def lead_tab(name, inbound):
     cf(ws, fl, f'{L["Action flag"]}2="Follow up today"', "FFE3B3", None, True)
     cf(ws, fl, f'{L["Action flag"]}2="Close – 4 follow-ups sent"', "E4DCF2", "4B2E83", True)
     cf(ws, fl, f'OR({L["Action flag"]}2="Make first contact",{L["Action flag"]}2="Set a stage")', "E6F0FA")
+    cf(ws, fl, f'LEFT({L["Action flag"]}2,5)="Score"', "FFE3B3", "7A4B00", True)
+    rt = L["Rating"]
+    rr = f"{rt}2:{rt}{LAST}"
+    cf(ws, rr, f'{rt}2="Hot"', "FF5A1F", "FFFFFF", True)
+    cf(ws, rr, f'{rt}2="Warm"', "FFE3B3", "7A4B00", True)
+    cf(ws, rr, f'{rt}2="Cold"', "DCE7F2", "1F3A5F", True)
+    cf(ws, rr, f'OR({rt}2="Not scored",LEFT({rt}2,6)="Partly")', None, "9A958E")
+    rf = L["Red flags"]
+    cf(ws, f"{rf}2:{rf}{LAST}", f'{rf}2<>""', "FAD4D4", "9B1C1C", True)
 
     # example row
     ex = dict(zip([c[0] for c in cols], [None] * len(cols)))
@@ -280,7 +347,9 @@ def lead_tab(name, inbound):
                    "Owner": "Usama", "Stage": "Proposal sent", "Last contact date": dt.date(2026, 10, 17),
                    "Follow-ups sent (0-4)": 1, "Meeting date": dt.date(2026, 10, 16),
                    "Meeting time": dt.time(15, 0),
-                   "Package discussed": "Growth", "Notes": "Example row – overwrite or delete."})
+                   "Package discussed": "Growth", "Notes": "Example row – overwrite or delete.",
+                   "Budget AED 5k+/mo?": "Yes", "Decision-maker?": "Yes", "Someone on camera?": "Yes",
+                   "OK with 3-month term?": "Yes", "Start timeline": "This month", "Social media gap": "Big gap"})
     else:
         ex.update({"Lead ID": "OUT-0001", d0: dt.date(2026, 10, 13), "Source": "Apollo",
                    "Business name": "Marina Bites Café (EXAMPLE)", "Industry": "Hospitality / F&B",
@@ -288,7 +357,9 @@ def lead_tab(name, inbound):
                    "Email": "omar@example.com", "Instagram": "@marinabites", "LinkedIn": "linkedin.com/in/example",
                    "Area": "Dubai Marina", "Apollo list / campaign": "F&B – Marina – Oct 26", "Owner": "Usama",
                    "Stage": "Replied", "Last contact date": dt.date(2026, 10, 16), "Follow-ups sent (0-4)": 0,
-                   "Package discussed": "Launch", "Notes": "Example row – overwrite or delete."})
+                   "Package discussed": "Launch", "Notes": "Example row – overwrite or delete.",
+                   "Budget AED 5k+/mo?": "Maybe", "Decision-maker?": "Influencer", "Someone on camera?": "No",
+                   "OK with 3-month term?": "Unsure", "Start timeline": "1–3 months", "Social media gap": "Some"})
     for h, v in ex.items():
         if v is not None and dict(cols)[h] == "input":
             ws[f"{L[h]}2"] = v
@@ -566,6 +637,37 @@ kpi(42, "Trial-to-active rate", f'=IFERROR(COUNTIF({CS},"Active*")/(COUNTIF({CS}
     "0%", note="Of clients whose free-video decision is settled, the share who stayed.")
 kpi(43, "Signed but payment not logged", f'=COUNTIF({CS},"Awaiting payment")')
 
+# Lead quality
+IR, OR_ = f"Inbound!${LI['Rating']}$2:${LI['Rating']}${LAST}", f"Outbound!${LO['Rating']}$2:${LO['Rating']}${LAST}"
+IRF, ORF = (f"Inbound!${LI['Red flags']}$2:${LI['Red flags']}${LAST}",
+            f"Outbound!${LO['Red flags']}$2:${LO['Red flags']}${LAST}")
+ISc, OSc = (f"Inbound!${LI['Lead score']}$2:${LI['Lead score']}${LAST}",
+            f"Outbound!${LO['Lead score']}$2:${LO['Lead score']}${LAST}")
+section(45, "LEAD QUALITY  ·  open leads, live")
+
+
+def open_cnt(R, Sx, crit):
+    crit = f'"{crit}"'
+    return (f'COUNTIFS({R},{crit})-COUNTIFS({R},{crit},{Sx},"Contract signed + paid")'
+            f'-COUNTIFS({R},{crit},{Sx},"Closed – No response")-COUNTIFS({R},{crit},{Sx},"Lost")')
+
+
+split_rows(47, [
+    ("Hot (70+)", f'={open_cnt(IR, IS, "Hot")}', f'={open_cnt(OR_, OS, "Hot")}'),
+    ("Warm (40–69)", f'={open_cnt(IR, IS, "Warm")}', f'={open_cnt(OR_, OS, "Warm")}'),
+    ("Cold (under 40)", f'={open_cnt(IR, IS, "Cold")}', f'={open_cnt(OR_, OS, "Cold")}'),
+    ("Not scored or partly scored", f'={open_cnt(IR, IS, "Not scored")}+{open_cnt(IR, IS, "Partly*")}',
+     f'={open_cnt(OR_, OS, "Not scored")}+{open_cnt(OR_, OS, "Partly*")}'),
+    ("With a 🚩 red flag", f'={open_cnt(IRF, IS, "🚩*")}', f'={open_cnt(ORF, OS, "🚩*")}'),
+], orange=("Hot (70+)",))
+db["B53"] = "Win rate by rating (all time)"
+db["B53"].font = Font(name=F, size=9, bold=True, color="6B665F")
+for i, band in enumerate(("Hot", "Warm", "Cold"), start=54):
+    won = (f'COUNTIFS({IR},"{band}",{IS},"Contract signed + paid")'
+           f'+COUNTIFS({OR_},"{band}",{OS},"Contract signed + paid")')
+    kpi(i, f"{band} leads that signed", f'=IFERROR(({won})/(COUNTIF({IR},"{band}")+COUNTIF({OR_},"{band}")),"-")', "0%",
+        note="Shows whether the score predicts who signs. Adjust points on Settings if it doesn't.")
+
 # Pipeline by stage
 section(8, "PIPELINE BY STAGE  ·  live", "G", 4)
 db["H9"], db["I9"], db["J9"] = "Inbound", "Outbound", "Total"
@@ -607,7 +709,7 @@ for j, person in enumerate(lists["E"][1]):
 # Leads by source
 rs = r0 + 10
 section(rs, "LEADS BY SOURCE (ALL TIME)", "G", 4)
-db[f"H{rs+1}"], db[f"I{rs+1}"] = "Leads", "Signed"
+db[f"H{rs+1}"], db[f"I{rs+1}"], db[f"J{rs+1}"] = "Leads", "Signed", "Avg score"
 srcs = [(s, "in") for s in lists["B"][1]] + [(s, "out") for s in lists["C"][1]]
 for j, (s, kind) in enumerate(srcs):
     r = rs + 2 + j
@@ -615,9 +717,65 @@ for j, (s, kind) in enumerate(srcs):
     db[f"G{r}"] = f"{'In' if kind == 'in' else 'Out'} · {s}"
     db[f"H{r}"] = f'=COUNTIF({src},"{s}")'
     db[f"I{r}"] = f'=COUNTIFS({src},"{s}",{stg},"Contract signed + paid")'
-    for c in "GHI":
+    db[f"J{r}"] = f'=IFERROR(AVERAGEIFS({ISc if kind == "in" else OSc},{src},"{s}"),"-")'
+    db[f"J{r}"].number_format = "0"
+    for c in "GHIJ":
         db[f"{c}{r}"].font = body
         db[f"{c}{r}"].border = box
+
+# ---------------------------------------------------------------- Qualify script
+qs = wb.create_sheet("Qualify")
+qs.sheet_view.showGridLines = False
+qs.column_dimensions["A"].width = 3
+qs.column_dimensions["B"].width = 24
+qs.column_dimensions["C"].width = 62
+qs.column_dimensions["D"].width = 44
+qs["B1"] = "QUALIFYING A LEAD – first call or chat (about 5 minutes)"
+qs["B1"].font = Font(name=F, size=16, bold=True, color=INK)
+qs["B2"] = ("Ask naturally, not like a form. Fill the six dropdowns on the lead's row; the score, rating and "
+            "red flags work themselves out. Red flags are warnings, not a 'no' – the lead stays open.")
+qs["B2"].font = Font(name=F, size=10, italic=True, color="6B665F")
+qs["B2"].alignment = Alignment(wrap_text=True)
+qs.merge_cells("B2:D2")
+qs.row_dimensions[2].height = 30
+for j, h in enumerate(("Column", "What to ask", "Listen for"), start=2):
+    c = qs.cell(row=4, column=j, value=h)
+    c.font, c.fill = hdr_font, hdr_fill
+script = [
+    ("Budget AED 5k+/mo?", "“Our plans start at AED 5,000 a month for 10 videos, fully done for you. Is that in the range you had in mind?”",
+     "Yes / Maybe (‘depends what’s included’) / No. 🚩 if No."),
+    ("Decision-maker?", "“Apart from you, who else would be involved in deciding?”",
+     "Yes = they sign. Influencer = they recommend to someone else."),
+    ("Someone on camera?", "“Our videos work because a real person from the business is in them – a manager, chef, coach, broker. Who could that be for you?”",
+     "A name = Yes. ‘Maybe, we’d need to see’ = Maybe. 🚩 if nobody."),
+    ("OK with 3-month term?", "“We work in three-month plans: month one fixes the basics, two finds the story, three scales it. Does that work for you?”",
+     "Yes / Unsure / No."),
+    ("Start timeline", "“If this felt right, when would you want the first shoot?”",
+     "This month / 1–3 months / Later."),
+    ("Social media gap", "Look at their Instagram before the call: faces on camera? posting in the last 2 weeks? a clear offer in the bio?",
+     "Big gap = 2–3 missing. Some = 1 missing. Already strong = none."),
+    ("Industry fit", "Nothing to ask – it scores itself from the Industry column.",
+     "Core: hospitality, retail, real estate, entertainment, fitness."),
+]
+for i, (col, ask, hear) in enumerate(script, start=5):
+    for j, v in enumerate((col, ask, hear), start=2):
+        c = qs.cell(row=i, column=j, value=v)
+        c.font = bold if j == 2 else body
+        c.alignment = Alignment(wrap_text=True, vertical="top")
+        c.border = box
+    qs.row_dimensions[i].height = 46
+qs["B13"] = "Score bands"
+qs["B13"].font = bold
+qs["B14"], qs["C14"] = "Hot  70–100", "Book the meeting now; proposal straight after."
+qs["B15"], qs["C15"] = "Warm  40–69", "Keep the follow-up rhythm going; send a relevant result."
+qs["B16"], qs["C16"] = "Cold  under 40", "Low priority. Usama decides whether to keep going."
+qs["B17"], qs["C17"] = "🚩 Red flags", "Budget under AED 5k, or nobody on camera. A warning to handle in the conversation – not a disqualification."
+for k in range(14, 18):
+    qs[f"B{k}"].font, qs[f"C{k}"].font = bold, body
+    qs[f"C{k}"].alignment = Alignment(wrap_text=True)
+qs["B14"].fill, qs["B15"].fill, qs["B16"].fill, qs["B17"].fill = fill(ORANGE), fill("FFE3B3"), fill("DCE7F2"), fill("FAD4D4")
+qs["B19"] = "Points and the Hot/Warm cut-offs live on the Settings tab (blue numbers) – change them there and every score updates."
+qs["B19"].font = Font(name=F, size=9, italic=True, color="6B665F")
 
 # ---------------------------------------------------------------- Automations
 au = wb.create_sheet("Automations")
@@ -690,6 +848,7 @@ lines = [
     ("kv", ("Outbound", "Leads we went after: Apollo, LinkedIn, Google Maps.  Owner: Usama")),
     ("kv", ("Clients", "Everyone who signed + paid: free video, decision window, refunds, active plan.  Owner: Lianna")),
     ("kv", ("Shoots", "Every shoot – free videos and plan shoots.  Owner: Azeem")),
+    ("kv", ("Qualify", "The 6 questions Usama asks on the first call, what to listen for, and what the score means.")),
     ("kv", ("Automations", "What connects to what (Make.com, Calendly, Apollo, Calendar). The setup checklist.")),
     ("gap", None),
     ("h", "THE PIPELINE"),
@@ -705,6 +864,8 @@ lines = [
     ("kv", ("Silence after delivery", "Plan goes ahead – they have signed and paid.")),
     ("kv", ("Ghosting (before contract)", "4 follow-ups, 3 days apart, each adding new value. Then stop outreach → Closed – No response.")),
     ("kv", ("Repeat refunds", "A business that was refunded before is flagged ⚠ – no second free video.")),
+    ("kv", ("Lead score", "6 questions + industry = score out of 100. Hot 70+, Warm 40–69, Cold under 40. Score every lead before a proposal.")),
+    ("kv", ("Red flags", "🚩 Budget under AED 5k, 🚩 nobody on camera. Warnings only – the lead is NOT disqualified.")),
     ("kv", ("Decision window", "NOT DECIDED YET – set to 3 working days as a placeholder (Settings tab, yellow cell).")),
     ("gap", None),
     ("h", "EACH PERSON'S DAY"),
@@ -751,7 +912,8 @@ for row in sh0.iter_rows(min_col=2, max_col=2):
 for ws, colr in ((sh0, ORANGE), (db, INK), (inb, "2E7D32"), (outb, "1565C0"), (cl, "6A1B9A"),
                  (sh, "EF6C00"), (au, "757575"), (st, "9E9E9E")):
     ws.sheet_properties.tabColor = colr
-wb._sheets = [sh0, db, inb, outb, cl, sh, au, st]
+qs.sheet_properties.tabColor = "C62828"
+wb._sheets = [sh0, db, inb, outb, cl, sh, qs, au, st]
 wb.active = 0
 wb.save(OUT)
 print("saved", OUT)
