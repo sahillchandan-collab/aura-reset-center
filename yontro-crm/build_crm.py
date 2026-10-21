@@ -123,6 +123,25 @@ st["AC1"] = "Core industries"
 for i, ind in enumerate(["Hospitality / F&B", "Retail", "Real estate", "Entertainment", "Fitness / wellness"], start=2):
     st[f"AC{i}"] = ind
 CORE = "Settings!$AC$2:$AC$6"
+for col, title, items in (("AE", "Call types", ["Discovery meeting", "Follow-up call", "Closing call", "WhatsApp / chat"]),
+                          ("AF", "Call outcomes", ["Signed on the call", "Proposal sent", "Follow-up booked",
+                                                   "Needs to think", "Not interested"])):
+    st[f"{col}1"] = title
+    for i, v in enumerate(items, start=2):
+        st[f"{col}{i}"] = v
+    rng[title] = f"Settings!${col}$2:${col}${len(items)+1}"
+    st.column_dimensions[col].width = 20
+
+# Call Scoresheet layout (fixed letters - the lead tabs read from it)
+SC_COLS = ([("Call ID", "input"), ("Call date", "input"), ("Lead ID", "input"), ("Business name", "calc"),
+            ("Industry", "calc"), ("Rep", "input"), ("Call type", "input")]
+           + [(q, "input") for q, _ in QUAL]
+           + [("Questions answered", "calc"), ("Lead score", "calc"), ("Rating", "calc"), ("Red flags", "calc"),
+              ("Recommended next step", "calc"), ("Call outcome", "input"), ("Objections / notes", "input"),
+              ("Latest call for this lead", "calc")])
+SCL = {h: get_column_letter(i) for i, (h, _) in enumerate(SC_COLS, start=1)}
+def SCR(h):
+    return f"Scoresheet!${SCL[h]}$2:${SCL[h]}${LAST}"
 for c in st[1]:
     if c.value:
         c.font, c.fill = hdr_font, hdr_fill
@@ -236,7 +255,6 @@ def lead_tab(name, inbound):
                  ("Response time (hrs)", "calc")]
     else:
         cols += [("Apollo list / campaign", "input")]
-    cols += [(q, "input") for q, _ in QUAL]
     cols += [("Lead score", "calc"), ("Rating", "calc"), ("Red flags", "calc")]
     cols += [("Owner", "input"), ("Stage", "input"), ("Last contact date", "input"),
              ("Follow-ups sent (0-4)", "input"), ("Next follow-up due", "calc"),
@@ -246,7 +264,7 @@ def lead_tab(name, inbound):
     widths = {"Business name": 24, "Email": 24, "Notes": 34, "Action flag": 30, "Stage": 22,
               "Apollo list / campaign": 22, "Lost / closed reason": 22, "Wants more of": 20,
               "Lead ID": 10, "Industry": 18, "Source": 15, "Red flags": 30, "Rating": 18,
-              "Lead score": 9, **{q: 13 for q, _ in QUAL}}
+              "Lead score": 9}
     L = build_table(ws, cols, widths)
     d0 = "Date received" if inbound else "Date added"
     fmts = {d0: "ddd dd-mmm-yy", "Last contact date": "ddd dd-mmm-yy",
@@ -268,24 +286,24 @@ def lead_tab(name, inbound):
         refunded = (f'OR(COUNTIFS(Clients!$C$2:$C${LAST},{b},Clients!$S$2:$S${LAST},"Paid")>0,'
                     f'AND({ph}<>"",COUNTIFS(Clients!$E$2:$E${LAST},{ph},Clients!$S$2:$S${LAST},"Paid")>0))')
         nxt = f"{L['Next follow-up due']}{r}"
-        qa = [f"{L[q]}{r}" for q, _ in QUAL]
-        answered = f"COUNTA({qa[0]}:{qa[-1]})"
-        ind = f"{L['Industry']}{r}"
-        pts = "+".join(f'SUMIFS({QA},{QY},"{q}",{QZ},{c})' for (q, _), c in zip(QUAL, qa))
-        fit = f'IF({ind}="",0,IF(COUNTIF({CORE},{ind})>0,{FIT_CORE},{FIT_OTHER}))'
+        lid = f"{L['Lead ID']}{r}"
+        latest = f'{SCR("Lead ID")},{lid},{SCR("Latest call for this lead")},1'
+        has = f"COUNTIFS({latest})"
+        answered = f'SUMIFS({SCR("Questions answered")},{latest})'
         sc = f"{L['Lead score']}{r}"
-        ws[sc] = f'=IF(OR({b}="",{answered}=0),"",{pts}+{fit})'
+        ws[sc] = f'=IF(OR({b}="",{lid}="",{has}=0),"",SUMIFS({SCR("Lead score")},{latest}))'
         ws[f"{L['Rating']}{r}"] = (
-            f'=IF({b}="","",IF({answered}=0,"Not scored",IF({answered}<{len(QUAL)},'
+            f'=IF({b}="","",IF(OR({lid}="",{has}=0),"No scoresheet yet",IF({answered}<{len(QUAL)},'
             f'"Partly scored ("&{answered}&"/{len(QUAL)})",IF({sc}>={HOT},"Hot",IF({sc}>={WARM},"Warm","Cold")))))')
-        bud, cam = f"{L['Budget AED 5k+/mo?']}{r}", f"{L['Someone on camera?']}{r}"
+        bud = f'COUNTIFS({latest},{SCR("Budget AED 5k+/mo?")},"No")>0'
+        cam = f'COUNTIFS({latest},{SCR("Someone on camera?")},"No")>0'
         ws[f"{L['Red flags']}{r}"] = (
-            f'=IF({b}="","",IF(AND({bud}="No",{cam}="No"),"🚩 Budget  ·  🚩 No one on camera",'
-            f'IF({bud}="No","🚩 Budget under AED 5k",IF({cam}="No","🚩 No one on camera",""))))')
+            f'=IF(OR({b}="",{lid}=""),"",IF(AND({bud},{cam}),"🚩 Budget  ·  🚩 No one on camera",'
+            f'IF({bud},"🚩 Budget under AED 5k",IF({cam},"🚩 No one on camera",""))))')
         ws[f"{L['Action flag']}{r}"] = (
             f'=IF({b}="","",IF({refunded},"⚠ Refunded before – no free video",'
             f'IF({closed},"",IF({stg}="","Set a stage",'
-            f'IF(AND({stg}="Proposal sent",{answered}<{len(QUAL)}),"Score this lead – proposal sent unscored",'
+            f'IF(AND({stg}="Proposal sent",{answered}<{len(QUAL)}),"Score this lead – fill the call scoresheet",'
             f'IF(N({fu})>={MAXF},"Close – 4 follow-ups sent",'
             f'IF({nxt}="",IF({last}="","Make first contact",""),'
             f'IF(TODAY()>{nxt},"OVERDUE follow-up",IF(TODAY()={nxt},"Follow up today",""))))))))')
@@ -304,8 +322,6 @@ def lead_tab(name, inbound):
     if inbound:
         dv(ws, L["Wants more of"], rng["Wants more of"])
     int_dv(ws, L["Follow-ups sent (0-4)"], 0, 4)
-    for q, _ in QUAL:
-        dv(ws, L[q], qrng[q])
     for h in (d0, "Last contact date", "Meeting date") + (("First response date",) if inbound else ()):
         date_dv(ws, L[h])
     time_dv(ws, L["Meeting time"], TIME_WORK)
@@ -330,7 +346,7 @@ def lead_tab(name, inbound):
     cf(ws, rr, f'{rt}2="Hot"', "FF5A1F", "FFFFFF", True)
     cf(ws, rr, f'{rt}2="Warm"', "FFE3B3", "7A4B00", True)
     cf(ws, rr, f'{rt}2="Cold"', "DCE7F2", "1F3A5F", True)
-    cf(ws, rr, f'OR({rt}2="Not scored",LEFT({rt}2,6)="Partly")', None, "9A958E")
+    cf(ws, rr, f'OR({rt}2="No scoresheet yet",LEFT({rt}2,6)="Partly")', None, "9A958E")
     rf = L["Red flags"]
     cf(ws, f"{rf}2:{rf}{LAST}", f'{rf}2<>""', "FAD4D4", "9B1C1C", True)
 
@@ -347,9 +363,7 @@ def lead_tab(name, inbound):
                    "Owner": "Usama", "Stage": "Proposal sent", "Last contact date": dt.date(2026, 10, 17),
                    "Follow-ups sent (0-4)": 1, "Meeting date": dt.date(2026, 10, 16),
                    "Meeting time": dt.time(15, 0),
-                   "Package discussed": "Growth", "Notes": "Example row – overwrite or delete.",
-                   "Budget AED 5k+/mo?": "Yes", "Decision-maker?": "Yes", "Someone on camera?": "Yes",
-                   "OK with 3-month term?": "Yes", "Start timeline": "This month", "Social media gap": "Big gap"})
+                   "Package discussed": "Growth", "Notes": "Example row – overwrite or delete."})
     else:
         ex.update({"Lead ID": "OUT-0001", d0: dt.date(2026, 10, 13), "Source": "Apollo",
                    "Business name": "Marina Bites Café (EXAMPLE)", "Industry": "Hospitality / F&B",
@@ -357,9 +371,7 @@ def lead_tab(name, inbound):
                    "Email": "omar@example.com", "Instagram": "@marinabites", "LinkedIn": "linkedin.com/in/example",
                    "Area": "Dubai Marina", "Apollo list / campaign": "F&B – Marina – Oct 26", "Owner": "Usama",
                    "Stage": "Replied", "Last contact date": dt.date(2026, 10, 16), "Follow-ups sent (0-4)": 0,
-                   "Package discussed": "Launch", "Notes": "Example row – overwrite or delete.",
-                   "Budget AED 5k+/mo?": "Maybe", "Decision-maker?": "Influencer", "Someone on camera?": "No",
-                   "OK with 3-month term?": "Unsure", "Start timeline": "1–3 months", "Social media gap": "Some"})
+                   "Package discussed": "Launch", "Notes": "Example row – overwrite or delete."})
     for h, v in ex.items():
         if v is not None and dict(cols)[h] == "input":
             ws[f"{L[h]}2"] = v
@@ -369,6 +381,79 @@ def lead_tab(name, inbound):
 
 inb, LI = lead_tab("Inbound", True)
 outb, LO = lead_tab("Outbound", False)
+assert LI["Lead ID"] == LO["Lead ID"] == "A"
+
+# ---------------------------------------------------------------- Call Scoresheet
+ss = wb.create_sheet("Scoresheet")
+LSS = build_table(ss, SC_COLS, {"Business name": 24, "Industry": 16, "Recommended next step": 40, "Red flags": 30,
+                                "Objections / notes": 36, "Call ID": 10, "Rating": 18, "Lead score": 9,
+                                "Questions answered": 10, "Latest call for this lead": 10, "Call outcome": 18,
+                                **{q: 13 for q, _ in QUAL}})
+assert LSS == SCL
+ss.freeze_panes = "E2"
+style_rows(ss, SC_COLS, LSS, {"Call date": "ddd dd-mmm-yy"})
+Q1, Q6 = LSS[QUAL[0][0]], LSS[QUAL[-1][0]]
+for r in range(2, LAST + 1):
+    g = lambda h: f"{LSS[h]}{r}"
+    lid = g("Lead ID")
+    look = lambda h: (f'IFERROR(INDEX(Inbound!${LI[h]}$2:${LI[h]}${LAST},MATCH({lid},Inbound!$A$2:$A${LAST},0)),'
+                      f'IFERROR(INDEX(Outbound!${LO[h]}$2:${LO[h]}${LAST},MATCH({lid},Outbound!$A$2:$A${LAST},0)),'
+                      f'"Lead ID not found"))')
+    ss[g("Business name")] = f'=IF({lid}="","",{look("Business name")})'
+    ss[g("Industry")] = f'=IF({lid}="","",{look("Industry")})'
+    ss[g("Questions answered")] = f'=IF({lid}="","",COUNTA({Q1}{r}:{Q6}{r}))'
+    ind, n = g("Industry"), g("Questions answered")
+    pts = "+".join(f'SUMIFS({QA},{QY},"{q}",{QZ},{LSS[q]}{r})' for q, _ in QUAL)
+    fit = (f'IF(OR({ind}="",{ind}="Lead ID not found"),0,'
+           f'IF(COUNTIF({CORE},{ind})>0,{FIT_CORE},{FIT_OTHER}))')
+    sc = g("Lead score")
+    ss[sc] = f'=IF(OR({lid}="",N({n})=0),"",{pts}+{fit})'
+    rt = g("Rating")
+    ss[rt] = (f'=IF({lid}="","",IF(N({n})<{len(QUAL)},"Partly scored ("&{n}&"/{len(QUAL)})",'
+              f'IF({sc}>={HOT},"Hot",IF({sc}>={WARM},"Warm","Cold"))))')
+    bud, cam = g("Budget AED 5k+/mo?"), g("Someone on camera?")
+    rf = g("Red flags")
+    ss[rf] = (f'=IF({lid}="","",IF(AND({bud}="No",{cam}="No"),"🚩 Budget  ·  🚩 No one on camera",'
+              f'IF({bud}="No","🚩 Budget under AED 5k",IF({cam}="No","🚩 No one on camera",""))))')
+    ss[g("Recommended next step")] = (
+        f'=IF({lid}="","",IF(N({n})<{len(QUAL)},"Finish the scoresheet before closing",'
+        f'IF({rt}="Hot","Close now – send the contract / proposal today",'
+        f'IF({rt}="Warm","Send proposal + a relevant result; follow up in 3 days",'
+        f'"Rep\'s call – nurture or close politely")))&IF({rf}<>""," (handle the 🚩 first)",""))')
+    later = "1" if r == LAST else f'IF(COUNTIF({LSS["Lead ID"]}{r+1}:{LSS["Lead ID"]}${LAST},{lid})=0,1,0)'
+    ss[g("Latest call for this lead")] = f'=IF({lid}="","",{later})'
+date_dv(ss, LSS["Call date"])
+dv(ss, LSS["Rep"], rng["Team"])
+dv(ss, LSS["Call type"], rng["Call types"])
+dv(ss, LSS["Call outcome"], rng["Call outcomes"])
+for q, _ in QUAL:
+    dv(ss, LSS[q], qrng[q])
+rr = f"{LSS['Rating']}2:{LSS['Rating']}{LAST}"
+R0 = LSS["Rating"]
+cf(ss, rr, f'{R0}2="Hot"', "FF5A1F", "FFFFFF", True)
+cf(ss, rr, f'{R0}2="Warm"', "FFE3B3", "7A4B00", True)
+cf(ss, rr, f'{R0}2="Cold"', "DCE7F2", "1F3A5F", True)
+cf(ss, rr, f'LEFT({R0}2,6)="Partly"', None, "9A958E")
+RF0 = LSS["Red flags"]
+cf(ss, f"{RF0}2:{RF0}{LAST}", f'{RF0}2<>""', "FAD4D4", "9B1C1C", True)
+NS = LSS["Recommended next step"]
+cf(ss, f"{NS}2:{NS}{LAST}", f'LEFT({NS}2,9)="Close now"', "DFF3E3", "1E6B3A", True)
+BN = LSS["Business name"]
+cf(ss, f"{BN}2:{BN}{LAST}", f'{BN}2="Lead ID not found"', "FAD4D4", "9B1C1C", True)
+for r, ex in ((2, {"Call ID": "SC-0001", "Call date": dt.date(2026, 10, 16), "Lead ID": "IN-0001", "Rep": "Usama",
+                   "Call type": "Discovery meeting", "Budget AED 5k+/mo?": "Yes", "Decision-maker?": "Yes",
+                   "Someone on camera?": "Yes", "OK with 3-month term?": "Yes", "Start timeline": "This month",
+                   "Social media gap": "Big gap", "Call outcome": "Proposal sent",
+                   "Objections / notes": "Example row – wants to start with the 6am class reels."}),
+              (3, {"Call ID": "SC-0002", "Call date": dt.date(2026, 10, 17), "Lead ID": "OUT-0001", "Rep": "Usama",
+                   "Call type": "Discovery meeting", "Budget AED 5k+/mo?": "Maybe", "Decision-maker?": "Influencer",
+                   "Someone on camera?": "No", "OK with 3-month term?": "Unsure", "Start timeline": "1–3 months",
+                   "Social media gap": "Some", "Call outcome": "Follow-up booked",
+                   "Objections / notes": "Example row – owner must approve; chef is camera-shy."})):
+    for h, v in ex.items():
+        ss[f"{LSS[h]}{r}"] = v
+    for h, _ in SC_COLS:
+        ss[f"{LSS[h]}{r}"].font = Font(name=F, size=10, italic=True, color="6B665F")
 
 # ---------------------------------------------------------------- Clients
 cl = wb.create_sheet("Clients")
@@ -656,8 +741,8 @@ split_rows(47, [
     ("Hot (70+)", f'={open_cnt(IR, IS, "Hot")}', f'={open_cnt(OR_, OS, "Hot")}'),
     ("Warm (40–69)", f'={open_cnt(IR, IS, "Warm")}', f'={open_cnt(OR_, OS, "Warm")}'),
     ("Cold (under 40)", f'={open_cnt(IR, IS, "Cold")}', f'={open_cnt(OR_, OS, "Cold")}'),
-    ("Not scored or partly scored", f'={open_cnt(IR, IS, "Not scored")}+{open_cnt(IR, IS, "Partly*")}',
-     f'={open_cnt(OR_, OS, "Not scored")}+{open_cnt(OR_, OS, "Partly*")}'),
+    ("No scoresheet yet, or partly scored", f'={open_cnt(IR, IS, "No scoresheet yet")}+{open_cnt(IR, IS, "Partly*")}',
+     f'={open_cnt(OR_, OS, "No scoresheet yet")}+{open_cnt(OR_, OS, "Partly*")}'),
     ("With a 🚩 red flag", f'={open_cnt(IRF, IS, "🚩*")}', f'={open_cnt(ORF, OS, "🚩*")}'),
 ], orange=("Hot (70+)",))
 db["B53"] = "Win rate by rating (all time)"
@@ -724,21 +809,22 @@ for j, (s, kind) in enumerate(srcs):
         db[f"{c}{r}"].border = box
 
 # ---------------------------------------------------------------- Qualify script
-qs = wb.create_sheet("Qualify")
+qs = wb.create_sheet("Scoresheet Guide")
 qs.sheet_view.showGridLines = False
 qs.column_dimensions["A"].width = 3
 qs.column_dimensions["B"].width = 24
 qs.column_dimensions["C"].width = 62
 qs.column_dimensions["D"].width = 44
-qs["B1"] = "QUALIFYING A LEAD – first call or chat (about 5 minutes)"
+qs["B1"] = "END-OF-CALL SCORESHEET – fill it in before you close"
 qs["B1"].font = Font(name=F, size=16, bold=True, color=INK)
-qs["B2"] = ("Ask naturally, not like a form. Fill the six dropdowns on the lead's row; the score, rating and "
-            "red flags work themselves out. Red flags are warnings, not a 'no' – the lead stays open.")
+qs["B2"] = ("Cover these points naturally during the sales meeting. At the end of the call, before you close, add a row "
+            "on the Scoresheet tab: Lead ID + the six dropdowns. Score, rating, red flags and the recommended next step "
+            "work themselves out, and the lead's row on Inbound/Outbound updates. Red flags are warnings, not a 'no'.")
 qs["B2"].font = Font(name=F, size=10, italic=True, color="6B665F")
 qs["B2"].alignment = Alignment(wrap_text=True)
 qs.merge_cells("B2:D2")
-qs.row_dimensions[2].height = 30
-for j, h in enumerate(("Column", "What to ask", "Listen for"), start=2):
+qs.row_dimensions[2].height = 44
+for j, h in enumerate(("Scoresheet column", "Cover it during the call", "How to score it"), start=2):
     c = qs.cell(row=4, column=j, value=h)
     c.font, c.fill = hdr_font, hdr_fill
 script = [
@@ -752,9 +838,9 @@ script = [
      "Yes / Unsure / No."),
     ("Start timeline", "“If this felt right, when would you want the first shoot?”",
      "This month / 1–3 months / Later."),
-    ("Social media gap", "Look at their Instagram before the call: faces on camera? posting in the last 2 weeks? a clear offer in the bio?",
+    ("Social media gap", "Review their Instagram before the call and walk them through it: faces on camera? posting in the last 2 weeks? a clear offer in the bio?",
      "Big gap = 2–3 missing. Some = 1 missing. Already strong = none."),
-    ("Industry fit", "Nothing to ask – it scores itself from the Industry column.",
+    ("Industry fit", "Nothing to ask – it scores itself from the lead's Industry.",
      "Core: hospitality, retail, real estate, entertainment, fitness."),
 ]
 for i, (col, ask, hear) in enumerate(script, start=5):
@@ -766,15 +852,16 @@ for i, (col, ask, hear) in enumerate(script, start=5):
     qs.row_dimensions[i].height = 46
 qs["B13"] = "Score bands"
 qs["B13"].font = bold
-qs["B14"], qs["C14"] = "Hot  70–100", "Book the meeting now; proposal straight after."
-qs["B15"], qs["C15"] = "Warm  40–69", "Keep the follow-up rhythm going; send a relevant result."
-qs["B16"], qs["C16"] = "Cold  under 40", "Low priority. Usama decides whether to keep going."
+qs["B14"], qs["C14"] = "Hot  70–100", "Close now – send the contract / proposal today."
+qs["B15"], qs["C15"] = "Warm  40–69", "Send the proposal with a relevant result; follow up in 3 days."
+qs["B16"], qs["C16"] = "Cold  under 40", "Rep's call – nurture or close politely."
 qs["B17"], qs["C17"] = "🚩 Red flags", "Budget under AED 5k, or nobody on camera. A warning to handle in the conversation – not a disqualification."
 for k in range(14, 18):
     qs[f"B{k}"].font, qs[f"C{k}"].font = bold, body
     qs[f"C{k}"].alignment = Alignment(wrap_text=True)
 qs["B14"].fill, qs["B15"].fill, qs["B16"].fill, qs["B17"].fill = fill(ORANGE), fill("FFE3B3"), fill("DCE7F2"), fill("FAD4D4")
-qs["B19"] = "Points and the Hot/Warm cut-offs live on the Settings tab (blue numbers) – change them there and every score updates."
+qs["B19"] = ("Points and the Hot/Warm cut-offs live on the Settings tab (blue numbers). More than one call with a lead? "
+            "Add a new row each time – the lead's row always shows the latest scoresheet.")
 qs["B19"].font = Font(name=F, size=9, italic=True, color="6B665F")
 
 # ---------------------------------------------------------------- Automations
@@ -848,7 +935,8 @@ lines = [
     ("kv", ("Outbound", "Leads we went after: Apollo, LinkedIn, Google Maps.  Owner: Usama")),
     ("kv", ("Clients", "Everyone who signed + paid: free video, decision window, refunds, active plan.  Owner: Lianna")),
     ("kv", ("Shoots", "Every shoot – free videos and plan shoots.  Owner: Azeem")),
-    ("kv", ("Qualify", "The 6 questions Usama asks on the first call, what to listen for, and what the score means.")),
+    ("kv", ("Scoresheet", "One row per sales call, filled in at the END of the call before closing. Scores the lead.  Owner: Usama")),
+    ("kv", ("Scoresheet Guide", "What to cover during the call, how to score each answer, and what to do with Hot / Warm / Cold.")),
     ("kv", ("Automations", "What connects to what (Make.com, Calendly, Apollo, Calendar). The setup checklist.")),
     ("gap", None),
     ("h", "THE PIPELINE"),
@@ -864,12 +952,12 @@ lines = [
     ("kv", ("Silence after delivery", "Plan goes ahead – they have signed and paid.")),
     ("kv", ("Ghosting (before contract)", "4 follow-ups, 3 days apart, each adding new value. Then stop outreach → Closed – No response.")),
     ("kv", ("Repeat refunds", "A business that was refunded before is flagged ⚠ – no second free video.")),
-    ("kv", ("Lead score", "6 questions + industry = score out of 100. Hot 70+, Warm 40–69, Cold under 40. Score every lead before a proposal.")),
+    ("kv", ("Lead score", "End-of-call scoresheet: 6 answers + industry = score out of 100. Hot 70+, Warm 40–69, Cold under 40. Fill it before closing / sending a proposal.")),
     ("kv", ("Red flags", "🚩 Budget under AED 5k, 🚩 nobody on camera. Warnings only – the lead is NOT disqualified.")),
     ("kv", ("Decision window", "NOT DECIDED YET – set to 3 working days as a placeholder (Settings tab, yellow cell).")),
     ("gap", None),
     ("h", "EACH PERSON'S DAY"),
-    ("kv", ("Usama", "Inbound + Outbound: filter Owner = Usama and Action flag. Clear OVERDUE first, then 'Follow up today'. Reply to new inbound within 1 hour.")),
+    ("kv", ("Usama", "Inbound + Outbound: filter Owner = Usama and Action flag. Clear OVERDUE first, then 'Follow up today'. Reply to new inbound within 1 hour. After every sales call, add a Scoresheet row before closing.")),
     ("kv", ("Azeem", "Shoots: filter Videographer = Azeem. Update Status and Delivered date the day it happens.")),
     ("kv", ("Lianna", "Clients: work every 'Decision pending' row; onboard new signings; log refunds with a reason.")),
     ("kv", ("Owner", "Dashboard once a week.")),
@@ -913,7 +1001,8 @@ for ws, colr in ((sh0, ORANGE), (db, INK), (inb, "2E7D32"), (outb, "1565C0"), (c
                  (sh, "EF6C00"), (au, "757575"), (st, "9E9E9E")):
     ws.sheet_properties.tabColor = colr
 qs.sheet_properties.tabColor = "C62828"
-wb._sheets = [sh0, db, inb, outb, cl, sh, qs, au, st]
+ss.sheet_properties.tabColor = "C62828"
+wb._sheets = [sh0, db, inb, outb, ss, cl, sh, qs, au, st]
 wb.active = 0
 wb.save(OUT)
 print("saved", OUT)
