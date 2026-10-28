@@ -1,28 +1,31 @@
 # The Aura Reset Center — document pack
 
-Pre-licence documents for The Aura Reset Center, Dubai. All are **Version 0.1 drafts** built from the company website.
-Prices are deliberately left as `AED [___]` until final pricing is set. Anything in [square brackets] (shown in bronze in the
-Word/PDF files) is a blank to fill in — trade license number, TRN, phone, email, etc.
+Pre-licence documents for The Aura Reset Center, Dubai, built from the company website and the General
+Manager's operating decisions (see `BRIEF.md`). All are drafts. Prices are deliberately left as `AED [___]`
+until final pricing is set. Anything in [square brackets] (shown in bronze in the Word/PDF files) is a blank to
+fill in — trade license number, TRN, phone, email, Elevé settings, etc.
 
 ## Where the files are
 
 - `output/word/` — editable Word files with the Aura letterhead (logo header, address and legal footer, page numbers)
 - `output/pdf/` — the same documents as PDF
-- `output/stationery/` — letterhead template (Word + PDF), business cards for all three leaders (90 × 55 mm, print-ready),
-  compliment slip, DL envelope and email signatures
+- `output/stationery/` — letterhead template (Word + PDF), business cards for all three leaders (90 × 55 mm,
+  print-ready), compliment slip, DL envelope and email signatures
 - `content/` — the Markdown source of every document; edit here and rebuild
-- `brand/` — logo PNGs (light and dark) and the brand fonts (Marcellus, Jost, Caveat — install these on any computer that edits the Word files)
+- `brand/` — logo PNGs (light and dark) and the brand fonts (Marcellus, Jost, Caveat — install these on any
+  computer that edits the Word files)
 
 ## Rebuilding
 
 ```
 python3 build_documents.py      # all documents → Word + PDF
 python3 build_stationery.py     # stationery
+python3 make_index.py           # this README
 ```
 
 ## Still to come
 
-- Operations SOPs and the 11 treatment SOPs — waiting on answers to the SOP questions.
+- Elevé operating instructions — machine settings in the treatment SOPs are marked "[per Elevé protocol — pending]".
 - Legal documents (employment contracts, shareholder agreement, supplier contracts) — after the trade license is issued.
 
 ## Contents
@@ -96,6 +99,37 @@ python3 build_stationery.py     # stationery
 | AUR-HR-06 | [Performance Appraisal Form](output/pdf/06-hr-templates/06-performance-appraisal-form.pdf) |
 | AUR-HR-07 | [Staff Request Forms](output/pdf/06-hr-templates/07-staff-request-forms.pdf) |
 | AUR-HR-08 | [Staff Rota & Attendance Templates](output/pdf/06-hr-templates/08-staff-rota-and-attendance.pdf) |
+
+### Operations SOPs
+
+| No. | Document |
+|---|---|
+| AUR-SOP-01 | [Opening, Closing & Shift Handover Checklists](output/pdf/07-operations-sops/01-opening-and-closing-checklists.pdf) |
+| AUR-SOP-02 | [Guest Journey & Front-Desk SOP](output/pdf/07-operations-sops/02-guest-journey-and-front-desk-sop.pdf) |
+| AUR-SOP-03 | [Lead Response, WhatsApp & Online Booking SOP](output/pdf/07-operations-sops/03-lead-response-whatsapp-and-online-booking-sop.pdf) |
+| AUR-SOP-04 | [Healer Consultation & Package Design SOP](output/pdf/07-operations-sops/04-healer-consultation-and-package-design-sop.pdf) |
+| AUR-SOP-05 | [Laundry & Guest Amenities SOP](output/pdf/07-operations-sops/05-laundry-and-guest-amenities-sop.pdf) |
+| AUR-SOP-06 | [Refreshments SOP](output/pdf/07-operations-sops/06-refreshments-sop.pdf) |
+| AUR-SOP-07 | [Retail Sales & Stock SOP](output/pdf/07-operations-sops/07-retail-sales-and-stock-sop.pdf) |
+| AUR-SOP-08 | [Payments, Cash Handling & Daily Reconciliation](output/pdf/07-operations-sops/08-payments-cash-handling-and-daily-reconciliation.pdf) |
+| AUR-SOP-09 | [Equipment Care, Maintenance & Fault Log](output/pdf/07-operations-sops/09-equipment-care-maintenance-and-fault-log.pdf) |
+| AUR-SOP-10 | [Staffing, Shifts & Escalation SOP](output/pdf/07-operations-sops/10-staffing-shifts-and-escalation-sop.pdf) |
+
+### Treatment SOPs
+
+| No. | Document |
+|---|---|
+| AUR-TRT-01 | [Whole-Body Cryotherapy SOP](output/pdf/08-treatment-sops/01-whole-body-cryotherapy-sop.pdf) |
+| AUR-TRT-02 | [Red-Light Bed SOP](output/pdf/08-treatment-sops/02-red-light-bed-sop.pdf) |
+| AUR-TRT-03 | [Infrared Sauna SOP](output/pdf/08-treatment-sops/03-infrared-sauna-sop.pdf) |
+| AUR-TRT-04 | [Hyperbaric Oxygen SOP](output/pdf/08-treatment-sops/04-hyperbaric-oxygen-sop.pdf) |
+| AUR-TRT-05 | [Compression Recovery SOP](output/pdf/08-treatment-sops/05-compression-recovery-sop.pdf) |
+| AUR-TRT-06 | [Dry Float Bed (Elevé) — Treatment SOP](output/pdf/08-treatment-sops/06-dry-float-bed-sop.pdf) |
+| AUR-TRT-07 | [Salt Cabin (Elevé E-Salt Cabin) — Treatment SOP](output/pdf/08-treatment-sops/07-salt-cabin-sop.pdf) |
+| AUR-TRT-08 | [Cold Plunge (Elevé · Polar Recovery) — Treatment SOP](output/pdf/08-treatment-sops/08-cold-plunge-sop.pdf) |
+| AUR-TRT-09 | [Guided Breathwork Sessions — Treatment SOP](output/pdf/08-treatment-sops/09-guided-breathwork-sop.pdf) |
+| AUR-TRT-10 | [Sound Healing Sessions — Treatment SOP](output/pdf/08-treatment-sops/10-sound-healing-sop.pdf) |
+| AUR-TRT-11 | [Combination Sessions & Suggested Sequences — SOP](output/pdf/08-treatment-sops/11-combination-sessions-suggested-sequences.pdf) |
 
 ### Marketing, website & finance
 

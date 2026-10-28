@@ -30,14 +30,14 @@ The Elevé E-Salt Cabin is our flagship Reset session. In one sealed cabin it co
 
 ## 4. Contraindications summary
 
-Screen every guest with AUR-FRM-03, section 9, and the universal checks.
+Screen every guest with AUR-FRM-03, section 7, and the universal checks.
 
 - Do not proceed: active tuberculosis; acute respiratory infection with fever; severe uncontrolled asthma or COPD; open wounds or bleeding.
 - Medical clearance needed: asthma; COPD; high blood pressure; heart conditions; pregnancy; cancer; claustrophobia.
 - Check separately: photosensitivity or photosensitising medication (red light); essential-oil allergy or fragrance sensitivity (aromatherapy).
 - A guest who uses an inhaler carries it into the cabin.
 
-> AUR-FRM-03 still refers to a Clinical Lead. At launch, refer questions to the Senior Host on shift, then the General Manager, who may consult the [Medical Director named on the licence].
+> Refer screening questions to the Senior Host on shift, then the General Manager, who may consult the [Medical Director named on the licence].
 
 ## 5. Room and device preparation checklist
 

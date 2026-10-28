@@ -15,7 +15,7 @@ This SOP sets out how a Host delivers a Hyperbaric Oxygen session (Heal pillar, 
 - Only a Host trained and signed off by Elevé Health as a hyperbaric operator [training pending].
 - **The Host remains with the chamber, at the control panel, for the entire session**, from pressurisation to the guest stepping out. The Host does not leave for any other task.
 - With 2 Hosts per shift, the second Host covers everything else. Never run a session with only one Host on the floor, and never overlap it with Whole-Body Cryotherapy or Cold Plunge.
-- AUR-FRM-03 section 4 calls for clinician sign-off before each session. The launch requirement is [to be confirmed with DHA and the Medical Director named on the licence]. If it cannot be met, the session does not go ahead.
+- AUR-FRM-03 section 4 requires senior Host sign-off before each session. Whether clinician sign-off is also required is [to be confirmed with DHA and the Medical Director named on the licence]. If it cannot be met, the session does not go ahead.
 
 ## 3. Equipment & settings
 

@@ -1,6 +1,6 @@
 # Performance Appraisal Form
 
-> Document No. AUR-HR-06 · Version 0.1 (Draft) · Owner: General Manager · Effective: [Date]
+> Document No. AUR-HR-06 · Version 0.2 (Draft) · Owner: General Manager · Effective: [Date]
 
 Use this form for the **probation review** (before the end of the probation period, maximum 6 months) and the **annual review**. The conversation matters more than the form: hold it in a quiet room, start with the breathing ritual, and give the employee a copy of their completed self-assessment in advance. Records are confidential and held in the employee file under the PDPL (AUR-SAF-03).
 

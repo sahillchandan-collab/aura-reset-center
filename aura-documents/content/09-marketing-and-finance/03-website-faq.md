@@ -1,6 +1,6 @@
 # Website FAQ (Expanded)
 
-> Document No. AUR-MKT-03 · Version 0.1 (Draft) · Owner: General Manager · Effective: [Date]
+> Document No. AUR-MKT-03 · Version 0.2 (Draft) · Owner: General Manager · Effective: [Date]
 
 > Editorial note: the answers marked "Existing" reflect what is already on the website and keep their stance, updated where the General Manager's operating decisions (28 Oct 2026) override the website (opening hours, Healer consultation, Sound Healing, no IV or wet float at launch). New answers are drafts for review by the General Manager and, for health topics, the [Medical Director named on the licence]. Medical answers must stay in wellness language and must not make treatment claims.
 

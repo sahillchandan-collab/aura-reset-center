@@ -1,6 +1,6 @@
 # Guest House Rules & Studio Etiquette
 
-> Document No. AUR-CLI-06 · Version 0.1 (Draft) · Owner: General Manager · Effective: [Date]
+> Document No. AUR-CLI-06 · Version 0.2 (Draft) · Owner: General Manager · Effective: [Date]
 
 > Draft for internal use. To be reviewed by a UAE-qualified legal adviser once the trade license is issued.
 

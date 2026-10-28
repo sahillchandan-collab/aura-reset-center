@@ -1,6 +1,6 @@
 # Pre-Launch and Grand-Opening Plan
 
-> Document No. AUR-MKT-04 · Version 0.1 (Draft) · Owner: General Manager · Effective: [Date]
+> Document No. AUR-MKT-04 · Version 0.2 (Draft) · Owner: General Manager · Effective: [Date]
 
 ## 1. Purpose
 

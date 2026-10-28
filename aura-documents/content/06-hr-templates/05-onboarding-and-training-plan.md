@@ -1,6 +1,6 @@
 # Onboarding Checklist & Training Plan
 
-> Document No. AUR-HR-05 · Version 0.1 (Draft) · Owner: Lead Host / Operations Lead · Effective: [Date]
+> Document No. AUR-HR-05 · Version 0.2 (Draft) · Owner: Lead Host / Operations Lead · Effective: [Date]
 
 This plan takes every new team member from offer acceptance to confident, signed-off practice in 90 days. The rule is simple: **no one operates an Elevé unit, or hosts a guest alone, until the training matrix shows sign-off for that modality.** Training records are kept in the employee file and reviewed at the probation review (AUR-HR-06).
 

@@ -1,6 +1,6 @@
 # Guest Registration & Intake Form
 
-> Document No. AUR-FRM-01 · Version 0.1 (Draft) · Owner: General Manager · Effective: [Date]
+> Document No. AUR-FRM-01 · Version 0.2 (Draft) · Owner: General Manager · Effective: [Date]
 
 Welcome to The Aura Reset Center. This form helps your Host understand the state you arrive in, so every protocol can start with your nervous system. Please complete it before your first visit. It takes about five minutes.
 

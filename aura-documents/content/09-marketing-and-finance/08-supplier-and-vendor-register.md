@@ -1,6 +1,6 @@
 # Supplier and Vendor Register
 
-> Document No. AUR-FIN-08 · Version 0.1 (Draft) · Owner: General Manager · Effective: [Date]
+> Document No. AUR-FIN-08 · Version 0.2 (Draft) · Owner: General Manager · Effective: [Date]
 
 ## 1. Purpose
 
@@ -11,17 +11,19 @@ This register lists every supplier The Aura Reset Center relies on, so that we k
 | Ref | Category | Supplier / contact | Scope and key terms | Documents held | Review / renewal |
 |---|---|---|---|---|---|
 | SUP-01 | Elevé Health technology | Elevé Health · [Contact] | Sole supplier of all wellness units; installation, calibration to clinical spec, service schedule, host training, technical support, protocol updates | ☐ Partner agreement ☐ Service schedule ☐ Warranties | [Date] |
-| SUP-02 | Linen and laundry | [Supplier] · [Contact] | Robes, towels, sheets; collection frequency [___]; hygiene standard per Dubai Municipality | ☐ Trade licence ☐ Contract ☐ Hygiene certificate | [Date] |
-| SUP-03 | Epsom salt and float supplies | [Supplier] · [Contact] | Pharmaceutical-grade Epsom salt (500 kg tank fill and top-ups), filtration consumables, water-test kits, earplugs | ☐ Trade licence ☐ Product specifications ☐ Certificates of analysis | [Date] |
-| SUP-04 | Cleaning chemicals | [Supplier] · [Contact] | Disinfectants compatible with Elevé surfaces, cold plunge and float water treatment | ☐ Trade licence ☐ Safety data sheets ☐ Dubai Municipality approval | [Date] |
-| SUP-05 | Clinical supplies / IV (via Clinical Lead) | [Supplier] · [Contact] | IV fluids, nutrient formulas, cannulas, sharps disposal, clinical waste; ordered only by the Clinical Lead | ☐ Trade licence ☐ DHA / MOHAP product registration ☐ Medical waste contract | [Date] |
-| SUP-06 | Retail | [Supplier] · [Contact] | Retail products [to be confirmed] | ☐ Trade licence ☐ Product compliance | [Date] |
-| SUP-07 | IT / booking software | [Supplier] · [Contact] | Booking system, member management, website hosting; data processing terms | ☐ Contract ☐ Data processing agreement ☐ Security summary | [Date] |
-| SUP-08 | Payment provider | [Supplier] · [Contact] | Card terminals, online payments, recurring membership billing | ☐ Merchant agreement ☐ PCI compliance | [Date] |
-| SUP-09 | Insurance | [Broker / insurer] · [Contact] | Public liability, professional indemnity, medical malpractice (IV), property, equipment, employer's / health cover | ☐ Policies ☐ Schedules ☐ Certificates | [Date] |
+| SUP-02 | Laundry equipment and supplies | [Supplier] · [Contact] | In-house laundry machine(s), service and detergents for robes, towels and Aura clothing; hygiene standard per Dubai Municipality | ☐ Trade licence ☐ Warranty / service contract ☐ Safety data sheets | [Date] |
+| SUP-03 | Branded guest amenities | [Supplier] · [Contact] | Robes, Aura-branded towels, Aura-branded clothing to wear in the centre, hotel-style Aura-branded slippers; brand colours and logo lockup | ☐ Trade licence ☐ Product specifications ☐ Artwork approval | [Date] |
+| SUP-04 | Cleaning chemicals | [Supplier] · [Contact] | Disinfectants compatible with Elevé surfaces and cold plunge water treatment [per Elevé protocol — pending] | ☐ Trade licence ☐ Safety data sheets ☐ Dubai Municipality approval | [Date] |
+| SUP-05 | Guest refreshments | [Supplier] · [Contact] | Herbal teas, infused water and other refreshments [menu to confirm]; food-safety standard per Dubai Municipality | ☐ Trade licence ☐ Food safety certificate | [Date] |
+| SUP-06 | Retail | [Supplier(s)] · [Contact] | Copper mugs, fragrances made from organic materials, wellness pillows, linen-fabric merchandise | ☐ Trade licence ☐ Product compliance | [Date] |
+| SUP-07 | IT / booking software | [Supplier] · [Contact] | Booking system [to be chosen] with website and WhatsApp booking, member management, website hosting; data processing terms | ☐ Contract ☐ Data processing agreement ☐ Security summary | [Date] |
+| SUP-08 | Payment provider | [Supplier] · [Contact] | Card and Apple Pay terminals, online payments, recurring membership billing; Tabby (buy-now-pay-later) to be added later | ☐ Merchant agreement ☐ PCI compliance | [Date] |
+| SUP-09 | Insurance | [Broker / insurer] · [Contact] | Public liability, professional indemnity, medical malpractice [only if clinical services are added], property, equipment, employer's / health cover | ☐ Policies ☐ Schedules ☐ Certificates | [Date] |
 | SUP-10 | Fit-out contractor | [Contractor] · [Contact] | Fit-out of 332 Jumeirah First; defects liability period [___] | ☐ Contract ☐ Approvals ☐ As-built drawings ☐ Civil Defence completion | [Date] |
 | SUP-11 | Signage and printing | [Supplier] · [Contact] | Exterior signage (subject to permits), wayfinding, print collateral in brand colours and fonts | ☐ Trade licence ☐ Signage permit | [Date] |
-| SUP-12 | [Other] | [Supplier] · [Contact] | [Scope] | ☐ | [Date] |
+| SUP-12 | Advertising | Meta, Google [and agency, if used] · [Contact] | Paid ad campaigns (main source of new guests); lead forms; billing terms | ☐ Account terms ☐ Agency contract (if used) | [Date] |
+| SUP-13 | Sound healing instruments | [Supplier] · [Contact] | Instruments and mats for Sound Healing [to confirm] | ☐ Trade licence ☐ Warranty | [Date] |
+| SUP-14 | [Other] | [Supplier] · [Contact] | [Scope] | ☐ | [Date] |
 
 ### Supplier detail card (one per supplier)
 
@@ -66,9 +68,9 @@ Use for any purchase above the quote threshold in AUR-FIN-10. Elevé Health equi
 
 ## 4. Selection criteria
 
-1. **Legal and compliance:** valid UAE trade licence; TRN where VAT-registered; relevant approvals (Dubai Municipality for chemicals and hygiene, DHA or MOHAP for clinical products, Dubai Civil Defence for fire-related works).
+1. **Legal and compliance:** valid UAE trade licence; TRN where VAT-registered; relevant approvals (Dubai Municipality for chemicals and hygiene, DHA or MOHAP for any clinical products if clinical services are added in future, Dubai Civil Defence for fire-related works).
 2. **Quality and safety:** products suitable for a clinical-grade wellness environment; compatible with Elevé equipment and Elevé's cleaning guidance; safety data sheets supplied.
-3. **Reliability:** stock availability in Dubai, delivery lead time, back-up supply for critical items (float salt, linen, cleaning chemicals, IV supplies).
+3. **Reliability:** stock availability in Dubai, delivery lead time, back-up supply for critical items (branded linen and amenities, laundry supplies, cleaning chemicals, refreshments).
 4. **Total cost:** price, delivery, minimum orders, payment terms and price-review clauses, not unit price alone.
 5. **Data protection:** for IT, booking and payment suppliers, a data processing agreement in line with the PDPL and PCI compliance for card data.
 6. **Guest experience and brand:** quality guests can feel (linen weight, scent, materials) and sustainability where possible.

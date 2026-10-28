@@ -1,6 +1,6 @@
 # Purchase Order Template and Purchasing Procedure
 
-> Document No. AUR-FIN-10 · Version 0.1 (Draft) · Owner: General Manager · Effective: [Date]
+> Document No. AUR-FIN-10 · Version 0.2 (Draft) · Owner: General Manager · Effective: [Date]
 
 ## 1. Purpose and scope
 
@@ -10,11 +10,10 @@ This procedure makes sure every purchase at The Aura Reset Center is needed, app
 
 | Role | Responsibility |
 |---|---|
-| Requester (Host, Clinical Lead, Marketing lead) | Identifies need, raises purchase request |
+| Requester (Host, Healer, Breathwork & Sound Healing Facilitator, Marketing lead) | Identifies need, raises purchase request |
 | General Manager | Approves within limit, issues POs, maintains supplier register (AUR-FIN-08) |
 | CEO | Approves above General Manager's limit; approves new contracts |
 | Founder & CEO | Approves above CEO's limit and all Elevé Health agreements, jointly with CEO |
-| Clinical Lead | Sole requester for clinical and IV supplies; confirms DHA compliance |
 | Finance / bookkeeper [Name] | Three-way match, payment, records |
 
 ## 3. Approval thresholds
@@ -42,7 +41,7 @@ Rules:
 4. **Supplier check.** New supplier: verify trade licence, TRN and bank details (confirmed by phone call to a known number, never by email alone). Add to the supplier register.
 5. **Approval.** Approver signs the PO within their limit.
 6. **Issue PO.** PO numbered sequentially and sent to the supplier. No goods or services are ordered without a PO where one is required.
-7. **Receive.** Receiver checks goods against the PO: quantity, condition, expiry dates (salt, chemicals, clinical supplies), safety data sheets. Signs delivery note. Clinical supplies are received and stored by the Clinical Lead.
+7. **Receive.** Receiver checks goods against the PO: quantity, condition, expiry dates (salt cabin supplies, chemicals, refreshments), safety data sheets. Signs delivery note. Branded amenities and retail stock are checked against the approved artwork and specification.
 8. **Invoice.** Supplier's tax invoice must quote the PO number and show TRN and VAT at 5%.
 9. **Three-way match.** Finance matches PO, delivery note and invoice. Differences go back to the General Manager.
 10. **Pay.** Payment on agreed terms, by bank transfer to verified details. Two-person authorisation for payments above AED [___].

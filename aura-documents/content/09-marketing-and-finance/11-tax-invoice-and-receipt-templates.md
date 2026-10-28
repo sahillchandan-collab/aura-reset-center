@@ -1,12 +1,12 @@
 # Tax Invoice, Receipt and Credit Note Templates
 
-> Document No. AUR-FIN-11 · Version 0.1 (Draft) · Owner: General Manager · Effective: [Date]
+> Document No. AUR-FIN-11 · Version 0.2 (Draft) · Owner: General Manager · Effective: [Date]
 
 > Important: issue documents titled "Tax Invoice" or "Tax Credit Note" only after The Aura is registered for VAT with the UAE Federal Tax Authority and holds a TRN. Until then, issue a plain "Invoice" or "Receipt" with no VAT charged and no TRN shown. Templates to be checked by a UAE tax adviser.
 
 ## 1. Rules
 
-- VAT is charged at the standard rate of 5% on taxable supplies once registered. The tax adviser to confirm the VAT treatment of IV nutrient therapy and any clinical services, which may differ.
+- VAT is charged at the standard rate of 5% on taxable supplies once registered. No medical treatments are offered at launch; the tax adviser to confirm the VAT treatment of any clinical services if they are added in future (for example, IV nutrient therapy, subject to DHA licensing), which may differ.
 - All amounts in AED. Where a foreign currency is accepted, show the AED equivalent and the exchange rate used.
 - Invoice numbers are sequential with no gaps; voided documents are kept, not deleted.
 - A full tax invoice is issued for supplies to VAT-registered businesses (for example, corporate partners) and on request. A simplified tax invoice may be issued for walk-in guests where allowed [tax adviser to confirm threshold].
@@ -68,8 +68,8 @@
 | Description | __________ |
 | Amount received | AED [___] |
 | Of which VAT at 5% | AED [___] |
-| Payment method | ☐ Card ☐ Bank transfer ☐ Gift card ☐ Other: __________ |
-| Card last four / transaction ref | __________ |
+| Payment method | ☐ Apple Pay ☐ Card ☐ Cash ☐ Bank transfer ☐ Gift card ☐ Other: __________ (Tabby to be added later) |
+| Card last four / transaction ref (or cash drawer ref) | __________ |
 | Received by (Host / GM) | __________ |
 | Supplier TRN | [TRN] |
 
@@ -97,7 +97,7 @@ Thank you. We look forward to welcoming you back.
 
 | Settlement | Entry |
 |---|---|
-| Method | ☐ Refund to original card ☐ Bank transfer ☐ Account credit |
+| Method | ☐ Refund to original card / Apple Pay ☐ Cash (cash payments only) ☐ Bank transfer ☐ Account credit |
 | Refund date | __________ |
 
 | Approved by | Signature | Date |

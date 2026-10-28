@@ -1,6 +1,6 @@
 # Request for Quotation (RFQ) Template
 
-> Document No. AUR-FIN-09 · Version 0.1 (Draft) · Owner: General Manager · Effective: [Date]
+> Document No. AUR-FIN-09 · Version 0.2 (Draft) · Owner: General Manager · Effective: [Date]
 
 > How to use: complete the blank fields, send to at least three suppliers where the purchasing procedure (AUR-FIN-10) requires it, and record responses on the vendor comparison sheet (AUR-FIN-08). Do not share internal budgets with suppliers.
 
@@ -20,11 +20,11 @@
 
 ## 2. About us
 
-The Aura Reset Center is a nervous-system-regulation wellness studio opening in Jumeirah 1, Dubai, in November 2026, with eleven modalities and clinical-grade equipment from Elevé Health. We look for suppliers who share our standards of quality, hygiene, reliability and calm, considered service.
+The Aura Reset Center is a nervous-system-regulation wellness studio opening in Jumeirah 1, Dubai, in November 2026, with ten wellness modalities, a first-visit Healer consultation and clinical-grade equipment from Elevé Health. We look for suppliers who share our standards of quality, hygiene, reliability and calm, considered service.
 
 ## 3. Requirement
 
-**Category:** ☐ Linen / laundry ☐ Float supplies ☐ Cleaning chemicals ☐ Clinical / IV ☐ Retail ☐ IT / software ☐ Payment ☐ Insurance ☐ Fit-out / works ☐ Signage / printing ☐ Other: __________
+**Category:** ☐ Branded amenities (towels, clothing, slippers, robes) ☐ Laundry equipment ☐ Cleaning chemicals ☐ Refreshments ☐ Retail ☐ IT / software ☐ Payment ☐ Insurance ☐ Fit-out / works ☐ Signage / printing ☐ Other: __________
 
 **Summary of need:** __________
 
@@ -35,7 +35,7 @@ The Aura Reset Center is a nervous-system-regulation wellness studio opening in 
 | 3 | __________ | __________ | ____ | ____ | __________ |
 | 4 | __________ | __________ | ____ | ____ | __________ |
 
-**Delivery address:** 332 Jumeirah First, Jumeirah 1, Dubai · **Delivery window:** [Opening hours] or by arrangement
+**Delivery address:** 332 Jumeirah First, Jumeirah 1, Dubai · **Delivery window:** 9:00am–9:00pm, 7 days, or by arrangement
 **Required by:** __________
 
 ## 4. What your quotation must include

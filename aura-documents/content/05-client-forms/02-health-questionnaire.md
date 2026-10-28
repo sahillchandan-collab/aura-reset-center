@@ -1,6 +1,6 @@
 # Health Questionnaire
 
-> Document No. AUR-FRM-02 · Version 0.1 (Draft) · Owner: General Manager · Effective: [Date]
+> Document No. AUR-FRM-02 · Version 0.2 (Draft) · Owner: General Manager · Effective: [Date]
 
 Our modalities are wellness services designed to support how you feel and function. They are not a substitute for medical care. Your honest answers help your Healer and Host choose modalities that are right for you today, and help us flag anything that warrants a conversation with your doctor.
 

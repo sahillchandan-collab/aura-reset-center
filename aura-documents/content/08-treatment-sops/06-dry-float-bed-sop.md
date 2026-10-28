@@ -30,13 +30,13 @@ There is no wet float tank at The Aura Reset Center. If a guest asks for "the fl
 
 ## 4. Contraindications summary
 
-Screen every guest with the Contraindications & Host Screening Checklist (AUR-FRM-03, section 8) and the universal checks.
+Screen every guest with the Contraindications & Host Screening Checklist (AUR-FRM-03, section 6) and the universal checks.
 
 - Do not proceed: acute illness or fever.
 - Medical clearance needed: pregnancy (later stages), heat sensitivity, recent back or abdominal surgery.
 - Also ask about anything sharp or bulky in pockets, and any difficulty lying flat or getting up.
 
-> AUR-FRM-03 still refers to a Clinical Lead. At launch there is no Clinical Lead on the floor. Refer questions to the Senior Host on shift, then the General Manager, who may consult the [Medical Director named on the licence].
+> Refer screening questions to the Senior Host on shift, then the General Manager, who may consult the [Medical Director named on the licence].
 
 ## 5. Room and device preparation checklist
 

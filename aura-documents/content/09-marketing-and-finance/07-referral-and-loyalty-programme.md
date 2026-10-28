@@ -1,6 +1,6 @@
 # Referral and Loyalty Programme Outline
 
-> Document No. AUR-MKT-07 · Version 0.1 (Draft) · Owner: General Manager · Effective: [Date]
+> Document No. AUR-MKT-07 · Version 0.2 (Draft) · Owner: General Manager · Effective: [Date]
 
 > Draft for internal use. To be reviewed by a UAE-qualified legal adviser once the trade license is issued.
 
@@ -8,7 +8,7 @@
 
 ## 1. Purpose
 
-Most people find The Aura through someone who already feels the difference. This programme rewards that, gently, without turning the studio into a sales floor. It has four parts: member-get-member, guest-pass conversion, loyalty tiers and corporate wellness partnerships.
+Most new guests will first find The Aura through our paid ad campaigns; the guests who stay often bring someone who already feels the difference. This programme rewards that, gently, without turning the studio into a sales floor. It has four parts: member-get-member, guest-pass conversion, loyalty tiers and corporate wellness partnerships.
 
 ## 2. Principles
 
@@ -16,7 +16,7 @@ Most people find The Aura through someone who already feels the difference. This
 - No pressure. Hosts never push referrals during a session.
 - Clear and simple: a guest should understand the reward in one sentence.
 - Every new guest completes the same health screening. A referral never skips screening.
-- IV therapy rewards are always subject to clinical assessment.
+- Rewards are sessions, add-ons or retail (copper mugs, organic fragrances, wellness pillows, linen pieces) [confirm]. Hyperbaric oxygen rewards are always subject to the pre-session health screen.
 
 ## 3. Member-get-member
 
@@ -37,12 +37,12 @@ Restore members receive one guest pass a month; Elevate members receive two. Fou
 **Journey:**
 
 1. Member books guest in advance; guest receives a welcome message and screening form.
-2. Host gives the guest the full first-visit walkthrough and breathing ritual.
+2. The guest begins with a Healer consultation; the Host then gives the full first-visit walkthrough and breathing ritual.
 3. Before leaving, Host offers a short conversation about what the guest felt, and how a membership might fit. No hard sell.
 4. Guest receives a follow-up message within [24] hours with a guest-pass offer valid for [7] days: [___].
 5. If the guest joins, the hosting member receives the member-get-member reward.
 
-**Rules:** guest passes are for first-time guests only, cannot be sold, do not roll over, and exclude IV therapy unless stated [to be confirmed].
+**Rules:** guest passes are for first-time guests only, cannot be sold, do not roll over, and exclude add-ons and retail unless stated [to be confirmed].
 
 ## 5. Loyalty tiers [proposed]
 
@@ -65,7 +65,7 @@ Paused months [count / do not count] toward tenure [to be confirmed].
 |---|---|---|
 | Corporate membership | Company pays for named employee memberships | AED [___] per member per month; minimum [___] members |
 | Session bundle | Company buys a block of sessions for teams | AED [___] per bundle of [___] |
-| Team reset day | Private group breathwork plus selected modalities | AED [___] per group |
+| Team reset day | Private group breathwork or sound healing plus selected modalities | AED [___] per group |
 | Employee benefit rate | Employees pay their own membership at a partner rate | [___]% below standard |
 
 Target partners: hotels, airlines and aviation crews (post-flight reset), finance and professional services, family offices, and sports clubs. Each partnership has a signed agreement, a named contact, an invoicing schedule (AUR-FIN-11) and a quarterly review.

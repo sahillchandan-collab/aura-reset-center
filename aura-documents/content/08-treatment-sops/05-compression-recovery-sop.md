@@ -27,7 +27,7 @@ This SOP sets out how a Host delivers a Compression Recovery session (Heal pilla
 
 ## 4. Contraindications summary
 
-Screen every guest, every visit, using AUR-FRM-03 section 7 and the universal checks.
+Screen every guest, every visit, using AUR-FRM-03 section 5 and the universal checks.
 
 - **Do not proceed:** known or suspected deep vein thrombosis or blood clots; congestive heart failure or pulmonary oedema; acute infection, open wounds, fracture or acute injury in the legs.
 - **Written clearance from the guest's own doctor needed:** pregnancy; peripheral vascular disease, diabetes with neuropathy or lymphoedema; anticoagulant use; recent surgery.
@@ -52,7 +52,7 @@ Ask about any leg pain, swelling, warmth or redness today. If present, do not pr
 - What to wear: Aura-branded clothing, ideally soft full-length trousers or leggings, so the boots sit over fabric [confirm per Elevé protocol — pending]. Branded slippers to and from the room.
 - Remove anklets, toe rings, and anything in trouser pockets. Shoes off.
 - Hydration: a glass of water before the session.
-- Complete AUR-FRM-03 section 7 and confirm no leg pain, swelling or redness.
+- Complete AUR-FRM-03 section 5 and confirm no leg pain, swelling or redness.
 - First visit: the Healer consultation and programme are on file.
 
 ## 7. Step-by-step delivery

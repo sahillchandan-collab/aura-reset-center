@@ -1,6 +1,6 @@
 # Press Release (Draft): The Aura Reset Center Opens in Jumeirah 1
 
-> Document No. AUR-MKT-06 · Version 0.1 (Draft) · Owner: CEO · Effective: [Date]
+> Document No. AUR-MKT-06 · Version 0.2 (Draft) · Owner: CEO · Effective: [Date]
 
 > Approval note: quotes to be approved by the Founder & CEO and the CEO. Elevé Health to approve all references to Elevé before release. Embargo: [Date and time, GST].
 
@@ -12,15 +12,15 @@
 
 **DUBAI, UAE — [Date]** — The Aura Reset Center, a nervous-system-regulation studio that began in Santa Ana, California, will open its Dubai flagship in November 2026 at 332 Jumeirah First, Jumeirah Beach Road, Jumeirah 1. The studio is Elevé Health's first partner clinic in the UAE, with every machine supplied, installed, calibrated and serviced by Elevé.
 
-Built around three pillars, Reset, Heal and Elevate, The Aura brings eleven modalities together in one space: whole-body cryotherapy, red-light bed, infrared sauna, hyperbaric oxygen, IV nutrient therapy, float and sensory reset, compression recovery, dry float bed, salt cabin, cold plunge and guided breathwork.
+Built around three pillars, Reset, Heal and Elevate, The Aura brings ten modalities together in one space: whole-body cryotherapy, red-light bed, infrared sauna, hyperbaric oxygen, dry float bed, salt cabin, cold plunge, compression recovery, guided breathwork and sound healing. Every first visit begins with a consultation with one of The Aura's Healers, who identify the core issue and design a personalised package to regulate the nervous system and support energy healing.
 
-Every visit begins with the same question: what state did you arrive in? Guests are welcomed by a Host, not a receptionist, who knows each modality and walks with them from arrival to the last exhale. Each visit opens with a short breathing ritual, in for four, out for six, before the Host tailors the session or builds a three-step sequence for first-timers.
+Every visit begins with the same question: what state did you arrive in? Guests are welcomed by a Host, not a receptionist, who knows each modality and walks with them from arrival to the last exhale. Each visit opens with a short breathing ritual, in for four, out for six, before the Host suggests a combination of modalities or builds a three-step sequence for first-timers. Guests wear Aura-branded robes, clothing and slippers, are served refreshments, and can take the ritual home with copper mugs, organic fragrances, wellness pillows and linen pieces.
 
 ### Clinical hardware, one standard
 
 The studio's equipment includes the Elevé E-CRYO PRO, an electric cryotherapy chamber reaching −110 °C with thermal-vision safety monitoring and no nitrogen, and the Elevé E-Salt Cabin, which combines dry salt air, red light, oxygen and aromatherapy in a single sealed cabin. Elevé Health installs and calibrates each unit to clinical specification, trains every Host, and supports the studio with ongoing technical support and protocol updates.
 
-IV nutrient therapy is administered by licensed clinical staff, subject to Dubai Health Authority requirements [DHA licence / approval reference].
+All services are wellness services; no medical treatments are offered at launch. Hyperbaric oxygen is offered as a non-medical wellness session [confirm licensing requirements for hyperbaric with DHA / licensing authority].
 
 ### A founder who felt at home
 
@@ -42,7 +42,7 @@ Memberships are month-to-month, with no long-term contract, and travel with memb
 
 - **Address:** 332 Jumeirah First, Jumeirah Beach Road, Jumeirah 1, Dubai, UAE
 - **Opening:** November 2026, with an official launch evening on [Date]
-- **Hours:** [Opening hours]
+- **Hours:** 7 days a week, 9:00am–9:00pm
 - **Booking:** [Website] · WhatsApp [WhatsApp] · Instagram [Instagram]
 
 **ENDS**
@@ -53,7 +53,7 @@ Memberships are month-to-month, with no long-term contract, and travel with memb
 
 ### About The Aura Reset Center
 
-The Aura Reset Center is a recovery studio for the modern nervous system. Founded in the United States, where it operates by appointment at 1936 East Deere Avenue, Suite 120, Santa Ana, California, The Aura combines clinical-grade wellness technology from Elevé Health with a host-led, whole-person approach across eleven modalities under three pillars: Reset, Heal and Elevate. Its Dubai flagship opens in Jumeirah 1 in November 2026. The Aura's modalities are wellness services designed to support how people feel and function; they are not a substitute for medical care.
+The Aura Reset Center is a recovery studio for the modern nervous system. Founded in the United States, where it operates by appointment at 1936 East Deere Avenue, Suite 120, Santa Ana, California, The Aura combines clinical-grade wellness technology from Elevé Health with a host-led, Healer-guided, whole-person approach across ten modalities under three pillars: Reset, Heal and Elevate. Its Dubai flagship opens in Jumeirah 1 in November 2026. The Aura's modalities are wellness services designed to support how people feel and function; they are not a substitute for medical care.
 
 ### About Elevé Health
 

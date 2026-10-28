@@ -31,7 +31,7 @@ Guided Breathwork is a 45-minute, guide-led Reset session, offered 1:1 or in a s
 
 ## 4. Contraindications summary
 
-Screen every guest with AUR-FRM-03, section 11, and the universal checks.
+Screen every guest with AUR-FRM-03, section 9, and the universal checks.
 
 - Do not proceed with intense techniques: recent heart attack or stroke; uncontrolled epilepsy.
 - Medical clearance needed: pregnancy (no breath-holding or rapid techniques); high blood pressure; heart conditions; glaucoma; recent surgery; panic disorder, PTSD or a serious mental-health condition.
@@ -40,7 +40,7 @@ Screen every guest with AUR-FRM-03, section 11, and the universal checks.
 
 For guests with a flag, use only slow, gentle techniques, such as the Aura ritual: in for four, out for six.
 
-> AUR-FRM-03 still refers to a Clinical Lead. At launch, refer questions to the Senior Host on shift, then the General Manager, who may consult the [Medical Director named on the licence].
+> Refer screening questions to the Senior Host on shift, then the General Manager, who may consult the [Medical Director named on the licence].
 
 ## 5. Room preparation checklist
 

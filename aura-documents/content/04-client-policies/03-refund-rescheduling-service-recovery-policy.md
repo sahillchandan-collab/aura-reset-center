@@ -1,6 +1,6 @@
 # Refund, Rescheduling & Service Recovery Policy
 
-> Document No. AUR-CLI-03 · Version 0.1 (Draft) · Owner: General Manager · Effective: [Date]
+> Document No. AUR-CLI-03 · Version 0.2 (Draft) · Owner: General Manager · Effective: [Date]
 
 > Draft for internal use. To be reviewed by a UAE-qualified legal adviser once the trade license is issued.
 
@@ -118,3 +118,4 @@ This policy is intended to be consistent with UAE Federal consumer protection la
 | Version | Date | Change | Approved by |
 |---|---|---|---|
 | 0.1 | [Date] | First draft | General Manager |
+| 0.2 | [Date] | Updated to General Manager operating decisions of 28 Oct 2026 (hours, Healer consultation, Sound Healing, no IV or wet float at launch, payments) | General Manager |

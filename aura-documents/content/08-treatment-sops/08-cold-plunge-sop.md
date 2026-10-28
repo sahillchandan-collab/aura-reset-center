@@ -29,13 +29,13 @@ The cold plunge is a short, deliberate immersion in filtered water held at 5 °C
 
 ## 4. Contraindications summary
 
-Screen every guest with AUR-FRM-03, section 10, and the universal checks.
+Screen every guest with AUR-FRM-03, section 8, and the universal checks.
 
 - Do not proceed: pregnancy; heart conditions, arrhythmia, pacemaker or uncontrolled high blood pressure; Raynaud's phenomenon or cold urticaria; open wounds; alcohol in the last 24 hours; epilepsy not controlled.
 - Medical clearance needed: controlled high blood pressure; diabetes; asthma; recent surgery; anxiety or panic disorder.
 - Ask about today: a heavy meal just before, feeling unwell, very tired or dehydrated. When in doubt, do not plunge.
 
-> AUR-FRM-03 still refers to a Clinical Lead. At launch, refer questions to the Senior Host on shift, then the General Manager, who may consult the [Medical Director named on the licence].
+> Refer screening questions to the Senior Host on shift, then the General Manager, who may consult the [Medical Director named on the licence].
 
 ## 5. Room and device preparation checklist
 

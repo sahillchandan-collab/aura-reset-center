@@ -2,7 +2,7 @@
 
 > Document No. AUR-TRT-10 · Version 0.1 (Draft) · Owner: General Manager · Effective: [Date]
 
-> The instrument list, session length, group size and volume limits for Sound Healing are not yet confirmed. AUR-FRM-03 does not yet include a Sound Healing section [to be added]. Until it does, use section 4 of this SOP with the universal checks in AUR-FRM-03.
+> The instrument list, session length, group size and volume limits for Sound Healing are not yet confirmed. Screen with AUR-FRM-03 section 10 and the universal checks, together with section 4 of this SOP.
 
 ## 1. Purpose
 

@@ -1,6 +1,6 @@
 # Staff Request Forms
 
-> Document No. AUR-HR-07 · Version 0.1 (Draft) · Owner: General Manager · Effective: [Date]
+> Document No. AUR-HR-07 · Version 0.2 (Draft) · Owner: General Manager · Effective: [Date]
 
 These four forms cover everyday requests at The Aura Reset Center. Submit each form to your Lead Host or line manager. Approved forms go to the Admin & Accounts Assistant for payroll and records. Rules follow the HR manual (AUR-POL-02) and UAE Federal Decree-Law No. 33 of 2021.
 

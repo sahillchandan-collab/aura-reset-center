@@ -1,6 +1,6 @@
 # Staff Rota & Attendance Templates
 
-> Document No. AUR-HR-08 · Version 0.1 (Draft) · Owner: Lead Host / Operations Lead · Effective: [Date]
+> Document No. AUR-HR-08 · Version 0.2 (Draft) · Owner: Lead Host / Operations Lead · Effective: [Date]
 
 The Aura Reset Center is open seven days a week, **9:00am–9:00pm**, aligned with the booking bands (Morning 9am–12pm, Midday 12–3pm, Afternoon 3–6pm, Evening 6–9pm). For now the floor runs with **2 Hosts per shift** across two shifts a day. Rotas must respect working-hour, rest-day and overtime rules under UAE Federal Decree-Law No. 33 of 2021 and the HR manual (AUR-POL-02).
 

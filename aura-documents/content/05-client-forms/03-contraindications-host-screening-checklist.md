@@ -1,6 +1,6 @@
 # Contraindications & Host Screening Checklist
 
-> Document No. AUR-FRM-03 · Version 0.1 (Draft) · Owner: General Manager · Effective: [Date]
+> Document No. AUR-FRM-03 · Version 0.2 (Draft) · Owner: General Manager · Effective: [Date]
 
 > Guidance pending review. This checklist is a working draft. It must be reviewed by the [Medical Director named on the licence], approved by the General Manager and checked against Elevé Health protocols and manufacturer instructions for every unit before use [per Elevé protocol — pending]. Where Elevé guidance or a guest's doctor is stricter, the stricter rule applies.
 

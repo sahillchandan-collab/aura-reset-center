@@ -1,6 +1,6 @@
 # Guest Feedback & Satisfaction Survey
 
-> Document No. AUR-FRM-08 · Version 0.1 (Draft) · Owner: General Manager · Effective: [Date]
+> Document No. AUR-FRM-08 · Version 0.2 (Draft) · Owner: General Manager · Effective: [Date]
 
 Thank you for visiting The Aura Reset Center. This short survey takes about two minutes. Your answers help us care for you better on every visit.
 
