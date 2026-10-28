@@ -9,17 +9,19 @@ This plan takes The Aura Reset Center from today to a full studio three months a
 ## 2. Objectives
 
 1. Fill the 100 founding-member places before the launch evening.
-2. Open with every Host trained and signed off by Elevé Health on every unit.
+2. Open with every Host trained and signed off by Elevé Health on every unit, and Healers ready to welcome every first-time guest.
 3. Run a calm, flawless soft opening that tests every modality and every booking flow.
 4. Host a launch evening that guests, press and partners remember for how it made them feel.
-5. Reach steady weekly utilisation and membership targets within 90 days.
+5. Reach steady weekly utilisation and membership targets within 90 days, driven by paid ad campaigns with fast lead response.
 
 ## 3. Phases
 
 ### Phase 1 — Now: foundations
 
-- Confirm opening date, trade licence and DHA status for IV therapy and hyperbaric oxygen [DHA licence / approval reference].
+- Confirm opening date and trade licence, and [confirm licensing requirements for hyperbaric with DHA / licensing authority]. No medical treatments at launch; IV therapy is a possible future service only.
 - Activate [Phone], [WhatsApp], [Email], [Instagram]; publish the founding-member list on [Website].
+- Choose booking software [Booking system — to be chosen] and connect website and WhatsApp booking.
+- Set up Apple Pay, card and cash payments (Tabby later).
 - Brief photographer for "Behind the build" content at 332 Jumeirah First.
 - Agree launch evening date, guest list owners and budget.
 
@@ -27,20 +29,23 @@ This plan takes The Aura Reset Center from today to a full studio three months a
 
 - Founding-100 campaign live (section 4).
 - Weekly social calendar running (AUR-MKT-05).
+- Paid ad campaigns live on Meta/Instagram and Google, with leads routed to WhatsApp and answered within [___ minutes].
 - Corporate partner and wellness creator outreach begins.
 
 ### Phase 3 — Hosts trained
 
 - Elevé installation and calibration complete; units signed off to clinical spec.
 - Elevé host training on all units; each Host signed off per modality.
-- Clinical Lead completes IV protocols and DHA readiness.
-- Internal "friends and family" sessions to rehearse flows: arrival, breathing ritual, screening, each modality, checkout.
+- Elevé operating instructions and protocols received and adopted [per Elevé protocol — pending].
+- Healers trained in the first-visit consultation flow; Breathwork & Sound Healing Facilitator schedules confirmed.
+- Amenities (robes, Aura-branded towels, clothing and hotel-style slippers), refreshments menu [to confirm], in-house laundry and retail stock in place.
+- Internal "friends and family" sessions to rehearse flows: arrival, Healer consultation, breathing ritual, screening, each modality, checkout.
 
 ### Phase 4 — Soft opening
 
 - [3–7] days, founding members first, limited slots per time band.
 - Every guest asked for feedback; daily stand-up to fix issues.
-- Booking software, payment provider and invoices tested end to end.
+- Booking software, WhatsApp booking, ad lead routing, payments (Apple Pay, card, cash) and invoices tested end to end.
 
 ### Phase 5 — November launch evening
 
@@ -61,7 +66,8 @@ This plan takes The Aura Reset Center from today to a full studio three months a
 **Channels:**
 
 - Website founding-member form and a counter showing places remaining [if approved].
-- Instagram and TikTok: Behind the build, Meet the hosts, Founder story.
+- Instagram and TikTok: Behind the build, Meet the hosts, Meet the Healers, Founder story.
+- Paid ads on Meta/Instagram and Google driving to the founding-member form and WhatsApp.
 - LinkedIn: Elevé partnership, corporate wellness.
 - WhatsApp broadcast to the list, with consent.
 - Founder and CEO personal networks.
@@ -84,14 +90,14 @@ Date: [Date], November 2026 · Venue: The Aura Reset Center, 332 Jumeirah First 
 | [T −4h] | Final set-up | Lighting, aura-ring installation, sound, scent, catering set, rooms reset | General Manager |
 | [T −1h] | Team briefing | Run-of-show, room stations, safety, consent wristbands for photography | General Manager |
 | T | Arrival | Welcome by Hosts, robes-optional tour route, non-alcoholic welcome drink | Lead Host |
-| T +20 | Opening breath | Whole room: "In for four, out for six", led by breathwork guide | Breathwork guide |
+| T +20 | Opening breath | Whole room: "In for four, out for six", led by the Breathwork & Sound Healing Facilitator, followed by a short sound bath | Breathwork & Sound Healing Facilitator |
 | T +30 | Welcome words | Founder & CEO, then CEO; Elevé Health representative | Founder & CEO |
-| T +45 | Studio experiences | Short demos at stations: red-light bed, compression, salt cabin, dry float. No cold or HBOT sessions for guests on the night [to be confirmed] | Hosts |
+| T +45 | Studio experiences | Short demos at stations: red-light bed, compression, salt cabin, dry float; Healers introduce the first-visit consultation. No cold or HBOT sessions for guests on the night [to be confirmed] | Hosts |
 | T +45 | Elevé tech corner | Elevé team explains installation and calibration standard | Elevé Health |
 | T +90 | Founding-member moment | Founding members recognised; opening-week booking desk open | General Manager |
 | T +120 | Close | Gift bag, thank-you, follow-up message within 24 hours | Lead Host |
 
-Safety: no guest uses cryotherapy, cold plunge, hyperbaric oxygen or IV therapy on the night. Photography only of guests wearing a consent wristband. First aid and fire marshal named [Name].
+Safety: no guest uses cryotherapy, cold plunge or hyperbaric oxygen on the night. Photography only of guests wearing a consent wristband. First aid and fire marshal named [Name].
 
 ## 6. Guest list categories
 
@@ -109,13 +115,13 @@ Safety: no guest uses cryotherapy, cold plunge, hyperbaric oxygen or IV therapy 
 | Line | Phase | Budget | Owner |
 |---|---|---|---|
 | Photography and video (build, hosts, launch) | 1–5 | AED [___] | Marketing lead |
-| Paid social (founding-100) | 2 | AED [___] | Marketing lead |
+| Paid ads: Meta/Instagram and Google (founding-100 and opening) | 2–6 | AED [___] | Marketing lead |
 | PR agency or freelance support | 2–5 | AED [___] | CEO |
 | Creator preview sessions (cost of sessions) | 3–4 | AED [___] | General Manager |
 | Print and signage (invitations, menus, wayfinding) | 3–5 | AED [___] | General Manager |
 | Launch evening: catering and non-alcoholic drinks | 5 | AED [___] | General Manager |
 | Launch evening: lighting, sound, styling | 5 | AED [___] | General Manager |
-| Gift bags | 5 | AED [___] | General Manager |
+| Gift bags (e.g. Aura retail pieces) | 5 | AED [___] | General Manager |
 | Staffing (extra hours, security, valet) | 5 | AED [___] | General Manager |
 | Contingency ([10]%) | All | AED [___] | CEO |
 | **Total** | | **AED [___]** | CEO |
@@ -130,7 +136,8 @@ Spending follows the delegation of authority (AUR-GOV-02) and purchasing procedu
 | Brand, story, Elevé relationship | Founder & CEO | CEO |
 | Day-to-day delivery, studio readiness, launch evening | General Manager | Lead Host |
 | Social and content | [Marketing lead] | Hosts |
-| Clinical readiness (IV, screening) | [Clinical Lead] | General Manager |
+| Screening readiness and health escalation | General Manager | [Medical Director named on the licence] |
+| Healer consultation readiness | [Lead Healer] | General Manager |
 | Host training sign-off | Elevé Health | General Manager |
 
 ## 9. KPIs
@@ -142,6 +149,7 @@ Spending follows the delegation of authority (AUR-GOV-02) and purchasing procedu
 | Launch evening attendance vs RSVPs | [___]% | Once |
 | Press pieces published | [___] in first 30 days | Monthly |
 | Instagram followers / reach | [___] / [___] by opening | Weekly |
+| Ad leads, cost per lead and lead response time | [___] / AED [___] / [___] minutes | Weekly |
 | Weekly sessions booked | [___] by day 90 | Weekly |
 | Utilisation by modality | [___]% average by day 90 | Weekly |
 | Guest-pass to first paid visit conversion | [___]% | Monthly |
