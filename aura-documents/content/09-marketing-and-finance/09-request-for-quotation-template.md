@@ -2,7 +2,7 @@
 
 > Document No. AUR-FIN-09 · Version 0.1 (Draft) · Owner: General Manager · Effective: [Date]
 
-> How to use: complete the shaded fields, send to at least three suppliers where the purchasing procedure (AUR-FIN-10) requires it, and record responses on the vendor comparison sheet (AUR-FIN-08). Do not share internal budgets with suppliers.
+> How to use: complete the blank fields, send to at least three suppliers where the purchasing procedure (AUR-FIN-10) requires it, and record responses on the vendor comparison sheet (AUR-FIN-08). Do not share internal budgets with suppliers.
 
 ## 1. RFQ details
 
