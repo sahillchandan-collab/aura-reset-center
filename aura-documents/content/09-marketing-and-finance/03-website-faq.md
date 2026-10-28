@@ -2,25 +2,25 @@
 
 > Document No. AUR-MKT-03 · Version 0.1 (Draft) · Owner: General Manager · Effective: [Date]
 
-> Editorial note: the answers marked "Existing" reflect what is already on the website and should keep their stance. New answers are drafts for review by the General Manager and, for clinical topics, the Clinical Lead. Medical answers must stay in wellness language and must not make treatment claims.
+> Editorial note: the answers marked "Existing" reflect what is already on the website and keep their stance, updated where the General Manager's operating decisions (28 Oct 2026) override the website (opening hours, Healer consultation, Sound Healing, no IV or wet float at launch). New answers are drafts for review by the General Manager and, for health topics, the [Medical Director named on the licence]. Medical answers must stay in wellness language and must not make treatment claims.
 
 ## Getting started
 
 ### I have never done any of this. Where do I start? (Existing)
 
-Most first-timers start with the infrared sauna or the red-light bed. If you are not sure, choose "Not sure yet — build my reset" when you book. Your Host will ask how you are arriving and build a simple three-step sequence for you.
+Most first-timers start with the infrared sauna or the red-light bed. If you are not sure, choose "Not sure yet — build my reset" when you book. Your first visit begins with a consultation with one of our Healers, who identifies the core issue and designs a personalised package for you. Your Host will then ask how you are arriving and build a simple three-step sequence.
 
 ### How does booking work? (Existing)
 
-Request a time with the modality and the time band you prefer. We confirm by email with a calendar invite. Then you arrive, and your Host tailors the protocol. There is no charge until your visit.
+Request a time on our website or on WhatsApp, with the modality and the time band you prefer. We confirm by email with a calendar invite. Then you arrive, and your Host tailors the protocol. There is no charge until your visit.
 
 ### What should I bring? (Existing)
 
-Just yourself, hydrated. We provide robes, towels, slippers and everything each modality needs. Arrive 10 minutes early. Please avoid heavy make-up or lotions before light and cold sessions.
+Just yourself, hydrated. We provide robes, Aura-branded towels, Aura-branded clothing to wear in the centre, hotel-style Aura-branded slippers and everything each modality needs. Refreshments are served during your visit. Arrive 10 minutes early. Please avoid heavy make-up or lotions before light and cold sessions.
 
 ### Is this medical treatment? (Existing)
 
-Our modalities are wellness services designed to support how you feel and function. They are not a substitute for medical care. IV therapy is administered by licensed clinicians, and we will always flag anything that warrants a conversation with your doctor.
+Our modalities are wellness services designed to support how you feel and function. They are not a substitute for medical care, and we do not offer medical treatments. We will always flag anything that warrants a conversation with your doctor.
 
 ### What happens at the start of every visit? (Existing)
 
@@ -30,6 +30,14 @@ Every visit begins with a short breathing ritual with your Host: in for four, ou
 
 A Host is not a receptionist. Hosts are trained by Elevé Health on every unit and know each modality. Your Host walks with you from arrival to the last exhale.
 
+### What is the Healer consultation?
+
+Every first visit starts with a consultation with one of our Healers, lasting [30–45 min proposed]. Your Healer listens, identifies the core issue behind how you feel and designs a personalised package or programme to regulate your nervous system and support energy healing. It is a holistic conversation, not a medical consultation.
+
+### What is Sound Healing?
+
+A facilitator-led session of sound and vibration, one to one or in a small group of up to [__] guests, to settle the nervous system and invite deep rest. You stay fully clothed and rest on a mat.
+
 ## At the studio
 
 ### Where are you, and is there parking?
@@ -38,7 +46,7 @@ A Host is not a receptionist. Hosts are trained by Elevé Health on every unit a
 
 ### What are your opening hours?
 
-[Opening hours]. Booking time bands are Morning 8–11am, Midday 11am–2pm, Afternoon 2–5pm and Evening 5–8pm.
+We are open 7 days a week, 9:00am–9:00pm. Booking time bands are Morning 9am–12pm, Midday 12–3pm, Afternoon 3–6pm and Evening 6–9pm.
 
 ### What should I wear?
 
@@ -49,16 +57,15 @@ A Host is not a receptionist. Hosts are trained by Elevé Health on every unit a
 | Infrared Sauna | Swimsuit or a towel; private room. |
 | Red-Light Bed | As little as you are comfortable with; private room. No make-up, lotion or sunscreen on treated skin. Eye protection provided. |
 | Hyperbaric Oxygen | 100% cotton clothing we provide. No metal, electronics, oils or hair products in the chamber. |
-| Float & Sensory Reset | Most people float without clothing in a private room; a swimsuit is fine. Earplugs provided. Avoid shaving or waxing on the day. |
-| Dry Float Bed | Fully clothed, comfortable clothes. |
+| Dry Float Bed | Fully clothed; your Aura clothing is ideal. |
 | Compression Recovery | Comfortable clothing; leggings or loose trousers are ideal. |
 | Salt Cabin | Comfortable clothing. Covers for shoes are provided. |
-| Guided Breathwork | Loose, comfortable clothing. |
-| IV Nutrient Therapy | Short or loose sleeves. Eat a light meal beforehand. |
+| Guided Breathwork | Loose, comfortable clothing; your Aura clothing is ideal. |
+| Sound Healing | Loose, comfortable clothing; your Aura clothing is ideal. |
 
 ### Can I combine modalities?
 
-Yes. Many guests pair two or three in one visit. Classic pairings are the cold plunge with the infrared sauna for contrast, compression after the sauna or cryotherapy, and the salt cabin before a float or breathwork. On a Single Reset you can add a second modality on the day. Your Host will set the order and the rest time between them.
+Yes. Many guests pair two or three in one visit. Classic pairings are the cold plunge with the infrared sauna for contrast, compression after the sauna or cryotherapy, and the salt cabin before the dry float bed, breathwork or sound healing. On a Single Reset you can add a second modality on the day. Your Host will suggest combinations, guided by your Healer's personalised package, and set the order and the rest time between them.
 
 ### How often should I come?
 
@@ -68,11 +75,11 @@ It depends on what you want to feel. Many guests settle into a rhythm of two or 
 
 ### Can I come if I am pregnant?
 
-Please tell us when you book. Several modalities are not suitable during pregnancy, including whole-body cryotherapy, cold plunge, infrared sauna, hyperbaric oxygen and IV therapy [Clinical Lead to confirm list]. Gentler options such as guided breathwork or compression may be possible with your doctor's written approval. Your Host will always check with you first.
+Please tell us when you book. Several modalities are not suitable during pregnancy, including whole-body cryotherapy, cold plunge, infrared sauna and hyperbaric oxygen [to be confirmed with the Medical Director named on the licence]. Gentler options such as guided breathwork or compression may be possible with your doctor's written approval. Your Host will always check with you first.
 
 ### Is there a minimum age?
 
-Guests must be 18 or over for most modalities [age policy to be confirmed by Clinical Lead]. Guests aged [16–17] may be able to book selected modalities with a parent or guardian present and signed consent. IV therapy is for adults only.
+Guests must be 18 or over for most modalities [age policy to be confirmed by the General Manager]. Guests aged [16–17] may be able to book selected modalities with a parent or guardian present and signed consent. Cryotherapy, cold plunge and hyperbaric oxygen are for adults only [confirm].
 
 ### I have a health condition or take medication. Can I book?
 
@@ -82,13 +89,21 @@ Very likely, but please tell us when you book and complete the health screening 
 
 Our Elevé E-CRYO PRO is an electric chamber that reaches −110 °C with no nitrogen. It has touchscreen guidance and thermal-vision safety monitoring, and a Host is with you for the full three minutes.
 
-### Tell me about IV therapy. Who gives it?
+### Do you offer IV therapy?
 
-IV nutrient therapy is administered by licensed clinical staff, subject to DHA requirements [DHA licence / approval reference]. Before your first drip, a clinician reviews your health history and may ask questions or decline if a formula is not right for you. Formulas are designed for energy, immunity, skin and glow, recovery and post-flight. Sessions take 45–60 minutes. IV therapy is priced separately and is not included in memberships; members receive a standing discount.
+Not at launch. IV nutrient therapy may be offered in future, subject to DHA licensing and on-site licensed clinicians. We will announce it if and when it becomes available.
 
-### Is the studio licensed by the DHA?
+### Do you have a float tank?
 
-Our clinical services, including IV therapy, operate under DHA requirements [DHA licence / approval reference]. Our wellness modalities operate under our Dubai trade licence [Trade License No.].
+No. Our float is the Elevé dry float bed: you stay fully clothed and rest on a warm membrane over heated water. No water touches your skin.
+
+### Is hyperbaric oxygen a medical treatment?
+
+No. We offer hyperbaric oxygen as a non-medical wellness session, with a short health screen before your first session [confirm licensing requirements for hyperbaric with DHA / licensing authority].
+
+### Is the studio licensed?
+
+Our wellness services operate under our Dubai trade licence [Trade License No.]. We do not offer medical treatments at launch.
 
 ## Equipment
 
@@ -101,8 +116,8 @@ Every machine is Elevé Health. The Aura is Elevé Health's first partner clinic
 ### What memberships do you offer? (Existing)
 
 - **Single Reset:** pay as you go, one visit, one modality, with a guided first-visit walkthrough. AED [___].
-- **Restore:** eight sessions a month in any core modality, priority booking windows, one guest pass a month and 10% off IV therapy and add-ons. AED [___] a month.
-- **Elevate:** unlimited core-modality sessions, a quarterly guided protocol review, two guest passes a month, 15% off IV therapy and add-ons, and first access to opening-week slots in Dubai. AED [___] a month.
+- **Restore:** eight sessions a month in any core modality, priority booking windows, one guest pass a month and 10% off add-ons and retail [confirm]. AED [___] a month.
+- **Elevate:** unlimited core-modality sessions, a quarterly guided protocol review, two guest passes a month, 15% off add-ons and retail [confirm], and first access to opening-week slots in Dubai. AED [___] a month.
 
 ### Is there a contract? (Existing)
 
@@ -132,11 +147,21 @@ Yes. Changes take effect from your next billing date.
 
 ### Do you sell gift cards?
 
-Yes, from opening. Gift cards can be bought at the studio or online [to be confirmed] for a set value of AED [___] or for a specific experience. They are valid for [12] months and can be used for any modality, including IV therapy subject to clinical assessment.
+Yes, from opening. Gift cards can be bought at the studio or online [to be confirmed] for a set value of AED [___] or for a specific experience. They are valid for [12] months and can be used for any modality, including hyperbaric oxygen once the health screen is complete.
 
 ### Can a gift card be used towards a membership?
 
 [Policy to be confirmed.]
+
+## Payments and shop
+
+### How can I pay?
+
+Apple Pay, card or cash. Buy-now-pay-later through Tabby is coming later.
+
+### Can I buy anything to take home?
+
+Yes. Our retail shelf has copper mugs, fragrances made from organic materials, wellness pillows and linen-fabric pieces.
 
 ## Cancellations
 

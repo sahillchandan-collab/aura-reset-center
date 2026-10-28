@@ -14,7 +14,7 @@ We are the controller of the personal data you share with us through this websit
 
 ## 2. What this policy covers
 
-This policy explains what we collect when you visit [Website], request a booking, or join the founding-member list, why we collect it, who we share it with, how long we keep it, and the rights you have. It does not cover the health and consent forms you complete at the studio; those are covered by our in-studio privacy notice [cross-reference to studio privacy notice].
+This policy explains what we collect when you visit [Website], request a booking online or on WhatsApp, respond to one of our ads, or join the founding-member list, why we collect it, who we share it with, how long we keep it, and the rights you have. It does not cover the health and consent forms you complete at the studio; those are covered by our in-studio privacy notice [cross-reference to studio privacy notice].
 
 ## 3. What we collect
 
@@ -29,6 +29,11 @@ This policy explains what we collect when you visit [Website], request a booking
 | Treatment / modality chosen (or "Not sure yet — build my reset") | To prepare your Host and the room |
 | Preferred date and time band | To offer you a suitable slot |
 | Notes | Anything you choose to tell us so your Host can prepare |
+
+### Through WhatsApp and our advertising
+
+- **WhatsApp:** if you message us at [WhatsApp] to ask a question or book, we receive your name as shown on WhatsApp, your number and the messages you send, and use them to reply and manage your booking.
+- **Ad lead forms:** we advertise on Meta (Instagram and Facebook) and Google. If you fill in a lead form inside one of our ads, the platform passes us the details you enter (usually name, phone / WhatsApp and email) so a Host can contact you quickly about your booking.
 
 ### Through the founding-member list
 
@@ -47,19 +52,20 @@ Please do not use the notes field to share detailed medical history. If somethin
 
 | Purpose | Lawful basis under the PDPL |
 |---|---|
-| Responding to and confirming your booking request | Steps you ask us to take before a service contract |
+| Responding to and confirming your booking request, including on WhatsApp and from ad lead forms | Steps you ask us to take before a service contract |
 | Managing your founding-member place, launch-evening invitation and opening-week choice | Your consent, and steps toward a membership contract |
 | Sending updates about the Dubai opening, offers and news | Your consent, which you can withdraw at any time |
 | Keeping the website secure and working | Our legitimate interest in running a safe website |
 | Understanding how the website is used (analytics) | Your consent, through the cookie banner |
+| Measuring and improving our ad campaigns on Meta and Google | Your consent, through the cookie banner |
 | Meeting legal, tax and regulatory duties | Legal obligation |
 
 We do not sell your personal data. We do not use it for automated decisions that have legal or similarly significant effects on you.
 
 ## 5. Who we share it with
 
-- **Our team:** the General Manager, Hosts and, where relevant, our licensed clinical staff, on a need-to-know basis.
-- **Service providers** who process data on our behalf under written agreements: website hosting [Provider], booking software [Provider], email and messaging [Provider], analytics [Provider], payment provider [Provider] (for in-studio payments only).
+- **Our team:** the General Manager, Hosts and Healers, on a need-to-know basis.
+- **Service providers** who process data on our behalf under written agreements: website hosting [Provider], booking software [Provider], email and messaging [Provider], WhatsApp Business (Meta), advertising platforms (Meta and Google), analytics [Provider], payment provider [Provider] (for in-studio Apple Pay and card payments only).
 - **Our United States location**, if you request a visit in Santa Ana, or if you are a member using your membership there.
 - **Authorities** where the law requires it.
 
@@ -73,7 +79,7 @@ We use a small number of cookies and similar technologies.
 |---|---|---|
 | Strictly necessary | Keeps the site and booking form working, remembers your cookie choice | No |
 | Analytics | Tells us which pages are useful, in aggregate | Yes |
-| Marketing | Measures campaigns, for example on Instagram | Yes |
+| Marketing | Measures our ad campaigns on Meta (Instagram and Facebook) and Google, for example through tracking pixels | Yes |
 
 When you first visit, a banner lets you accept, reject or choose. You can change your choice at any time through the "Cookie settings" link in the website footer, or by clearing cookies in your browser. A full cookie list is at [Cookie list link].
 
@@ -93,8 +99,9 @@ Some of our service providers store data outside the UAE. Where we transfer pers
 
 | Data | Retention |
 |---|---|
-| Booking requests that do not become a visit | [12] months from the requested date, then deleted |
-| Guest records once you visit | For as long as you are a guest, then [period to be confirmed against DHA and tax rules] |
+| Booking requests and ad leads that do not become a visit | [12] months from the requested date or lead date, then deleted |
+| WhatsApp conversations | [12] months from the last message [to be confirmed] |
+| Guest records once you visit | For as long as you are a guest, then [period to be confirmed against DHA / licensing-authority and tax rules] |
 | Founding-member list | Until the founding offer closes plus [12] months, or sooner if you ask to be removed |
 | Marketing consent records | For as long as you stay subscribed, plus [24] months as evidence of consent |
 | Website analytics | [14] months |

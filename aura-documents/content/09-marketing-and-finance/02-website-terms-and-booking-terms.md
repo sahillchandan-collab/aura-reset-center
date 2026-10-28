@@ -4,7 +4,7 @@
 
 > Draft for internal use. To be reviewed by a UAE-qualified legal adviser once the trade license is issued.
 
-> Legal review note: the adviser should confirm cancellation and no-show wording against UAE consumer protection law, the membership cancellation mechanics, governing law and courts, and any DHA conditions for IV therapy and hyperbaric oxygen bookings.
+> Legal review note: the adviser should confirm cancellation and no-show wording against UAE consumer protection law, the membership cancellation mechanics, governing law and courts, and any DHA / licensing-authority conditions for hyperbaric oxygen bookings.
 
 ## Part A — Website terms of use
 
@@ -46,22 +46,22 @@ How we use your data is explained in our Website Privacy Policy (AUR-MKT-01).
 
 ### 8. How booking works
 
-1. **Request a time.** Choose a modality (or "Not sure yet — build my reset") and a preferred time band: Morning 8–11am, Midday 11am–2pm, Afternoon 2–5pm or Evening 5–8pm.
+1. **Request a time.** Book on the website or on WhatsApp. Choose a modality (or "Not sure yet — build my reset") and a preferred time band: Morning 9am–12pm, Midday 12–3pm, Afternoon 3–6pm or Evening 6–9pm. We are open 7 days a week, 9:00am–9:00pm.
 2. **Confirmation.** A request is not a booking until we confirm it by email with a calendar invite. We may offer an alternative time.
-3. **Arrive.** Your Host tailors the protocol to the state you arrive in.
+3. **Arrive.** Your first visit begins with a consultation with one of our Healers, who identifies the core issue and designs a personalised package. Your Host then tailors each session to the state you arrive in.
 
-There is no charge until your visit, unless we tell you otherwise for a specific service (for example, a deposit for IV therapy [to be confirmed]).
+There is no charge until your visit, unless we tell you otherwise for a specific service (for example, a deposit for hyperbaric oxygen or group bookings [to be confirmed]).
 
 ### 9. Before your visit
 
 - Arrive 10 minutes early and well hydrated.
 - Avoid heavy make-up or lotions before light and cold sessions.
-- We provide robes, towels, slippers and everything each modality needs.
+- We provide robes, Aura-branded towels, Aura-branded clothing to wear in the centre, hotel-style Aura-branded slippers and everything each modality needs. Refreshments are served.
 - First-time guests complete a health screening and consent form. Some modalities need extra screening; your Host may adjust or decline a modality if it is not right for you that day.
 
-### 10. IV nutrient therapy and hyperbaric oxygen
+### 10. Hyperbaric oxygen and future services
 
-IV nutrient therapy is administered by licensed clinical staff, subject to DHA requirements [DHA licence / approval reference]. It requires a clinical assessment before treatment, and the clinician may decline to treat. Hyperbaric oxygen sessions are subject to screening and DHA requirements [DHA licence / approval reference]. IV therapy is priced separately and is not included in memberships.
+No medical treatments are offered at launch. Hyperbaric oxygen is offered as a non-medical wellness session and is subject to screening [confirm licensing requirements for hyperbaric with DHA / licensing authority]. IV nutrient therapy is not offered at launch; it may be introduced in future, subject to DHA licensing, and would be bookable only once announced.
 
 ### 11. Changing or cancelling a booking
 
@@ -70,7 +70,6 @@ IV nutrient therapy is administered by licensed clinical staff, subject to DHA r
 | More than [24] hours before | Free change or cancellation |
 | Less than [24] hours before | Late-cancellation fee of AED [___], or one session deducted for members |
 | No-show | No-show fee of AED [___], or one session deducted for members |
-| IV therapy, less than [24] hours | Fee of AED [___] to cover prepared supplies [to be confirmed] |
 
 We may waive fees for genuine emergencies at the General Manager's discretion. If you arrive late, we will do what we can, but the session may be shortened so the next guest is not delayed.
 
@@ -80,7 +79,7 @@ Occasionally a unit is out of service for Elevé calibration or maintenance, or 
 
 ### 13. Payment
 
-Payment is taken at the studio or through our payment provider in AED. Prices include VAT at 5% where applicable, once The Aura is registered for VAT [TRN]. You will receive a tax invoice or receipt.
+Payment is taken at the studio by Apple Pay, card or cash, or through our payment provider, in AED. Buy-now-pay-later (Tabby) will be added later. Prices include VAT at 5% where applicable, once The Aura is registered for VAT [TRN]. You will receive a tax invoice or receipt.
 
 ### 14. Memberships
 
@@ -88,7 +87,7 @@ Payment is taken at the studio or through our payment provider in AED. Prices in
 - You can pause for travel, or cancel any time before your next billing date. Cancellation takes effect at the end of the paid month.
 - Unused sessions do not roll over [to be confirmed].
 - Guest passes are for first-time guests, must be booked in advance and are subject to the same screening.
-- Member discounts on IV therapy and add-ons (10% Restore, 15% Elevate) apply to the member only.
+- Member discounts on add-ons and retail [confirm] (10% Restore, 15% Elevate) apply to the member only.
 - Your Dubai membership can be used at our Santa Ana location, by appointment.
 - Full membership terms are given at sign-up [cross-reference to membership agreement].
 
@@ -102,7 +101,7 @@ Gift cards are valid for [12] months from purchase, are not exchangeable for cas
 
 ### 17. Conduct and safety
 
-Please follow your Host's guidance at all times, especially in cryotherapy, cold plunge, float and hyperbaric sessions. We may end a session, or refuse service, if continuing would be unsafe or if a guest's behaviour is inappropriate. Photography inside treatment rooms is not allowed without permission, to protect other guests.
+Please follow your Host's guidance at all times, especially in cryotherapy, cold plunge, dry float and hyperbaric sessions. We may end a session, or refuse service, if continuing would be unsafe or if a guest's behaviour is inappropriate. Photography inside treatment rooms is not allowed without permission, to protect other guests.
 
 ### 18. Liability at the studio
 

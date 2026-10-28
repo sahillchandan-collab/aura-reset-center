@@ -64,7 +64,7 @@ Agree three to five objectives linked to the role's KPIs in the Job descriptions
 |---|---|---|
 | CPR/BLS | ☐ Yes ☐ No | __________ |
 | Elevé device training for all role modalities | ☐ Yes ☐ No | __________ |
-| DHA licence (clinical roles) | ☐ Yes ☐ No ☐ N/A | __________ |
+| Practitioner certification (Healer and facilitator roles) | ☐ Yes ☐ No ☐ N/A | __________ |
 | Mandatory policies acknowledged | ☐ Yes ☐ No | — |
 
 ## 7. Overall rating

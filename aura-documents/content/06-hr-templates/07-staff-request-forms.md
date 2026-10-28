@@ -138,7 +138,7 @@ These four forms cover everyday requests at The Aura Reset Center. Submit each f
 | Name | __________ | __________ |
 | Position | __________ | __________ |
 | Original shift date | __________ | __________ |
-| Original shift (Opening / Mid / Closing) | __________ | __________ |
+| Original shift (Opening 9:00–15:30 / Closing 14:30–21:00 [confirm]) | __________ | __________ |
 | Shift times | __________ | __________ |
 
 **Swap type:** ☐ Straight swap (both shifts exchanged) ☐ Cover only (one shift given up)
@@ -149,7 +149,7 @@ These four forms cover everyday requests at The Aura Reset Center. Submit each f
 
 - ☐ Covering employee is signed off on all modalities booked for that shift (training matrix, AUR-HR-05)
 - ☐ Minimum staffing for the shift is still met (AUR-HR-08)
-- ☐ Clinical cover maintained for IV and hyperbaric bookings (if relevant)
+- ☐ 2 Hosts still on the shift, including one signed off for hyperbaric bookings (if relevant)
 - ☐ Neither employee exceeds legal working hours or loses a required rest day
 - ☐ No overtime created, or overtime pre-approved on AUR-HR-07
 
