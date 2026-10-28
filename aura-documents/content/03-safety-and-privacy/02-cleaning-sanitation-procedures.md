@@ -140,7 +140,7 @@ There is no wet float tank at The Aura; the dry float bed is the only float.
 
 | Frequency | Task |
 |---|---|
-| Between every guest or group | Wipe mats, cushions covers, bolsters and eye pillows (or replace covers); wipe instruments to the maker's guidance; fresh blanket; air the room; wipe consultation table and chairs |
+| Between every guest or group | Wipe mats, cushion covers, bolsters and eye pillows (or replace covers); wipe instruments to the maker's guidance; fresh blanket; air the room; wipe consultation table and chairs |
 | Daily | Vacuum or mop floor; launder cushion covers and blankets; check instruments for damage |
 | Weekly | Clean mats in full; dust shelves and speakers |
 | Monthly | Deep clean soft furnishings |
@@ -181,7 +181,7 @@ There is no wet float tank at The Aura; the dry float bed is the only float.
 1. Put on PPE (double gloves, apron, goggles).
 2. Cover with absorbent granules or spill kit.
 3. Remove into a sealed, labelled waste bag [disposal route per Dubai Municipality — to confirm].
-4. Clean the area, then disinfect with clinical-grade disinfectant for the full contact time.
+4. Clean the area, then disinfect with the body fluid spill disinfectant for the full contact time.
 5. Dispose of PPE in the same sealed bag. Wash hands. Record on the cleaning log.
 
 <<<PAGEBREAK>>>
