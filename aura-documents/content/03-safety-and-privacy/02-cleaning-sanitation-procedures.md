@@ -4,9 +4,9 @@
 
 ## 1. Purpose
 
-A guest should walk into every room as if they are the first person to use it that day. These procedures set out what is cleaned, when, how and by whom across the Jumeirah 1 studio. They support the Health, Safety & Hygiene Policy (AUR-SAF-01) and Dubai Municipality hygiene requirements [Dubai Municipality approval reference].
+A guest should walk into every room as if they are the first person to use it that day. These procedures set out what is cleaned, when, how and by whom across the Jumeirah 1 studio, open 7 days a week, 9:00am–9:00pm. Cleaning is done by the Hosts (2 per shift) plus [in-house attendant / outsourced cleaner — to be decided]. They support the Health, Safety & Hygiene Policy (AUR-SAF-01) and Dubai Municipality hygiene requirements [Dubai Municipality approval reference].
 
-Where an Elevé Health cleaning instruction exists for a device, it takes priority over this document. Never use a product on an Elevé device that Elevé has not approved.
+Where an Elevé Health cleaning instruction exists for a device, it takes priority over this document. Never use a product on an Elevé device that Elevé has not approved. Elevé operating and cleaning instructions have not yet been received, so every device product, dilution and method is [per Elevé protocol — pending] until confirmed.
 
 ## 2. General rules
 
@@ -15,7 +15,8 @@ Where an Elevé Health cleaning instruction exists for a device, it takes priori
 - Never mix chemicals. Use measured dilution only.
 - Switch off and allow devices to reach safe temperature before cleaning. Never spray liquid into vents, controls or electrical parts.
 - Turnaround cleaning is included in every booking slot. A room is not released to the next guest until the Host has signed it off.
-- Every robe, towel, slipper set, cryo sock, glove and ear cover is fresh for each guest.
+- Every robe, Aura-branded towel, Aura-branded clothing set, pair of hotel-style Aura-branded slippers, cryo sock, glove and ear cover is fresh for each guest.
+- With one unit of each machine, turnaround must be finished on time; a unit that cannot be cleaned to standard is closed and that modality is unavailable until it is.
 
 ## 3. Approved products
 
@@ -23,11 +24,12 @@ Where an Elevé Health cleaning instruction exists for a device, it takes priori
 |---|---|---|---|---|
 | General hard-surface cleaner | [Product] | [___] | n/a | ☐ |
 | Hard-surface disinfectant (non-device) | [Product] | [___] | [___] min | ☐ |
-| Elevé-approved device disinfectant | [Product approved by Elevé] | [___] | [___] min | ☐ |
-| Hyperbaric chamber interior cleaner (oxygen-compatible, alcohol and oil-free per Elevé) | [Product approved by Elevé] | [___] | [___] min | ☐ |
-| Float tank sanitiser / oxidiser | [Product] | [___] | n/a | ☐ |
+| Elevé-approved device disinfectant | [per Elevé protocol — pending] | [___] | [___] min | ☐ |
+| Hyperbaric chamber interior cleaner (oxygen-compatible, alcohol and oil-free per Elevé) | [per Elevé protocol — pending] | [___] | [___] min | ☐ |
 | Cold plunge water treatment | [Product per Elevé · Polar Recovery] | [___] | n/a | ☐ |
-| Clinical-grade disinfectant (IV room) | [Product approved by Clinical Lead] | [___] | [___] min | ☐ |
+| Body fluid spill disinfectant | [Product] | [___] | [___] min | ☐ |
+| Laundry detergent and sanitiser (in-house machine) | [Product] | [___] | n/a | ☐ |
+| Food-contact surface sanitiser (refreshment station, copper mugs) | [Product] | [___] | [___] min | ☐ |
 | Floor cleaner, wet areas (anti-slip safe) | [Product] | [___] | n/a | ☐ |
 | Glass and mirror cleaner | [Product] | [___] | n/a | ☐ |
 | Hand sanitiser (guest and staff) | [Product] | Ready to use | 20–30 sec | ☐ |
@@ -37,23 +39,22 @@ Where an Elevé Health cleaning instruction exists for a device, it takes priori
 | Task | Gloves | Apron | Eye protection | Mask |
 |---|---|---|---|---|
 | Routine surface cleaning | Nitrile | Optional | No | No |
-| Chemical dilution and dosing (float, plunge) | Chemical-resistant | Yes | Goggles | As per SDS |
+| Chemical dilution and dosing (plunge, laundry) | Chemical-resistant | Yes | Goggles | As per SDS |
 | Toilet and shower cleaning | Nitrile (red cloth area) | Yes | No | No |
 | Salt cabin refill and deep clean | Nitrile | Yes | Goggles | [FFP2] dust mask |
-| IV room and clinical waste | Nitrile, clinical | Disposable | As per Clinical Lead | As per Clinical Lead |
 | Body fluid spill | Nitrile, double | Disposable | Goggles | Yes |
 
 ## 5. Colour-coded cloths and mops
 
 | Colour | Area | Never use on |
 |---|---|---|
-| Blue | Reception, lounge, offices, general low-risk surfaces | Toilets, IV room |
-| Green | Treatment rooms and device exteriors (cryo, red light, sauna, HBOT exterior, dry float, salt cabin, compression boots) | Toilets |
-| Yellow | IV room and clinical areas | Any other area |
+| Blue | Reception, lounge, offices, general low-risk surfaces | Toilets |
+| Green | Treatment rooms and device exteriors (cryo, red light, sauna, HBOT exterior, dry float, salt cabin, compression boots), Healer consultation room, Sound Healing and breathwork room | Toilets |
+| Yellow | Refreshment station and food-contact surfaces | Any other area |
 | Red | Toilets, urinals, shower floors | Any other area |
 | White (single-use) | Hyperbaric chamber interior | Any other area |
 
-Cloths are laundered at [60–90 °C] daily or are single-use. Mop heads are colour-matched and stored separately.
+Cloths are laundered separately from guest linen in the in-house machine at [60–90 °C] daily or are single-use. Mop heads are colour-matched and stored separately.
 
 <<<PAGEBREAK>>>
 
@@ -97,35 +98,18 @@ Cloths are laundered at [60–90 °C] daily or are single-use. Mop heads are col
 
 > No alcohol-based wipes, oils, aerosols or petroleum-based products in or on the hyperbaric chamber unless Elevé has approved them in writing. Fire risk in oxygen-enriched air is the main hazard.
 
-### 6.5 Float Tank (Float & Sensory Reset)
+### 6.5 Dry Float Bed
 
-| Frequency | Task |
-|---|---|
-| Between every guest | Run full filtration cycle with UV [minimum ___ minutes / ___ turnovers]; skim surface; wipe tank walls above waterline, door or lid, handrail and call button; rinse and refill eye-spray bottle; clean shower and floor; fresh towels |
-| Daily | Test and log pH, sanitiser level, specific gravity (Epsom concentration) and temperature; check filter pressure; wipe all interior surfaces above waterline |
-| Weekly | Change or clean filter cartridge as per supplier; test for [total alkalinity, combined chlorine or other parameters]; top up Epsom salt to maintain target specific gravity |
-| Monthly | Send water sample to an accredited laboratory [Lab name] for microbiological testing; inspect UV lamp and record hours; deep-clean tank exterior and room |
-
-Target values (confirm with supplier and Dubai Municipality):
-
-| Parameter | Target range | Action if out of range |
-|---|---|---|
-| Specific gravity (Epsom) | [1.23–1.30] | Add salt or water; retest before next guest |
-| pH | [7.2–7.8] | Adjust; retest |
-| Sanitiser residual | [___] | Adjust; close tank if below minimum |
-| Water temperature | Skin temperature [34.5–35.5 °C] | Adjust heater; do not float if outside range |
-| Microbiology (monthly lab) | [Per Dubai Municipality] | Close tank; shock treat; retest |
-
-### 6.6 Dry Float Bed
+There is no wet float tank at The Aura; the dry float bed is the only float.
 
 | Frequency | Task |
 |---|---|
 | Between every guest | Wipe membrane and frame with Elevé-approved disinfectant; fresh pillow cover and blanket |
 | Daily | Full wipe-down; check membrane for wear or leaks |
-| Weekly | Check water level and temperature settings as per Elevé |
+| Weekly | Check water level and temperature settings [per Elevé protocol — pending] |
 | Monthly | Inspection as per Elevé; record in maintenance log |
 
-### 6.7 Salt Cabin (E-Salt Cabin)
+### 6.6 Salt Cabin (E-Salt Cabin)
 
 | Frequency | Task |
 |---|---|
@@ -134,7 +118,7 @@ Target values (confirm with supplier and Dubai Municipality):
 | Weekly | Refill salt generator (PPE: mask and goggles); clean oxygen outlet exterior as per Elevé; vacuum loose salt |
 | Monthly | Elevé inspection checklist; replace filters as per Elevé |
 
-### 6.8 Cold Plunge (Elevé · Polar Recovery, 5 °C)
+### 6.7 Cold Plunge (Elevé · Polar Recovery, 5 °C)
 
 | Frequency | Task |
 |---|---|
@@ -143,7 +127,7 @@ Target values (confirm with supplier and Dubai Municipality):
 | Weekly | Clean or change filter as per Elevé; wipe waterline; check ozone or UV unit as per Elevé |
 | Monthly | Drain, clean and refill if Elevé schedule or test results require; lab microbiological sample [Lab name] |
 
-### 6.9 Compression Boots (7-zone)
+### 6.8 Compression Boots (7-zone)
 
 | Frequency | Task |
 |---|---|
@@ -152,64 +136,59 @@ Target values (confirm with supplier and Dubai Municipality):
 | Weekly | Inspect zips and connectors |
 | Monthly | Elevé inspection; record in maintenance log |
 
-### 6.10 IV Room (clinical standards)
-
-Cleaning in the IV room follows clinical infection-control standards set by the Clinical Lead and DHA requirements [DHA licence / approval reference]. Only trained staff clean this room. Yellow cloths only.
+### 6.9 Sound Healing, Guided Breathwork and Healer consultation rooms
 
 | Frequency | Task |
 |---|---|
-| Between every guest | Hand hygiene; disinfect chair or couch, armrests, IV stand, trolley top and any touched surface with clinical-grade disinfectant; replace couch roll; dispose of sharps at point of use; segregate clinical waste |
-| Daily | Damp-dust all surfaces including high surfaces; clean floor; restock; check sharps container fill level; check fridge temperature and log |
-| Weekly | Clean fridge, cupboards and trolleys inside; check stock expiry dates; check anaphylaxis kit and log |
-| Monthly | Deep clean including walls, curtains or screens (change curtains [every ___ months] or when soiled); audit by Clinical Lead |
+| Between every guest or group | Wipe mats, cushions covers, bolsters and eye pillows (or replace covers); wipe instruments to the maker's guidance; fresh blanket; air the room; wipe consultation table and chairs |
+| Daily | Vacuum or mop floor; launder cushion covers and blankets; check instruments for damage |
+| Weekly | Clean mats in full; dust shelves and speakers |
+| Monthly | Deep clean soft furnishings |
 
-### 6.11 Changing Rooms and Showers
+> IV Nutrient Therapy is not offered at launch, so there is no IV room. If clinical services are added in future, subject to DHA licensing, clinical cleaning standards would be added here under a Clinical Lead.
+
+### 6.10 Changing Rooms and Showers
 
 | Frequency | Task |
 |---|---|
-| Between every guest (private changing / shower suites) | Remove used towels and robes; wipe bench, hooks and vanity; squeegee shower; dry floor; restock amenities |
+| Between every guest (private changing / shower suites) | Remove used towels, robes, guest clothing and slippers; wipe bench, hooks and vanity; squeegee shower; dry floor; restock amenities |
 | Daily | Full clean of showers, toilets, basins and floors (red cloths for toilets and shower floors); empty bins; check drains |
 | Hourly during opening | Floor and toilet check; dry wet floors; sign the area checklist |
 | Weekly | Descale shower heads and glass; clean lockers inside; deep-clean grout |
 | Monthly | Clean extractor fans and vents; check for mould and report |
 
-### 6.12 Reception and Lounge
+### 6.11 Reception, Lounge, Refreshments and Retail
 
 | Frequency | Task |
 |---|---|
-| Between every guest | Wipe check-in tablet or pen, counter and card machine |
-| Daily | Dust and wipe all surfaces; clean glass and doors; vacuum or mop floors; empty bins; refresh water and tea station |
-| Weekly | Clean retail shelves and products; wipe skirting and lighting |
+| Between every guest | Wipe check-in tablet or pen, counter and card / Apple Pay terminal; wash used cups and copper mugs (yellow cloths, food-contact sanitiser) |
+| Daily | Dust and wipe all surfaces; clean glass and doors; vacuum or mop floors; empty bins; refresh herbal tea and infused water station [menu to confirm]; check refreshment stock dates |
+| Weekly | Clean retail shelves and products (copper mugs, organic fragrances, wellness pillows, linen merchandise); wipe skirting and lighting |
 | Monthly | Deep clean upholstery and rugs |
 
 ## 7. Laundry
 
 - Used linen goes into bags at the point of use, never on the floor.
 - Linen soiled with blood or body fluid is bagged separately in [water-soluble red] bags.
-- Laundry is processed by [Laundry contractor] at [___ °C] or in-house to the same standard.
-- Clean linen is stored covered and away from used linen.
+- Laundry is done in-house in the studio's own laundry machine(s), by the Hosts and [in-house attendant / outsourced cleaner — to be decided].
+- Robes, Aura-branded towels and Aura-branded guest clothing are washed at [___ °C] with [Product]; hotel-style slippers are [single-use / laundered at ___ °C — confirm].
+- Branded items are washed to the care label to protect the colour and logo; faded or damaged items are withdrawn and recorded.
+- The closing shift runs the last loads, cleans the lint filter and leaves the machine door open to dry.
+- Clean linen is stored covered and away from used linen; par stock of [___] sets is checked daily so every guest has fresh items.
 
 ## 8. Body fluid spills
 
 1. Put on PPE (double gloves, apron, goggles).
 2. Cover with absorbent granules or spill kit.
-3. Remove into a clinical waste bag.
+3. Remove into a sealed, labelled waste bag [disposal route per Dubai Municipality — to confirm].
 4. Clean the area, then disinfect with clinical-grade disinfectant for the full contact time.
-5. Dispose of PPE as clinical waste. Wash hands. Record on the cleaning log.
+5. Dispose of PPE in the same sealed bag. Wash hands. Record on the cleaning log.
 
 <<<PAGEBREAK>>>
 
 ## 9. Logs and sign-off
 
-### 9.1 Float tank water testing log
-
-| Date / time | pH | Sanitiser | Specific gravity | Temp (°C) | Initials |
-|---|---|---|---|---|---|
-| __________ | ______ | ______ | ______ | ______ | ______ |
-| __________ | ______ | ______ | ______ | ______ | ______ |
-| __________ | ______ | ______ | ______ | ______ | ______ |
-
-### 9.2 Cold plunge temperature and water log
+### 9.1 Cold plunge temperature and water log
 
 | Date | Open (°C) | Midday (°C) | Close (°C) | pH / sanitiser | Initials |
 |---|---|---|---|---|---|
@@ -217,7 +196,7 @@ Cleaning in the IV room follows clinical infection-control standards set by the 
 | __________ | ______ | ______ | ______ | ______ | ______ |
 | __________ | ______ | ______ | ______ | ______ | ______ |
 
-### 9.3 Daily cleaning sign-off log
+### 9.2 Daily cleaning sign-off log
 
 | Area / device | Between-guest checks complete | Daily clean complete | Issue noted | Cleaned by | Checked by |
 |---|---|---|---|---|---|
@@ -225,18 +204,19 @@ Cleaning in the IV room follows clinical infection-control standards set by the 
 | Red-light bed | ☐ | ☐ | __________ | ______ | ______ |
 | Infrared sauna | ☐ | ☐ | __________ | ______ | ______ |
 | Hyperbaric chamber | ☐ | ☐ | __________ | ______ | ______ |
-| Float tank | ☐ | ☐ | __________ | ______ | ______ |
 | Dry float bed | ☐ | ☐ | __________ | ______ | ______ |
 | Salt cabin | ☐ | ☐ | __________ | ______ | ______ |
 | Cold plunge | ☐ | ☐ | __________ | ______ | ______ |
 | Compression boots | ☐ | ☐ | __________ | ______ | ______ |
-| IV room | ☐ | ☐ | __________ | ______ | ______ |
+| Sound Healing / breathwork / consultation rooms | ☐ | ☐ | __________ | ______ | ______ |
+| Laundry machine and linen store | ☐ | ☐ | __________ | ______ | ______ |
+| Refreshment station | ☐ | ☐ | __________ | ______ | ______ |
 | Changing rooms and showers | ☐ | ☐ | __________ | ______ | ______ |
 | Reception and lounge | ☐ | ☐ | __________ | ______ | ______ |
 
 Date: __________ Duty Manager: __________
 
-### 9.4 Weekly and monthly sign-off
+### 9.3 Weekly and monthly sign-off
 
 | Week / month | Area / device | Task completed | Cleaned by | Checked by | Date |
 |---|---|---|---|---|---|
@@ -248,4 +228,4 @@ Logs are kept for at least [___] years and are available to Dubai Municipality i
 
 ## 10. Audit
 
-The General Manager walks the studio with the cleaning checklist at least [weekly]. The Clinical Lead audits the IV room [monthly]. Findings are recorded and actions are closed within [7] days.
+The General Manager walks the studio with the cleaning checklist at least [weekly]. Findings are recorded and actions are closed within [7] days.
