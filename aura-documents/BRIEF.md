@@ -90,3 +90,37 @@ Note for Dubai compliance: IV therapy (and likely hyperbaric oxygen) require DHA
   Light bronze #C79A6D, Amber "aura light" #F0A968, Halo #FFD3A0, Cream #F2E7DB (background), Shell #FBF5EE, Sand #E8D7C5, Clay #DCC6B0 (dividers).
 - Signature motif: the glowing amber aura ring. Logo lockup: "THE / AURA / RESET CENTER / NERVOUS SYSTEM REGULATION".
 - Tone of voice: calm, warm, precise, unhurried; short sentences; second person ("you"); sensory but never hype; no medical claims.
+
+## OPERATING DECISIONS FROM THE GENERAL MANAGER (28 Oct 2026) — THESE OVERRIDE THE WEBSITE
+- **Opening hours:** 7 days a week, **9:00am – 9:00pm**. (Replaces any 8am–8pm reference.)
+- **Staffing:** **2 Hosts per shift** for now. Two shifts per day are implied (e.g. 9:00–15:30 and 14:30–21:00 [confirm]).
+- **Healers:** every guest's **first visit starts with a consultation with one of our Healers**, who identify the core
+  problem and design a personalised package/programme to regulate the nervous system and support energy healing.
+  Healers are a staff role (energy-healing / holistic practitioners). Number of Healers: [__].
+- **No medical treatments at launch.** A doctor is named on the licence but is **not on the floor**. **IV Nutrient Therapy is
+  NOT offered at launch** — it is a possible future service only (would need DHA licensing and on-site clinicians). Do not
+  describe IV as currently available. No "Clinical Lead" role on the floor at launch; the licensed doctor is the
+  [Medical Director named on the licence] for oversight/escalation only.
+- **Equipment:** **one unit of each machine** (1 cryo chamber, 1 red-light bed, 1 infrared sauna, 1 hyperbaric chamber,
+  1 dry float bed, 1 E-Salt Cabin, 1 cold plunge, 1 set of compression boots).
+- **Float:** there is **NO wet float tank**. The only float is the **Elevé dry float bed** (fully clothed). Drop "Float &
+  Sensory Reset" / Epsom-salt float tank from services.
+- **Hyperbaric oxygen:** offered as a non-medical wellness session; flag "[confirm licensing requirements for hyperbaric with
+  DHA / licensing authority]".
+- **Sessions/services at launch:** Whole-Body Cryotherapy, Red-Light Bed, Infrared Sauna, Hyperbaric Oxygen, Dry Float Bed,
+  Salt Cabin, Cold Plunge, Compression Recovery, **Guided Breathwork** sessions and **Sound Healing** sessions, plus the
+  **Healer consultation**. Hosts **suggest combinations** of modalities to guests.
+- **Booking:** online (website) **and WhatsApp**. Most new guests will come from **paid ad campaigns** (Meta/Instagram/Google),
+  so fast lead response matters. Booking software: [Booking system — to be chosen].
+- **Payments:** **Apple Pay, card and cash.** Tabby (buy-now-pay-later) comes later.
+- **Refreshments** are served to guests (herbal teas, infused water etc. [menu to confirm]).
+- **Retail:** copper mugs, fragrances made from organic materials, wellness pillows, linen-fabric merchandise.
+- **Guest amenities:** robes, **Aura-branded towels and Aura-branded clothing** to wear in the centre, and **hotel-style
+  Aura-branded slippers**.
+- **Laundry:** **in-house laundry machine(s)**.
+- **Elevé operating instructions/protocols have NOT yet been received** — all machine settings, session limits and cleaning
+  products must be "[per Elevé protocol — pending]".
+- Still undecided (use placeholders): booking software; who does the end-of-day cash close (default: senior Host on the
+  closing shift, checked by the General Manager next morning); out-of-hours emergency contacts after the General Manager
+  ([CEO contact order to be confirmed]); cleaning by Hosts plus [in-house attendant / outsourced cleaner — to be decided];
+  length of the Healer consultation ([30–45 min proposed]); breathwork/sound-healing group size ([up to __ guests]).
