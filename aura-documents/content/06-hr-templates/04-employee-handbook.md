@@ -14,7 +14,7 @@ My own wellness journey began in 2014, with energy healing and a deep curiosity 
 
 When I came to Dubai, something immediately felt different. I felt at home. Our flagship in Jumeirah 1 is the result of that feeling, and you are now part of it.
 
-You are not joining a reception desk or a machine room. You are joining a team of Hosts who meet every guest as a whole person. My hope is that everyone who walks through our doors feels cared for, supported and inspired to become the best version of themselves. That begins with how we care for each other.
+You are not joining a reception desk or a machine room. You are joining a team of Hosts and Healers who meet every guest as a whole person. My hope is that everyone who walks through our doors feels cared for, supported and inspired to become the best version of themselves. That begins with how we care for each other.
 
 Welcome. Take a breath with us: in for four, out for six.
 
@@ -30,18 +30,19 @@ Founder & Chief Executive Officer
 
 The Aura began in Santa Ana, California, where our first studio opens by appointment. Dubai is our flagship, at 332 Jumeirah First, Jumeirah Beach Road, Jumeirah 1, opening in November 2026 with an official launch event. Our first 100 founding members will be welcomed first.
 
-We are a recovery studio for the modern nervous system. Our tagline is "Nervous System Regulation" and our pillars are **Reset · Heal · Elevate**. We offer 11 modalities:
+We are a recovery studio for the modern nervous system. Our tagline is "Nervous System Regulation" and our pillars are **Reset · Heal · Elevate**. At launch we offer these sessions, and every guest's first visit starts with a Healer consultation:
 
 | Reset | Heal | Elevate |
 |---|---|---|
-| Whole-Body Cryotherapy (3 min) | Red-Light Bed (20 min) | IV Nutrient Therapy (45–60 min, clinician-administered) |
-| Float & Sensory Reset (60 min) | Infrared Sauna (40 min) | |
-| Dry Float Bed (30 min) | Hyperbaric Oxygen (60 min) | |
-| Salt Cabin (30 min) | Compression Recovery (30 min) | |
-| Cold Plunge (2–5 min) | | |
+| Whole-Body Cryotherapy (3 min) | Red-Light Bed (20 min) | Healer consultation (first visit, [30–45 min proposed]) |
+| Dry Float Bed (30 min) | Infrared Sauna (40 min) | Sound Healing ([__] min) |
+| Salt Cabin (30 min) | Hyperbaric Oxygen (60 min) | |
+| Cold Plunge (2–5 min) | Compression Recovery (30 min) | |
 | Guided Breathwork (45 min) | | |
 
-Our modalities are wellness services designed to support how guests feel and function. They are not a substitute for medical care. IV therapy is administered by licensed clinicians, subject to DHA requirements, and we always flag anything that warrants a conversation with a guest's doctor.
+Our modalities are wellness services designed to support how guests feel and function. They are not a substitute for medical care. No medical treatments are offered at launch: IV Nutrient Therapy may come in future, subject to DHA licensing. Hyperbaric oxygen is a non-medical wellness session [confirm licensing requirements for hyperbaric with DHA / licensing authority]. We always flag anything that warrants a conversation with a guest's doctor. Hosts suggest combinations of modalities, guided by the Healer's personalised package.
+
+We are open 7 days a week, 9:00am–9:00pm, with 2 Hosts on each shift. Guests book online and on WhatsApp, and most new guests reach us through our paid ad campaigns, so a fast, warm reply matters.
 
 ## Our values in practice
 
@@ -62,7 +63,7 @@ Every Host commits to five things with every guest:
 1. **Breathe with them.** Every visit begins with our ritual: in for four, out for six.
 1. **Tailor it.** Build the session around their goal: sleep deeper, calm the stress, recover faster, more energy, skin and glow, sharper focus or beat jet lag.
 1. **Keep them safe.** Screening complete, protocol followed, time limits respected, never alone in the cold plunge.
-1. **Close gently.** Check how they feel, offer water, and suggest the next step without pressure.
+1. **Close gently.** Check how they feel, offer a refreshment, and suggest the next step without pressure.
 
 ## The Elevé partnership
 
@@ -81,14 +82,15 @@ Elevé's own Longevity Lounge is in Newport Beach. When their technicians visit,
 
 | Area | What happens here | Key contact |
 |---|---|---|
-| Arrival and reception | Check-in, bookings, robes, towels and slippers | Guest Relations Executive |
-| Lounge | Breathing ritual, consultation, post-session rest | Host on duty |
+| Arrival and reception | Check-in, bookings, payments (Apple Pay, card, cash), retail, robes, Aura-branded towels, clothing and slippers | Host on duty |
+| Lounge | Breathing ritual, refreshments, post-session rest | Host on duty |
+| Healer room | First-visit Healer consultation and programme reviews | Healer |
 | Cold zone | Cryotherapy (E-CRYO PRO), Cold Plunge | Host on duty |
 | Light and heat | Red-Light Bed, Infrared Sauna | Host on duty |
-| Rest zone | Float tank, Dry Float Bed, Salt Cabin, Compression | Host on duty |
-| Clinical area | IV Nutrient Therapy, Hyperbaric Oxygen | Clinical Lead |
-| Breathwork room | Guided Breathwork, 1:1 and small group | Breathwork Facilitator |
-| Back of house | Laundry, storage, staff room, lockers | Lead Host |
+| Rest zone | Dry Float Bed, Salt Cabin, Compression | Host on duty |
+| Hyperbaric room | Hyperbaric Oxygen (wellness session) | Senior Host on duty |
+| Breathwork and sound room | Guided Breathwork and Sound Healing, 1:1 and small group | Breathwork & Sound Healing Facilitator |
+| Back of house | In-house laundry, storage, staff room, lockers | Lead Host |
 | Emergency exits and assembly point | [Location] | Fire warden on shift |
 
 ## What to expect in week one
@@ -98,8 +100,8 @@ Elevé's own Longevity Lounge is in Newport Beach. When their technicians visit,
 | Day 1 | Welcome from the General Manager, studio tour, uniform and locker, HR documents, emergency exits, meet the team |
 | Day 2 | Our story, values and Host promise; guest journey walkthrough; breathing ritual practice |
 | Day 3 | Health and safety, cleaning standards and data protection basics |
-| Day 4 | Elevé Health device orientation; shadowing on the floor |
-| Day 5 | Booking system training; shadow a full shift; week-one check-in with your manager |
+| Day 4 | Elevé Health device orientation [per Elevé protocol — pending]; sit in on a Healer consultation; shadowing on the floor |
+| Day 5 | Booking system and WhatsApp lead handling; payments (Apple Pay, card, cash); shadow a full shift; week-one check-in with your manager |
 
 Your full plan, including 30, 60 and 90 days, is in the Onboarding checklist & training plan (AUR-HR-05).
 
@@ -129,7 +131,7 @@ Read the full policy before signing the acknowledgement page. Copies are held by
 - **Rota:** published weekly; swaps need approval (AUR-HR-08).
 - **Leave and overtime:** request using the forms in AUR-HR-07.
 - **Your appraisal:** probation review and annual review (AUR-HR-06).
-- **Who to ask:** Lead Host for shift matters; General Manager for HR and pay; Clinical Lead for clinical questions.
+- **Who to ask:** Lead Host for shift matters; Healers for guest programmes; General Manager for HR, pay and any health or safety escalation (the General Manager refers to the [Medical Director named on the licence] where needed).
 - **Your wellbeing:** if you are struggling, speak to your manager or the General Manager in confidence.
 
 <<<PAGEBREAK>>>

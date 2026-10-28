@@ -51,7 +51,7 @@ Salary is paid monthly in arrears through the Wage Protection System (WPS) to a 
 
 ## 3. Working hours
 
-Normal working hours are [Hours] hours per day and [Hours] hours per week, within the limits of UAE labour law. The studio is open seven days a week, [Opening hours]; you will work rostered opening, mid or closing shifts, including weekends, with [Number] rest days per week. Overtime is worked only when authorised in advance and is paid or compensated as required by law. Reduced hours apply during Ramadan as set by the authorities.
+Normal working hours are [Hours] hours per day and [Hours] hours per week, within the limits of UAE labour law. The studio is open seven days a week, 9:00am–9:00pm; you will work rostered opening or closing shifts (planning assumption 9:00–15:30 and 14:30–21:00 [confirm]), including weekends, with [Number] rest days per week. Overtime is worked only when authorised in advance and is paid or compensated as required by law. Reduced hours apply during Ramadan as set by the authorities.
 
 ## 4. Leave
 
@@ -78,7 +78,7 @@ This offer is conditional on:
 1. A satisfactory medical fitness test at an approved Dubai centre, and completion of Emirates ID biometrics.
 1. Original educational and professional certificates, attested as required by the UAE authorities.
 1. Satisfactory references and verification of your experience.
-1. [Clinical roles only] An active DHA professional licence for [Registered Nurse / General Practitioner], and good standing with any previous licensing authority.
+1. [Healer and Breathwork & Sound Healing Facilitator roles only] Evidence of your practitioner training and certificates. [Future clinical roles only — not used at launch: an active DHA professional licence.]
 1. Current CPR/BLS certification, or completing it before your first guest-facing shift.
 1. Your agreement to the Code of conduct (AUR-POL-01), the HR manual (AUR-POL-02) and the confidentiality and data protection obligations in the Employee handbook (AUR-HR-04).
 
@@ -88,7 +88,7 @@ During probation and after it, notice periods follow UAE Federal Decree-Law No. 
 
 ## 8. Next steps
 
-Please sign and return this letter by **[Deadline date]**, together with: a passport copy (minimum [Number] months' validity), passport photographs, current visa page (if applicable), attested certificates and, for clinical roles, your DHA licence. Our team will then begin your MOHRE and visa process.
+Please sign and return this letter by **[Deadline date]**, together with: a passport copy (minimum [Number] months' validity), passport photographs, current visa page (if applicable), attested certificates and, for Healer and facilitator roles, your practitioner certificates. Our team will then begin your MOHRE and visa process.
 
 We look forward to welcoming you to the team.
 

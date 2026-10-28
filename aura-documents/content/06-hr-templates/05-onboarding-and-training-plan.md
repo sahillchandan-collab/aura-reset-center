@@ -15,8 +15,9 @@ This plan takes every new team member from offer acceptance to confident, signed
 | Signed offer letter and documents received | Admin & Accounts Assistant | ☐ | __________ |
 | MOHRE contract, visa, medical and Emirates ID progressed | PRO / Admin | ☐ | __________ |
 | Health insurance enrolled | Admin | ☐ | __________ |
-| DHA licence verified (clinical roles) | Clinical Lead / Admin | ☐ | __________ |
+| Practitioner certificates verified (Healer and facilitator roles) | General Manager / Admin | ☐ | __________ |
 | Uniform sized and ordered; name badge | Lead Host | ☐ | __________ |
+| Added to the WhatsApp booking line and lead-response rota | General Manager | ☐ | __________ |
 | Booking system and email accounts created | General Manager | ☐ | __________ |
 | Locker and keys or access card assigned | Lead Host | ☐ | __________ |
 | Buddy assigned; first two weeks' rota published | Lead Host | ☐ | __________ |
@@ -44,8 +45,11 @@ This plan takes every new team member from offer acceptance to confident, signed
 | Guest journey walkthrough: booking, arrival, ritual, session, close | Lead Host | ☐ |
 | Cleaning standards and logs (AUR-SAF-02) | Lead Host | ☐ |
 | Data protection basics under the PDPL (AUR-SAF-03) | General Manager | ☐ |
-| Booking system: requests, confirmations, check-in, memberships | Guest Relations Executive | ☐ |
-| Elevé Health orientation on all 11 modalities | Elevé trainer / Lead Host | ☐ |
+| Booking system and WhatsApp: requests, ad leads, confirmations, check-in, memberships | Lead Host | ☐ |
+| Payments and end-of-day cash close: Apple Pay, card and cash | Lead Host | ☐ |
+| Refreshments, amenities (robes, Aura-branded towels, clothing and slippers), in-house laundry and retail | Lead Host | ☐ |
+| Elevé Health orientation on all launch modalities [per Elevé protocol — pending] | Elevé trainer / Lead Host | ☐ |
+| Sit in on a Healer consultation; how to follow a personalised package | Healer | ☐ |
 | Shadow at least two full shifts (one opening, one closing) | Buddy | ☐ |
 | Read and acknowledge all policies in the handbook summary | Employee | ☐ |
 | Week-one review with manager | Manager | ☐ |
@@ -67,17 +71,19 @@ Key: **R** = required before working unsupervised · **A** = awareness only · *
 
 ### Core training
 
-| Training | Lead Host | Host | Guest Relations | Clinical Lead | Breathwork |
+| Training | Lead Host | Host | Guest Relations | Healer | Breathwork & Sound |
 |---|---|---|---|---|---|
 | Breathing ritual "in for four, out for six" | R | R | R | R | R |
 | Guest journey and Host promise | R | R | R | R | R |
 | Health & safety (AUR-SAF-01) | R | R | R | R | R |
-| First aid and CPR/BLS | R | R | R | R (BLS/ACLS) | R |
+| First aid and CPR/BLS | R | R | R | R | R |
 | Emergency procedures and fire (AUR-SAF-04) | R | R | R | R | R |
 | Hygiene and cleaning (AUR-SAF-02) | R | R | A | R | R |
-| Booking system | R | R | R | A | A |
+| Booking system and WhatsApp | R | R | R | R | A |
+| Payments and cash close | R | R | R | A | A |
 | Data protection under the PDPL (AUR-SAF-03) | R | R | R | R | R |
 | Complaints handling (AUR-SAF-05) | R | A | R | A | A |
+| Healer consultation and personalised packages | A | R (following packages) | A | R | A |
 
 > Spa Attendant / Housekeeping completes as required: health & safety, emergency procedures and fire, hygiene and cleaning; and as awareness: breathing ritual, guest journey, CPR/BLS, data protection and complaints handling.
 
@@ -85,21 +91,20 @@ Key: **R** = required before working unsupervised · **A** = awareness only · *
 
 ### Elevé Health device training per modality
 
-| Modality | Lead Host | Host | Clinical Lead | Breathwork | Spa Attendant |
+| Modality | Lead Host | Host | Healer | Breathwork & Sound | Spa Attendant |
 |---|---|---|---|---|---|
 | Whole-Body Cryotherapy (E-CRYO PRO) | R | R | A | A | Cleaning only |
 | Red-Light Bed | R | R | A | A | Cleaning only |
 | Infrared Sauna | R | R | A | A | Cleaning only |
-| Hyperbaric Oxygen | R (assist) | A (assist) | R | – | Cleaning only |
-| IV Nutrient Therapy | A | A | R | – | – |
-| Float & Sensory Reset | R | R | A | A | R (water and hygiene) |
+| Hyperbaric Oxygen | R | R (senior Hosts) | A | – | Cleaning only |
 | Compression Recovery | R | R | A | A | Cleaning only |
 | Dry Float Bed | R | R | A | A | Cleaning only |
 | Salt Cabin (E-Salt Cabin) | R | R | A | A | Cleaning only |
 | Cold Plunge (Polar Recovery) | R | R | A | A | R (water checks) |
 | Guided Breathwork | A | A | A | R | – |
+| Sound Healing | A | A | A | R | – |
 
-> Hyperbaric oxygen and IV therapy are subject to DHA requirements. Only DHA-licensed clinicians administer IV therapy; hyperbaric sessions run under Clinical Lead supervision. [DHA licence / approval reference]
+> Hyperbaric oxygen is offered as a non-medical wellness session, run only by Hosts signed off by Elevé Health [confirm licensing requirements for hyperbaric with DHA / licensing authority]. IV Nutrient Therapy is not offered at launch. All machine settings, session limits and cleaning products are [per Elevé protocol — pending].
 
 <<<PAGEBREAK>>>
 
@@ -119,13 +124,14 @@ Key: **R** = required before working unsupervised · **A** = awareness only · *
 | Elevé: Red-Light Bed | __________ | __________ | __________ | __________ |
 | Elevé: Infrared Sauna | __________ | __________ | __________ | __________ |
 | Elevé: Hyperbaric Oxygen | __________ | __________ | __________ | __________ |
-| IV Nutrient Therapy (clinical) | __________ | __________ | __________ | __________ |
-| Elevé: Float & Sensory Reset | __________ | __________ | __________ | __________ |
 | Elevé: Compression Recovery | __________ | __________ | __________ | __________ |
 | Elevé: Dry Float Bed | __________ | __________ | __________ | __________ |
 | Elevé: Salt Cabin | __________ | __________ | __________ | __________ |
 | Elevé: Cold Plunge | __________ | __________ | __________ | __________ |
 | Guided Breathwork | __________ | __________ | __________ | __________ |
+| Sound Healing | __________ | __________ | __________ | __________ |
+| Healer consultation and packages | __________ | __________ | __________ | __________ |
+| Booking system, WhatsApp and payments | __________ | __________ | __________ | __________ |
 
 | Onboarding complete | Name | Signature | Date |
 |---|---|---|---|

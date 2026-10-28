@@ -12,12 +12,12 @@ This pack guides every hire for The Aura Reset Center in Dubai, from requisition
 |---|---|---|---|---|
 | 1. Requisition | Role, headcount, start date and salary band AED [___] approved | General Manager / CEO | ☐ | __________ |
 | 2. Advertise | Post job description; brief recruiter or referral network | General Manager | ☐ | __________ |
-| 3. Shortlist | Screen CVs against qualifications and licences (DHA for clinical) | General Manager / Lead Host | ☐ | __________ |
+| 3. Shortlist | Screen CVs against qualifications and certifications (Healer, breathwork and sound healing practitioner training where relevant) | General Manager / Lead Host | ☐ | __________ |
 | 4. Interview 1 | Phone or video screen (values, availability, notice period) | General Manager | ☐ | __________ |
-| 5. Interview 2 | In-studio interview using this guide; practical where relevant | General Manager + Lead Host / Clinical Lead | ☐ | __________ |
+| 5. Interview 2 | In-studio interview using this guide; practical where relevant | General Manager + Lead Host / Healer | ☐ | __________ |
 | 6. Scorecard | Panel completes evaluation scorecard; decision recorded | Panel | ☐ | __________ |
 | 7. References | Two references checked using the form in section 4 | General Manager / Admin | ☐ | __________ |
-| 8. Licence check | Verify DHA licence (clinical), certificates, CPR/BLS | Clinical Lead / Admin | ☐ | __________ |
+| 8. Licence check | Verify certificates (Healer, breathwork, sound healing), CPR/BLS | General Manager / Admin | ☐ | __________ |
 | 9. Offer | Offer letter issued (only once trade license and establishment card are in place) | General Manager | ☐ | __________ |
 | 10. Acceptance | Signed offer and documents received (passport, photos, attested certificates) | Admin | ☐ | __________ |
 | 11. MOHRE / visa | MOHRE offer and work permit; entry permit or status change | PRO / Admin | ☐ | __________ |
@@ -57,17 +57,17 @@ This pack guides every hire for The Aura Reset Center in Dubai, from requisition
 - How do you handle a guest who has not completed their screening form?
 
 ### Role-specific questions
-- **Lead Host:** How would you build a 7-day rota with minimum staffing on every shift?
-- **Host:** Demonstrate how you would introduce the red-light bed to a first-timer.
+- **Lead Host:** How would you build a 7-day rota with 2 Hosts on every shift across 9:00am–9:00pm?
+- **Host:** Demonstrate how you would introduce the red-light bed to a first-timer. A lead from an Instagram ad messages on WhatsApp at 8:45pm: how do you reply?
 - **Guest Relations:** A member wants to cancel. Show us how you would handle it.
-- **Clinical Lead:** When would you decline an IV or hyperbaric session? How do you document that conversation?
-- **Breathwork Facilitator:** Lead a 5-minute breathing practice for the panel.
+- **Healer:** A first-time guest describes poor sleep and constant stress. Walk us through your consultation and the package you would design. When would you suggest they speak to their doctor?
+- **Breathwork & Sound Healing Facilitator:** Lead a 5-minute breathing practice for the panel, and describe how you would open a sound healing session.
 - **Spa Attendant:** Which cleaning products would you avoid on which surfaces, and why?
 - **Marketing & Community:** Write a two-line Instagram caption for the infrared sauna with no medical claims.
 - **Admin & Accounts:** How do you track visa and licence expiry dates?
 
 ### Close (5 minutes)
-- Availability for opening, mid and closing shifts, including weekends.
+- Availability for opening (9:00–15:30) and closing (14:30–21:00) shifts [confirm], including weekends.
 - Notice period, current visa status and expected start date.
 - Candidate questions. Explain next steps and timeline.
 
@@ -95,7 +95,7 @@ Score each criterion from 1 to 5. Weighted score = score × weight. Total out of
 
 **Rating guide:** 1 = no evidence · 2 = limited · 3 = meets the standard · 4 = strong · 5 = exceptional.
 
-**Must-haves met** (all required): ☐ Right to work / visa route clear ☐ Licences valid (DHA for clinical) ☐ Shift availability ☐ CPR/BLS held or agreed
+**Must-haves met** (all required): ☐ Right to work / visa route clear ☐ Certifications valid (where the role requires them) ☐ Shift availability ☐ CPR/BLS held or agreed
 
 **Recommendation:** ☐ Offer ☐ Second interview ☐ Hold ☐ Decline
 

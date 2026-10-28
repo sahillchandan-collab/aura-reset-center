@@ -4,9 +4,11 @@
 
 > Draft for internal use. To be reviewed by a UAE-qualified legal adviser once the trade license is issued.
 
+> IV Nutrient Therapy is not offered at launch. If clinical services are added in future, subject to DHA licensing, a Clinical Lead would be appointed and clinical emergency steps (adverse reactions, needlestick injury) added to this procedure.
+
 ## 1. Purpose
 
-This procedure tells every Host, clinician and Duty Manager exactly what to do when something goes wrong at the Jumeirah 1 studio. Read it at induction. Practise it in drills. In an emergency, stay calm and slow your own breath first: in for four, out for six. A steady Host helps a frightened guest.
+This procedure tells every Host, Healer and Duty Manager exactly what to do when something goes wrong at the Jumeirah 1 studio. With 2 Hosts per shift (9:00am–9:00pm, 7 days), one Host responds while the other calls for help and looks after other guests. No medical treatments are offered at launch and there is no clinician on the floor. Read it at induction. Practise it in drills. In an emergency, stay calm and slow your own breath first: in for four, out for six. A steady Host helps a frightened guest.
 
 ## 2. Emergency numbers (UAE)
 
@@ -15,8 +17,9 @@ This procedure tells every Host, clinician and Duty Manager exactly what to do w
 | Ambulance | 998 |
 | Police | 999 |
 | Civil Defence (fire) | 997 |
-| Clinical Lead | [Phone] |
 | General Manager | [Phone] |
+| Out-of-hours contacts after the General Manager | [CEO contact order to be confirmed] |
+| [Medical Director named on the licence] (oversight and escalation, not on site) | [Phone] |
 | Elevé Health technical support | [Phone] |
 | Building management / landlord | [Phone] |
 
@@ -65,7 +68,7 @@ Studio address to give emergency services: 332 Jumeirah First, Jumeirah Beach Ro
 
 ### 4.4 Hyperbaric emergency
 
-Only Elevé-trained HBOT operators respond at the panel. Follow the Elevé emergency protocol [Elevé HBOT emergency protocol ref.].
+Only Elevé-trained Hosts who operate the hyperbaric chamber respond at the panel. Hyperbaric is a non-medical wellness session [confirm licensing requirements for hyperbaric with DHA / licensing authority]. Follow the Elevé emergency protocol [Elevé HBOT emergency protocol ref.].
 
 1. If the guest reports pain, panic, breathing difficulty, or any unusual sensation: tell them calmly you are bringing them back to normal pressure.
 2. Stop pressurisation and decompress per Elevé protocol. Do not open the chamber before pressure is at ambient unless the Elevé protocol says so for that emergency.
@@ -74,19 +77,7 @@ Only Elevé-trained HBOT operators respond at the panel. Follow the Elevé emerg
 5. **Fire or smoke in or near the chamber:** stop oxygen supply as per Elevé protocol, activate the fire alarm, call 997, decompress and evacuate per Elevé protocol. Do not use water on electrical equipment.
 6. Take the chamber out of use. Inform Elevé Health and the General Manager immediately.
 
-### 4.5 IV adverse reaction
-
-The Clinical Lead or treating clinician leads every IV emergency. Hosts support.
-
-1. The clinician stops the infusion at once and keeps the cannula in place for access.
-2. Clinician assesses airway, breathing, circulation.
-3. For signs of anaphylaxis (swelling, wheeze, rash, low blood pressure): clinician follows the anaphylaxis protocol using the IV room emergency kit; a Host calls 998 and brings the AED.
-4. For a mild reaction, vasovagal faint or extravasation: clinician manages per clinical protocol.
-5. Host meets the ambulance and keeps other guests away.
-6. Clinician completes the clinical record and Incident Report Form; Clinical Lead reports to DHA where required, subject to DHA requirements.
-7. **Needlestick injury to staff:** encourage bleeding, wash with soap and water, do not suck, report to the Clinical Lead at once, and attend [designated clinic / hospital] for assessment within the timeframe set by the Clinical Lead.
-
-### 4.6 Slip, trip or fall
+### 4.5 Slip, trip or fall
 
 1. Do not move the person if they may have a head, neck or back injury. Call 998.
 2. If no serious injury, help them up slowly when they are ready; sit them down.
@@ -94,25 +85,25 @@ The Clinical Lead or treating clinician leads every IV emergency. Hosts support.
 4. Make the area safe: dry the floor, place wet-floor signs, close the area if needed.
 5. Photograph the scene (no guest in the frame) and record witnesses.
 
-### 4.7 Fire and evacuation
+### 4.6 Fire and evacuation
 
 1. **If you discover a fire:** raise the alarm at the nearest call point and shout "Fire".
 2. Call 997.
 3. Stop all devices safely:
    - Cryo: stop the session; guest out immediately.
    - Hyperbaric: emergency decompression per Elevé protocol; operator stays with the guest until out.
-   - Float tank: help the guest out, give a robe and slippers.
-   - Cold plunge, sauna, salt cabin, red light, dry float, compression: stop and help guest out.
-   - IV: clinician stops infusion, secures the cannula, and accompanies the guest.
+   - Cold plunge: help the guest out, give a robe and slippers.
+   - Sauna, salt cabin, red light, dry float, compression: stop and help guest out.
+   - Sound Healing and Guided Breathwork: the Healer turns on the lights and leads the group out.
 4. Only use a fire extinguisher if trained and the fire is small and your exit is clear.
-5. Guide everyone to the nearest exit. Use robes, towels and slippers; do not stop for belongings. Do not use lifts.
-6. Fire warden [Name / role] checks every room, including changing rooms, showers, the float room and the HBOT room.
+5. Guide everyone to the nearest exit. Use robes, Aura-branded towels and slippers; do not stop for belongings. Do not use lifts.
+6. Fire warden [Name / role] checks every room, including changing rooms, showers, the laundry, the consultation and Sound Healing rooms and the hyperbaric room.
 7. Assemble at **[Assembly point]**. The Duty Manager takes a roll call from the day's booking list and staff rota.
 8. Report anyone missing to Civil Defence. No one re-enters until Civil Defence gives the all-clear.
 
 Drills: every [6] months, recorded. Fire systems maintained by a Civil Defence approved contractor [Contractor].
 
-### 4.8 Power failure during a session
+### 4.7 Power failure during a session
 
 Emergency lighting comes on automatically. Stay calm; reassure every guest.
 
@@ -120,16 +111,15 @@ Emergency lighting comes on automatically. Stay calm; reassure every guest.
 |---|---|
 | Cryotherapy chamber | Open the door; help the guest out at once; warm with blankets |
 | Hyperbaric chamber | Follow Elevé power-failure protocol [ref.] for safe decompression; operator stays with the guest and talks them through it |
-| Float tank | Open the door or lid; turn on the torch kept at the tank; help the guest out slowly and rinse eyes if needed |
 | Cold plunge | Help the guest out at once (the water stays cold); warm them |
 | Infrared sauna, salt cabin | Help the guest out; ventilate; offer water |
 | Red-light bed, dry float bed | Open or lift the canopy; help the guest up slowly |
 | Compression boots | Unzip and remove boots manually |
-| IV therapy | Infusion pump on battery [if fitted]; clinician decides whether to continue or stop safely |
+| Sound Healing / Guided Breathwork | Healer pauses the session, uses a torch and reassures the group |
 
 Then: switch devices off at the isolator to avoid a surge when power returns; inform building management and the General Manager; do not restart any Elevé device until checks are done per Elevé guidance.
 
-### 4.9 Lost child or vulnerable guest
+### 4.8 Lost child or vulnerable guest
 
 1. Get a description: name, age, clothing, where last seen.
 2. Duty Manager alerts all staff and checks every room, changing room, shower, device and exit.
@@ -138,7 +128,7 @@ Then: switch devices off at the isolator to avoid a surge when power returns; in
 5. When found, keep them with a staff member in a calm area until their parent, guardian or carer arrives.
 6. Children are never left unsupervised in the studio. [Minimum age policy].
 
-### 4.10 Aggressive or abusive guest
+### 4.9 Aggressive or abusive guest
 
 1. Stay calm. Speak slowly and quietly. Keep a safe distance and an exit behind you.
 2. Do not argue or touch the person. Listen and acknowledge.
@@ -147,12 +137,12 @@ Then: switch devices off at the isolator to avoid a surge when power returns; in
 5. If there is any threat of violence, or the person will not leave, call 999.
 6. Record events and witnesses. The General Manager decides on any future booking restrictions.
 
-### 4.11 Medical emergency (cardiac arrest, seizure, severe allergy, stroke)
+### 4.10 Medical emergency (cardiac arrest, seizure, severe allergy, stroke)
 
 1. Call for help. Call 998 at once; put the phone on speaker.
 2. Not breathing normally: start CPR; send someone for the AED; follow its instructions.
 3. Seizure: protect the head, move objects away, do not restrain, time the seizure; recovery position afterwards.
-4. Severe allergy: help the guest use their own auto-injector if they have one; clinician uses the emergency kit if present.
+4. Severe allergy: help the guest use their own auto-injector if they have one; call 998.
 5. Suspected stroke (face drooping, arm weakness, speech difficulty): note the time and call 998.
 6. Keep going until paramedics take over. One person meets the ambulance.
 
@@ -162,9 +152,9 @@ Then: switch devices off at the isolator to avoid a surge when power returns; in
 |---|---|---|
 | 1 | Host on duty | Immediate response, first aid, stop the device |
 | 2 | Duty Manager / Senior Host | Every incident; coordinates response and calls |
-| 3 | Clinical Lead | Any IV, clinical or medical issue |
-| 4 | General Manager | Same day for all incidents; immediately for serious incidents, 998 calls, fire, police, device failures |
-| 5 | Founder & CEO and Chief Executive Officer | Immediately for serious injury, death, fire, police involvement, data breach, or media interest |
+| 3 | General Manager | Same day for all incidents; immediately for serious incidents, 998 calls, fire, police, device failures |
+| 4 | [Medical Director named on the licence] | Any health-related incident, for oversight and advice (not on site; 998 is always called first in an emergency) |
+| 5 | Founder & CEO and Chief Executive Officer ([CEO contact order to be confirmed]) | Immediately for serious injury, death, fire, police involvement, data breach, or media interest |
 
 The General Manager decides on notification to Dubai Municipality, Civil Defence, DHA, insurers [Insurer and policy no.] and Elevé Health. Only the General Manager, Founder & CEO or CEO speak to the media.
 
@@ -172,7 +162,7 @@ The General Manager decides on notification to Dubai Municipality, Civil Defence
 
 - Give the guest time and care. Offer water, a quiet space and a follow-up call within [24 hours].
 - Do not admit liability or discuss blame; express care and say we will look into it.
-- Keep the device out of use if it may be involved.
+- Keep the device out of use if it may be involved. With one unit of each machine, that modality is unavailable; move or offer alternatives for affected bookings.
 - Preserve CCTV footage and device logs.
 - The General Manager reviews the incident within [7] days and records actions.
 
@@ -209,8 +199,8 @@ The General Manager decides on notification to Dubai Municipality, Civil Defence
 | Notified | Name | Date / time |
 |---|---|---|
 | Duty Manager | __________ | __________ |
-| Clinical Lead | __________ | __________ |
 | General Manager | __________ | __________ |
+| [Medical Director named on the licence] (if health-related) | __________ | __________ |
 | Founder & CEO / CEO | __________ | __________ |
 | Elevé Health | __________ | __________ |
 | Authority (DHA / Municipality / Civil Defence / Police) | __________ | __________ |
