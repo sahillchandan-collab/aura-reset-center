@@ -67,17 +67,19 @@ Key: **R** = required before working unsupervised · **A** = awareness only · *
 
 ### Core training
 
-| Training | Lead Host | Host | Guest Relations | Clinical Lead | Breathwork | Spa Attendant |
-|---|---|---|---|---|---|---|
-| Breathing ritual "in for four, out for six" | R | R | R | R | R | A |
-| Guest journey and Host promise | R | R | R | R | R | A |
-| Health & safety (AUR-SAF-01) | R | R | R | R | R | R |
-| First aid and CPR/BLS | R | R | R | R (BLS/ACLS) | R | A |
-| Emergency procedures and fire (AUR-SAF-04) | R | R | R | R | R | R |
-| Hygiene and cleaning (AUR-SAF-02) | R | R | A | R | R | R |
-| Booking system | R | R | R | A | A | – |
-| Data protection under the PDPL (AUR-SAF-03) | R | R | R | R | R | A |
-| Complaints handling (AUR-SAF-05) | R | A | R | A | A | A |
+| Training | Lead Host | Host | Guest Relations | Clinical Lead | Breathwork |
+|---|---|---|---|---|---|
+| Breathing ritual "in for four, out for six" | R | R | R | R | R |
+| Guest journey and Host promise | R | R | R | R | R |
+| Health & safety (AUR-SAF-01) | R | R | R | R | R |
+| First aid and CPR/BLS | R | R | R | R (BLS/ACLS) | R |
+| Emergency procedures and fire (AUR-SAF-04) | R | R | R | R | R |
+| Hygiene and cleaning (AUR-SAF-02) | R | R | A | R | R |
+| Booking system | R | R | R | A | A |
+| Data protection under the PDPL (AUR-SAF-03) | R | R | R | R | R |
+| Complaints handling (AUR-SAF-05) | R | A | R | A | A |
+
+> Spa Attendant / Housekeeping completes as required: health & safety, emergency procedures and fire, hygiene and cleaning; and as awareness: breathing ritual, guest journey, CPR/BLS, data protection and complaints handling.
 
 > Marketing & Community Executive and Admin & Accounts Assistant complete: breathing ritual, guest journey, health & safety, emergency procedures, CPR/BLS awareness, data protection and Elevé product orientation.
 
