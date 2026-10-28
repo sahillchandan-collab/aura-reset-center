@@ -1,20 +1,20 @@
 # Modality-Specific Informed Consents
 
-> Document No. AUR-FRM-05 · Version 0.1 (Draft) · Owner: Clinical Lead · Effective: [Date]
+> Document No. AUR-FRM-05 · Version 0.1 (Draft) · Owner: General Manager · Effective: [Date]
 
 > Draft for internal use. To be reviewed by a UAE-qualified legal adviser once the trade license is issued.
 
-These consents are signed in addition to the General Wellness Services Consent (AUR-FRM-04), before a guest's first session of each modality below. They are valid for [12] months unless the guest's health changes. Clinical sections (Hyperbaric Oxygen and IV Nutrient Therapy) are subject to Dubai Health Authority (DHA) requirements and must be reviewed by the Clinical Lead. All sections are pending review against Elevé Health protocols.
+These consents are signed in addition to the General Wellness Services Consent (AUR-FRM-04), before a guest's first session of each modality below. They are valid for [12] months unless the guest's health changes. No medical treatments are offered at launch. Hyperbaric Oxygen is offered as a non-medical wellness session [confirm licensing requirements for hyperbaric with DHA / licensing authority]; this form should be reviewed by the [Medical Director named on the licence]. All sections are pending review against Elevé Health protocols [per Elevé protocol — pending].
 
 Contents:
 
 1. Whole-Body Cryotherapy
 1. Hyperbaric Oxygen
-1. IV Nutrient Therapy
-1. Float & Sensory Reset
 1. Cold Plunge
 1. Infrared Sauna & Red-Light Bed
 1. Salt Cabin
+1. Sound Healing
+1. Healer Consultation (first visit)
 
 <<<PAGEBREAK>>>
 
@@ -57,11 +57,11 @@ Intense cold on the skin, tingling, a rush of alertness and a warm glow afterwar
 
 ## 2. Hyperbaric Oxygen
 
-> Clinical modality. Subject to DHA requirements. Clinical Lead or DHA-licensed clinician sign-off is required before every session. Facility reference: [DHA licence / approval reference].
+> Non-medical wellness session [confirm licensing requirements for hyperbaric with DHA / licensing authority]. A trained senior Host completes the pre-session screen and signs off before every session.
 
 ### What it is
 
-A 60-minute session in an Elevé hyperbaric chamber at 1.3–2.0 ATA (atmospheres absolute), breathing concentrated oxygen while the air pressure around you is gently raised. Pressure is set by the clinician.
+A 60-minute session in an Elevé hyperbaric chamber at 1.3–2.0 ATA (atmospheres absolute), breathing concentrated oxygen while the air pressure around you is gently raised. Pressure is set by your trained Host [per Elevé protocol — pending].
 
 ### What you may feel
 
@@ -90,98 +90,13 @@ Fullness in the ears as pressure changes, similar to flying. Warmth during press
 |---|---|---|
 | __________________ | __________________ | ____ / ____ / ______ |
 
-| Clinician name | DHA licence no. | Signature | Date |
-|---|---|---|---|
-| __________________ | [DHA licence no.] | __________________ | ____ / ____ / ______ |
-
-<<<PAGEBREAK>>>
-
-## 3. IV Nutrient Therapy
-
-> Clinical modality. Administered only by DHA-licensed clinical staff. Subject to DHA requirements. Facility reference: [DHA licence / approval reference].
-
-### What it is
-
-A 45–60 minute infusion of fluids, vitamins and minerals into a vein, prepared and administered by a licensed clinician after a clinical assessment. Formulas are designed to support energy, immunity, skin and glow, recovery, or post-flight hydration. IV therapy is priced separately at AED [___].
-
-| Field | Details |
-|---|---|
-| Formula | ☐ Energy ☐ Immunity ☐ Skin / glow ☐ Recovery ☐ Post-flight ☐ Other: __________ |
-| Ingredients and doses | __________________________ |
-| Volume | ______ ml |
-| Clinician name | __________________________ |
-| DHA licence no. | [DHA licence no.] |
-
-### What you may feel
-
-A brief pinch when the cannula is placed, a cool sensation in the arm, and sometimes a taste of vitamins. Most guests feel refreshed and hydrated.
-
-### Risks
-
-- bruising, pain or swelling at the insertion site
-- infection or inflammation of the vein (phlebitis)
-- dizziness, fainting or flushing
-- allergic reaction, which can rarely be severe (anaphylaxis)
-- fluid or electrolyte imbalance, particularly with kidney or heart conditions
-
-### I confirm
-
-| ☐ | Statement |
-|---|---|
-| ☐ | I have had a clinical assessment and the formula, its purpose and risks have been explained. |
-| ☐ | I have disclosed all medications, allergies, pregnancy or breastfeeding, and kidney, liver or heart conditions. |
-| ☐ | I understand IV therapy is a wellness service and not a treatment for any disease. |
-| ☐ | I will tell the clinician immediately if I feel pain, itching, shortness of breath or unwell. |
-| ☐ | I consent to the clinician inserting a cannula and administering the formula listed above. |
-
-| Guest name | Signature | Date |
-|---|---|---|
-| __________________ | __________________ | ____ / ____ / ______ |
-
-| Clinician name | DHA licence no. | Signature | Date |
-|---|---|---|---|
-| __________________ | [DHA licence no.] | __________________ | ____ / ____ / ______ |
-
-<<<PAGEBREAK>>>
-
-## 4. Float & Sensory Reset
-
-### What it is
-
-A 60-minute float in a private tank of skin-temperature water with 500 kg of Epsom salt, so you float effortlessly in silence and darkness. You control the light and can open the door at any time.
-
-### What you may feel
-
-Weightlessness, deep rest and a loosening of muscle tension. Some guests notice vivid thoughts, emotions or a changed sense of time.
-
-### Risks
-
-- salt stinging in cuts or eyes
-- light-headedness on standing up afterwards
-- anxiety or disorientation in darkness or enclosed space
-- slips on wet floors
-
-### I confirm
-
-| ☐ | Statement |
-|---|---|
-| ☐ | I have no open wounds, fresh tattoos, contagious skin condition or uncontrolled epilepsy. |
-| ☐ | I am not under the influence of alcohol or drugs. |
-| ☐ | I will shower before and after my float. |
-| ☐ | I know how to use the light, door and emergency call button. |
-| ☐ | I will stand up slowly and take care on wet surfaces. |
-
-| Guest name | Signature | Date |
-|---|---|---|
-| __________________ | __________________ | ____ / ____ / ______ |
-
-| Host name | Signature | Date |
+| Senior Host name | Signature | Date |
 |---|---|---|
 | __________________ | __________________ | ____ / ____ / ______ |
 
 <<<PAGEBREAK>>>
 
-## 5. Cold Plunge
+## 3. Cold Plunge
 
 ### What it is
 
@@ -217,7 +132,7 @@ A sharp gasp on entry, then intense cold, followed by calm, alertness and warmth
 
 <<<PAGEBREAK>>>
 
-## 6. Infrared Sauna & Red-Light Bed
+## 4. Infrared Sauna & Red-Light Bed
 
 ### What they are
 
@@ -256,11 +171,11 @@ Sauna: deep warmth, heavy sweating and muscle release. Red-light bed: gentle war
 
 <<<PAGEBREAK>>>
 
-## 7. Salt Cabin
+## 5. Salt Cabin
 
 ### What it is
 
-A 30-minute session in the Elevé E-Salt Cabin, our flagship cabin. Dry salt air (halotherapy), red light, oxygen and aromatherapy combine in one sealed cabin. It pairs well before a float or breathwork.
+A 30-minute session in the Elevé E-Salt Cabin, our flagship cabin. Dry salt air (halotherapy), red light, oxygen and aromatherapy combine in one sealed cabin. It pairs well before the dry float bed or breathwork.
 
 ### What you may feel
 
@@ -288,5 +203,69 @@ A light salty taste, easy breathing and quiet relaxation. Some guests cough brie
 | __________________ | __________________ | ____ / ____ / ______ |
 
 | Host name | Signature | Date |
+|---|---|---|
+| __________________ | __________________ | ____ / ____ / ______ |
+
+<<<PAGEBREAK>>>
+
+## 6. Sound Healing
+
+### What it is
+
+A facilitator-led session of sound and vibration, [__] minutes long, one to one or in a small group of up to [__] guests. You rest fully clothed on a mat while instruments [to confirm] are played around you and, only with your permission, on or near the body.
+
+### What you may feel
+
+Deep relaxation, gentle vibration through the body, a slowing of thoughts and, for some guests, an emotional release.
+
+### Risks
+
+- emotional release, tearfulness or anxiety
+- light-headedness on standing up afterwards
+- discomfort for people with tinnitus or sound sensitivity
+- rarely, sound- or vibration-triggered seizures in people with epilepsy
+
+### I confirm
+
+| ☐ | Statement |
+|---|---|
+| ☐ | I have disclosed any epilepsy, ear condition, tinnitus, hearing aid, implanted device, pregnancy or mental-health condition. |
+| ☐ | I ☐ agree ☐ do not agree to instruments being placed on or near my body. |
+| ☐ | I will tell my facilitator if I want the sound quieter or wish to stop. |
+| ☐ | I will stand up slowly at the end of the session. |
+
+| Guest name | Signature | Date |
+|---|---|---|
+| __________________ | __________________ | ____ / ____ / ______ |
+
+| Facilitator name | Signature | Date |
+|---|---|---|
+| __________________ | __________________ | ____ / ____ / ______ |
+
+<<<PAGEBREAK>>>
+
+## 7. Healer Consultation (first visit)
+
+### What it is
+
+Every first visit begins with a consultation with one of our Healers, lasting [30–45 min proposed]. Your Healer listens, identifies the core issue and designs a personalised package or programme to regulate your nervous system and support energy healing. Your Hosts then guide you through the package.
+
+### What it is not
+
+The consultation is a holistic, non-medical conversation. Healers do not diagnose, treat or prescribe for any medical condition. If anything you share warrants a conversation with your doctor, your Healer will tell you.
+
+### I confirm
+
+| ☐ | Statement |
+|---|---|
+| ☐ | I understand the Healer consultation is a wellness service, not medical advice or treatment. |
+| ☐ | I agree that my Healer may read my Health Questionnaire and share my personalised package with my Hosts. |
+| ☐ | I understand I may decline any part of the package that is suggested to me. |
+
+| Guest name | Signature | Date |
+|---|---|---|
+| __________________ | __________________ | ____ / ____ / ______ |
+
+| Healer name | Signature | Date |
 |---|---|---|
 | __________________ | __________________ | ____ / ____ / ______ |

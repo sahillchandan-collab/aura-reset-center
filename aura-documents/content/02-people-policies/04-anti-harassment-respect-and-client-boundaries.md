@@ -1,12 +1,12 @@
 # Anti-Harassment, Respect & Client Boundaries
 
-> Document No. AUR-POL-04 · Version 0.1 (Draft) · Owner: General Manager · Effective: [Date]
+> Document No. AUR-POL-04 · Version 0.2 (Draft) · Owner: General Manager · Effective: [Date]
 
 > Draft for internal use. To be reviewed by a UAE-qualified legal adviser once the trade license is issued.
 
 ## 1. Our commitment
 
-The Aura Reset Center is a place where people let their guard down. Guests lie still in a float tank in darkness, change into robes, step into chambers and close their eyes during breathwork. Hosts work close to guests every day. That closeness is only possible if everyone feels completely safe.
+The Aura Reset Center is a place where people let their guard down. Guests rest fully clothed on the dry float bed, change into robes and Aura-branded clothing, step into chambers, share personal concerns in a Healer consultation and close their eyes during breathwork and sound healing. Hosts work close to guests every day. That closeness is only possible if everyone feels completely safe.
 
 The company has **zero tolerance** for harassment, bullying, discrimination or any sexual misconduct, whether by staff, guests, members, contractors or visitors. This policy applies at the Jumeirah 1 studio, at company events, online, and anywhere you are representing The Aura. It supports the protections in UAE Federal Decree-Law No. 33 of 2021, which prohibits sexual harassment, bullying and verbal, physical or psychological violence in the workplace, and UAE criminal law.
 
@@ -39,22 +39,22 @@ Hosts and all staff must:
 ### 4.1 Changing areas
 
 - Changing rooms are separated by gender, with private cubicles: [Changing room layout].
-- Staff enter a changing room only to clean or respond to an emergency. Before entering: knock, announce "Housekeeping" or "Host", wait, and confirm the room is empty. Where possible, cleaning is done by a staff member of the same gender as the changing area.
+- Staff enter a changing room only to clean or respond to an emergency. Before entering: knock, announce "Cleaning" or "Host", wait, and confirm the room is empty. Where possible, cleaning is done by a staff member of the same gender as the changing area.
 - Place a "Cleaning in progress" sign at the door while inside.
 
 ### 4.2 Private treatment rooms
 
-Private rooms include the float suite, infrared sauna room, salt cabin, red-light bed room, dry float room, hyperbaric room, compression room and IV room.
+Private rooms include the Healer consultation room, infrared sauna room, salt cabin, red-light bed room, dry float room, hyperbaric room, compression room and the Sound Healing and breathwork room [confirm layout].
 
 - **Never enter an occupied private room without consent.** Knock, say your name and role, and wait for a clear "come in". If there is no answer, knock again and speak through the door before opening it slightly.
 - The only exception is a genuine safety emergency, such as an alarm, a failed response to the agreed check-in, or a monitoring alert. Announce yourself loudly as you enter.
-- Before each session, agree with the guest how and when you will check in (for example, a knock at the 20-minute mark, or intercom for the float suite).
+- Before each session, agree with the guest how and when you will check in (for example, a knock at the 20-minute mark, or intercom for the hyperbaric room).
 - The guest's state of dress is agreed before the session. Guests may wear swimwear, robes or their own clothing where the modality allows (dry float is fully clothed).
 - Keep doors closed and occupancy signs on while a guest is inside.
 
 ## 5. Host gender-preference requests
 
-- Guests may ask for a Host of a particular gender, for cultural, religious or personal reasons. We honour these requests wherever the rota allows. They are recorded in the guest profile as "Host preference" with no further explanation required.
+- Guests may ask for a Host of a particular gender, for cultural, religious or personal reasons. We honour these requests wherever the rota allows; with 2 Hosts per shift this may mean offering another time. The same applies to Healer preference. They are recorded in the guest profile as "Host preference" with no further explanation required.
 - Front-of-house checks the preference at booking and confirms it, or offers an alternative time if it cannot be met.
 - Staff may also raise a reasonable concern about a specific assignment. The duty lead will reassign without question where possible.
 - A preference request is never treated as a complaint about an individual Host.

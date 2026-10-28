@@ -10,15 +10,15 @@ These terms apply to memberships at The Aura Reset Center, operated by [Register
 
 By joining, you accept these terms, the Booking, Arrival, Cancellation & No-Show Policy (AUR-CLI-02), the Refund, Rescheduling & Service Recovery Policy (AUR-CLI-03) and the Guest House Rules & Studio Etiquette (AUR-CLI-06). Prices are in UAE dirhams and are shown at sign-up as AED [___].
 
-Our modalities are wellness services designed to support how you feel and function. They are not a substitute for medical care. IV therapy is administered by licensed clinicians, and we will always flag anything that warrants a conversation with your doctor.
+Our modalities are wellness services designed to support how you feel and function. They are not a substitute for medical care, and no medical treatments are offered at launch. We will always flag anything that warrants a conversation with your doctor.
 
 ## 2. Membership options
 
 | Option | Sessions | Benefits | Price |
 |---|---|---|---|
 | Single Reset (pay as you go) | One visit, one modality | Guided first-visit walkthrough; no commitment; add a second modality on the day | AED [___] per visit |
-| Restore (monthly) | 8 sessions per billing month, any core modality | Priority booking windows; 1 guest pass per month; 10% off IV therapy and add-ons | AED [___] per month |
-| Elevate (monthly, unlimited) | Unlimited core-modality sessions, subject to fair use | Quarterly guided protocol review; 2 guest passes per month; 15% off IV therapy and add-ons; first access to opening-week slots in Dubai | AED [___] per month |
+| Restore (monthly) | 8 sessions per billing month, any core modality | Priority booking windows; 1 guest pass per month; 10% off add-ons and retail [confirm] | AED [___] per month |
+| Elevate (monthly, unlimited) | Unlimited core-modality sessions, subject to fair use | Quarterly guided protocol review; 2 guest passes per month; 15% off add-ons and retail [confirm]; first access to opening-week slots in Dubai | AED [___] per month |
 
 Single Reset is not a recurring membership; it is a single visit with no ongoing commitment. Sections 4 to 9 apply to Restore and Elevate.
 
@@ -35,7 +35,7 @@ Single Reset is not a recurring membership; it is a single visit with no ongoing
 ## 4. Billing cycle
 
 - Memberships are billed monthly in advance on the same date each month (the "billing date"), starting on activation.
-- Payment is by card on file with our payment provider [Payment provider]. You authorise us to take each monthly payment.
+- Payment is by card on file (including Apple Pay where supported) with our payment provider [Payment provider]. You authorise us to take each monthly payment. Buy-now-pay-later (Tabby) is not available for memberships at launch.
 - If a payment fails, we will notify you and retry within [3] days. Bookings may be paused until payment is made. After [14] days unpaid, the membership may be cancelled.
 - Prices include VAT where applicable.
 
@@ -75,17 +75,18 @@ Restore and Elevate run month-to-month. There is no minimum term and no long-ter
 | Whole-Body Cryotherapy | Core [confirm] |
 | Red-Light Bed | Core [confirm] |
 | Infrared Sauna | Core [confirm] |
-| Float & Sensory Reset | Core [confirm] |
 | Compression Recovery | Core [confirm] |
 | Dry Float Bed | Core [confirm] |
 | Salt Cabin | Core [confirm] |
 | Cold Plunge | Core [confirm] |
 | Guided Breathwork (small group) | Core [confirm] |
 | Guided Breathwork (1:1) | Add-on [confirm] |
+| Sound Healing (small group) | Core [confirm] |
+| Sound Healing (1:1) | Add-on [confirm] |
 | Hyperbaric Oxygen | Add-on [confirm] |
-| IV Nutrient Therapy | Excluded from memberships; priced separately; member discount applies |
+| Healer consultation (first visit) | Included in the first visit [confirm]; follow-up consultations Add-on [confirm] |
 
-Add-ons are charged at AED [___] with the member discount applied.
+Add-ons are charged at AED [___] with the member discount applied. IV Nutrient Therapy is not offered at launch; it may be introduced in future, subject to DHA licensing, and would be priced separately.
 
 ### Fair use on Elevate
 
@@ -99,15 +100,16 @@ If use appears to breach fair use, the General Manager will talk with you first.
 
 ## 10. Member discounts
 
-- Restore members receive **10%** off IV Nutrient Therapy and add-ons. Elevate members receive **15%**.
-- Discounts apply to the member's own sessions only, and do not combine with other offers unless stated.
-- Discounts do not apply to gift vouchers, retail [if any] or group bookings unless stated.
+- Restore members receive **10%** off add-ons and retail [confirm]. Elevate members receive **15%**.
+- Retail includes our copper mugs, organic fragrances, wellness pillows and linen merchandise.
+- Discounts apply to the member's own purchases and sessions only, and do not combine with other offers unless stated.
+- Discounts do not apply to gift vouchers or group bookings unless stated.
 
 ## 11. Guest passes
 
 - Restore: 1 guest pass per billing month. Elevate: 2 per billing month. Founding members: see section 3.
 - Each pass covers one core-modality session for one guest aged 18 or over [proposed], booked by the member.
-- Passes do not cover IV Nutrient Therapy or add-ons.
+- Passes do not cover add-ons or retail.
 - Passes expire at the end of the billing month and do not roll over [confirm]. They have no cash value.
 - The same guest may use no more than [2] passes in [3] months, after which we invite them to become a member [to be decided].
 - Members are responsible for their guest's conduct. Guests complete the health questionnaire and follow the House Rules.
@@ -119,8 +121,8 @@ Your membership travels with you. A Dubai membership may be used at our studio a
 ## 13. Health and safety
 
 - You must complete the health questionnaire and tell us promptly of any change in your health, including pregnancy, new diagnoses or medication.
-- Hosts and clinicians may decline or stop any session for safety.
-- IV Nutrient Therapy and Hyperbaric Oxygen require a clinician screen and are subject to DHA requirements [DHA licence / approval reference].
+- Hosts and Healers may decline or stop any session for safety.
+- Hyperbaric Oxygen requires a pre-session screen and is offered as a non-medical wellness session [confirm licensing requirements for hyperbaric with DHA / licensing authority].
 
 ## 14. Non-transferability
 
@@ -147,7 +149,7 @@ We process member data, including health information, in line with Federal Decre
 - We may update these terms or membership prices. We will give at least [30 days'] notice by email before a change takes effect.
 - If you do not accept a change, you may cancel before it takes effect.
 - Founding member price locks are honoured for their full 12 months.
-- Changes needed for safety, law or DHA requirements may take effect sooner.
+- Changes needed for safety, law or DHA or licensing-authority requirements may take effect sooner.
 
 ## 18. Governing law
 

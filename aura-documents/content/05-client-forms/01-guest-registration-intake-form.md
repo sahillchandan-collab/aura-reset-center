@@ -4,7 +4,7 @@
 
 Welcome to The Aura Reset Center. This form helps your Host understand the state you arrive in, so every protocol can start with your nervous system. Please complete it before your first visit. It takes about five minutes.
 
-> Please also complete the Health Questionnaire (AUR-FRM-02). Your Host will review both with you before your first session.
+> Please also complete the Health Questionnaire (AUR-FRM-02). Your first visit begins with a consultation with one of our Healers, who will review both with you, identify the core issue and design a personalised package for you.
 
 ## 1. Personal details
 
@@ -46,8 +46,9 @@ Welcome to The Aura Reset Center. This form helps your Host understand the state
 
 | Option | Option | Option |
 |---|---|---|
-| ☐ Instagram | ☐ Friend or family | ☐ Walked past the studio |
-| ☐ Website / search | ☐ Existing member | ☐ Launch event |
+| ☐ Instagram / Facebook ad | ☐ Friend or family | ☐ Walked past the studio |
+| ☐ Google ad / search | ☐ Existing member | ☐ Launch event |
+| ☐ Website | ☐ WhatsApp | ☐ Instagram (not an ad) |
 | ☐ Elevé Health | ☐ Doctor / practitioner | ☐ Hotel or concierge |
 | ☐ Corporate / employer | ☐ Press / media | ☐ Other: __________ |
 
@@ -98,7 +99,7 @@ Average hours of sleep per night: ______ Usual bedtime: ______ Usual wake time: 
 | Caffeine per day | ☐ None ☐ 1–2 cups ☐ 3+ cups |
 | Do you smoke or vape? | ☐ No ☐ Occasionally ☐ Daily |
 | Alcohol per week | ☐ None ☐ 1–7 units ☐ 8–14 units ☐ 15+ units |
-| Current wellness practices | ☐ Yoga ☐ Meditation ☐ Breathwork ☐ Massage ☐ Sauna / cold ☐ Other: ______ |
+| Current wellness practices | ☐ Yoga ☐ Meditation ☐ Breathwork ☐ Sound healing ☐ Energy healing ☐ Sauna / cold ☐ Other: ______ |
 | Modalities you have tried before | __________________________ |
 
 ## 8. Your preferences
@@ -106,7 +107,7 @@ Average hours of sleep per night: ______ Usual bedtime: ______ Usual wake time: 
 | Preference | Your choice |
 |---|---|
 | Host preference | ☐ No preference ☐ Female Host ☐ Male Host |
-| Preferred time band | ☐ Morning 8–11am ☐ Midday 11am–2pm ☐ Afternoon 2–5pm ☐ Evening 5–8pm |
+| Preferred time band | ☐ Morning 9am–12pm ☐ Midday 12–3pm ☐ Afternoon 3–6pm ☐ Evening 6–9pm |
 | Sensitivity to cold | ☐ Low ☐ Average ☐ High |
 | Sensitivity to heat | ☐ Low ☐ Average ☐ High |
 | Pressure preference (compression boots) | ☐ Light ☐ Medium ☐ Firm ☐ Not sure — Host to guide |
@@ -114,8 +115,11 @@ Average hours of sleep per night: ______ Usual bedtime: ______ Usual wake time: 
 | Comfort in enclosed spaces | ☐ Comfortable ☐ Slightly uneasy ☐ Uncomfortable |
 | Scent / aromatherapy | ☐ Happy with aromatherapy ☐ Prefer unscented ☐ Allergic to: ______ |
 | Music during sessions | ☐ Yes ☐ Silence ☐ No preference |
+| Sensitivity to sound or vibration (sound healing) | ☐ No ☐ Yes: ______ |
+| Aura clothing size | ☐ XS ☐ S ☐ M ☐ L ☐ XL |
+| Slipper size (EU) | ______ |
 | Conversation level | ☐ Guide me through everything ☐ Key points only ☐ Quiet please |
-| Interested in | ☐ A first-visit 3-step sequence ("build my reset") ☐ Membership information ☐ IV nutrient therapy consultation |
+| Interested in | ☐ A first-visit 3-step sequence ("build my reset") ☐ Membership information ☐ Guided Breathwork ☐ Sound Healing |
 
 Anything that would help you feel more at ease (cultural, religious, accessibility or other needs)?
 
@@ -137,7 +141,7 @@ Leaving these boxes empty means we will contact you only about your bookings and
 
 ## 10. Privacy notice (short form)
 
-The Aura Reset Center ([Registered Company Name]) collects the information on this form, and on your Health Questionnaire, to deliver safe, personalised wellness services, manage bookings and memberships, and contact you or your emergency contact if needed. Health information is treated as sensitive personal data under UAE Federal Decree-Law No. 45 of 2021 on the Protection of Personal Data (PDPL). It is seen only by your Host, the Clinical Lead and licensed clinicians who need it, and by Elevé Health only where needed for equipment safety, never for marketing. We keep it securely for [Retention period] and do not sell it. You may ask to access, correct or delete your data, or withdraw consent, by writing to [Email]. Our full privacy policy is available at [Website] or on request at reception.
+The Aura Reset Center ([Registered Company Name]) collects the information on this form, and on your Health Questionnaire, to deliver safe, personalised wellness services, manage bookings and memberships, and contact you or your emergency contact if needed. Health information is treated as sensitive personal data under UAE Federal Decree-Law No. 45 of 2021 on the Protection of Personal Data (PDPL). It is seen only by your Host, your Healer, the General Manager and, where escalation is needed, the [Medical Director named on the licence], and by Elevé Health only where needed for equipment safety, never for marketing. We keep it securely for [Retention period] and do not sell it. You may ask to access, correct or delete your data, or withdraw consent, by writing to [Email]. Our full privacy policy is available at [Website] or on request at reception.
 
 ## 11. Declaration and signature
 
@@ -156,5 +160,7 @@ The Aura Reset Center ([Registered Company Name]) collects the information on th
 | Guest ID | __________ |
 | Received by (Host) | __________ |
 | Health Questionnaire completed | ☐ Yes ☐ No |
+| Healer consultation booked | ☐ Yes — Healer: __________ |
+| Lead source (ad campaign, if known) | __________ |
 | Entered in booking system | ☐ Yes — date: __________ |
 | Notes | __________________________ |

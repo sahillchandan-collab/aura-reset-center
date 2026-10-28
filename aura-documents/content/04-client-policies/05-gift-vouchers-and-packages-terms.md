@@ -13,12 +13,12 @@ These terms apply to gift vouchers, session packages and corporate packages sold
 | Voucher type | What it covers | Price |
 |---|---|---|
 | Value voucher | A stated amount towards any modality, sequence or membership | AED [___] (set amounts or custom) |
-| Modality voucher | One named modality session, e.g. Infrared Sauna or Float & Sensory Reset | AED [___] |
+| Modality voucher | One named modality session, e.g. Infrared Sauna, Dry Float Bed or Sound Healing | AED [___] |
 | "Find your reset" voucher | One 3-step goal sequence, e.g. Sleep deeper or Beat jet lag | AED [___] |
-| First Reset voucher | "Not sure yet — build my reset", with the host-built 3-step sequence | AED [___] |
+| First Reset voucher | First-visit Healer consultation and "Not sure yet — build my reset", with the host-built 3-step sequence | AED [___] |
 | Membership gift | One month of Restore or Elevate | AED [___] |
 
-Vouchers including IV Nutrient Therapy or Hyperbaric Oxygen are redeemable only after the recipient passes the clinician screen, subject to DHA requirements. If a recipient is not suitable for that modality, the voucher value can be used for any other modality.
+Vouchers including Hyperbaric Oxygen are redeemable only after the recipient completes the pre-session health screen [confirm licensing requirements for hyperbaric with DHA / licensing authority]. If a recipient is not suitable for that modality, the voucher value can be used for any other modality.
 
 ## 3. Gift voucher terms
 
@@ -42,7 +42,7 @@ Packages are prepaid bundles of sessions for one person, for those who prefer no
 |---|---|---|---|
 | [5-session package] | 5 sessions of any core modality | [3 months] | AED [___] |
 | [10-session package] | 10 sessions of any core modality | [6 months] | AED [___] |
-| [IV course] | [___] IV Nutrient Therapy sessions, one formula | [6 months] | AED [___] |
+| [Healer programme] | A personalised package designed in the Healer consultation | [3 months] | AED [___] |
 | [Goal package] | [3] "Find your reset" sequences for one goal | [3 months] | AED [___] |
 
 Package terms:
@@ -57,7 +57,7 @@ Package terms:
 
 Corporate packages are designed for companies supporting their teams' wellbeing, and are agreed in writing with the General Manager.
 
-- **Options:** prepaid session credits for employees, corporate memberships, private studio hire, small-group breathwork, or "Find your reset" days for teams [to be designed].
+- **Options:** prepaid session credits for employees, corporate memberships, private studio hire, small-group breathwork or sound healing, or "Find your reset" days for teams [to be designed].
 - **Pricing:** AED [___], quoted per package. Invoices are issued to the company with VAT where applicable [TRN].
 - **Payment:** [___]% on signing and the balance before the first session, or monthly by invoice for ongoing packages [to be decided].
 - **Users:** the company provides a list of named employees. Each employee completes the health questionnaire and follows our policies. Employee health information is never shared with the employer.
@@ -71,7 +71,7 @@ We may decline to sell or redeem a voucher or package where we reasonably believ
 
 ## 7. Contact
 
-Voucher and package enquiries: [Email] · [Phone] · [WhatsApp]. Corporate enquiries: General Manager, [Email].
+Voucher and package enquiries: [Email] · [Phone] · [WhatsApp]. Vouchers and packages can be paid by Apple Pay, card or cash; Tabby will be added later. Corporate enquiries: General Manager, [Email].
 
 ## Voucher record (internal)
 

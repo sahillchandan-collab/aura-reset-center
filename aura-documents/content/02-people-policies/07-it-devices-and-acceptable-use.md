@@ -1,6 +1,6 @@
 # IT, Devices & Acceptable Use
 
-> Document No. AUR-POL-07 · Version 0.1 (Draft) · Owner: General Manager · Effective: [Date]
+> Document No. AUR-POL-07 · Version 0.2 (Draft) · Owner: General Manager · Effective: [Date]
 
 > Draft for internal use. To be reviewed by a UAE-qualified legal adviser once the trade license is issued.
 
@@ -8,7 +8,7 @@
 
 The Aura Reset Center holds sensitive personal data: guest health questionnaires, contraindication screens, consent forms, booking and membership records, and payment details. This policy sets out how staff use company systems and devices to keep that data safe and to keep the floor calm and phone-free. It applies to all staff and contractors with access to company systems, and supports the UAE Personal Data Protection Law (Federal Decree-Law No. 45 of 2021) and UAE cybercrime law.
 
-Company systems include: the booking and membership system [Booking system name], the payment terminal, front-desk tablets, company email ([Email domain]), the WhatsApp Business account ([WhatsApp]), the Elevé equipment touchscreens and any connected software, CCTV, and the studio Wi-Fi.
+Company systems include: the booking and membership system [Booking system — to be chosen], the online booking page, the payment terminal (Apple Pay and card), front-desk tablets, company email ([Email domain]), the WhatsApp Business account ([WhatsApp]), the Elevé equipment touchscreens and any connected software, CCTV, and the studio Wi-Fi.
 
 ## 2. Booking system and guest data access
 
@@ -17,15 +17,15 @@ Company systems include: the booking and membership system [Booking system name]
 | Role | Access |
 |---|---|
 | Host | Today's schedule, guest names, Host preference, contraindication flags, session notes for guests they serve |
-| Front-of-house | Bookings, memberships, founding-member list, payments, contact details |
-| Clinical staff | Health questionnaires and IV records, under DHA record-keeping requirements |
-| Housekeeping | Room schedule only |
+| Healer | Health questionnaires, consultation notes and personalised packages for guests they consult |
+| Front-of-house | Bookings (online and WhatsApp), ad-campaign leads, memberships, founding-member list, payments, contact details |
+| Cleaning support | Room schedule only |
 | General Manager, CEO, Founder & CEO | Full access and reports |
 
 - Open a guest record only for that guest's visit or an assigned task. All access is logged and audited [monthly].
 - Never export, print, screenshot or photograph guest lists or records, except reports authorised by the General Manager.
 - Health information is entered only in the designated fields, never in general notes, email or chat.
-- Card details are processed only through the payment terminal. Never write down or store card numbers.
+- Card details are processed only through the payment terminal. Never write down or store card numbers. Apple Pay is taken only on the terminal. Cash is recorded in the system at the time of sale and reconciled at the end-of-day close. Tabby, when added later, will be set up under the same rules.
 - Paper forms are scanned into the system and the originals stored in a locked cabinet or shredded, per [Records retention schedule].
 - Report any suspected data breach immediately to the General Manager. The company will assess it and notify the relevant authority and affected guests where the law requires.
 
@@ -44,7 +44,7 @@ Company systems include: the booking and membership system [Booking system name]
 - When a guest completes a form on a tablet, hand it over on the form screen only, and take it back as soon as they finish. Guests must never be able to see other records.
 - No personal apps, accounts or browsing on company tablets.
 - Tablets are wiped down between guests and charged in the locked charging station at the end of the day.
-- Do not take tablets into wet areas (plunge, float, sauna) unless in an approved waterproof case.
+- Do not take tablets into wet areas (plunge, showers, sauna) unless in an approved waterproof case.
 
 ## 5. Personal phones on the floor
 
@@ -66,11 +66,11 @@ The floor is a quiet, phone-free space for guests and for us.
 
 ## 7. WhatsApp business use
 
-WhatsApp is how many Dubai guests prefer to communicate. It is used only through the official WhatsApp Business account on a company device.
+WhatsApp is how many Dubai guests prefer to communicate, and guests can book through it as well as online. Many first messages come from paid ad campaigns. It is used only through the official WhatsApp Business account on a company device.
 
 - Never message guests from your personal WhatsApp or give out your personal number.
 - Use approved message templates for booking confirmations, reminders and arrival notes ("Arrive 10 minutes early, hydrated").
-- Keep messages short, warm and professional. Reply within [Response time] during [Opening hours].
+- Keep messages short, warm and professional. Reply within [Response time] during opening hours (9:00am–9:00pm, 7 days). Ad-campaign leads are answered first.
 - Do not discuss health details or contraindications on WhatsApp. Invite the guest to share these through the secure intake form or in person.
 - Do not quote prices by message unless using the approved price list issued by the General Manager. Never invent or promise discounts.
 - Do not send voice notes or reply to calls from the business account after hours unless on duty.

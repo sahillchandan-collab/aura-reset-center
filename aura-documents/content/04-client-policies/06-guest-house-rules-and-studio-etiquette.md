@@ -16,18 +16,19 @@ Every visit begins with our breathing ritual: **in for four, out for six.** Your
 
 - Arrive **10 minutes early**, hydrated. A late start shortens your session; it cannot be extended.
 - Check in with your host and let them know of any change in your health since your last visit.
-- Complete the health questionnaire before your first session. IV Nutrient Therapy and Hyperbaric Oxygen also need a clinician screen.
+- Complete the health questionnaire before your first session. Your first visit begins with a consultation with one of our Healers.
+- Hyperbaric Oxygen also needs a short pre-session screen with your host.
 
 ## 3. A quiet studio
 
 - Please speak softly in all shared spaces.
-- Treatment rooms, the float suite and the salt cabin are silent spaces.
-- Small-group breathwork is guided; follow your guide's lead.
+- Treatment rooms, the dry float room, the Healer consultation room and the salt cabin are silent spaces.
+- Small-group breathwork and sound healing are guided; follow your facilitator's lead.
 
 ## 4. Phones and devices
 
 - Please set phones to silent on arrival.
-- Phones are not used in treatment rooms, the float suite, saunas, plunge or cryotherapy areas. Heat, cold, water and salt can damage devices, and screens break the stillness.
+- Phones are not used in treatment rooms, the dry float room, saunas, plunge or cryotherapy areas. Heat, cold, water and salt can damage devices, and screens break the stillness.
 - Calls are taken outside or in [the designated area].
 - Phones must not be taken into the cryotherapy chamber or cold plunge, for safety.
 
@@ -40,8 +41,8 @@ Every visit begins with our breathing ritual: **in for four, out for six.** Your
 ## 6. Children and minimum age
 
 - The minimum age is **18** [proposed].
-- Guests aged [16–17] [proposed] may use a limited set of modalities, such as Red-Light Bed, Compression Recovery, Dry Float Bed, Salt Cabin and Guided Breathwork [confirm], with signed consent from a parent or legal guardian, who must be present on site.
-- Whole-Body Cryotherapy, Cold Plunge, Hyperbaric Oxygen and IV Nutrient Therapy are not offered to under-18s [confirm with clinical lead and DHA requirements].
+- Guests aged [16–17] [proposed] may use a limited set of modalities, such as Red-Light Bed, Compression Recovery, Dry Float Bed, Salt Cabin, Guided Breathwork and Sound Healing [confirm], with signed consent from a parent or legal guardian, who must be present on site.
+- Whole-Body Cryotherapy, Cold Plunge and Hyperbaric Oxygen are not offered to under-18s [confirm with the Medical Director named on the licence and DHA requirements].
 - Children may not wait unattended in the studio.
 
 ## 7. Valuables and lockers
@@ -52,16 +53,16 @@ Every visit begins with our breathing ritual: **in for four, out for six.** Your
 
 ## 8. Hygiene
 
-- **Shower before the float tank and the cold plunge.** This keeps the water clean for everyone and is required. Showers and amenities are provided.
-- Remove make-up, heavy lotions and oils before light, float and cold sessions; they affect the session and the water.
-- Please do not use the float tank if you have open cuts, recently dyed hair or a contagious skin condition; tell your host and we will suggest another modality.
-- All equipment is cleaned between every guest under our hygiene procedures, in line with Dubai Municipality requirements.
+- **Shower before the cold plunge.** This keeps the water clean for everyone and is required. Showers and amenities are provided.
+- Remove make-up, heavy lotions and oils before light and cold sessions; they affect the session and the water.
+- Please do not use the cold plunge if you have open cuts or a contagious skin condition; tell your host and we will suggest another modality.
+- All equipment is cleaned between every guest under our hygiene procedures [per Elevé protocol — pending], in line with Dubai Municipality requirements. Robes, towels and clothing are laundered in-house.
 
 ## 9. What to wear and bring
 
-You need bring nothing. We provide robes, towels, slippers and everything each modality needs, including [swimwear / disposable garments, socks, gloves and ear protection for cryotherapy, earplugs for float].
+You need bring nothing. We provide robes, Aura-branded towels, Aura-branded clothing to wear in the centre, hotel-style Aura-branded slippers and everything each modality needs, including [swimwear / disposable garments, socks, gloves and ear protection for cryotherapy].
 
-- For the Dry Float Bed and Compression Recovery you remain fully clothed in comfortable clothing or a robe.
+- For the Dry Float Bed, Compression Recovery, Guided Breathwork and Sound Healing you remain fully clothed in your Aura clothing or a robe.
 - For cryotherapy your host will provide the required protective items for hands, feet and ears.
 - For the infrared sauna and cold plunge, [swimwear] is worn [confirm].
 
@@ -90,16 +91,17 @@ We welcome guests of every background and respect UAE customs.
 
 ## 13. Pregnancy
 
-If you are pregnant, think you may be, or are trying to conceive, please tell your host before booking. Several modalities may not be suitable during pregnancy, including [Whole-Body Cryotherapy, Cold Plunge, Infrared Sauna, Hyperbaric Oxygen, Float & Sensory Reset and IV Nutrient Therapy: confirm with clinical lead]. We recommend speaking with your doctor before any session, and we may ask for your doctor's approval. Your host will suggest a gentle alternative where one is suitable.
+If you are pregnant, think you may be, or are trying to conceive, please tell your host before booking. Several modalities may not be suitable during pregnancy, including [Whole-Body Cryotherapy, Cold Plunge, Infrared Sauna and Hyperbaric Oxygen: confirm with the Medical Director named on the licence]. We recommend speaking with your doctor before any session, and we may ask for your doctor's approval. Your host will suggest a gentle alternative where one is suitable.
 
 ## 14. Your health
 
-Our modalities are wellness services designed to support how you feel and function. They are not a substitute for medical care. IV therapy is administered by licensed clinicians, and we will always flag anything that warrants a conversation with your doctor.
+Our modalities are wellness services designed to support how you feel and function. They are not a substitute for medical care, and no medical treatments are offered at launch. We will always flag anything that warrants a conversation with your doctor.
 
 ## 15. Leaving
 
-- Take a few quiet minutes after your session. Water is provided; please drink before you leave.
-- Return robes and towels to the baskets provided and empty your locker.
+- Take a few quiet minutes after your session. Refreshments are served; please drink some water before you leave.
+- Return robes, towels and Aura clothing to the baskets provided and empty your locker.
+- Our retail shelf offers copper mugs, organic fragrances, wellness pillows and linen pieces if you would like to take the ritual home.
 - If you have any feedback, your host would love to hear it.
 
 ## Guest acknowledgement

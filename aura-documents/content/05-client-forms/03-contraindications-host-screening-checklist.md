@@ -1,19 +1,19 @@
 # Contraindications & Host Screening Checklist
 
-> Document No. AUR-FRM-03 · Version 0.1 (Draft) · Owner: Clinical Lead · Effective: [Date]
+> Document No. AUR-FRM-03 · Version 0.1 (Draft) · Owner: General Manager · Effective: [Date]
 
-> Guidance pending review. This checklist is a working draft. It must be reviewed and approved by the Clinical Lead and checked against current Elevé Health protocols and manufacturer instructions for every unit before use. Where Elevé guidance or a guest's doctor is stricter, the stricter rule applies.
+> Guidance pending review. This checklist is a working draft. It must be reviewed by the [Medical Director named on the licence], approved by the General Manager and checked against Elevé Health protocols and manufacturer instructions for every unit before use [per Elevé protocol — pending]. Where Elevé guidance or a guest's doctor is stricter, the stricter rule applies.
 
 ## How to use this checklist
 
 1. Before every session, review the guest's Health Questionnaire (AUR-FRM-02) and today's daily check-in.
 1. Find the modality section below. If any **absolute contraindication** applies, do not proceed. Offer an alternative modality and record it.
 1. If any **medical clearance** item applies, the session goes ahead only with written clearance from the guest's doctor on file.
-1. Tick every **pre-session check** before the guest begins. If you cannot tick a box, pause and ask the Shift Lead or Clinical Lead.
+1. Tick every **pre-session check** before the guest begins. If you cannot tick a box, pause and ask the senior Host on shift or the General Manager.
 1. Every visit begins with the breathing ritual: in for four, out for six. Use it to read the state the guest arrived in.
 1. When in doubt, do not proceed. A Host is always entitled to decline or shorten a session.
 
-> Clinical modalities. IV Nutrient Therapy and Hyperbaric Oxygen are subject to Dubai Health Authority (DHA) requirements. Each session needs sign-off by the Clinical Lead or a DHA-licensed clinician before it starts. Facility reference: [DHA licence / approval reference].
+> No medical treatments are offered at launch. Hyperbaric Oxygen is offered as a non-medical wellness session [confirm licensing requirements for hyperbaric with DHA / licensing authority]. Health questions beyond a Host's or Healer's scope are escalated to the General Manager, who refers to the [Medical Director named on the licence] for oversight. All machine settings and session limits are [per Elevé protocol — pending].
 
 | Guest name | Guest ID | Date | Host |
 |---|---|---|---|
@@ -31,6 +31,7 @@
 | ☐ | Guest hydrated; water offered |
 | ☐ | Guest knows how to stop the session and call the Host |
 | ☐ | Equipment shows no fault; within Elevé service date |
+| ☐ | First visit only: Healer consultation completed and personalised package noted |
 
 <<<PAGEBREAK>>>
 
@@ -57,7 +58,7 @@
 | ☐ | Underwear dry and cotton; no wet swimwear |
 | ☐ | Guest briefed: keep moving, breathe steadily, step out at any time |
 | ☐ | Thermal-vision monitoring active; Host stays in visual and verbal contact for the full 3 minutes |
-| ☐ | Session time set (first visit: [___] min maximum) |
+| ☐ | Session time set (first visit: [___] min maximum) [per Elevé protocol — pending] |
 
 ## 2. Red-Light Bed (Heal · 20 min · 660 / 850 nm)
 
@@ -99,14 +100,14 @@
 | ☐ | Host check-in scheduled every [___] min |
 | ☐ | If pairing with Cold Plunge, order and rest interval agreed |
 
-## 4. Hyperbaric Oxygen (Heal · 60 min · 1.3–2.0 ATA) — clinical
+## 4. Hyperbaric Oxygen (Heal · 60 min · 1.3–2.0 ATA) — wellness session
 
-> Clinical Lead / DHA-licensed clinician sign-off required before every session. Subject to DHA requirements.
+> Offered as a non-medical wellness session [confirm licensing requirements for hyperbaric with DHA / licensing authority]. Senior Host sign-off required before every session. Any medical-clearance item needs written clearance from the guest's doctor on file.
 
 | Category | Item |
 |---|---|
 | Absolute contraindication | Untreated pneumothorax (collapsed lung) |
-| Absolute contraindication | Certain chemotherapy agents (to be confirmed by clinician) |
+| Absolute contraindication | Certain chemotherapy agents (to be confirmed with the Medical Director named on the licence) |
 | Absolute contraindication | Pregnancy |
 | Absolute contraindication | Acute cold, sinus congestion or ear infection; perforated eardrum |
 | Absolute contraindication | Implanted devices not rated for pressure |
@@ -117,65 +118,19 @@
 
 | ☐ | Pre-session check |
 |---|---|
-| ☐ | Clinician review completed and signed (below) |
+| ☐ | Senior Host review completed and signed (below) |
 | ☐ | Guest taught ear-equalising technique |
 | ☐ | No flammable items, lighters, electronics, oils or hair products in chamber |
 | ☐ | Cotton clothing only |
-| ☐ | Pressure set: ______ ATA (as prescribed by clinician) |
+| ☐ | Pressure set: ______ ATA [per Elevé protocol — pending] |
 | ☐ | Two-way communication tested |
 | ☐ | Host remains at control panel for the full session |
 
-| Clinician name | DHA licence no. | Signature | Date / time |
-|---|---|---|---|
-| __________________ | [DHA licence no.] | __________________ | __________ |
+| Senior Host name | Signature | Date / time |
+|---|---|---|
+| __________________ | __________________ | __________ |
 
-## 5. IV Nutrient Therapy (Elevate · 45–60 min) — clinical
-
-> Administered only by DHA-licensed clinical staff. Clinical Lead sign-off required. Subject to DHA requirements. Hosts do not prepare, administer or adjust IV therapy.
-
-| Category | Item |
-|---|---|
-| Absolute contraindication | Known allergy to any ingredient in the formula |
-| Absolute contraindication | Congestive heart failure; severe kidney disease |
-| Absolute contraindication | Clinician judges vital signs unsuitable on the day |
-| Medical clearance | Pregnancy or breastfeeding |
-| Medical clearance | Kidney or liver disease; G6PD deficiency (for certain formulas) |
-| Medical clearance | Diabetes; high blood pressure; heart conditions |
-| Medical clearance | Anticoagulants or bleeding disorders; current medications that may interact |
-
-| ☐ | Pre-session check (clinician) |
-|---|---|
-| ☐ | Clinical assessment and vital signs recorded |
-| ☐ | IV Nutrient Therapy consent (AUR-FRM-05, section 3) signed |
-| ☐ | Formula confirmed: __________________ |
-| ☐ | Allergies re-checked |
-| ☐ | Guest has eaten in the last [___] hours |
-
-| Clinician name | DHA licence no. | Signature | Date / time |
-|---|---|---|---|
-| __________________ | [DHA licence no.] | __________________ | __________ |
-
-## 6. Float & Sensory Reset (Reset · 60 min · 500 kg Epsom salt)
-
-| Category | Item |
-|---|---|
-| Absolute contraindication | Epilepsy or seizures not controlled |
-| Absolute contraindication | Open wounds, fresh tattoos or contagious skin conditions |
-| Absolute contraindication | Infectious illness, incontinence, or under the influence of alcohol or drugs |
-| Absolute contraindication | Kidney failure (magnesium absorption) |
-| Medical clearance | Pregnancy |
-| Medical clearance | Low blood pressure; severe claustrophobia; serious mental-health condition |
-| Medical clearance | Recent hair colouring (last 48 hours) |
-
-| ☐ | Pre-session check |
-|---|---|
-| ☐ | Guest showered before entry |
-| ☐ | Ear plugs offered; petroleum jelly offered for minor nicks |
-| ☐ | Light and door controls explained; guest may keep light on |
-| ☐ | Water temperature and filtration log checked today |
-| ☐ | Emergency call button shown |
-
-## 7. Compression Recovery (Heal · 30 min · 7-zone boots)
+## 5. Compression Recovery (Heal · 30 min · 7-zone boots)
 
 | Category | Item |
 |---|---|
@@ -193,7 +148,7 @@
 | ☐ | Pressure set: ______ (light / medium / firm) |
 | ☐ | Guest shown how to pause or stop |
 
-## 8. Dry Float Bed (Reset · 30 min · fully clothed)
+## 6. Dry Float Bed (Reset · 30 min · fully clothed)
 
 | Category | Item |
 |---|---|
@@ -204,10 +159,10 @@
 | ☐ | Pre-session check |
 |---|---|
 | ☐ | Sharp objects removed from pockets |
-| ☐ | Water temperature checked |
+| ☐ | Water temperature checked [per Elevé protocol — pending] |
 | ☐ | Guest positioned comfortably; stop control shown |
 
-## 9. Salt Cabin (Reset · 30 min · E-Salt Cabin: salt air, red light, oxygen, aromatherapy)
+## 7. Salt Cabin (Reset · 30 min · E-Salt Cabin: salt air, red light, oxygen, aromatherapy)
 
 | Category | Item |
 |---|---|
@@ -225,7 +180,7 @@
 | ☐ | Oxygen and red light settings confirmed per Elevé protocol |
 | ☐ | Cabin sealed and communication tested |
 
-## 10. Cold Plunge (Reset · 2–5 min · 5 °C · always Host-guided)
+## 8. Cold Plunge (Reset · 2–5 min · 5 °C · always Host-guided)
 
 | Category | Item |
 |---|---|
@@ -244,7 +199,7 @@
 | ☐ | Entry and exit points clear; towel and robe ready |
 | ☐ | First visit: [___] min maximum; head stays above water |
 
-## 11. Guided Breathwork (Reset · 45 min · 1:1 or small group)
+## 9. Guided Breathwork (Reset · 45 min · 1:1 or small group)
 
 | Category | Item |
 |---|---|
@@ -260,6 +215,36 @@
 | ☐ | Guest told they may return to normal breathing at any time |
 | ☐ | Never practised in or near water |
 
+## 10. Sound Healing (Elevate · [__] min · 1:1 or small group, up to [__] guests)
+
+| Category | Item |
+|---|---|
+| Absolute contraindication | Acute ear infection or recent ear surgery |
+| Medical clearance | Epilepsy or seizure history (sound or vibration triggers) |
+| Medical clearance | Tinnitus, hearing aids or sound sensitivity; pacemaker or implanted device (instruments placed on or near the body) |
+| Medical clearance | Pregnancy (no instruments placed on the abdomen); serious mental-health condition or PTSD |
+
+| ☐ | Pre-session check |
+|---|---|
+| ☐ | Volume and instruments chosen to suit today's state: __________ |
+| ☐ | Guest asked whether instruments may be placed on or near the body: ☐ Yes ☐ No |
+| ☐ | Guest told they may ask for quieter sound or stop at any time |
+| ☐ | Mat, cushions and blanket in place; guest fully clothed |
+
+## 11. Healer Consultation (first visit · [30–45 min proposed])
+
+| Category | Item |
+|---|---|
+| Note | The consultation is a holistic, non-medical conversation. Healers do not diagnose or treat medical conditions. |
+| Escalate | Any symptom or answer that warrants a conversation with a doctor is flagged to the guest and the General Manager |
+
+| ☐ | Check |
+|---|---|
+| ☐ | Healer has reviewed the Health Questionnaire before the consultation |
+| ☐ | Core issue and goals recorded: __________ |
+| ☐ | Personalised package agreed and handed to the Host: __________ |
+| ☐ | Any modality exclusions from this checklist reflected in the package |
+
 <<<PAGEBREAK>>>
 
 ## Screening outcome
@@ -274,6 +259,6 @@
 |---|---|---|
 | __________________ | __________________ | ____ / ____ / ______ |
 
-| Clinical Lead (if referred) | Signature | Date |
+| General Manager (if referred) | Signature | Date |
 |---|---|---|
 | __________________ | __________________ | ____ / ____ / ______ |

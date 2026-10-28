@@ -1,8 +1,8 @@
 # Health Questionnaire
 
-> Document No. AUR-FRM-02 · Version 0.1 (Draft) · Owner: Clinical Lead · Effective: [Date]
+> Document No. AUR-FRM-02 · Version 0.1 (Draft) · Owner: General Manager · Effective: [Date]
 
-Our modalities are wellness services designed to support how you feel and function. They are not a substitute for medical care. Your honest answers help your Host choose modalities that are right for you today, and help us flag anything that warrants a conversation with your doctor.
+Our modalities are wellness services designed to support how you feel and function. They are not a substitute for medical care. Your honest answers help your Healer and Host choose modalities that are right for you today, and help us flag anything that warrants a conversation with your doctor.
 
 > If you answer yes to any question, a Host will discuss it with you privately. Some modalities may require clearance from your doctor before you begin. A yes does not mean you cannot visit; it means we will tailor your reset.
 
@@ -60,6 +60,7 @@ Do you have, or have you ever had, any of the following? Tick Yes or No for ever
 | Ear problems, perforated eardrum or recent ear surgery | ☐ | ☐ | __________ |
 | Sinus problems or congestion | ☐ | ☐ | __________ |
 | Difficulty equalising ears (for example, when flying or diving) | ☐ | ☐ | __________ |
+| Tinnitus, hearing aids or sensitivity to loud sound or vibration | ☐ | ☐ | __________ |
 
 ### Skin and light
 
@@ -118,7 +119,7 @@ Please list all prescription medicines, over-the-counter medicines and supplemen
 | Medication allergies | ☐ | ☐ | __________ |
 | Latex or adhesive (plasters, tape) | ☐ | ☐ | __________ |
 | Essential oils or fragrance | ☐ | ☐ | __________ |
-| Epsom salt / magnesium sulphate or other salts | ☐ | ☐ | __________ |
+| Salt or salt-air sensitivity (salt cabin) | ☐ | ☐ | __________ |
 | Food allergies | ☐ | ☐ | __________ |
 | History of severe allergic reaction (anaphylaxis) | ☐ | ☐ | __________ |
 
@@ -139,7 +140,7 @@ Please list all prescription medicines, over-the-counter medicines and supplemen
 | Doctor's name | __________________________ |
 | Clinic / hospital | __________________________ |
 | Phone | __________________________ |
-| ☐ I consent to The Aura contacting my doctor if a Host or the Clinical Lead needs clarification. | |
+| ☐ I consent to The Aura contacting my doctor if a Host, Healer or the [Medical Director named on the licence] needs clarification. | |
 
 ## 7. Declaration
 
@@ -161,7 +162,8 @@ Please list all prescription medicines, over-the-counter medicines and supplemen
 | Doctor's clearance required for | __________ |
 | Clearance received | ☐ Yes — date: ______ ☐ Pending ☐ N/A |
 | Modalities excluded or adapted | __________ |
-| Referred to Clinical Lead | ☐ Yes ☐ No |
+| Shared with Healer for first-visit consultation | ☐ Yes ☐ No |
+| Escalated to General Manager / [Medical Director named on the licence] | ☐ Yes ☐ No |
 | Host signature / date | __________ / __________ |
 
 <<<PAGEBREAK>>>

@@ -1,6 +1,6 @@
 # Guest Complaints & Feedback Handling Procedure
 
-> Document No. AUR-SAF-05 · Version 0.1 (Draft) · Owner: General Manager · Effective: [Date]
+> Document No. AUR-SAF-05 · Version 0.2 (Draft) · Owner: General Manager · Effective: [Date]
 
 ## 1. Purpose
 

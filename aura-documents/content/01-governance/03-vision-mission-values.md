@@ -1,6 +1,6 @@
 # Vision, Mission & Values Statement
 
-> Document No. AUR-GOV-03 · Version 0.1 (Draft) · Owner: Founder & CEO · Effective: [Date]
+> Document No. AUR-GOV-03 · Version 0.2 (Draft) · Owner: Founder & CEO · Effective: [Date]
 
 ## 1. Who we are
 
@@ -12,15 +12,15 @@ A city where looking after your nervous system is as natural as looking after yo
 
 ## 3. Mission
 
-To help each guest arrive in one state and leave in a calmer, clearer one. We do this by pairing clinical-grade Elevé Health technology with Hosts who know every modality, a guided breathing ritual at the start of every visit, and protocols built around the person in front of us.
+To help each guest arrive in one state and leave in a calmer, clearer one. We do this by pairing clinical-grade Elevé Health technology with Healers who design a personalised programme from the first visit, Hosts who know every modality, a guided breathing ritual at the start of every visit, and protocols built around the person in front of us.
 
 ## 4. Our pillars: Reset · Heal · Elevate
 
 | Pillar | What it means | Modalities |
 |---|---|---|
-| **Reset** | Interrupt stress and bring the nervous system back to baseline | Whole-Body Cryotherapy, Float & Sensory Reset, Dry Float Bed, Salt Cabin, Cold Plunge, Guided Breathwork |
-| **Heal** | Give the body the conditions to recover and repair | Red-Light Bed, Infrared Sauna, Hyperbaric Oxygen, Compression Recovery |
-| **Elevate** | Build energy, resilience and glow beyond recovery | IV Nutrient Therapy (clinician-administered, subject to DHA requirements) |
+| **Reset** | Interrupt stress and bring the nervous system back to baseline | Whole-Body Cryotherapy, Dry Float Bed, Salt Cabin, Cold Plunge, Guided Breathwork |
+| **Heal** | Give the body the conditions to recover and repair | Red-Light Bed, Infrared Sauna, Hyperbaric Oxygen (wellness session; [confirm licensing requirements for hyperbaric with DHA / licensing authority]), Compression Recovery |
+| **Elevate** | Build energy, resilience and glow beyond recovery | Sound Healing, the Healer consultation and personalised programmes. IV Nutrient Therapy is not offered at launch; it is a possible future service subject to DHA licensing |
 
 ## 5. Our values: four things we will not compromise on
 
@@ -44,21 +44,22 @@ Body, mind, nervous system and spirit. We care about how you feel when you leave
 
 When you visit The Aura, you can expect:
 
+- A first-visit consultation with one of our Healers, who identifies what you need and designs a personalised package for you.
 - A Host who greets you by name and stays with you through your visit.
 - A breathing ritual to begin: in for four, out for six.
 - A protocol tailored to how you arrived today, not a fixed script.
 - Elevé equipment, calibrated and serviced to clinical spec.
-- Robes, towels, slippers and everything each modality needs.
+- Robes, Aura-branded towels and clothing to wear in the centre, hotel-style Aura-branded slippers, refreshments and everything each modality needs.
 - No charge until your visit.
-- Honest guidance. Our modalities are wellness services designed to support how you feel and function. They are not a substitute for medical care. IV therapy is administered by licensed clinicians, and we will always flag anything that warrants a conversation with your doctor.
+- Honest guidance. Our modalities are wellness services designed to support how you feel and function. They are not a substitute for medical care. We do not offer medical treatments, and we will always flag anything that warrants a conversation with your doctor.
 
 ## 7. How our values show up every day
 
 | Value | What it looks like on the floor | What it never looks like |
 |---|---|---|
-| The nervous system first | The Host asks how the guest slept, how they feel, what brought them in, before suggesting a modality. Breathing ritual opens every visit. First-timers who are unsure get a three-step sequence built for them. | Rushing a guest into a cold modality because the slot is free. Upselling before listening. |
+| The nervous system first | The Host asks how the guest slept, how they feel, what brought them in, before suggesting a modality. Breathing ritual opens every visit. Every first visit begins with a Healer consultation and a personalised package. | Rushing a guest into a cold modality because the slot is free. Upselling before listening. |
 | Clinical hardware only | Hosts complete Elevé training before running any unit. Daily checks are logged. A fault means the unit is taken out of service and Elevé is called. | Improvised settings, unapproved add-on devices, or running equipment overdue for service. |
-| A host, not a receptionist | The same Host walks the guest from arrival to the last exhale. Cold plunge is always host-guided. Hosts explain pairings such as cold plunge with infrared sauna. | Pointing to a door and leaving. Guests waiting alone without knowing what comes next. |
+| A host, not a receptionist | The same Host walks the guest from arrival to the last exhale. Cold plunge is always host-guided. Hosts suggest combinations such as cold plunge with infrared sauna. | Pointing to a door and leaving. Guests waiting alone without knowing what comes next. |
 | Whole person, always | Hosts notice fatigue, jet lag or stress and adjust. Quiet is respected. Notes are kept so the next visit builds on this one. | Treating a guest as a booking number. Making promises about medical outcomes. |
 
 ## 8. Our behaviours as a team

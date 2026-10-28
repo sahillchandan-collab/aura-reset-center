@@ -1,6 +1,6 @@
 # Code of Conduct & Professional Ethics
 
-> Document No. AUR-POL-01 · Version 0.1 (Draft) · Owner: Founder & CEO · Effective: [Date]
+> Document No. AUR-POL-01 · Version 0.2 (Draft) · Owner: Founder & CEO · Effective: [Date]
 
 > Draft for internal use. To be reviewed by a UAE-qualified legal adviser once the trade license is issued.
 
@@ -8,7 +8,7 @@
 
 The Aura Reset Center is a recovery studio for the modern nervous system. Guests come to us tired, stressed, jet-lagged or simply curious, and they trust us with their bodies, their time and their personal information. That trust is the business.
 
-This code sets out how everyone who works at The Aura behaves: Hosts, front-of-house, housekeeping, licensed clinical staff, managers, contractors and Elevé Health technicians while on site. It applies at the Jumeirah 1 studio (332 Jumeirah First, Jumeirah Beach Road), at launch events, on social media when you are identifiable as a team member, and whenever you represent the brand.
+This code sets out how everyone who works at The Aura behaves: Hosts, Healers, front-of-house, cleaning support, managers, contractors and Elevé Health technicians while on site. It applies at the Jumeirah 1 studio (332 Jumeirah First, Jumeirah Beach Road), at launch events, on social media when you are identifiable as a team member, and whenever you represent the brand.
 
 If something is not covered here, ask yourself one question: *would a calm, caring, honest Host do this?* If you are unsure, ask the General Manager before you act.
 
@@ -28,7 +28,8 @@ Every guest-facing team member is expected to:
 - Greet each guest by name, make eye contact and introduce yourself.
 - Open every visit with the breathing ritual: "In for four, out for six."
 - Explain what will happen, how long it takes and how the guest can stop at any time, before each modality begins.
-- Stay within reach and within sight or sound as the modality requires. Cold plunge is always host-guided. Cryotherapy, hyperbaric oxygen and float sessions follow the monitoring rules in the relevant SOP.
+- Stay within reach and within sight or sound as the modality requires. Cold plunge is always host-guided. Cryotherapy, hyperbaric oxygen and dry float sessions follow the monitoring rules in the relevant SOP.
+- Suggest combinations of modalities honestly, based on how the guest arrived and the package their Healer designed, never to fill a slot.
 - Check in afterwards: how the guest feels, water, rest, and whether anything should be flagged.
 - Keep the space quiet, clean and unhurried. Speak softly on the floor.
 - Follow every SOP, contraindication screen and Elevé protocol without shortcuts.
@@ -37,8 +38,8 @@ Every guest-facing team member is expected to:
 ## 4. Guest dignity
 
 - Treat every guest with equal care, whatever their nationality, religion, gender, age, body, ability or membership level. A Single Reset guest receives the same attention as an Elevate member or founding member.
-- Respect modesty. Offer robes, towels and private changing at every step. Knock and wait for consent before entering any occupied room (see AUR-POL-04).
-- Never comment on a guest's body, weight, skin or appearance, except where clinically necessary and phrased with care.
+- Respect modesty. Offer robes, Aura-branded towels, clothing and slippers, and private changing at every step. Knock and wait for consent before entering any occupied room (see AUR-POL-04).
+- Never comment on a guest's body, weight, skin or appearance, except where necessary for safety and phrased with care.
 - Respect a guest's choice to decline a modality, end a session early, or not share personal details.
 - Honour reasonable requests for a Host of a particular gender where we can (see AUR-POL-04).
 
@@ -46,7 +47,7 @@ Every guest-facing team member is expected to:
 
 We use wellness language only. Our position, which every team member must hold to:
 
-> Our modalities are wellness services designed to support how you feel and function. They are not a substitute for medical care. IV therapy is administered by licensed clinicians, and we will always flag anything that warrants a conversation with your doctor.
+> Our modalities are wellness services designed to support how you feel and function. They are not a substitute for medical care. We do not offer medical treatments, and we will always flag anything that warrants a conversation with your doctor.
 
 ### 5.1 What you may say
 
@@ -59,11 +60,11 @@ We use wellness language only. Our position, which every team member must hold t
 - That any modality treats, cures, prevents or diagnoses a disease or medical condition.
 - That a guest can reduce or stop medication, or skip seeing their doctor.
 - That results are guaranteed, or that more sessions will "fix" something.
-- Medical advice of any kind, unless you are licensed clinical staff acting within your DHA licence and scope.
+- Medical advice of any kind. This applies to Hosts and Healers alike: Healer consultations identify wellness needs and design packages; they never diagnose.
 
 ### 5.3 Flagging health concerns
 
-If a guest discloses a condition, medication, pregnancy or symptom that appears on a contraindication list, or something simply feels wrong, pause the session and escalate to the duty lead or licensed clinician. Do not guess. IV nutrient therapy, and any other service subject to DHA requirements, is delivered only by licensed clinical staff under [DHA licence / approval reference].
+If a guest discloses a condition, medication, pregnancy or symptom that appears on a contraindication list, or something simply feels wrong, pause the session and escalate to the duty lead, who escalates to the General Manager and, where needed, the [Medical Director named on the licence]. Do not guess. No medical treatments are offered at launch. IV Nutrient Therapy is not available; if it is introduced in future, it would be delivered only by licensed clinical staff under DHA licensing.
 
 ## 6. Confidentiality and guest data
 

@@ -6,24 +6,26 @@
 
 ## 1. Purpose and scope
 
-This policy explains how guests and members book, arrive at, change and cancel sessions at The Aura Reset Center, 332 Jumeirah First, Jumeirah Beach Road, Jumeirah 1, Dubai. It applies to all 11 modalities, goal-based "Find your reset" sequences, memberships, guest passes and group bookings. Hosts apply it consistently, warmly and without judgement. The General Manager may make exceptions where fairness requires it.
+This policy explains how guests and members book, arrive at, change and cancel sessions at The Aura Reset Center, 332 Jumeirah First, Jumeirah Beach Road, Jumeirah 1, Dubai. It applies to all launch modalities and sessions (including Guided Breathwork, Sound Healing and the first-visit Healer consultation), goal-based "Find your reset" sequences, memberships, guest passes and group bookings. Hosts apply it consistently, warmly and without judgement. The General Manager may make exceptions where fairness requires it.
 
-Some clinical services (IV Nutrient Therapy and, where required, Hyperbaric Oxygen) are subject to DHA requirements [DHA licence / approval reference]. Where DHA rules require something stricter than this policy, DHA rules apply.
+No medical treatments are offered at launch. Hyperbaric Oxygen is offered as a non-medical wellness session [confirm licensing requirements for hyperbaric with DHA / licensing authority]. Where DHA or licensing-authority rules require something stricter than this policy, those rules apply.
 
 ## 2. How to book
 
 Guests may book through:
 
 - our website booking form at [Website]
-- [Phone] or [WhatsApp]
-- [Email]
+- WhatsApp at [WhatsApp]
+- [Phone] or [Email]
 - in person with a host at the studio
 
-Each request names a modality, a goal sequence or "Not sure yet — build my reset", and a preferred time band: Morning 8–11am, Midday 11am–2pm, Afternoon 2–5pm or Evening 5–8pm. Opening hours are [Opening hours].
+Many new guests reach us through our paid advertising campaigns (Meta/Instagram/Google). Every enquiry, from an ad, the website or WhatsApp, is answered within [___ minutes] during opening hours. Bookings are managed in [Booking system — to be chosen].
+
+Each request names a modality, a goal sequence or "Not sure yet — build my reset", and a preferred time band: Morning 9am–12pm, Midday 12–3pm, Afternoon 3–6pm or Evening 6–9pm. We are open 7 days a week, 9:00am–9:00pm.
 
 A booking is a request until we confirm it. We confirm by email with a calendar invite, normally within [___ hours] during opening hours.
 
-First-time guests complete a short health questionnaire before their first session. IV Nutrient Therapy and Hyperbaric Oxygen also require a clinician screen. We may need to move or decline a booking if the screen indicates a modality is not suitable.
+First-time guests complete a short health questionnaire before their first session, and every first visit begins with a consultation with one of our Healers ([30–45 min proposed]), who identifies the core issue and designs a personalised package. Hyperbaric Oxygen also requires a pre-session screen by a trained host [per Elevé protocol — pending]. We may need to move or decline a booking if the screen indicates a modality is not suitable.
 
 ## 3. Confirmations and reminders
 
@@ -35,12 +37,12 @@ First-time guests complete a short health questionnaire before their first sessi
 
 Our website promise is "No charge until your visit." Payment for single sessions is taken at the studio on the day.
 
-To protect high-demand and clinical slots, we may ask for one of the following [to be decided]:
+To protect high-demand slots (we have one unit of each machine), we may ask for one of the following [to be decided]:
 
 - a card held on file at booking, charged only under the no-show and late-cancellation rules below; or
-- a deposit of AED [___] for IV Nutrient Therapy, Hyperbaric Oxygen, group bookings and "Find your reset" sequences.
+- a deposit of AED [___] for Hyperbaric Oxygen, group bookings and "Find your reset" sequences.
 
-Card details are stored only by our payment provider [Payment provider] and never written down or kept by hosts.
+We accept Apple Pay, card and cash. Buy-now-pay-later (Tabby) will be added later. Card details are stored only by our payment provider [Payment provider] and never written down or kept by hosts.
 
 Members pay by monthly billing under the Membership Terms & Conditions (AUR-CLI-04).
 
@@ -48,15 +50,16 @@ Members pay by monthly billing under the Membership Terms & Conditions (AUR-CLI-
 
 - Please arrive **10 minutes early**, hydrated. This time is for check-in, changing, the health check-in with your host and our breathing ritual: in for four, out for six.
 - Avoid heavy make-up and lotions before light and cold sessions.
-- A shower is required before the float tank and cold plunge.
-- Robes, towels, slippers and everything each modality needs are provided. You need bring nothing.
+- A shower is required before the cold plunge.
+- Robes, Aura-branded towels, Aura-branded clothing to wear in the centre, hotel-style Aura-branded slippers and everything each modality needs are provided. You need bring nothing.
+- Refreshments are served on arrival and after your session [menu to confirm].
 
 ## 6. Late arrival
 
 Sessions run to a schedule so that every guest receives their full time and every machine is cleaned and reset between uses.
 
 - If you arrive late, your session is **shortened, not extended**, and the full price or session allowance applies.
-- If you are more than [15 minutes] late, or too late for the session to be delivered safely (for example, the IV clinician screen or the hyperbaric pre-check cannot be completed), the booking may be treated as a late cancellation. Your host will try to offer the next available slot first.
+- If you are more than [15 minutes] late, or too late for the session to be delivered safely (for example, the Healer consultation or the hyperbaric pre-check cannot be completed), the booking may be treated as a late cancellation. Your host will try to offer the next available slot first.
 - Cryotherapy and cold plunge are short sessions that still require full safety preparation; a late arrival may mean these are moved rather than shortened.
 - Please call or message [Phone] / [WhatsApp] if you are running late. We will always do what we can.
 
@@ -65,9 +68,8 @@ Sessions run to a schedule so that every guest receives their full time and ever
 | Service | Free cancellation or change | Late cancellation (inside the window) |
 |---|---|---|
 | All modalities except those below | More than 24 hours before | Single session: AED [___] or [___]% of the session price. Members: session counted as used |
-| IV Nutrient Therapy [proposed] | More than 48 hours before | AED [___] (formulas may be prepared in advance). Members: discount voucher forfeited, AED [___] fee |
 | Hyperbaric Oxygen [proposed] | More than 48 hours before | AED [___]. Members: session counted as used |
-| "Find your reset" sequences | More than 24 hours before (48 hours if the sequence includes IV or hyperbaric) | AED [___] |
+| "Find your reset" sequences | More than 24 hours before (48 hours if the sequence includes hyperbaric) | AED [___] |
 | Group bookings | See section 12 | See section 12 |
 
 Cancellations can be made by [Phone], [WhatsApp], [Email] or the link in your confirmation email. The time we receive the message counts.
@@ -95,17 +97,17 @@ A no-show is a booking not cancelled and not attended.
 - Guest passes are booked by the member in the guest's name, at least [24 hours] ahead.
 - The guest completes the health questionnaire and follows this policy and the House Rules (AUR-CLI-06).
 - A guest no-show or late cancellation uses the pass. Passes are not reissued.
-- Guest passes cover one core-modality session; they do not cover IV Nutrient Therapy.
+- Guest passes cover one core-modality session; they do not cover add-ons or retail [confirm].
 
 ## 11. Rescheduling
 
 - Rescheduling outside the cancellation window is free and unlimited.
 - Rescheduling inside the window is treated as a late cancellation, unless the host can fill the slot or section 14 applies.
-- We may need to reschedule you if equipment is unavailable, an Elevé service visit runs over, or a clinician is unavailable. We will tell you as early as possible and offer the next suitable slot or a credit (see AUR-CLI-03).
+- We may need to reschedule you if equipment is unavailable, an Elevé service visit runs over, or a Healer or facilitator is unavailable. We will tell you as early as possible and offer the next suitable slot or a credit (see AUR-CLI-03).
 
 ## 12. Group bookings
 
-Groups of [4] or more guests, private studio hire, corporate sessions and small-group breathwork:
+Groups of [4] or more guests, private studio hire, corporate sessions and small-group breathwork or sound healing (up to [__] guests):
 
 - are booked through the General Manager at [Email];
 - require a deposit of AED [___] or [___]% to confirm [to be decided];
@@ -123,7 +125,7 @@ Groups of [4] or more guests, private studio hire, corporate sessions and small-
 The nervous system comes first. If you are unwell, injured, have a fever, or your doctor has advised against a session, please do not come in. Tell us as early as you can.
 
 - We waive late-cancellation and no-show charges for genuine illness or medical advice, at the host's or General Manager's discretion. We do not require medical certificates for single occasions.
-- If a host or clinician finds on the day that a modality is not suitable (for example, after the health check-in), the session is not charged and we offer an alternative modality, a later date or a credit.
+- If a host or Healer finds on the day that a modality is not suitable (for example, after the health check-in), the session is not charged and we offer an alternative modality, a later date or a credit.
 - Pregnancy, a new diagnosis or a change in medication should be shared with your host before your next booking so we can adjust your protocol.
 
 ## 15. Our commitments to you

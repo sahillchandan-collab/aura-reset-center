@@ -1,6 +1,6 @@
 # Brand Guidelines (Written Standards)
 
-> Document No. AUR-GOV-06 · Version 0.1 (Draft) · Owner: Founder & CEO · Effective: [Date]
+> Document No. AUR-GOV-06 · Version 0.2 (Draft) · Owner: Founder & CEO · Effective: [Date]
 
 > These guidelines apply to everything that carries the name The Aura Reset Center: signage, stationery, digital, social, print, merchandise, partner materials and team communications. Approval of any exception sits with the Founder & CEO (see AUR-GOV-02).
 
@@ -127,12 +127,12 @@ Fallbacks where the brand fonts are unavailable: a classic serif for Marcellus, 
 ## 6. Photography style
 
 - **Light:** warm, natural or low amber light; glowing modalities (red-light bed, sauna, salt cabin) shown as calm light sources.
-- **Mood:** stillness, the moment after; eyes closed, slow breathing, robes, towels and quiet spaces.
+- **Mood:** stillness, the moment after; eyes closed, slow breathing, robes, Aura-branded towels, clothing and slippers, copper mugs of herbal tea, and quiet spaces.
 - **People:** real, varied guests in Dubai; Hosts shown alongside guests, guiding, never selling.
 - **Equipment:** Elevé units shown clean, calibrated and in use with a Host present; no clinical clutter.
 - **Composition:** generous negative space in Cream, Sand and Espresso tones.
 - **Avoid:** before/after images, needles in close-up, extreme cold-shock expressions, gym-style intensity, stock images of other venues, and any image implying a medical result.
-- IV therapy imagery shows the calm setting and the clinician, not the procedure.
+- No clinical or IV imagery: The Aura offers no medical treatments at launch.
 - Model releases are required for every identifiable person, in line with UAE privacy and data protection law.
 
 ## 7. Tone of voice
@@ -147,22 +147,23 @@ Calm, warm, precise, unhurried. Short sentences. Second person ("you"). Sensory 
 | Unhurried | "Arrive 10 minutes early, hydrated." | "Hurry, limited slots, book now!!!" |
 | Second person | "Every protocol starts by asking what state you arrived in." | "Clients are assessed on arrival." |
 | Honest | "Wellness services designed to support how you feel and function." | "Cures anxiety, insomnia and inflammation." |
-| Sensory, not hype | "Silence and darkness. Skin-temperature water." | "Mind-blowing, life-changing float experience." |
+| Sensory, not hype | "Fully clothed. Weightless on warm water." | "Mind-blowing, life-changing float experience." |
 
 ## 8. Vocabulary
 
 | Use | Instead of | Note |
 |---|---|---|
 | Host | Therapist, receptionist, attendant (for guest-facing guides) | Our people who guide guests are Hosts |
+| Healer | Therapist, doctor, consultant | Our holistic / energy-healing practitioners who run every first-visit consultation and design personalised packages |
 | Guest | Patient, client, customer | Members are also guests |
 | Session | Treatment, procedure | "A 40-minute infrared sauna session" |
 | Reset | Fix, cure | "Build my reset" |
-| Modality | Machine, device, therapy (generic) | "Eleven modalities across three pillars" |
-| Protocol | Programme of treatment | The sequence a Host tailors on the day |
+| Modality | Machine, device, therapy (generic) | "Eight Elevé modalities, plus Guided Breathwork and Sound Healing" |
+| Protocol | Programme of treatment | The sequence a Host tailors on the day; a Healer designs the personalised package |
 | Studio | Clinic (in general marketing) | "Elevé Health's first partner clinic in the UAE" is permitted as the partner phrase |
 | Supports, helps, may | Cures, treats, heals (as a medical claim), guarantees | Pillar name "Heal" is permitted as a brand term |
 | Founding member | Early bird, VIP | First 100 Dubai members |
-| Licensed clinician | Nurse/doctor (in marketing) | For IV therapy, subject to DHA requirements |
+| Wellness session | Medical treatment, therapy (for hyperbaric) | Hyperbaric Oxygen is described as a wellness session [confirm licensing requirements for hyperbaric with DHA / licensing authority]. IV therapy is not offered at launch and is not marketed |
 
 **Never write**
 
@@ -180,9 +181,11 @@ Always keep the medical position wording where health is discussed: "Our modalit
 | Letterhead | Primary lockup; [Registered Company Name]; address of the issuing location; [Phone], [Email], [Website]; Trade License No. [Trade License No.]; TRN [TRN] |
 | Invoices and tax invoices | All letterhead items plus the words "Tax Invoice", TRN, invoice number, date, VAT breakdown in AED, as required by UAE VAT rules |
 | Receipts and membership agreements | [Registered Company Name], Trade License No., TRN, location address |
-| Business cards | Short mark or full lockup; name; title (for example "Host" or "General Manager"); [Phone], [Email]; address |
+| Business cards | Short mark or full lockup; name; title (for example "Host", "Healer" or "General Manager"); [Phone], [Email]; address |
 | Email signatures | Name, title, The Aura Reset Center, [Phone], [Website]; Jost; no images other than the short mark |
 | Host note cards | Short mark; Caveat signature permitted |
+| Branded amenities | Short mark on robes, towels, guest clothing and hotel-style slippers; tone-on-tone in Sand, Cream or Espresso |
+| Retail and packaging | Short mark on copper mugs, organic fragrances, wellness pillows and linen merchandise; prices shown only as approved, AED [___] in drafts |
 
 **Stationery rules**
 

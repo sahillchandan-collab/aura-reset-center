@@ -28,13 +28,12 @@ This policy sets out when The Aura Reset Center gives refunds, credits or replac
 | Cancelled by the guest outside the cancellation window | Full refund of any deposit, or no charge | Host |
 | Late cancellation or no-show | Charges apply as in AUR-CLI-02; no refund | Host; waivers by General Manager |
 | Health-related cancellation (illness, medical advice) | Charge waived; deposit refunded or held as credit | Host |
-| Session not suitable after on-the-day health check | No charge; alternative modality, later date or credit | Host / clinician |
-| Session stopped for safety by host or clinician | No charge; replacement session or full refund | Host |
+| Session not suitable after on-the-day health check | No charge; alternative modality, later date or credit | Host |
+| Session stopped for safety by host | No charge; replacement session or full refund | Host |
 | Session stopped at guest's own request (discomfort, anxiety) | No charge if stopped in the first [___] minutes; otherwise replacement session offered as goodwill | Host |
 | Equipment failure before the session starts | Alternative modality, rebooking or full refund | Host |
 | Equipment failure during the session | Replacement session plus [goodwill gesture], or full refund | Host |
 | Cancelled or moved by The Aura | Free rebooking, credit or full refund, guest's choice | Host |
-| IV formula prepared, then not administered for clinical reasons | No charge | Clinician / General Manager |
 | Dissatisfied with the experience (no fault found) | Conversation with host; goodwill credit at General Manager's discretion | General Manager |
 | Late arrival leading to shortened session | No refund (session shortened, not extended) | Host |
 
@@ -50,16 +49,16 @@ Every machine is Elevé Health equipment, installed by Elevé, calibrated to cli
 
 ## 6. Sessions stopped for safety
 
-Hosts and clinicians may stop any session at any time for safety, for example a reading on the cryotherapy thermal-vision monitor, discomfort during hyperbaric pressurisation, dizziness in the sauna, or a reaction during IV therapy.
+Hosts, Healers and facilitators may stop any session at any time for safety, for example a reading on the cryotherapy thermal-vision monitor, discomfort during hyperbaric pressurisation, dizziness in the sauna, or breathlessness in the cold plunge.
 
 - The guest is cared for first. Incidents are recorded under our incident reporting procedure [reference].
 - The session is not charged. Members have the session reinstated.
-- If the stop arose because the guest did not disclose relevant health information, the session is still not charged, but we may require a clinician screen or a doctor's note before that modality is booked again.
+- If the stop arose because the guest did not disclose relevant health information, the session is still not charged, but we may require a doctor's note before that modality is booked again.
 - If the stop arose because the guest did not follow host instructions or the House Rules (AUR-CLI-06), the General Manager decides whether a charge applies.
 
 ## 7. Rescheduling initiated by The Aura
 
-If we need to move a booking (equipment service, clinician availability, power or water interruption, building works or events outside our control), we will:
+If we need to move a booking (equipment service, Healer or facilitator availability, power or water interruption, building works or events outside our control), we will:
 
 1. contact the guest as early as possible by [Phone / WhatsApp / Email];
 1. offer the nearest suitable slot, an alternative modality or a credit;
@@ -80,7 +79,7 @@ If we need to move a booking (equipment service, clinician availability, power o
 
 ## 10. Payment methods
 
-We accept [card (Visa, Mastercard, American Express) / Apple Pay / Google Pay / bank transfer for corporate accounts / cash — to be decided]. Prices are in UAE dirhams and include VAT where applicable [TRN].
+We accept Apple Pay, card (Visa, Mastercard [American Express — to confirm]) and cash. Bank transfer for corporate accounts is [to be decided]. Buy-now-pay-later through Tabby will be added later. Prices are in UAE dirhams and include VAT where applicable [TRN].
 
 Refunds are always made to the original payment method. Cash refunds are given only for cash payments. Refunds are not made to a different person or card.
 
@@ -108,7 +107,7 @@ Hosts may offer goodwill gestures up to [a replacement session / AED [___] credi
 
 ## 13. Complaints
 
-Guests who are not satisfied may write to the General Manager at [Email]. We acknowledge within [2] working days and aim to resolve within [10] working days. Complaints about clinical services are also handled under our clinical governance procedures, subject to DHA requirements [DHA licence / approval reference].
+Guests who are not satisfied may write to the General Manager at [Email]. We acknowledge within [2] working days and aim to resolve within [10] working days. No medical treatments are offered at launch; any complaint with a health or safety element is also escalated to the [Medical Director named on the licence] for oversight.
 
 ## 14. UAE consumer protection
 

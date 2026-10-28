@@ -1,14 +1,14 @@
 # Business Plan (Pre-Launch Outline)
 
-> Document No. AUR-GOV-04 · Version 0.1 (Draft) · Owner: Chief Executive Officer · Effective: [Date]
+> Document No. AUR-GOV-04 · Version 0.2 (Draft) · Owner: Chief Executive Officer · Effective: [Date]
 
 > Confidential pre-launch outline. All financial figures are placeholders [___] until the budget is approved by the CEOs. Prices are not final and are not shown.
 
 ## 1. Executive summary
 
-The Aura Reset Center is a nervous-system-regulation wellness studio opening its Dubai flagship at 332 Jumeirah First, Jumeirah Beach Road, Jumeirah 1, in November 2026. It brings together eleven modalities across three pillars, Reset · Heal · Elevate, all on Elevé Health clinical-grade equipment. The Aura is Elevé Health's first partner clinic in the UAE.
+The Aura Reset Center is a nervous-system-regulation wellness studio opening its Dubai flagship at 332 Jumeirah First, Jumeirah Beach Road, Jumeirah 1, in November 2026. It brings together eight Elevé Health machine modalities (one unit of each) plus Guided Breathwork and Sound Healing sessions across three pillars, Reset · Heal · Elevate, with every first visit starting in a consultation with one of our Healers. The Aura is Elevé Health's first partner clinic in the UAE.
 
-The model combines pay-as-you-go visits (Single Reset) with two month-to-month memberships (Restore and Elevate), a founding-member programme for the first 100 members, and separately priced IV nutrient therapy. Every guest is guided by a Host from arrival to the last exhale.
+The model combines pay-as-you-go visits (Single Reset) with two month-to-month memberships (Restore and Elevate), a founding-member programme for the first 100 members, Healer-designed personalised packages, refreshments and a small retail range. No medical treatments are offered at launch; IV Nutrient Therapy is a possible future service only, subject to DHA licensing. Every guest is guided by a Host from arrival to the last exhale.
 
 The Aura began in Santa Ana, California, where it is open by appointment. A Dubai membership also works at the US location.
 
@@ -29,7 +29,7 @@ A recovery studio for the modern nervous system. The Aura is built on four commi
 3. **A host, not a receptionist** — someone who knows the modalities walks with you, every visit.
 4. **Whole person, always** — body, mind, nervous system and spirit.
 
-Every visit opens with a breathing ritual ("in for four, out for six"), and the Host tailors the protocol on the day. Contrast pairings (cold plunge with infrared sauna; compression with sauna or cryotherapy; salt cabin before float or breathwork) encourage multi-modality visits.
+Every first visit starts with a Healer consultation that identifies the core problem and designs a personalised package or programme to regulate the nervous system and support energy healing. Every visit opens with a breathing ritual ("in for four, out for six"), and the Host tailors the protocol on the day and suggests combinations. Contrast pairings (cold plunge with infrared sauna; compression with sauna or cryotherapy; salt cabin before dry float, breathwork or sound healing) encourage multi-modality visits.
 
 ## 3. Market: Dubai wellness and longevity
 
@@ -40,7 +40,8 @@ Every visit opens with a breathing ritual ("in for four, out for six"), and the 
 
 **Our differentiation**
 
-- Eleven modalities under one roof, all on Elevé equipment calibrated to clinical spec.
+- Eight Elevé modalities plus Guided Breathwork and Sound Healing under one roof, all equipment calibrated to clinical spec.
+- A Healer consultation and personalised programme for every new guest.
 - Host-guided sessions, not self-service.
 - Nervous-system framing rather than a single-device offer.
 - International membership that travels between Dubai and the US.
@@ -49,11 +50,11 @@ Every visit opens with a breathing ritual ("in for four, out for six"), and the 
 
 | Segment | Typical goal (from "Find your reset") | Likely first modality |
 |---|---|---|
-| Busy professionals and executives | Calm the stress, Sharper focus | Infrared Sauna, Guided Breathwork, Float |
-| Frequent travellers and cabin crew | Beat jet lag, More energy | Hyperbaric Oxygen, IV Nutrient Therapy (post-flight), Compression |
+| Busy professionals and executives | Calm the stress, Sharper focus | Infrared Sauna, Guided Breathwork, Sound Healing |
+| Frequent travellers and cabin crew | Beat jet lag, More energy | Hyperbaric Oxygen, Compression, Dry Float Bed |
 | Fitness and sports community | Recover faster | Cryotherapy, Cold Plunge, Compression |
-| Beauty and self-care guests | Skin & glow | Red-Light Bed, Salt Cabin, IV (skin/glow) |
-| Guests struggling with rest | Sleep deeper | Dry Float Bed, Float & Sensory Reset, Breathwork |
+| Beauty and self-care guests | Skin & glow | Red-Light Bed, Salt Cabin |
+| Guests struggling with rest | Sleep deeper | Dry Float Bed, Sound Healing, Breathwork |
 | Corporate wellness clients | Team recovery and stress | Package to be designed [___] |
 
 ## 5. Offering
@@ -62,21 +63,29 @@ Every visit opens with a breathing ritual ("in for four, out for six"), and the 
 
 | Pillar | Modalities |
 |---|---|
-| Reset | Whole-Body Cryotherapy (3 min), Float & Sensory Reset (60 min), Dry Float Bed (30 min), Salt Cabin (30 min), Cold Plunge (2–5 min), Guided Breathwork (45 min) |
-| Heal | Red-Light Bed (20 min), Infrared Sauna (40 min), Hyperbaric Oxygen (60 min), Compression Recovery (30 min) |
-| Elevate | IV Nutrient Therapy (45–60 min), clinician-administered, subject to DHA requirements |
+| Reset | Whole-Body Cryotherapy (3 min), Dry Float Bed (30 min), Salt Cabin (30 min), Cold Plunge (2–5 min), Guided Breathwork (45 min) |
+| Heal | Red-Light Bed (20 min), Infrared Sauna (40 min), Hyperbaric Oxygen (60 min, non-medical wellness session; [confirm licensing requirements for hyperbaric with DHA / licensing authority]), Compression Recovery (30 min) |
+| Elevate | Sound Healing ([duration]); Healer consultation ([30–45 min proposed]) and personalised programmes |
+
+> There is one unit of each machine. If a unit is out of service, that modality is unavailable until it is restored. IV Nutrient Therapy is not offered at launch; it may be added later subject to DHA licensing and on-site clinicians.
+
+### 5.1a Amenities, refreshments and retail
+
+- Guests receive robes, Aura-branded towels and Aura-branded clothing to wear in the centre, and hotel-style Aura-branded slippers. Laundry is done in-house.
+- Refreshments are served (herbal teas, infused water etc. [menu to confirm]).
+- Retail: copper mugs, fragrances made from organic materials, wellness pillows and linen-fabric merchandise. Prices AED [___].
 
 ### 5.2 Memberships and pricing structure
 
 | Product | Structure | Price |
 |---|---|---|
 | Single Reset | One visit, one modality, guided first visit, option to add a second modality on the day | AED [___] |
-| Restore (monthly) | 8 sessions/month, priority booking, 1 guest pass/month, 10% off IV and add-ons | AED [___] |
-| Elevate (monthly) | Unlimited core sessions, quarterly protocol review, 2 guest passes/month, 15% off IV and add-ons | AED [___] |
-| IV Nutrient Therapy | Priced separately per formula | AED [___] |
+| Restore (monthly) | 8 sessions/month, priority booking, 1 guest pass/month, 10% off add-ons (and IV therapy if introduced) | AED [___] |
+| Elevate (monthly) | Unlimited core sessions, quarterly protocol review, 2 guest passes/month, 15% off add-ons (and IV therapy if introduced) | AED [___] |
+| Healer-designed packages / programmes | Personalised after the first-visit consultation | AED [___] |
 | Founding members (first 100) | Launch price locked for 12 months; two guest passes a month for the first three months; launch-evening invitation; first choice of opening-week sessions | AED [___] |
 
-Memberships are month-to-month with no long-term contract; members may pause for travel or cancel any time before the next billing date.
+Memberships are month-to-month with no long-term contract; members may pause for travel or cancel any time before the next billing date. Payment is by Apple Pay, card or cash; Tabby (buy-now-pay-later) will be added later.
 
 ## 6. Elevé Health partnership
 
@@ -88,11 +97,12 @@ Memberships are month-to-month with no long-term contract; members may pause for
 ## 7. Operations
 
 - **Premises:** Jumeirah 1 flagship, under construction. Fit-out completion target: [Date].
-- **Hours:** [Opening hours], suggested 8:00am–8:00pm, in four booking bands (Morning, Midday, Afternoon, Evening).
-- **Booking flow:** request a time, confirmation by email with calendar invite, arrive 10 minutes early; the Host tailors the protocol.
-- **Licensing:** trade license in process with [Licensing Authority]; DHA approval for IV therapy and hyperbaric oxygen [DHA licence / approval reference]; Dubai Municipality health and hygiene; Dubai Civil Defence fire approval.
-- **Systems:** booking and membership platform [___], point of sale [___], guest records held in line with UAE PDPL.
-- **Consumables:** robes, towels, slippers, Epsom salt (500 kg float charge), IV supplies via licensed clinical channel.
+- **Hours:** 7 days a week, 9:00am–9:00pm, across two shifts (e.g. 9:00am–3:30pm and 2:30pm–9:00pm [confirm]).
+- **Staffing:** 2 Hosts per shift; Healers [__] for first-visit consultations, Sound Healing and Guided Breathwork.
+- **Booking flow:** book online or via WhatsApp; confirmation with calendar invite; arrive 10 minutes early; first visit begins with a Healer consultation; the Host tailors the protocol. Most new guests come from paid ad campaigns, so leads are answered quickly.
+- **Licensing:** trade license in process with [Licensing Authority]; doctor named on the licence as [Medical Director named on the licence] (oversight only, not on the floor); [confirm licensing requirements for hyperbaric with DHA / licensing authority]; Dubai Municipality health and hygiene; Dubai Civil Defence fire approval.
+- **Systems:** booking and membership platform [Booking system — to be chosen], WhatsApp Business, point of sale for Apple Pay, card and cash [___], guest records held in line with UAE PDPL.
+- **Consumables and stock:** robes, Aura-branded towels and clothing, hotel-style Aura-branded slippers, in-house laundry supplies, refreshments, retail stock, cleaning products [per Elevé protocol — pending].
 
 ## 8. Team
 
@@ -102,10 +112,11 @@ Memberships are month-to-month with no long-term contract; members may pause for
 | Chief Executive Officer | Gurpreet Singh |
 | General Manager | Sahill Chandan |
 | Lead Host / Operations Lead | [To be hired] |
-| Hosts | [__] |
+| Hosts | 2 per shift; [__] in total |
+| Healers | [__] |
 | Guest Relations | [__] |
-| Clinical Lead (DHA-licensed) | [To be appointed] |
-| Housekeeping / Spa Attendants | [__] |
+| Medical oversight | [Medical Director named on the licence] (not on the floor; a Clinical Lead only if clinical services are added later) |
+| Cleaning support | [in-house attendant / outsourced cleaner — to be decided] |
 | Marketing & Community | [__] |
 | Finance / Admin | In-house or outsourced [___] |
 
@@ -115,7 +126,8 @@ See AUR-GOV-01 Organisation Chart and AUR-GOV-02 Delegation of Authority.
 
 - **Founding-member list:** first 100 members; no payment on joining the list.
 - **Launch evening:** official opening event in November 2026 for founding members, partners and press.
-- **Channels:** Instagram [Instagram], website [Website], WhatsApp [WhatsApp], email, local community partnerships in Jumeirah.
+- **Channels:** paid ad campaigns (Meta / Instagram / Google) as the main source of new guests, Instagram [Instagram], website [Website], WhatsApp [WhatsApp], email, local community partnerships in Jumeirah.
+- **Lead response:** every ad lead and WhatsApp enquiry answered within [__] minutes during opening hours.
 - **Partnerships:** hotels, airlines and cabin-crew communities, gyms and running clubs, corporate wellness.
 - **Message:** calm, warm, precise; wellness language only; no medical claims.
 - **Launch marketing budget:** AED [___].
@@ -128,9 +140,9 @@ See AUR-GOV-01 Organisation Chart and AUR-GOV-02 Delegation of Authority.
 | Lease and fit-out sign-off | Founder & CEO / CEO | [Date] | [___] |
 | Elevé equipment delivered and installed | General Manager | [Date] | [___] |
 | Elevé calibration and clinical-spec sign-off | General Manager | [Date] | [___] |
-| DHA approvals for IV and hyperbaric | CEO / Clinical Lead | [Date] | [___] |
+| Confirm DHA / licensing requirements for hyperbaric | CEO | [Date] | [___] |
 | Dubai Municipality and Civil Defence approvals | General Manager | [Date] | [___] |
-| Team hired and Elevé Host training complete | General Manager | [Date] | [___] |
+| Team (Hosts, Healers) hired and Elevé Host training complete | General Manager | [Date] | [___] |
 | Booking system and memberships live | General Manager | [Date] | [___] |
 | Phone, WhatsApp and Instagram live | Marketing & Community | [Date] | [___] |
 | Soft opening for founding members | General Manager | [Date] | [___] |
@@ -141,7 +153,7 @@ See AUR-GOV-01 Organisation Chart and AUR-GOV-02 Delegation of Authority.
 | Month | Phase | Key activities | Owner |
 |---|---|---|---|
 | Jun 2026 | Build | Fit-out progress; final equipment order with Elevé; brand assets finalised | Founder & CEO / CEO |
-| Jul 2026 | Build | Recruitment of Lead Host and Clinical Lead; supplier contracts; booking platform selected | General Manager |
+| Jul 2026 | Build | Recruitment of Lead Host and Healers; supplier contracts; booking platform selected | General Manager |
 | Aug 2026 | Build | Founding-member list opens; content and Instagram build | Marketing & Community |
 | Sep 2026 | Install | Elevé installation begins; licence inspections scheduled | General Manager |
 | Oct 2026 | Train | Elevé Host training; mock guest days; SOPs signed off; approvals completed | General Manager |
@@ -157,12 +169,12 @@ See AUR-GOV-01 Organisation Chart and AUR-GOV-02 Delegation of Authority.
 
 | Risk | Impact | Mitigation |
 |---|---|---|
-| Licensing or DHA approval delays | Late opening or clinical services delayed | Early engagement; open with non-clinical modalities first if needed |
+| Licensing or DHA approval delays | Late opening or hyperbaric delayed | Early engagement; open with non-clinical modalities first if needed; no clinical services at launch |
 | Construction or fit-out delays | Launch date slips | Weekly site reviews; contingency AED [___] |
-| Equipment fault at launch | Lost sessions, guest disappointment | Elevé service schedule and support; backup protocols using other modalities |
-| Slow membership uptake | Cash flow pressure | Founding-member programme; guest passes; corporate packages |
+| Equipment fault at launch | Single unit of each machine, so the modality is unavailable | Elevé service schedule and support; rebook or offer another modality |
+| Slow membership uptake | Cash flow pressure | Fast response to ad-campaign leads; founding-member programme; guest passes; corporate packages |
 | Guest safety incident | Harm, reputation, regulatory action | Elevé-trained Hosts; screening and consent; host-guided cold modalities; incident procedure |
-| Recruitment of skilled Hosts and clinicians | Service quality | Early hiring; Elevé training; clear career path |
+| Recruitment of skilled Hosts and Healers | Service quality | Early hiring; Elevé training; clear career path |
 | Claims-based marketing | Regulatory and reputational risk | Wellness language only; review of all copy |
 | Summer seasonality in Dubai | Lower visits | Travel-friendly membership pause; resident-focused campaigns |
 
@@ -191,8 +203,8 @@ See AUR-GOV-01 Organisation Chart and AUR-GOV-02 Delegation of Authority.
 | Single Reset visits | [___] per month | AED [___] |
 | Restore memberships | [___] members | AED [___] |
 | Elevate memberships | [___] members | AED [___] |
-| IV Nutrient Therapy | [___] per month | AED [___] |
-| Add-ons and retail | [___] | AED [___] |
+| Healer packages / programmes | [___] per month | AED [___] |
+| Add-ons and retail (copper mugs, organic fragrances, wellness pillows, linen merchandise) | [___] | AED [___] |
 | Corporate packages | [___] | AED [___] |
 | **Total revenue** | | AED [___] |
 
@@ -204,7 +216,7 @@ See AUR-GOV-01 Organisation Chart and AUR-GOV-02 Delegation of Authority.
 | Salaries and benefits | AED [___] |
 | Elevé service and support | AED [___] |
 | Utilities | AED [___] |
-| Consumables and laundry | AED [___] |
+| Consumables, refreshments and in-house laundry | AED [___] |
 | Marketing | AED [___] |
 | Insurance | AED [___] |
 | Professional fees and outsourced finance | AED [___] |

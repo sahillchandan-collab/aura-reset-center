@@ -1,6 +1,6 @@
 # Conflict of Interest, Gifts & Anti-Bribery
 
-> Document No. AUR-POL-05 · Version 0.1 (Draft) · Owner: CEO · Effective: [Date]
+> Document No. AUR-POL-05 · Version 0.2 (Draft) · Owner: CEO · Effective: [Date]
 
 > Draft for internal use. To be reviewed by a UAE-qualified legal adviser once the trade license is issued.
 
@@ -15,7 +15,7 @@ A conflict of interest arises when your personal interests, or those of family o
 Examples at The Aura:
 
 - Recommending a guest to a private practitioner you work with.
-- Influencing a supplier choice (linen, salt, Epsom salt for the float tank, IV consumables, cleaning products) where a relative owns the supplier.
+- Influencing a supplier choice (linen and Aura-branded towels, clothing and slippers, salt, refreshments, retail stock such as copper mugs, organic fragrances, wellness pillows and linen merchandise, laundry and cleaning products, advertising agencies) where a relative owns the supplier.
 - Approving a discount, guest pass or founding-member slot for a friend.
 - Managing a rota or appraisal for someone you are in a relationship with.
 

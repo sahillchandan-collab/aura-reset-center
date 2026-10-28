@@ -4,18 +4,20 @@
 
 Thank you for visiting The Aura Reset Center. This short survey takes about two minutes. Your answers help us care for you better on every visit.
 
-| Name (optional) | Date of visit | Host's name |
-|---|---|---|
-| __________________ | ____ / ____ / ______ | __________________ |
+| Name (optional) | Date of visit | Host's name | Healer's name (first visit) |
+|---|---|---|---|
+| __________________ | ____ / ____ / ______ | __________________ | __________________ |
 
 ## 1. Your visit
 
 | Question | Answer |
 |---|---|
 | Was this your first visit? | ☐ Yes ☐ No |
+| How did you find us? | ☐ Instagram / Facebook ad ☐ Google ☐ Friend ☐ Other: ______ |
+| How did you book? | ☐ Website ☐ WhatsApp ☐ Phone ☐ Walk-in |
 | How did you visit? | ☐ Single Reset ☐ Restore member ☐ Elevate member ☐ Guest pass ☐ Founding member |
-| Modality or modalities today | ☐ Cryotherapy ☐ Red-Light Bed ☐ Infrared Sauna ☐ Hyperbaric Oxygen ☐ IV Nutrient Therapy ☐ Float |
-| | ☐ Compression ☐ Dry Float Bed ☐ Salt Cabin ☐ Cold Plunge ☐ Breathwork |
+| Modality or modalities today | ☐ Cryotherapy ☐ Red-Light Bed ☐ Infrared Sauna ☐ Hyperbaric Oxygen ☐ Dry Float Bed ☐ Salt Cabin |
+| | ☐ Cold Plunge ☐ Compression ☐ Breathwork ☐ Sound Healing ☐ Healer consultation |
 | Your main goal today | __________________________ |
 
 ## 2. How you feel
@@ -34,9 +36,11 @@ Tick one box per line.
 | Area | Excellent | Good | Fair | Poor |
 |---|---|---|---|---|
 | Your Host's care and knowledge | ☐ | ☐ | ☐ | ☐ |
+| Your Healer consultation and personalised package (first visit) | ☐ | ☐ | ☐ | ☐ |
 | Explanation of the modality and safety | ☐ | ☐ | ☐ | ☐ |
 | Cleanliness of the studio and equipment | ☐ | ☐ | ☐ | ☐ |
-| Robes, towels and changing areas | ☐ | ☐ | ☐ | ☐ |
+| Robes, towels, Aura clothing, slippers and changing areas | ☐ | ☐ | ☐ | ☐ |
+| Refreshments | ☐ | ☐ | ☐ | ☐ |
 | Ease of booking and confirmation | ☐ | ☐ | ☐ | ☐ |
 | Arrival and the breathing ritual | ☐ | ☐ | ☐ | ☐ |
 | Effectiveness of the modality for your goal | ☐ | ☐ | ☐ | ☐ |

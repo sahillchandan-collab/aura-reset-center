@@ -1,6 +1,6 @@
 # HR Policy Manual
 
-> Document No. AUR-POL-02 · Version 0.1 (Draft) · Owner: General Manager · Effective: [Date]
+> Document No. AUR-POL-02 · Version 0.2 (Draft) · Owner: General Manager · Effective: [Date]
 
 > Draft for internal use. To be reviewed by a UAE-qualified legal adviser once the trade license is issued.
 
@@ -18,12 +18,12 @@ All employment is under a written, fixed-term contract registered with MOHRE, as
 
 | Type | Description | Typical roles at The Aura |
 |---|---|---|
-| Full-time | Standard hours for one employer | Hosts, Front-of-House Lead, Housekeeping, Clinical staff |
-| Part-time | Fewer agreed hours, may work for more than one employer with the right permit | Breathwork guides, weekend Hosts |
+| Full-time | Standard hours for one employer | Hosts, Healers, Front-of-House Lead, cleaning support [if in-house] |
+| Part-time | Fewer agreed hours, may work for more than one employer with the right permit | Healers (sessional), breathwork and sound-healing guides, weekend Hosts |
 | Temporary | Defined project or period | Launch event support, opening-season cover |
 | Flexible | Hours or days vary with operational need | Relief Hosts |
 
-Clinical staff (for example, those administering IV nutrient therapy) must hold a current Dubai Health Authority (DHA) licence and work within its scope. Employment is subject to DHA requirements and [DHA licence / approval reference].
+No clinical staff are employed at launch, as no medical treatments are offered. A doctor is named on the licence as the [Medical Director named on the licence] for oversight and escalation only and is not on the floor. If clinical services (for example IV Nutrient Therapy) are added in future, clinical staff would need a current Dubai Health Authority (DHA) licence and this policy would be updated.
 
 ## 3. Recruitment, visas and onboarding
 
@@ -69,15 +69,14 @@ The standard working time is **8 hours per day and 48 hours per week**, excludin
 
 ### 5.2 Shift work for a seven-day studio
 
-The studio is open seven days a week, [Opening hours] (suggested 8:00am to 8:00pm), matching our booking bands: Morning 8–11am, Midday 11am–2pm, Afternoon 2–5pm, Evening 5–8pm. Teams work rotating shifts, for example:
+The studio is open seven days a week, 9:00am to 9:00pm. At launch there are **2 Hosts per shift** and two shifts a day, with a short overlap for handover. Teams work rotating shifts, for example:
 
 | Shift | Hours (example) | Covers |
 |---|---|---|
-| Early | 7:30am – 4:30pm | Opening checks, equipment warm-up, Morning and Midday bands |
-| Mid | 9:30am – 6:30pm | Peak Midday and Afternoon guests |
-| Late | 11:30am – 8:30pm | Afternoon and Evening bands, closing, cleaning logs |
+| Opening | 9:00am – 3:30pm [confirm] | Opening checks before doors open, equipment warm-up, morning and midday guests |
+| Closing | 2:30pm – 9:00pm [confirm] | Afternoon and evening guests, closing, cleaning logs, laundry, end-of-day cash close by the senior Host |
 
-Rotas are published at least [7] days in advance. Swaps need duty lead approval and must keep each modality covered by a trained Host. The opening and closing shifts complete the Elevé daily checks and Dubai Municipality hygiene logs.
+Rotas are published at least [7] days in advance. Swaps need duty lead approval and must keep 2 trained Hosts on every shift and each modality covered by a trained Host. Healer hours are rostered around first-visit consultations, Sound Healing and Guided Breathwork bookings. The opening and closing shifts complete the Elevé daily checks and Dubai Municipality hygiene logs.
 
 ### 5.3 Ramadan
 
@@ -128,7 +127,7 @@ After completing probation, employees are entitled to up to **90 days of sick le
 - A medical certificate from a licensed provider is required for any absence of [one day / more than one day] and within three days of the illness starting.
 - Sick leave is not paid where the illness results from the employee's own misconduct, such as alcohol or drug use.
 - During probation, sick leave may be granted unpaid on medical evidence.
-- Hosts who are unwell must not work with guests. A cough, fever or skin infection is a reason to stay home, given the shared salt cabin, float tank and plunge.
+- Hosts who are unwell must not work with guests. A cough, fever or skin infection is a reason to stay home, given the shared salt cabin, dry float bed, plunge and close contact during consultations and breathwork.
 
 ### 9.3 Maternity leave
 
@@ -196,8 +195,8 @@ The total gratuity will not exceed two years' wages. Unpaid absence days are not
 
 | Role level | Notice period after probation |
 |---|---|
-| Hosts, front-of-house, housekeeping | [30] days |
-| Clinical staff, team leads | [60] days |
+| Hosts, Healers, front-of-house, cleaning support | [30] days |
+| Team leads | [60] days |
 | Management | [90] days |
 
 Notice must be at least 30 days and no more than 90 days, and is given in writing. Either party may pay wages in lieu of notice. The employee is paid in full during the notice period.
@@ -277,8 +276,9 @@ Refresher training follows each Elevé protocol update and at least [annually].
 | CPR / basic life support and first aid | All Hosts and duty leads | Every [2] years |
 | Fire safety / evacuation | All staff | Annually |
 | Guest data and privacy (PDPL) | All staff | Annually |
-| DHA licence | Clinical staff | As DHA requires |
-| Breathwork facilitation | Breathwork guides | [___] |
+| Healing practice credentials | Healers | [___] |
+| Breathwork and sound-healing facilitation | Healers and guides leading these sessions | [___] |
+| DHA licence (only if clinical services are added in future) | Clinical staff | As DHA requires |
 
 The company pays for mandatory training. Where the company funds external, non-mandatory training of significant cost, a training agreement may set out reasonable repayment if the employee leaves within [___] months, as the law permits.
 

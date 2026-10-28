@@ -1,14 +1,14 @@
 # Health, Safety & Hygiene Policy
 
-> Document No. AUR-SAF-01 · Version 0.1 (Draft) · Owner: General Manager · Effective: [Date]
+> Document No. AUR-SAF-01 · Version 0.2 (Draft) · Owner: General Manager · Effective: [Date]
 
 > Draft for internal use. To be reviewed by a UAE-qualified legal adviser once the trade license is issued.
 
 ## 1. Purpose and scope
 
-This policy sets out how The Aura Reset Center keeps guests, Hosts, clinicians, contractors and visitors safe at the Dubai studio, 332 Jumeirah First, Jumeirah Beach Road, Jumeirah 1. It covers all 11 modalities, the changing rooms, showers, reception and back-of-house areas.
+This policy sets out how The Aura Reset Center keeps guests, Hosts, Healers, contractors and visitors safe at the Dubai studio, 332 Jumeirah First, Jumeirah Beach Road, Jumeirah 1. It covers the eight Elevé modalities (one unit of each), Guided Breathwork, Sound Healing, Healer consultations, the changing rooms, showers, reception, refreshment and retail areas, the in-house laundry and back-of-house areas. The studio is open 7 days a week, 9:00am–9:00pm.
 
-Our studio uses extreme cold, heat, pressurised oxygen, water, salt aerosol and clinical procedures. Each is safe when run to protocol and dangerous when rushed. Safety is part of "the nervous system first": a guest cannot settle if they do not feel safe.
+Our studio uses extreme cold, heat, pressurised oxygen, water and salt aerosol. No medical treatments are offered at launch. Each is safe when run to protocol and dangerous when rushed. Safety is part of "the nervous system first": a guest cannot settle if they do not feel safe.
 
 This policy applies from the first day of fit-out handover through the November 2026 opening and onward. The US location (Santa Ana, California) follows its own local requirements; this policy may be used as a reference there.
 
@@ -18,7 +18,7 @@ We comply with, as applicable:
 
 - Dubai Municipality requirements for public health, hygiene, health clubs and spa facilities — [Dubai Municipality permit / approval reference]
 - Dubai Civil Defence requirements for fire safety, fire systems, signage and evacuation — [Civil Defence completion certificate reference]
-- Dubai Health Authority (DHA) requirements for IV Nutrient Therapy, and hyperbaric oxygen where applicable — [DHA licence / approval reference], subject to DHA requirements
+- Dubai Health Authority (DHA) / licensing authority requirements for hyperbaric oxygen — [confirm licensing requirements for hyperbaric with DHA / licensing authority]. A doctor is named on the licence as [Medical Director named on the licence] for oversight and escalation; the doctor is not on the floor. IV Nutrient Therapy is not offered at launch; any future clinical service would need DHA licensing first
 - UAE Federal Decree-Law No. 33 of 2021 on labour relations and related occupational health and safety rules
 - Manufacturer instructions, protocols and service schedules from Elevé Health for every device
 
@@ -30,9 +30,10 @@ Where requirements differ, the stricter standard applies.
 |---|---|
 | Founder & CEO and CEO | Overall accountability; approve this policy; provide resources for safe operation |
 | General Manager | Day-to-day owner of this policy; risk assessments; training records; incident review; authority liaison |
-| Clinical Lead [Name, DHA licence no.] | IV room standards, infection control, sharps and clinical waste, clinical emergencies, medical screening escalation |
+| [Medical Director named on the licence] | Oversight and escalation only, not on the floor: advice on screening questions, contraindication escalations and health-related incident review. If clinical services are added later, a Clinical Lead would be appointed |
+| Healers | Run first-visit consultations, Sound Healing and Guided Breathwork safely; note screening flags and pass them to the Host and Duty Manager |
 | Duty Manager / Senior Host | Opening and closing safety checks; shift safety briefing; first response coordination |
-| Hosts | Run every session to Elevé protocol; pre-session screening; stay with the guest where required; report hazards immediately |
+| Hosts (2 per shift) | Run every session to Elevé protocol; pre-session screening; stay with the guest where required; report hazards immediately |
 | Elevé Health technicians | Installation, calibration, servicing, technical support and protocol updates |
 | Cleaning team / contractor [Name] | Cleaning to the Cleaning & Sanitation Procedures (AUR-SAF-02); safe chemical handling |
 
@@ -40,11 +41,11 @@ Every person on site has a duty to stop a session or close an area if they belie
 
 ## 4. Risk assessment approach
 
-1. The General Manager keeps a written risk assessment for each modality, each area and each regular task (e.g. chemical handling, salt replenishment, float water dosing).
+1. The General Manager keeps a written risk assessment for each modality, each area and each regular task (e.g. chemical handling, salt replenishment, laundry, serving hot refreshments).
 2. Each assessment lists the hazard, who may be harmed, existing controls, a risk rating (likelihood × severity, 1–5 each) and further actions with an owner and date.
 3. Assessments are completed before opening, reviewed every [12] months, and reviewed immediately after any incident, near miss, new device, Elevé protocol update or layout change.
 4. Hosts are briefed on the assessments for the modalities they run and sign to confirm.
-5. Guest screening (intake form, contraindications, consent) is a core control. A Host who is unsure does not proceed and asks the Duty Manager or Clinical Lead.
+5. Guest screening (intake form, contraindications, consent) is a core control. A Host who is unsure does not proceed and asks the Duty Manager, who escalates to the General Manager and, where needed, the [Medical Director named on the licence].
 
 | Score (L × S) | Rating | Action |
 |---|---|---|
@@ -53,6 +54,8 @@ Every person on site has a duty to stop a session or close an area if they belie
 | 15–25 | High | Stop the activity until controls are in place |
 
 ## 5. Modality-specific hazards and controls
+
+> Elevé operating instructions have not yet been received. All machine settings, session limits and cleaning products below are [per Elevé protocol — pending] and will be confirmed before opening. There is one unit of each machine; if a unit is out of service, that modality is unavailable.
 
 ### 5.1 Whole-Body Cryotherapy (Elevé E-CRYO PRO, to −110 °C)
 
@@ -98,7 +101,7 @@ Hazards: barotrauma to ears and sinuses, discomfort during pressurisation, claus
 
 Controls:
 
-- Operated only by Elevé-trained staff, subject to DHA requirements [DHA licence / approval reference]. Pressure never exceeds the protocol for that guest.
+- Offered as a non-medical wellness session. Operated only by Elevé-trained Hosts [confirm licensing requirements for hyperbaric with DHA / licensing authority]. Pressure never exceeds the protocol for that guest.
 - Screening for contraindications (e.g. untreated pneumothorax, recent ear or sinus surgery, congestion or cold, certain lung conditions, pregnancy) — refer before proceeding.
 - Teach ear-clearing before pressurisation. Pressurise and decompress at the Elevé rate; stop pressurising if the guest reports ear pain.
 - The operator stays at the control panel for the full 60 minutes, with intercom contact.
@@ -116,25 +119,15 @@ Controls:
 
 The Host checks every guest against this list before each session and records the check on the session sheet. Oxygen supply is stored, handled and maintained to Elevé and Civil Defence requirements. No open flame or smoking anywhere in the building.
 
-### 5.5 Float & Sensory Reset (float tank, 500 kg Epsom salt)
+### 5.5 Dry Float Bed (Elevé)
 
-Hazards: slips entering and leaving the tank; salt water in eyes; water quality (bacterial growth); drowsiness; anxiety in darkness or silence; overheating if water is not at skin temperature.
-
-Controls:
-
-- Non-slip flooring and a handrail; guests shower before and after.
-- Eye-rinse spray bottle of fresh water and a towel within reach inside the tank.
-- Lights and lid or door can always be opened from inside; intercom or call button inside the tank.
-- Water filtration and UV between every guest; Epsom concentration and water quality tested and logged (AUR-SAF-02).
-- Guests with open cuts are offered a waterproof barrier or the session is rebooked.
-
-### 5.6 Dry Float Bed (Elevé)
+There is no wet float tank at The Aura. The dry float bed is the only float; guests stay fully clothed.
 
 Hazards: low risk. Warm membrane over heated water; possible overheating; difficulty getting up after deep rest.
 
-Controls: temperature set to Elevé spec; Host helps the guest sit up slowly; check the membrane for wear each day.
+Controls: temperature [per Elevé protocol — pending]; Host helps the guest sit up slowly; check the membrane for wear each day.
 
-### 5.7 Salt Cabin (Elevé E-Salt Cabin)
+### 5.6 Salt Cabin (Elevé E-Salt Cabin)
 
 Hazards: respiratory irritation or coughing, especially for guests with asthma or other respiratory conditions; eye irritation; sensitivity to aromatherapy oils; salt dust during replenishment.
 
@@ -145,55 +138,49 @@ Controls:
 - Salt particle output and oxygen settings to Elevé spec only.
 - Staff wear a dust mask [FFP2] and eye protection when refilling salt.
 
-### 5.8 Red-Light Bed (660 / 850 nm) and Compression Recovery (7-zone boots)
+### 5.7 Red-Light Bed (660 / 850 nm) and Compression Recovery (7-zone boots)
 
 Red light hazards: eye discomfort; photosensitivity (certain medications or conditions); heat. Controls: eye protection offered; screening for photosensitivity; 20-minute maximum per protocol.
 
 Compression hazards: discomfort; unsuitable for guests with deep vein thrombosis, acute injury or certain circulatory conditions. Controls: screening; start at low pressure; guest holds the controller and can stop at any time.
 
-### 5.9 IV Nutrient Therapy (clinical service)
+### 5.8 Guided Breathwork and Sound Healing
 
-IV Nutrient Therapy is a clinical service, administered only by licensed clinicians under the Clinical Lead and subject to DHA requirements [DHA licence / approval reference].
+Hazards: light-headedness or tingling from altered breathing; emotional release; sound sensitivity (for example tinnitus or noise sensitivity); trips over mats and instruments in a dimmed room. Controls: guide-led pacing; guests sit or lie down; no breath-holding techniques for guests with flagged conditions; volume and instrument placement agreed with the guest; clear walkways; the guide checks in after each round. Group size [up to __ guests].
 
-Hazards: needlestick injury; infection; adverse reaction or allergy; fainting; extravasation; clinical waste.
+### 5.9 Healer consultation, refreshments and laundry
 
-Controls:
+- Healer consultations ([30–45 min proposed]) use wellness language only and never diagnose. Health flags are passed to the Host and Duty Manager.
+- Hot refreshments are served in stable cups or copper mugs on a tray, never carried over a resting guest. Allergens for refreshments are listed [menu to confirm].
+- The in-house laundry machine is used to the manufacturer's instructions, with dry hands, a clear floor and the lint filter cleaned [daily].
 
-- Medical assessment and informed consent before every first IV; formulas prescribed per DHA rules.
-- Aseptic technique, hand hygiene to the WHO "five moments", single-use sterile equipment only.
-- Sharps go straight into an approved sharps container at the point of use. Never re-cap needles. Containers closed at the fill line.
-- Clinical waste is segregated, stored in a locked area and collected by a licensed contractor [Clinical waste contractor] with consignment records kept.
-- Anaphylaxis kit and emergency medicines in the IV room, checked [weekly] and logged.
-- Needlestick injuries follow the Emergency & Incident Response Procedure (AUR-SAF-04) and the Clinical Lead's protocol.
-- Staff vaccinations (e.g. Hepatitis B) as required by DHA.
+### 5.10 Future clinical services
 
-### 5.10 Guided Breathwork
-
-Hazards: light-headedness or tingling from altered breathing; emotional release. Controls: guide-led pacing; guests sit or lie down; no breath-holding techniques for guests with flagged conditions; the guide checks in after each round.
+IV Nutrient Therapy and any other medical treatment are not offered at launch. If added in future, they would need DHA licensing, on-site licensed clinicians and a Clinical Lead, and this policy would be updated with full clinical controls (including sharps, clinical waste and adverse-reaction procedures) before the first session.
 
 ## 6. Electrical safety
 
 - Every Elevé unit is installed by Elevé and connected to a dedicated circuit as specified.
 - Only Elevé technicians open, repair or move devices. Hosts do not attempt repairs.
 - Visual checks of plugs, cables and controls at opening. Any damage: switch off, tag "Do not use", report.
-- Residual current protection and earthing in wet areas (float, plunge, showers) to Dubai Electricity and Water Authority and Civil Defence standards — [Electrical certificate reference].
+- Residual current protection and earthing in wet areas (plunge, showers, laundry) to Dubai Electricity and Water Authority and Civil Defence standards — [Electrical certificate reference].
 - Portable appliances tested every [12] months and labelled.
 - Emergency lighting and backup for critical devices as per Section 8 of AUR-SAF-04.
 
 ## 7. Slip prevention
 
-- Non-slip flooring in float, plunge, shower, changing and sauna areas.
-- Slippers provided to every guest.
+- Non-slip flooring in plunge, shower, changing and sauna areas.
+- Hotel-style Aura-branded slippers provided to every guest.
 - Wet-floor signs used whenever a floor is wet; spills dealt with at once.
-- Absorbent mats at the exits of the plunge, float room and showers; changed when saturated.
-- Handrails at the plunge, float tank and any steps.
+- Absorbent mats at the exits of the plunge and showers; changed when saturated.
+- Handrails at the plunge and any steps.
 - Floors checked at least [hourly] during opening hours and logged.
 
 ## 8. Chemicals (hazardous substances)
 
 We follow a COSHH-style approach:
 
-1. Keep an inventory of every chemical on site: [Approved product list] (cleaning, disinfection, float water treatment, plunge water treatment, clinical disinfectants).
+1. Keep an inventory of every chemical on site: [Approved product list] (cleaning, disinfection, plunge water treatment, laundry detergents), with products [per Elevé protocol — pending] for equipment surfaces.
 2. Hold the supplier's Safety Data Sheet (SDS) for each one in the chemical file.
 3. Assess each chemical for risk and set controls: dilution, ventilation, PPE, storage.
 4. Store chemicals in their original labelled containers in a locked, ventilated store, away from guest areas and the oxygen supply. Never mix chemicals.
@@ -202,9 +189,9 @@ We follow a COSHH-style approach:
 
 ## 9. First aid and AED
 
-- At least [2] trained first aiders on every shift, including someone trained in CPR and AED use.
+- Both Hosts on every shift are trained first aiders, including someone trained in CPR and AED use.
 - AED located at [location, e.g. reception], checked [weekly] and logged.
-- First-aid kits at reception, the cold zone (cryo and plunge), the wet zone (float), and the IV room. Contents checked [monthly].
+- First-aid kits at reception, the cold zone (cryo and plunge), the wet zone (plunge and showers) and the hyperbaric room. Contents checked [monthly].
 - Blankets and warming supplies kept near the cryo chamber and cold plunge.
 - Emergency numbers displayed at reception and in every treatment room: 998 ambulance, 999 police, 997 Civil Defence.
 - Full emergency steps: Emergency & Incident Response Procedure (AUR-SAF-04).
@@ -214,11 +201,11 @@ We follow a COSHH-style approach:
 | Training | Who | When | Refresher |
 |---|---|---|---|
 | Elevé device training and protocols | All Hosts operating each device | Before first session on that device | On every Elevé protocol update |
-| Hyperbaric safety and prohibited items | HBOT operators | Before operating | [12] months |
+| Hyperbaric safety and prohibited items | Hosts operating hyperbaric | Before operating | [12] months |
 | First aid, CPR and AED | All Hosts and Duty Managers | Before opening | [24] months or as certificate requires |
 | Fire safety and evacuation | All staff | Induction | [12] months; drill every [6] months |
-| Chemical handling | Cleaning team, float and plunge Hosts | Induction | [12] months |
-| Infection control, sharps, clinical waste | Clinical staff | Before first IV | As DHA requires |
+| Chemical handling and laundry | Cleaning support, Hosts | Induction | [12] months |
+| Breathwork and sound-healing safety | Healers and guides | Before first session | [12] months |
 | Guest screening and contraindications | All Hosts | Induction | [12] months |
 | This policy and AUR-SAF-02 to 05 | All staff | Induction | On each revision |
 
@@ -228,8 +215,8 @@ The General Manager keeps a training record for each person. No one runs a devic
 
 - Every accident, injury, near miss, device fault, adverse reaction and complaint about safety is reported on the Incident Report Form (AUR-SAF-04) before the end of the shift.
 - The Duty Manager informs the General Manager the same day. Serious incidents are escalated at once to the General Manager, then the Founder & CEO and CEO.
-- Clinical incidents are also reported to the Clinical Lead and, where required, to DHA.
-- Device-related incidents are reported to Elevé Health and the device is taken out of use until cleared.
+- Health-related incidents are also reported to the [Medical Director named on the licence] and, where required, to DHA.
+- Device-related incidents are reported to Elevé Health and the device is taken out of use until cleared. With one unit of each machine, the modality is unavailable meanwhile and affected bookings are moved or offered an alternative.
 - Reportable incidents are notified to the relevant authority within required timeframes [authority reporting requirements].
 - The General Manager reviews all incidents monthly to spot trends and update risk assessments.
 
@@ -251,11 +238,11 @@ The General Manager keeps a training record for each person. No one runs a devic
 | Polar Recovery cold plunge | [___] | [Date] | [Date] | [___] |
 | Dry float bed | [___] | [Date] | [Date] | [___] |
 | Compression boots | [___] | [Date] | [Date] | [___] |
-| Float tank (filtration / UV) | [Supplier] | [Date] | [Date] | [___] |
+| Laundry machine (not Elevé) | [Supplier] | [Date] | [Date] | [___] |
 
 ## 13. Hygiene
 
-Hygiene standards, cleaning frequencies, products, PPE and logs are set out in the Cleaning & Sanitation Procedures (AUR-SAF-02). Staff with a contagious illness do not work with guests until cleared. Hand hygiene stations are provided at reception, the IV room and each treatment zone.
+Hygiene standards, cleaning frequencies, products, PPE and logs are set out in the Cleaning & Sanitation Procedures (AUR-SAF-02). Staff with a contagious illness do not work with guests until cleared. Hand hygiene stations are provided at reception, the refreshment area and each treatment zone.
 
 ## 14. Authority compliance checklist
 
@@ -265,10 +252,10 @@ Hygiene standards, cleaning frequencies, products, PPE and logs are set out in t
 | Public health / spa approval | Dubai Municipality | [Reference] | ☐ | [Date] |
 | Fire safety completion certificate | Dubai Civil Defence | [Reference] | ☐ | [Date] |
 | Fire system maintenance contract | Dubai Civil Defence approved contractor | [Contractor] | ☐ | [Date] |
-| Facility licence for IV and HBOT | DHA | [DHA licence / approval reference] | ☐ | [Date] |
-| Clinician licences | DHA | [Licence nos.] | ☐ | [Date] |
-| Clinical waste contract | Dubai Municipality licensed contractor | [Contractor] | ☐ | [Date] |
-| Pool / water facility approval (float, plunge) | Dubai Municipality | [Reference] | ☐ | [Date] |
+| Hyperbaric licensing requirements | DHA / licensing authority | [confirm licensing requirements for hyperbaric with DHA / licensing authority] | ☐ | [Date] |
+| Medical Director on the licence | DHA / licensing authority | [Medical Director named on the licence] | ☐ | [Date] |
+| Food / refreshment service requirements | Dubai Municipality | [Reference] | ☐ | [Date] |
+| Water facility approval (cold plunge) | Dubai Municipality | [Reference] | ☐ | [Date] |
 
 ## 15. Review
 

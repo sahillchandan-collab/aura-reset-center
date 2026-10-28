@@ -8,9 +8,9 @@ This form applies to every visit to The Aura Reset Center, 332 Jumeirah First, J
 
 ## 1. Nature of our services
 
-1. The Aura offers wellness services designed to support how you feel and function, using Elevé Health equipment and guided practices. These include whole-body cryotherapy, red-light bed, infrared sauna, hyperbaric oxygen, IV nutrient therapy, float and sensory reset, compression recovery, dry float bed, salt cabin, cold plunge and guided breathwork.
-1. Our services are not a substitute for medical care. They are not intended to diagnose, treat, cure or prevent any disease. Hosts are not doctors and do not give medical advice.
-1. IV nutrient therapy is administered only by licensed clinicians. IV therapy and hyperbaric oxygen are subject to Dubai Health Authority (DHA) requirements and their own consent forms.
+1. The Aura offers wellness services designed to support how you feel and function, using Elevé Health equipment and guided practices. These include whole-body cryotherapy, red-light bed, infrared sauna, hyperbaric oxygen, dry float bed, salt cabin, cold plunge, compression recovery, guided breathwork and sound healing, and a first-visit consultation with one of our Healers.
+1. Our services are not a substitute for medical care. They are not intended to diagnose, treat, cure or prevent any disease. Hosts and Healers are not doctors and do not give medical advice. The Healer consultation is a holistic, non-medical conversation to identify the core issue and design a personalised package; it is not a medical diagnosis.
+1. No medical treatments are offered at launch. Hyperbaric oxygen is offered as a non-medical wellness session [confirm licensing requirements for hyperbaric with DHA / licensing authority] and has its own consent form.
 1. We will always flag anything that warrants a conversation with your doctor. You should continue any treatment your doctor has prescribed.
 
 ## 2. Risks
@@ -22,7 +22,7 @@ Wellness modalities place the body under deliberate, short-term stress, such as 
 - skin redness, irritation, cold-related skin injury or heat-related discomfort
 - dehydration or fatigue
 - ear or sinus discomfort (pressure-based modalities)
-- emotional release, anxiety or disorientation (float, breathwork and enclosed spaces)
+- emotional release, anxiety or disorientation (dry float, breathwork, sound healing and enclosed spaces)
 - slips or falls in wet areas
 - rarely, more serious reactions, especially where a health condition has not been disclosed
 
@@ -34,7 +34,7 @@ I agree to:
 1. follow my Host's instructions and the safety guidance for each modality
 1. arrive hydrated, 10 minutes before my session, and not under the influence of alcohol or drugs
 1. tell my Host immediately if I feel unwell, uncomfortable or unsure at any point
-1. obtain my doctor's clearance where my Host or the Clinical Lead asks for it
+1. obtain my doctor's clearance where my Host, Healer or the General Manager asks for it
 1. respect other guests' privacy, the equipment and the calm of the studio
 
 ## 4. Right to stop at any time
@@ -50,7 +50,7 @@ I understand that The Aura relies on the information I give to keep me safe. I c
 To the fullest extent permitted by the laws of the UAE and the Emirate of Dubai:
 
 1. I take part voluntarily and accept the risks described above, including risks that cannot be fully eliminated even with careful supervision.
-1. I release [Registered Company Name], its owners, officers, Hosts, clinicians and contractors, and Elevé Health as equipment supplier, from claims for injury, loss or damage arising from my participation, except where caused by their negligence, wilful misconduct, or any liability that cannot be excluded by law.
+1. I release [Registered Company Name], its owners, officers, Hosts, Healers, facilitators and contractors, and Elevé Health as equipment supplier, from claims for injury, loss or damage arising from my participation, except where caused by their negligence, wilful misconduct, or any liability that cannot be excluded by law.
 1. I accept responsibility for my personal belongings. Lockers are provided; The Aura is not liable for loss of valuables not stored in them.
 1. Nothing in this form limits any right I have under UAE consumer protection law.
 

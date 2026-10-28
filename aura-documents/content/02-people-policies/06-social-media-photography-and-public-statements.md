@@ -1,6 +1,6 @@
 # Social Media, Photography & Public Statements
 
-> Document No. AUR-POL-06 · Version 0.1 (Draft) · Owner: General Manager · Effective: [Date]
+> Document No. AUR-POL-06 · Version 0.2 (Draft) · Owner: General Manager · Effective: [Date]
 
 > Draft for internal use. To be reviewed by a UAE-qualified legal adviser once the trade license is issued.
 
@@ -13,7 +13,7 @@ It reflects UAE law on privacy, which makes photographing or publishing images o
 ## 2. Guest photography: the core rules
 
 1. **Never photograph or film a guest without their written consent**, using the Photography & Content Consent form. Verbal consent is not enough.
-2. **No photography or filming at all in treatment rooms, changing rooms, showers, the float suite, the IV room or the hyperbaric room**, by staff, contractors or guests, even with consent. The only exception is a planned, closed brand shoot with models or consenting team members, approved by the General Manager, with the room closed to guests.
+2. **No photography or filming at all in treatment rooms, changing rooms, showers, the Healer consultation room, the hyperbaric room or during Sound Healing and Guided Breathwork sessions**, by staff, contractors or guests, even with consent. The only exception is a planned, closed brand shoot with models or consenting team members, approved by the General Manager, with the room closed to guests.
 3. Never capture another guest in the background. Check every frame.
 4. Never post a guest's name, membership, health information, session details or anything that shows they visited, without written consent.
 5. Use company devices for any approved guest content, not your personal phone (AUR-POL-07).
@@ -41,6 +41,9 @@ If a guest photographs another guest or a team member without consent, the Host 
 - Only authorised team members post or reply: [Authorised account users]. Content follows the brand look (Marcellus and Jost type, the cream, bronze and amber palette, the aura ring motif) and the tone of voice: calm, warm, precise, unhurried, no hype, no medical claims.
 - Do not quote prices on social media. Pricing is confirmed by the team directly.
 - Replies to guest comments or reviews are polite, brief and never reveal booking or health details. Take conversations to a private channel.
+- Paid ad campaigns (Meta / Instagram / Google) are the main source of new guests. Ads are approved by the General Manager under AUR-GOV-02, follow the same tone and no-claims rules, never show a price unless approved, and never describe IV therapy or any medical treatment as available.
+- Ad leads and direct messages are answered quickly through the official accounts or WhatsApp Business only, within [__] minutes during opening hours (9:00am–9:00pm).
+- Retail and amenity content (copper mugs, organic fragrances, wellness pillows, linen merchandise, Aura-branded towels, clothing and slippers) is shot on products or consenting team members only.
 - When a staff member leaves, access is removed on their last day.
 
 ## 6. Staff personal accounts
@@ -64,7 +67,7 @@ You may reshare official posts from the brand account. Staff who wish to appear 
 - **Only the Founder & CEO or the CEO may speak to the media or make public statements on behalf of The Aura.** The General Manager may respond to routine operational enquiries when authorised.
 - If a journalist, blogger or anyone else asks you for comment, say: "Thank you for getting in touch. I'll pass your details to our leadership team, who will come back to you." Take their name and contact and pass it to the General Manager the same day.
 - In any incident, complaint going public, equipment fault or negative coverage: do not comment, post or reply online. Inform the General Manager, who will alert the Founder & CEO and CEO. The approved holding statement and any updates will come from them.
-- Statements about guest safety, equipment or clinical services are coordinated with Elevé Health and, where relevant, the Dubai Health Authority before release.
+- Statements about guest safety or equipment are coordinated with Elevé Health and, where relevant, the [Medical Director named on the licence] and the Dubai Health Authority before release. No statement may suggest that medical treatments or IV therapy are offered.
 - Never speak about a guest's health or visit publicly, even to defend the company.
 
 ## 8. Breaches

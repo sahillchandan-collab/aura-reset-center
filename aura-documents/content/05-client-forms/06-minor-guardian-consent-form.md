@@ -6,7 +6,7 @@
 
 This form is for guests under 18 years of age. A parent or legal guardian must complete it in person, together with the Guest Registration (AUR-FRM-01), Health Questionnaire (AUR-FRM-02) and General Consent (AUR-FRM-04), all signed by the parent or guardian on the minor's behalf.
 
-> Minimum ages and permitted modalities for minors are to be confirmed by the Clinical Lead, Elevé Health protocols and DHA requirements. Until confirmed, the table in section 3 is guidance only. IV Nutrient Therapy and Hyperbaric Oxygen are not offered to minors unless approved by the Clinical Lead and permitted by DHA.
+> Minimum ages and permitted modalities for minors are to be confirmed by the General Manager with the [Medical Director named on the licence], Elevé Health protocols [per Elevé protocol — pending] and DHA requirements. Until confirmed, the table in section 3 is guidance only. Hyperbaric Oxygen is not offered to minors unless approved by the General Manager and permitted by DHA / the licensing authority.
 
 ## 1. Minor's details
 
@@ -32,25 +32,26 @@ This form is for guests under 18 years of age. A parent or legal guardian must c
 
 ## 3. Modalities requested
 
-| Modality | Minimum age [to confirm] | Requested | Approved by Host / Clinical Lead |
+| Modality | Minimum age [to confirm] | Requested | Approved by Host / General Manager |
 |---|---|---|---|
 | Red-Light Bed | [___] | ☐ | ☐ |
 | Infrared Sauna | [___] | ☐ | ☐ |
 | Compression Recovery | [___] | ☐ | ☐ |
 | Dry Float Bed | [___] | ☐ | ☐ |
-| Float & Sensory Reset | [___] | ☐ | ☐ |
 | Salt Cabin | [___] | ☐ | ☐ |
 | Guided Breathwork | [___] | ☐ | ☐ |
+| Sound Healing | [___] | ☐ | ☐ |
+| Healer consultation | [___] | ☐ | ☐ |
 | Whole-Body Cryotherapy | [___] | ☐ | ☐ |
 | Cold Plunge | [___] | ☐ | ☐ |
-| Hyperbaric Oxygen (clinical) | Not offered unless approved | ☐ | ☐ |
-| IV Nutrient Therapy (clinical) | Not offered unless approved | ☐ | ☐ |
+| Hyperbaric Oxygen | Not offered unless approved | ☐ | ☐ |
 
 ## 4. Supervision rules
 
 - The parent or guardian must stay on the premises for the full visit.
 - For guests under [___] years, the parent or guardian must be present in or beside the treatment area where safe and appropriate.
-- Session times and temperatures for minors follow reduced settings set by the Clinical Lead.
+- Session times and temperatures for minors follow reduced settings [per Elevé protocol — pending], approved by the General Manager.
+- The parent or guardian joins the minor's Healer consultation.
 - A Host may decline or stop any session at their discretion.
 - The minor may stop any session at any time, and their wish to stop will always be respected.
 
@@ -83,6 +84,6 @@ I understand what will happen in my session. I know I can tell my Host to stop a
 |---|---|---|
 | __________________ | __________________ | ____ / ____ / ______ |
 
-| Clinical Lead approval (where required) | Signature | Date |
+| General Manager approval (where required) | Signature | Date |
 |---|---|---|
 | __________________ | __________________ | ____ / ____ / ______ |

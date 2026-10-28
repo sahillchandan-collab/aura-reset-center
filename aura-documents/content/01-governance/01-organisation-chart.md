@@ -1,6 +1,6 @@
 # Organisation Chart
 
-> Document No. AUR-GOV-01 · Version 0.1 (Draft) · Owner: General Manager · Effective: [Date]
+> Document No. AUR-GOV-01 · Version 0.2 (Draft) · Owner: General Manager · Effective: [Date]
 
 > This chart shows the planned structure for the Dubai flagship at 332 Jumeirah First, Jumeirah Beach Road, Jumeirah 1, opening November 2026. Headcount figures marked [__] are to be confirmed by the CEOs and General Manager before recruitment is finalised.
 
@@ -14,13 +14,13 @@ This document sets out who leads The Aura Reset Center, who reports to whom, and
   - **Chief Executive Officer** — Gurpreet Singh
     - **General Manager (Dubai)** — Sahill Chandan
       - **Lead Host / Operations Lead** — [Name]
-        - **Hosts** — [__] FTE
-        - **Housekeeping / Spa Attendants** — [__] FTE
-      - **Guest Relations / Front Desk** — [__] FTE
-      - **Clinical Lead** (DHA-licensed nurse or physician) — [Name]
-        - **Licensed clinical staff** (IV therapy, hyperbaric oxygen) — [__] FTE / sessional
+        - **Hosts** — 2 per shift; [__] FTE in total
+        - **Cleaning support** — [in-house attendant / outsourced cleaner — to be decided]
+      - **Healers** (holistic / energy-healing practitioners) — [__]
+      - **Guest Relations / Front Desk** — [__] FTE [confirm whether covered by Hosts at launch]
       - **Marketing & Community** — [__] FTE
       - **Finance / Admin** — [__] FTE or outsourced provider [Provider name]
+- **Medical oversight (not on the floor):** [Medical Director named on the licence] — oversight and escalation only
 - **External partner:** Elevé Health — technology partner (equipment, calibration, servicing, Host training, protocol updates)
 
 > Reporting between the Founder & CEO and the CEO, and the split of oversight between them, is [To be agreed by the CEOs]. Until agreed, the General Manager reports to both CEOs jointly, with matters routed as set out in AUR-GOV-02.
@@ -38,12 +38,11 @@ This document sets out who leads The Aura Reset Center, who reports to whom, and
 | Role | Reports to | Key purpose | Planned headcount | Employment type |
 |---|---|---|---|---|
 | Lead Host / Operations Lead | General Manager | Runs the studio floor on each shift; rota, protocols, Host quality, daily opening and closing checks | [__] | Full-time |
-| Hosts | Lead Host | Guide each guest from arrival to the last exhale; run the breathing ritual; operate Elevé modalities to protocol | [__] | Full-time / part-time |
-| Guest Relations / Front Desk | General Manager (day-to-day: Lead Host) | Bookings, confirmations, memberships, founding-member list, arrivals, payments | [__] | Full-time / part-time |
-| Clinical Lead | General Manager (clinical matters: as required by DHA) | Clinical governance for IV nutrient therapy and hyperbaric oxygen; screening, consent, incident review | [__] | Full-time / sessional, subject to DHA requirements |
-| Licensed clinical staff | Clinical Lead | Administer IV nutrient therapy; supervise hyperbaric sessions where required | [__] | Sessional / part-time |
-| Housekeeping / Spa Attendants | Lead Host | Room turnover, laundry of robes and towels, hygiene of float tank, plunge, sauna and salt cabin | [__] | Full-time / part-time |
-| Marketing & Community | General Manager | Launch event, founding members, Instagram, partnerships, corporate wellness | [__] | Full-time or agency |
+| Hosts | Lead Host | Guide each guest from arrival to the last exhale; run the breathing ritual; operate Elevé modalities to protocol; suggest combinations of modalities; serve refreshments | 2 per shift; [__] in total | Full-time / part-time |
+| Healers | General Manager | Run every guest's first-visit consultation ([30–45 min proposed]); identify the core problem; design a personalised package or programme to regulate the nervous system and support energy healing; lead Sound Healing and Guided Breathwork sessions [confirm] | [__] | Full-time / part-time / sessional |
+| Guest Relations / Front Desk | General Manager (day-to-day: Lead Host) | Online and WhatsApp bookings, fast response to ad-campaign leads, confirmations, memberships, founding-member list, arrivals, payments (Apple Pay, card, cash) | [__] | Full-time / part-time |
+| Cleaning support | Lead Host | Room turnover with the Hosts; in-house laundry of robes, Aura-branded towels and clothing; hygiene of plunge, sauna, salt cabin and treatment rooms | [in-house attendant / outsourced cleaner — to be decided] | [To be decided] |
+| Marketing & Community | General Manager | Launch event, founding members, paid ad campaigns (Meta / Instagram / Google), Instagram, partnerships, corporate wellness | [__] | Full-time or agency |
 | Finance / Admin | General Manager (financial reporting: CEOs) | Bookkeeping, VAT, payroll, supplier payments, licences and renewals | [__] | In-house or outsourced |
 
 ## 5. External partner
@@ -52,29 +51,32 @@ This document sets out who leads The Aura Reset Center, who reports to whom, and
 |---|---|---|---|
 | Elevé Health | Technology partner; The Aura is Elevé Health's first partner clinic in the UAE | General Manager (day-to-day: Lead Host) | Installation, calibration to clinical spec, servicing on Elevé's clinical service schedule, Host training, technical support, protocol updates |
 | [Outsourced Finance provider] | Service provider (if used) | General Manager | [Scope to be confirmed] |
-| [Clinical / medical director arrangement] | [If required by DHA] | Clinical Lead | [Scope subject to DHA requirements] |
+| [Medical Director named on the licence] | Doctor named on the licence; not on the floor | General Manager | Oversight and escalation only; no medical treatments are offered at launch |
+
+> No clinical services are offered at launch, so there is no Clinical Lead on the floor. If clinical services (for example IV Nutrient Therapy) are added in future, subject to DHA licensing, a Clinical Lead and licensed clinical staff would be appointed and this chart updated.
 
 ## 6. Shift cover model
 
-The studio operates across four booking bands within [Opening hours] (suggested 8:00am–8:00pm): Morning 8–11am, Midday 11am–2pm, Afternoon 2–5pm, Evening 5–8pm.
+The studio is open 7 days a week, 9:00am–9:00pm, across two shifts (for example 9:00am–3:30pm and 2:30pm–9:00pm [confirm]), with a one-hour handover overlap. There is one unit of each Elevé machine, so a single unit out of service means that modality is unavailable until it is restored.
 
 | Position | Minimum on shift | Notes |
 |---|---|---|
 | Lead Host or designated Shift Lead | 1 | Responsible person on the floor at all times |
-| Hosts | [__] | Cold plunge is always host-guided; float, cryotherapy and hyperbaric sessions need a Host within reach |
-| Guest Relations | [__] | Covers arrivals and bookings |
-| Clinical staff | [__] | Required whenever IV therapy or hyperbaric oxygen is booked, subject to DHA requirements |
-| Housekeeping / Spa Attendant | [__] | Turnover between sessions |
+| Hosts | 2 (including the Shift Lead) | Cold plunge is always host-guided; dry float, cryotherapy and hyperbaric sessions need a Host within reach |
+| Healer | [__] | Present whenever a first-visit consultation, Sound Healing or Guided Breathwork session is booked |
+| Guest Relations | [__] | Covers arrivals, online and WhatsApp bookings |
+| Cleaning support | [__] | Turnover between sessions; [in-house attendant / outsourced cleaner — to be decided] |
 
 ## 7. Headcount summary
 
 | Area | Opening (Nov 2026) | Month 6 | Month 12 |
 |---|---|---|---|
 | Leadership | 3 | 3 | 3 |
-| Floor (Lead Host, Hosts) | [__] | [__] | [__] |
+| Floor (Lead Host, Hosts — 2 per shift) | [__] | [__] | [__] |
+| Healers | [__] | [__] | [__] |
 | Guest Relations | [__] | [__] | [__] |
-| Clinical | [__] | [__] | [__] |
-| Housekeeping / Spa Attendants | [__] | [__] | [__] |
+| Clinical (none at launch) | 0 | [__] | [__] |
+| Cleaning support | [__] | [__] | [__] |
 | Marketing & Community | [__] | [__] | [__] |
 | Finance / Admin | [__] | [__] | [__] |
 | **Total** | [__] | [__] | [__] |
