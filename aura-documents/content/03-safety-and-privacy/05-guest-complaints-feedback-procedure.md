@@ -61,7 +61,7 @@ Never promise what you cannot deliver. Never discuss another guest. If the guest
 | 3 | General Manager | Credit to account; partial or full refund of a visit; membership extension or pause; IV therapy credit | Up to AED [___] value |
 | 4 | Founder & CEO or CEO | Anything above Level 3; any matter with legal, clinical or media risk | No set limit |
 
-All gestures are recorded in the complaint log. A goodwill gesture is not an admission of liability. Refunds always follow the Refunds & Cancellation Policy [Document No. AUR-___-__].
+All gestures are recorded in the complaint log. A goodwill gesture is not an admission of liability. Refunds always follow the Refund, Rescheduling & Service Recovery Policy (AUR-CLI-03).
 
 ## 7. Escalation
 
