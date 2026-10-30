@@ -31,7 +31,7 @@ ol.cl>li:before{content:counter(c) ".";position:absolute;left:0;font-weight:700;
 ol.cl b{font-size:7.9pt}
 .fine{font-size:6.6pt;color:#555;line-height:1.38;border-top:.25mm solid #d4d0c8;padding-top:1.6mm;margin-top:2mm}
 .sig{display:grid;grid-template-columns:1fr 1fr;gap:6mm;margin-top:3mm}
-.stamp{border:.3mm dashed #aaa;border-radius:50%;width:24mm;height:24mm;display:flex;align-items:center;justify-content:center;color:#bbb;font-size:6.5pt;float:right;margin:-1mm 0 0 2mm}
+.card{position:relative}.stamped{position:absolute;right:1mm;top:50%;width:27mm;height:27mm;margin-top:-13.5mm;transform:rotate(-9deg);opacity:.9;mix-blend-mode:multiply}.stamp{border:.3mm dashed #aaa;border-radius:50%;width:24mm;height:24mm;display:flex;align-items:center;justify-content:center;color:#bbb;font-size:6.5pt;float:right;margin:-1mm 0 0 2mm}
 footer{position:absolute;left:13mm;right:13mm;bottom:6mm;display:flex;justify-content:space-between;align-items:center;font-size:6.8pt;color:#777;border-top:.25mm solid #d4d0c8;padding-top:1.6mm}
 footer .ini{display:flex;gap:6mm}footer .ini span{display:inline-block;border-bottom:.3mm solid #888;width:14mm;margin-left:1.5mm}
 .check{display:flex;gap:2mm;align-items:center;font-size:7.8pt;margin:1.3mm 0}
@@ -109,7 +109,7 @@ footer .ini{display:flex;gap:6mm}footer .ini span{display:inline-block;border-bo
 
  <h2 style="margin-top:3.5mm">Signatures</h2>
  <div class=sig>
-  <div class=card><h3>For YONTRO - F.Z.E</h3><div class=stamp>Company stamp</div>
+  <div class=card><h3>For YONTRO - F.Z.E</h3><img class=stamped src="yontro-stamp-blue.png" alt="Company stamp">
    <div class=f><span>Name</span><i></i></div><div class=f><span>Title</span><i></i></div>
    <div class=f><span>Signature</span><i style="height:9mm"></i></div><div class=f><span>Date</span><i></i></div></div>
   <div class=card><h3>For the Client</h3><div class=stamp>Company stamp</div>
