@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600">
+<defs>
+ <path id="top" d="M 300,300 m -218,0 a 218,218 0 1,1 436,0"/>
+ <path id="bot" d="M 300,300 m -238,0 a 238,238 0 0,0 476,0"/>
+</defs>
+<g fill="none" stroke="#E0420C">
+ <circle cx="300" cy="300" r="286" stroke-width="10"/>
+ <circle cx="300" cy="300" r="268" stroke-width="3"/>
+ <circle cx="300" cy="300" r="168" stroke-width="3"/>
+ <circle cx="300" cy="300" r="156" stroke-width="1.5"/>
+</g>
+<g fill="#E0420C" font-family="Arial, Helvetica, sans-serif" font-weight="700">
+ <text font-size="50" letter-spacing="10"><textPath href="#top" startOffset="50%" text-anchor="middle">YONTRO - F.Z.E</textPath></text>
+ <text font-size="34" letter-spacing="7"><textPath href="#bot" startOffset="50%" text-anchor="middle">AJMAN FREE ZONE · U.A.E.</textPath></text>
+ <text x="78" y="312" font-size="30" text-anchor="middle">★</text>
+ <text x="522" y="312" font-size="30" text-anchor="middle">★</text>
+ <g transform="translate(300,262) scale(0.24) translate(-240,-235)">
+  <polygon points="0,0 150,0 240,130 330,0 480,0 305,255 305,335 175,400 175,255" fill="#E0420C"/>
+ </g>
+ <text x="300" y="380" font-size="22" letter-spacing="3" text-anchor="middle">LICENCE NO.</text>
+ <text x="300" y="418" font-size="36" letter-spacing="4" text-anchor="middle">57169</text>
+</g>
+</svg>
