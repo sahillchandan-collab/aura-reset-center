@@ -105,6 +105,23 @@ th{font-size:11.5px;color:var(--muted);font-family:var(--mono);font-weight:500}
 .empty{color:var(--muted);text-align:center;padding:16px;border:1.5px dashed var(--line);border-radius:12px;font-size:14px}
 .notice{background:color-mix(in srgb,var(--or) 14%,var(--surface));border:1.5px solid var(--or);border-radius:12px;padding:10px 12px;font-size:14px;font-weight:600}
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(92px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:99px;font-size:13.5px;z-index:40;max-width:calc(100% - 32px)}
+.shift{display:grid;gap:10px;border:2px solid var(--line)}
+.shift.on{border-color:var(--green)}.shift.brk{border-color:var(--amber)}.shift.mtg{border-color:var(--blue)}
+.shift .st{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.shift .dot{width:12px;height:12px;border-radius:50%;background:var(--muted)}
+.shift.on .dot{background:var(--green)}.shift.brk .dot{background:var(--amber)}.shift.mtg .dot{background:var(--blue)}
+.shift .big{font-family:var(--display);font-weight:900;font-size:22px}
+.shift .clock{font-family:var(--mono);font-size:13px;color:var(--muted)}
+.btnrow{display:flex;gap:8px;flex-wrap:wrap}
+.btn.green{background:var(--green);border-color:var(--green);color:#fff}.btn.amber{background:var(--amber);border-color:var(--amber);color:#111}.btn.blue{background:var(--blue);border-color:var(--blue);color:#fff}
+.timeline{display:grid;gap:4px;font-size:13px}
+.timeline div{display:flex;gap:10px}.timeline time{font-family:var(--mono);color:var(--muted);min-width:46px}
+.codein{font-family:var(--mono);font-size:30px;letter-spacing:.3em;text-align:center}
+.kiosk{position:fixed;inset:0;z-index:50;background:#111;color:#fff;display:grid;place-items:center;text-align:center;padding:24px}
+.kiosk .code{font-family:var(--mono);font-size:clamp(64px,16vw,160px);font-weight:500;letter-spacing:.12em;color:var(--or)}
+.kiosk .ring{height:8px;background:#333;border-radius:99px;overflow:hidden;width:min(420px,80vw);margin:18px auto}
+.kiosk .ring i{display:block;height:100%;background:var(--or)}
+.ver{font-family:var(--mono);font-size:11px;padding:1px 7px;border-radius:99px}.ver.ok{background:var(--green);color:#fff}.ver.no{background:var(--red);color:#fff}.ver.wait{background:var(--soft);color:var(--muted)}
 .dots-anim::after{content:"…";animation:d 1s steps(3) infinite}
 @keyframes d{0%{content:"."}50%{content:".."}100%{content:"..."}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important}}
@@ -121,6 +138,8 @@ th{font-size:11.5px;color:var(--muted);font-family:var(--mono);font-weight:500}
   <!-- TODAY -->
   <section id="v-today" class="view" style="display:grid;gap:14px">
     <div class="head"><div><div class="tag" id="todayDate"></div><h1 id="hello">Today</h1></div></div>
+    <div class="card shift" id="shiftCard"></div>
+    <div class="card" id="liveMeeting" hidden></div>
     <div class="kpis" id="kpis"></div>
     <div class="card"><div class="head"><h2>Log it</h2><span class="tag">Tap after every call, meeting or deal</span></div><div class="quick" id="quick"></div></div>
     <div class="card" id="checkinCard"></div>
@@ -160,6 +179,8 @@ th{font-size:11.5px;color:var(--muted);font-family:var(--mono);font-weight:500}
   <!-- TEAM (owner) -->
   <section id="v-team" class="view" hidden style="display:grid;gap:14px">
     <div class="head"><h1>Sales team</h1><span class="tag">Only you see this</span></div>
+    <div class="card"><div class="head"><h2>Attendance today</h2><button class="btn sm or" type="button" id="openKiosk">Open office screen</button></div><p class="tag" style="margin:0">Punch-in needs the code on the office screen, so it only works from your office. Keep the screen open on an office tablet or laptop.</p><div class="scroll"><table id="attTable"></table></div></div>
+    <div class="card"><div class="head"><h2>Hamza's reports</h2><button class="btn sm dark" type="button" id="makeReport">Ask Hamza for a report</button></div><div class="list" id="reportList"></div></div>
     <div class="card"><div class="head"><h2>This week</h2><span class="tag">Targets per day: 100 contacts · 4 booked · 2 held</span></div><div class="scroll"><table id="teamTable"></table></div></div>
     <div class="card"><div class="head"><h2>Latest check-ins</h2></div><div class="list" id="teamCheckins"></div></div>
     <div class="card"><div class="head"><h2>Hamza's playbook</h2><span class="tag">What Hamza knows about Yontro. Edit to teach him more</span></div>
@@ -170,6 +191,7 @@ th{font-size:11.5px;color:var(--muted);font-family:var(--mono);font-weight:500}
 
 <nav class="tabs" aria-label="Sections"><div class="in" id="tabs"></div></nav>
 
+<div class="kiosk" id="kiosk" hidden role="dialog" aria-modal="true" aria-label="Office punch-in screen"><div><div style="font-family:var(--display);font-weight:900;font-size:28px">YONTRO OFFICE</div><div class="tag" style="color:#bbb">Punch-in code · changes every minute</div><div class="code" id="kCode">------</div><div class="ring"><i id="kRing"></i></div><div class="tag" style="color:#bbb" id="kClock"></div><button class="btn sm" type="button" id="closeKiosk" style="margin-top:24px;background:#222;color:#fff;border-color:#555">Close</button></div></div>
 <div class="sheet-bg" id="sheetBg" hidden><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle" id="sheet"></div></div>
 
 <script>
@@ -216,7 +238,7 @@ const aed=n=>"AED "+Number(n||0).toLocaleString("en-US");
 function toast(m){document.querySelectorAll(".toast").forEach(t=>t.remove());const t=document.createElement("div");t.className="toast";t.textContent=m;document.body.appendChild(t);setTimeout(()=>t.remove(),2800);}
 
 let db=null,user=null,sample=null,me=null,isOwner=false,viewRep=null,names={};
-let leads=[],acts=[],kpis=[],chats=[],playbook="";
+let leads=[],acts=[],kpis=[],chats=[],playbook="",tlog=[],reports=[],officeSecret=null;
 let tab="today",stageF="All",calDay=dxb(),calWeek=weekStart(dxb()),mode="checkin",session="",busy=false,ctl=null;
 
 /* ---------- derived ---------- */
@@ -244,8 +266,74 @@ function renderTabs(){
   $("#tabs").innerHTML=T.map(([k,l,i])=>`<button type="button" data-tab="${k}" ${tab===k?'aria-current="page"':""}>${i}<span>${l}</span></button>`).join("");
   document.querySelectorAll(".view").forEach(v=>v.hidden=v.id!=="v-"+tab);
 }
+/* ---------- time clock ---------- */
+const hm=ms=>new Date(ms).toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit",timeZone:"Asia/Dubai"});
+const dur=ms=>{ms=Math.max(0,ms);const h=Math.floor(ms/3600000),m=Math.floor(ms%3600000/60000);return h?`${h}h ${m}m`:`${m}m`;};
+function dayLog(rep,date){ return tlog.filter(e=>e.repId===rep&&e.date===date).sort((a,b)=>a.at-b.at); }
+function shiftState(rep,date){
+  const L=dayLog(rep,date); let inAt=null,outAt=null,brk=null,breakMs=0,firstIn=null; const breaks=[];
+  for(const e of L){ if(e.kind==="punch_in"){ inAt=e.at; outAt=null; if(!firstIn) firstIn=e; } if(e.kind==="punch_out"){ outAt=e.at; if(brk){breakMs+=e.at-brk;breaks.push([brk,e.at]);brk=null;} }
+    if(e.kind==="break_start"&&inAt&&!outAt) brk=e.at; if(e.kind==="break_end"&&brk){ breakMs+=e.at-brk; breaks.push([brk,e.at]); brk=null; } }
+  const end=outAt||Date.now(); const worked=firstIn?(end-firstIn.at-breakMs-(brk?Date.now()-brk:0)):0;
+  const live=acts.find(a=>a.repId===rep&&a.type==="meeting"&&a.startAt&&!a.endAt);
+  const meetMs=acts.filter(a=>a.repId===rep&&a.type==="meeting"&&a.startAt&&dxb(new Date(a.startAt))===date).reduce((s,a)=>s+((a.endAt||Date.now())-a.startAt),0);
+  return {L,on:!!inAt&&!outAt,inAt:firstIn?.at||null,firstIn,outAt,brk,breakMs:breakMs+(brk?Date.now()-brk:0),breaks,worked,live,meetMs};
+}
+async function logEvent(kind,extra){ const at=Date.now(); await db.collection("timelog").add({repId:viewRep,date:dxb(),kind,at,...(extra||{})}); return at; }
+function renderShift(){
+  if(!viewRep) return; const st=shiftState(viewRep,dxb()); const el=$("#shiftCard"); const self=viewRep===me;
+  el.className="card shift "+(st.live?"mtg":st.brk?"brk":st.on?"on":"");
+  const status=st.live?`In a meeting · ${esc(st.live.business||"")}`:st.brk?"On break":st.on?"On shift":st.outAt?"Shift ended":"Not punched in";
+  const since=st.live?`since ${hm(st.live.startAt)}`:st.brk?`since ${hm(st.brk)}`:st.on?`since ${hm(st.inAt)}`:st.outAt?`${hm(st.inAt)}–${hm(st.outAt)}`:"";
+  const btns=!self?"":st.live?`<button class="btn blue" type="button" data-mnotes="${esc(st.live.id)}">Meeting notes</button><button class="btn" type="button" data-mout="${esc(st.live.id)}">Check out of meeting</button>`
+    :st.brk?`<button class="btn amber" type="button" id="breakEnd">End break</button>`
+    :st.on?`<button class="btn amber" type="button" id="breakStart">Start break</button><button class="btn" type="button" id="punchOut">Punch out</button>`
+    :`<button class="btn green" type="button" id="punchIn">Punch in</button>`;
+  el.innerHTML=`<div class="st"><span class="dot" aria-hidden="true"></span><span class="big">${status}</span><span class="clock">${since}</span></div>
+  <div class="tag">Worked ${dur(st.worked)} · breaks ${dur(st.breakMs)} · in meetings ${dur(st.meetMs)}${st.firstIn?` · punch-in ${st.firstIn.verified===true?'<span class="ver ok">at office ✓</span>':st.firstIn.verified===false?'<span class="ver no">code mismatch</span>':'<span class="ver wait">checking</span>'}`:""}</div>
+  ${st.L.length?`<details><summary class="tag">Today's timeline</summary><div class="timeline">${st.L.map(e=>`<div><time>${hm(e.at)}</time><span>${esc({punch_in:"Punched in at the office",punch_out:"Punched out"+(e.place?" · "+e.place:""),break_start:"Break started",break_end:"Break ended",meeting_in:"Checked in to meeting · "+(e.business||"")+(e.place?" @ "+e.place:""),meeting_out:"Checked out of meeting · "+(e.business||"")}[e.kind]||e.kind)}</span></div>`).join("")}</div></details>`:""}
+  <div class="btnrow">${btns}</div>`;
+  const lm=$("#liveMeeting"); if(st.live&&self){ lm.hidden=false; lm.innerHTML=`<div class="head"><h2>Meeting with ${esc(st.live.business||"")}</h2><span class="clock tag">${dur(Date.now()-st.live.startAt)}</span></div><div class="tag">${esc(st.live.startPlace||"")}${st.live.startMap?` · <a href="${esc(st.live.startMap)}" target="_blank" rel="noopener">map</a>`:""}</div><label class="f" for="liveNotes">Notes (saved as you type, only for you and Hamza)<textarea id="liveNotes" style="min-height:140px" placeholder="What they need, budget, objections, decision maker, next step…">${esc(st.live.liveNotes||"")}</textarea></label><div class="btnrow"><button class="btn" type="button" data-mout="${esc(st.live.id)}">Check out of meeting</button></div>`; } else { lm.hidden=true; lm.innerHTML=""; }
+}
+setInterval(()=>{ if(tab==="today"&&!document.activeElement?.closest?.("#liveMeeting,#sheet")) renderShift(); },30000);
+let notesT=null;
+document.addEventListener("input",e=>{ if(e.target.id!=="liveNotes"&&e.target.id!=="sheetNotes") return; const id=e.target.dataset.mid||shiftState(viewRep,dxb()).live?.id; if(!id) return; clearTimeout(notesT); const v=e.target.value; notesT=setTimeout(()=>{ db.doc("activities/"+id).update({liveNotes:v,updatedAt:Date.now()}).catch(()=>{}); },1200); });
+function punchInSheet(){
+  $("#sheet").innerHTML=`<div class="head"><h2 id="sheetTitle">Punch in</h2><button class="btn ghost sm" type="button" data-close>Close</button></div>
+  <form id="punchForm" style="display:grid;gap:10px"><label class="f" for="pCode">Enter the 6-digit code on the office screen<input id="pCode" class="codein" inputmode="numeric" maxlength="6" autocomplete="one-time-code" required placeholder="------"></label>
+  <p class="tag" style="margin:0">Punch-in only works at the Yontro office. The code changes every minute.</p><button class="btn green" type="submit">Punch in</button></form>`;
+  $("#sheetBg").hidden=false; setTimeout(()=>$("#pCode").focus(),50);
+}
+function punchOutSheet(){
+  $("#sheet").innerHTML=`<div class="head"><h2 id="sheetTitle">Punch out</h2><button class="btn ghost sm" type="button" data-close>Close</button></div>
+  <form id="punchOutForm" style="display:grid;gap:10px"><label class="f" for="poPlace">Where are you? (optional)<input id="poPlace" placeholder="e.g. Office, or client visit in JLT"></label><button class="btn" type="submit">Punch out now</button></form>`;
+  $("#sheetBg").hidden=false;
+}
+function meetInSheet(a){
+  $("#sheet").innerHTML=`<div class="head"><h2 id="sheetTitle">Check in to meeting</h2><button class="btn ghost sm" type="button" data-close>Close</button></div>
+  <form id="meetInForm" data-id="${esc(a.id)}" style="display:grid;gap:10px"><div class="t" style="font-weight:700">${esc(a.business||"")}${a.time?" · "+esc(a.time):""}</div>
+  <label class="f" for="miPlace">Where<input id="miPlace" required value="${esc(a.where==="At their business"?(a.business||""):(a.where||""))}" placeholder="Business name and area"></label>
+  <label class="f" for="miMap">Google Maps pin (optional)<input id="miMap" inputmode="url" placeholder="Paste a maps.app.goo.gl link"></label>
+  <button class="btn blue" type="submit">Check in now</button></form>`;
+  $("#sheetBg").hidden=false;
+}
+function notesSheet(a){
+  $("#sheet").innerHTML=`<div class="head"><h2 id="sheetTitle">Meeting notes · ${esc(a.business||"")}</h2><button class="btn ghost sm" type="button" data-close>Close</button></div>
+  <div class="tag">${a.startAt?`Started ${hm(a.startAt)}`:""}${a.endAt?` · ended ${hm(a.endAt)} · ${dur(a.endAt-a.startAt)}`:""}${a.startPlace?` · ${esc(a.startPlace)}`:""}</div>
+  <label class="f" for="sheetNotes">Notes<textarea id="sheetNotes" data-mid="${esc(a.id)}" style="min-height:220px">${esc(a.liveNotes||"")}</textarea></label>
+  <div class="btnrow">${!a.endAt&&a.startAt?`<button class="btn" type="button" data-mout="${esc(a.id)}">Check out of meeting</button>`:""}${sample&&(a.liveNotes||"").trim()?`<button class="btn dark" type="button" data-msum="${esc(a.id)}">Hamza: summarise and next steps</button>`:""}</div>${a.notesSummary?`<div class="card" style="background:var(--soft)"><b>Hamza's summary</b><div style="white-space:pre-wrap;font-size:14px">${esc(a.notesSummary)}</div></div>`:""}`;
+  $("#sheetBg").hidden=false;
+}
+/* office code (TOTP-style) */
+async function hmacCode(secret,slot){ const k=await crypto.subtle.importKey("raw",new TextEncoder().encode(secret),{name:"HMAC",hash:"SHA-256"},false,["sign"]); const sig=new Uint8Array(await crypto.subtle.sign("HMAC",k,new TextEncoder().encode(String(slot)))); const n=((sig[0]<<24)|(sig[1]<<16)|(sig[2]<<8)|sig[3])>>>0; return String(n%1000000).padStart(6,"0"); }
+async function ensureSecret(){ if(officeSecret) return officeSecret; const r=await db.doc("secure/office").get().catch(()=>null); if(r?.exists&&r.data().secret){ officeSecret=r.data().secret; return officeSecret; } const a=new Uint8Array(24); crypto.getRandomValues(a); officeSecret=[...a].map(x=>x.toString(16).padStart(2,"0")).join(""); await db.doc("secure/office").set({secret:officeSecret,createdAt:Date.now()}); return officeSecret; }
+let kioskT=null;
+async function openKiosk(){ try{ await ensureSecret(); }catch(e){ return toast("Couldn't start the office screen."); } $("#kiosk").hidden=false; const tick=async()=>{ const now=Date.now(); const slot=Math.floor(now/60000); $("#kCode").textContent=await hmacCode(officeSecret,slot); $("#kRing").style.width=(100-(now%60000)/600)+"%"; $("#kClock").textContent="Dubai "+hm(now); }; tick(); clearInterval(kioskT); kioskT=setInterval(tick,1000); try{ await navigator.wakeLock?.request?.("screen"); }catch(_){} }
+function closeKiosk(){ $("#kiosk").hidden=true; clearInterval(kioskT); }
+async function verifyPunches(){ if(!isOwner||!db) return; try{ await ensureSecret(); }catch(_){ return; }
+  for(const e of tlog.filter(x=>x.kind==="punch_in"&&x.verified===undefined)){ const slot=Math.floor(e.at/60000); let ok=false; for(let d=-3;d<=1;d++){ if(await hmacCode(officeSecret,slot+d)===String(e.code||"")){ok=true;break;} } db.doc("timelog/"+e.id).update({verified:ok}).catch(()=>{}); } }
 function renderToday(){
-  const t=dxb(); $("#todayDate").textContent=fmtLong(t).toUpperCase();
+  const t=dxb(); $("#todayDate").textContent=fmtLong(t).toUpperCase(); renderShift();
   const first=(names[viewRep]||"").split(" ")[0]; $("#hello").textContent=first?`Let's sell, ${first}`:"Today";
   const s=repStats(viewRep,t,t); const ms=repStats(viewRep,t.slice(0,8)+"01",t);
   const tile=(v,tg,l)=>`<div class="kpi"><b>${v}${tg?`<small> / ${tg}</small>`:""}</b><span>${l}</span>${tg?`<div class="bar"><i class="${v>=tg?"ok":""}" style="width:${Math.min(100,v/tg*100)}%"></i></div>`:""}</div>`;
@@ -262,7 +350,10 @@ function itemHTML(a){
   const late=a.date&&a.date<dxb()&&!a.done; const biz=a.business||leadName(a.leadId);
   const title=a.type==="todo"||a.type==="reminder"?a.text:`${LABEL[a.type]}${biz?" · "+biz:""}`;
   const sub=[a.date?fmtD(a.date):"",a.time||"",a.type==="contract"?`${a.package||""} · ${a.months||""} mo · ${aed(a.amount)}`:"",a.outcome||"",a.type!=="todo"&&a.type!=="reminder"?a.notes:""].filter(Boolean).join(" · ");
-  const can=["followup","todo","reminder","meeting"].includes(a.type);
+  const can=["followup","todo","reminder"].includes(a.type)||(a.type==="meeting"&&!a.startAt&&a.repId!==me);
+  if(a.type==="meeting"&&a.repId===me){ const btn=a.endAt?`<button type="button" class="btn sm" data-mnotes="${esc(a.id)}">Notes</button>`:a.startAt?`<button type="button" class="btn sm blue" data-mnotes="${esc(a.id)}">In meeting</button>`:`<button type="button" class="btn sm blue" data-min="${esc(a.id)}">Check in</button>`;
+    return `<div class="item ${a.done?"done":""} ${late&&!a.startAt?"late":""}"><span class="ic">${ICON.meeting}</span><div style="min-width:0"><div class="t">${esc(title)}</div><div class="s">${esc(sub)}${a.startAt?` · ${hm(a.startAt)}${a.endAt?"–"+hm(a.endAt)+" ("+dur(a.endAt-a.startAt)+")":" · live"}`:""}${late&&!a.startAt?" · overdue":""}</div></div>${btn}</div>`; }
+  if(a.type==="meeting"&&a.startAt) return `<div class="item done"><span class="ic">${ICON.meeting}</span><div style="min-width:0"><div class="t">${esc(title)}</div><div class="s">${esc(sub)} · ${hm(a.startAt)}${a.endAt?"–"+hm(a.endAt):" · live"}</div></div><button type="button" class="btn sm" data-mnotes="${esc(a.id)}">Notes</button></div>`;
   return `<div class="item ${a.done?"done":""} ${late?"late":""}"><span class="ic">${ICON[a.type]||""}</span><div style="min-width:0"><div class="t">${esc(title)}</div><div class="s">${esc(sub)}${late?" · overdue":""}</div></div>${can?`<button type="button" class="check" role="checkbox" aria-checked="${!!a.done}" aria-label="Mark done" data-done="${esc(a.id)}">${a.done?"✓":""}</button>`:`<button type="button" class="btn ghost sm" data-edit="${esc(a.id)}">Edit</button>`}</div>`;
 }
 function renderLeads(){
@@ -287,6 +378,11 @@ function renderTeam(){
   const K=kpis.slice().sort((a,b)=>(b.createdAt||0)-(a.createdAt||0)).slice(0,10);
   $("#teamCheckins").innerHTML=K.length?K.map(k=>`<div class="item"><span class="ic">${ICON.coach}</span><div style="min-width:0"><div class="t">${esc(names[k.repId]||"Rep")} · ${esc(fmtD(k.date))}</div><div class="s">${k.calls??"–"} contacts · ${k.booked??"–"} booked · ${k.held??"–"} held · ${k.contracts??0} contracts${k.blockers?" · blocker: "+esc(k.blockers):""}</div>${k.feedback?`<div style="font-size:13px;margin-top:4px">Hamza: ${esc(k.feedback)}</div>`:""}</div><span></span></div>`).join(""):`<div class="empty">No check-ins yet.</div>`;
   if(document.activeElement!==$("#playbook")) $("#playbook").value=playbook||PRODUCT;
+  const repsA=[...new Set([...reps,...tlog.map(x=>x.repId)])];
+  $("#attTable").innerHTML=`<thead><tr><th>Rep</th><th>Status</th><th>In</th><th>At office</th><th>Out</th><th>Worked</th><th>Breaks</th><th>Meetings</th></tr></thead><tbody>${repsA.map(r=>{const st=shiftState(r,t); const s=st.live?"In meeting":st.brk?"On break":st.on?"On shift":st.outAt?"Done":"Not in";
+    return `<tr><td><b>${esc(names[r]||"Rep")}</b></td><td>${s}</td><td>${st.inAt?hm(st.inAt):"–"}</td><td>${st.firstIn?(st.firstIn.verified===true?'<span class="ver ok">✓</span>':st.firstIn.verified===false?'<span class="ver no">✗ mismatch</span>':'<span class="ver wait">…</span>'):"–"}</td><td>${st.outAt?hm(st.outAt):"–"}</td><td>${st.inAt?dur(st.worked):"–"}</td><td>${st.inAt?dur(st.breakMs):"–"}</td><td>${dur(st.meetMs)}</td></tr>`;}).join("")||`<tr><td colspan="8">Nobody has punched in yet.</td></tr>`}</tbody>`;
+  $("#reportList").innerHTML=reports.length?reports.slice().sort((a,b)=>b.createdAt-a.createdAt).slice(0,8).map((r,i)=>`<details ${i===0?"open":""}><summary>${esc(new Date(r.createdAt).toLocaleString("en-GB",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit",timeZone:"Asia/Dubai"}))} · ${esc(r.title||"Report")}</summary><div style="white-space:pre-wrap;font-size:14px;margin-top:6px">${esc(r.body)}</div></details>`).join(""):'<div class="empty">No reports yet. Ask Hamza for one, or he writes one every evening.</div>';
+  verifyPunches();
 }
 function renderChat(){
   const L=chats.filter(c=>c.repId===viewRep&&c.mode===mode&&(mode!=="roleplay"||c.session===session)).sort((a,b)=>(a.createdAt||0)-(b.createdAt||0)).slice(-40);
@@ -376,7 +472,9 @@ function repContext(){
   return `REP: ${names[viewRep]||"the rep"}. Today ${t}. Logged today: ${d.calls} contacts, ${d.booked} meetings booked, ${d.held} held, ${d.contracts} contracts. This week: ${w.calls} contacts, ${w.booked} booked, ${w.held} held, ${w.contracts} contracts (${aed(w.value)}).
 OPEN LEADS: ${open||"none"}
 DUE/OVERDUE: ${due||"none"}
-RECENT CHECK-INS: ${last||"none"}`;
+RECENT CHECK-INS: ${last||"none"}
+ATTENDANCE TODAY: ${(()=>{const st=shiftState(viewRep,t); return st.inAt?`punched in ${hm(st.inAt)}${st.outAt?", out "+hm(st.outAt):""}, worked ${dur(st.worked)}, breaks ${dur(st.breakMs)}, meetings ${dur(st.meetMs)}${st.firstIn?.verified===false?", punch-in code did NOT match the office screen":""}`:"not punched in";})()}
+MEETING NOTES TODAY: ${mine(acts).filter(a=>a.type==="meeting"&&a.liveNotes&&a.startAt&&dxb(new Date(a.startAt))===t).map(a=>a.business+": "+a.liveNotes.slice(0,400)).join(" | ")||"none"}`;
 }
 function rules(){
   const base=`You are Hamza Qureshi, Sales Lead at Yontro in Dubai, managing and coaching ${names[viewRep]||"a sales rep"}. You know Yontro's offer inside out:\n${playbook||PRODUCT}\n\n${repContext()}\nTargets per day: ${TARGET.calls} contacts, ${TARGET.booked} meetings booked, ${TARGET.held} held. Money in AED.`;
@@ -401,6 +499,15 @@ async function hamza(text,opts={}){
   busy=false; renderAll();
 }
 
+async function makeReport(btn){
+  if(!sample) return toast("Hamza needs Claude access."); btn.disabled=true; btn.textContent="Hamza is writing…";
+  const t=dxb(), ws=weekStart(t); const reps=[...new Set([...leads,...acts,...kpis,...tlog].map(x=>x.repId).filter(Boolean))];
+  const lines=reps.map(r=>{ const days=[...Array(7)].map((_,i)=>addDays(ws,i)).filter(d=>d<=t).map(d=>{const st=shiftState(r,d); const k=repStats(r,d,d); return `${d}: ${st.inAt?`in ${hm(st.inAt)}${st.firstIn?.verified===false?" (code mismatch)":""}, out ${st.outAt?hm(st.outAt):"–"}, worked ${dur(st.worked)}, breaks ${dur(st.breakMs)}, meetings ${dur(st.meetMs)}`:"no punch-in"}; ${k.calls} contacts, ${k.booked} booked, ${k.held} held, ${k.contracts} contracts`;}).join("\n"); const ci=kpis.filter(k=>k.repId===r&&k.date>=ws).map(k=>`${k.date} blocker: ${k.blockers||"none"}`).join("; "); return `REP ${names[r]||r}\n${days}\nCheck-ins: ${ci||"none"}`; }).join("\n\n");
+  try{ const r=await sample(`You are Hamza Qureshi, Yontro's Sales Lead, reporting to Sahill (the owner) on your sales team for the week so far. Targets per rep per day: ${TARGET.calls} contacts, ${TARGET.booked} meetings booked, ${TARGET.held} held; shift punch-in must be at the office.\n\n${lines||"No data yet."}\n\nWrite a short report: one-line verdict per rep, attendance (late starts, short days, long breaks, code mismatches), KPIs vs target, meetings and contracts, what you'll coach next, and one decision for Sahill. Plain text, under 18 lines, direct.`,{modelTier:"default",cache:false});
+    await db.collection("reports").add({title:"Weekly team report",body:r.text.trim(),createdAt:Date.now()}); toast("Report saved."); }
+  catch(e){ toast("Hamza couldn't write the report: "+(e?.message||e?.code||"error")); }
+  btn.disabled=false; btn.textContent="Ask Hamza for a report";
+}
 /* ---------- events ---------- */
 document.addEventListener("click",async e=>{
   const b=e.target.closest("button,[data-lead]"); if(!b) return; const d=b.dataset;
@@ -419,6 +526,17 @@ document.addEventListener("click",async e=>{
   if(d.say){ hamza(d.say); return; }
   if(d.rp){ session=d.rp+"|"+Date.now(); mode="roleplay"; renderChat(); hamza("",{system:`Begin the roleplay now: you are a ${d.rp} in Dubai. The rep has just walked in or called. Open in character with one short line.`}); return; }
   if(b.id==="endRp"){ hamza("",{system:"STOP the roleplay and step out of character as Hamza the coach. Score the rep out of 10 on: opener, discovery questions, value and the free video offer, objection handling, close (asked for the meeting/deal). Then give the 3 most useful fixes with exact lines to say next time. Keep it under 12 lines.",kind:"score"}); return; }
+  if(b.id==="punchIn"){ punchInSheet(); return; }
+  if(b.id==="punchOut"){ punchOutSheet(); return; }
+  if(b.id==="breakStart"){ await logEvent("break_start"); toast("Break started. Enjoy."); return; }
+  if(b.id==="breakEnd"){ await logEvent("break_end"); toast("Welcome back."); return; }
+  if(d.min){ const a=acts.find(x=>x.id===d.min); const st=shiftState(viewRep,dxb()); if(!st.on) return toast("Punch in first."); if(st.live) return toast("Check out of your current meeting first."); if(a) meetInSheet(a); return; }
+  if(d.mnotes){ const a=acts.find(x=>x.id===d.mnotes); if(a) notesSheet(a); return; }
+  if(d.mout){ const a=acts.find(x=>x.id===d.mout); if(!a) return; const at=Date.now(); const notes=$("#liveNotes")?.value??$("#sheetNotes")?.value; await db.doc("activities/"+a.id).update({endAt:at,done:true,updatedAt:at,...(notes!==undefined?{liveNotes:notes}:{})}); await logEvent("meeting_out",{activityId:a.id,business:a.business||""}); if(a.leadId) upsertLead(a.business,{stage:"Meeting held"}).catch(()=>{}); toast(`Meeting logged: ${dur(at-a.startAt)}.`); closeSheet(); return; }
+  if(d.msum){ const a=acts.find(x=>x.id===d.msum); if(!a||!sample) return; b.disabled=true; b.textContent="Hamza is reading…"; try{ const r=await sample(`You are Hamza Qureshi, Yontro's Sales Lead. Here are ${names[a.repId]||"the rep"}'s notes from a meeting with ${a.business}. Write: a 2-line summary, what the prospect needs, objections, the package to propose (Launch 5,000 / Growth 7,500 / Scale 10,000 AED a month) and why, and the next step with a date. Max 10 short lines.\n\nNOTES:\n${a.liveNotes}`,{modelTier:"default",cache:false}); await db.doc("activities/"+a.id).update({notesSummary:r.text.trim()}); notesSheet({...a,notesSummary:r.text.trim()}); }catch(e){ toast("Hamza couldn't summarise right now."); b.disabled=false; } return; }
+  if(b.id==="openKiosk"){ openKiosk(); return; }
+  if(b.id==="closeKiosk"){ closeKiosk(); return; }
+  if(b.id==="makeReport"){ makeReport(b); return; }
   if(b.id==="savePlaybook"){ try{ await db.doc("meta/playbook").set({text:$("#playbook").value,updatedAt:Date.now()}); toast("Playbook saved. Hamza now uses it."); }catch(err){toast("Couldn't save.");} return; }
   if(b.id==="wkPrev"){ calWeek=addDays(calWeek,-7); calDay=calWeek; renderCal(); return; }
   if(b.id==="wkNext"){ calWeek=addDays(calWeek,7); calDay=calWeek; renderCal(); return; }
@@ -426,7 +544,12 @@ document.addEventListener("click",async e=>{
   const seg=b.closest(".seg"); if(seg&&b.dataset.v!==undefined){ seg.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",String(x===b))); if(seg.id==="fOutcome") callExtra(); if(seg.id==="fPkg"||seg.id==="fMonths") recalc(); return; }
 });
 $("#sheetBg").addEventListener("click",e=>{ if(e.target.id==="sheetBg") closeSheet(); });
-document.addEventListener("keydown",e=>{ if(e.key==="Escape"&&!$("#sheetBg").hidden) closeSheet(); });
+document.addEventListener("keydown",e=>{ if(e.key==="Escape"&&!$("#kiosk").hidden) closeKiosk(); if(e.key==="Escape"&&!$("#sheetBg").hidden) closeSheet(); });
+document.addEventListener("submit",async e=>{
+  if(e.target.id==="punchForm"){ e.preventDefault(); const c=$("#pCode").value.replace(/\D/g,""); if(c.length!==6) return toast("Enter the 6 digits from the office screen."); await logEvent("punch_in",{code:c}); toast("Punched in. Have a great day."); closeSheet(); return; }
+  if(e.target.id==="punchOutForm"){ e.preventDefault(); const st=shiftState(viewRep,dxb()); if(st.brk) await logEvent("break_end"); if(st.live){ await db.doc("activities/"+st.live.id).update({endAt:Date.now(),done:true}); await logEvent("meeting_out",{activityId:st.live.id,business:st.live.business||""}); } await logEvent("punch_out",{place:$("#poPlace").value.trim()}); toast(`Punched out. You worked ${dur(shiftState(viewRep,dxb()).worked)}.`); closeSheet(); return; }
+  if(e.target.id==="meetInForm"){ e.preventDefault(); const id=e.target.dataset.id; const a=acts.find(x=>x.id===id); const place=$("#miPlace").value.trim(), map=$("#miMap").value.trim(); const at=Date.now(); await db.doc("activities/"+id).update({startAt:at,startPlace:place,startMap:/^https?:\/\//.test(map)?map:"",updatedAt:at}); await logEvent("meeting_in",{activityId:id,business:a?.business||"",place,map}); toast("Checked in. Take notes as you go."); closeSheet(); tab="today"; renderAll(); setTimeout(()=>$("#liveNotes")?.focus(),300); return; }
+});
 document.addEventListener("submit",e=>{ if(e.target.id==="sheetForm"){ e.preventDefault(); saveSheet(e.target); } if(e.target.id==="chatForm"){ e.preventDefault(); if(mode==="roleplay"&&!session) return toast("Pick a prospect first."); const v=$("#chatIn").value; $("#chatIn").value=""; hamza(v); } });
 $("#chatIn").addEventListener("keydown",e=>{ if(e.key==="Enter"&&!e.shiftKey){ e.preventDefault(); $("#chatForm").requestSubmit(); } });
 $("#leadSearch").addEventListener("input",renderLeads);
@@ -449,6 +572,8 @@ renderTabs(); renderToday();
   db.collection("leads").onSnapshot(q=>{leads=docs(q);renderAll();},onErr);
   db.collection("activities").onSnapshot(q=>{acts=docs(q);renderAll();},onErr);
   db.collection("kpi").onSnapshot(q=>{kpis=docs(q);refreshNames();},onErr);
+  db.collection("timelog").onSnapshot(q=>{tlog=docs(q);renderAll();},onErr);
+  db.collection("reports").onSnapshot(q=>{reports=docs(q);if(tab==="team")renderTeam();},()=>{});
   db.collection("chats").onSnapshot(q=>{chats=docs(q);if(tab==="hamza")renderChat();},onErr);
   db.doc("meta/playbook").onSnapshot(x=>{ playbook=x.exists?(x.data().text||""):""; if(tab==="team") renderTeam(); },onErr);
   refreshNames();
