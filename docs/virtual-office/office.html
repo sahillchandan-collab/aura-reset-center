@@ -157,6 +157,16 @@ form.add .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1
 .switch{font-size:12.5px;color:var(--muted)}
 .switch a{color:var(--muted)}
 .minutes{display:grid;gap:8px}
+.review{display:grid;gap:6px;border-top:1px dashed var(--line);padding-top:8px;margin-top:6px}
+.review textarea{min-height:56px;font-size:13.5px}
+.review .chk{display:flex;gap:6px;align-items:center;font-size:12.5px;color:var(--muted)}
+.review .chk input{width:auto}
+.fb{display:grid;gap:4px;margin-top:6px}
+.fb div{font-size:12.5px;background:var(--surface);border-left:3px solid var(--accent);padding:4px 8px;border-radius:4px}
+.fb div span{font-family:var(--mono);font-size:10.5px;color:var(--muted);margin-right:6px}
+.rules{display:grid;gap:6px}
+.rule{display:flex;gap:8px;justify-content:space-between;align-items:flex-start;background:var(--soft);border-radius:10px;padding:7px 10px;font-size:13.5px}
+.rule span{overflow-wrap:anywhere}
 .bizbar{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin;align-items:center}
 .bizbar a{flex:none;display:inline-flex;align-items:center;gap:7px;text-decoration:none;color:var(--ink);font-weight:600;font-size:13.5px;padding:6px 13px;border:1.5px solid var(--line);border-radius:999px;background:var(--surface)}
 .bizbar a:hover{border-color:var(--ink)}
@@ -414,10 +424,21 @@ function taskActions(t){ if(!canWrite) return ""; const busy=running.has(t.id);
   ${busy?`<button type="button" class="small" data-stop="${esc(t.id)}">Stop</button>`:""}
   ${t.status!=="done"?`<button type="button" class="small" data-st="done" data-id="${esc(t.id)}">Mark done</button>`:`<button type="button" class="small" data-st="todo" data-id="${esc(t.id)}">Reopen</button>`}
   <button type="button" class="ghost small" data-del="${esc(t.id)}">Delete</button></div>`;}
+function workHTML(t,label){
+  const a=agentById(t.agentId); const fb=t.feedback||[]; const hist=t.history||[];
+  return `<details ${t.status!=="done"?"open":""}><summary>${esc(label)}${t.outputAt?" · "+esc(fmtTime(Date.parse(t.outputAt))):""}${fb.length?" · "+fb.length+" comment"+(fb.length>1?"s":""):""}</summary><div class="output">${esc(t.output)}</div>
+  ${fb.length?`<div class="fb">${fb.map(f=>`<div><span>${esc(fmtTime(Date.parse(f.at)))}</span>${esc(f.text)}</div>`).join("")}</div>`:""}
+  ${hist.length?`<details><summary>Earlier versions (${hist.length})</summary>${hist.slice().reverse().map(h=>`<div class="output" style="margin-top:6px">${esc(h.output)}</div>`).join("")}</details>`:""}
+  ${canWrite&&t.status!=="done"&&!running.has(t.id)?`<form class="review" data-review="${esc(t.id)}">
+    <label class="f" for="rv_${esc(t.id)}">Your comment${a?" for "+esc(firstName(a.name)):""}<textarea id="rv_${esc(t.id)}" name="text" maxlength="2000" placeholder="What's wrong or how it should be done, e.g. Use AED and shorter WhatsApp messages, no emojis"></textarea></label>
+    ${a?`<label class="chk"><input type="checkbox" name="rule"> Make this a standing rule for ${esc(firstName(a.name))} on every future job</label>`:""}
+    <div class="row">${sample&&a?`<button class="primary small" type="submit" name="act" value="redo">Send back to redo</button>`:""}<button class="small" type="submit" name="act" value="note">Save comment</button><button class="small" type="button" data-st="done" data-id="${esc(t.id)}">Approve</button></div>
+  </form>`:""}</details>`;
+}
 function miniTask(t){const a=agentById(t.agentId); const live=running.get(t.id);
   return `<div class="mini-task"><div class="row" style="justify-content:space-between"><span class="t">${esc(t.title)}</span>${statusPill(t)}</div>
   <div class="tag">${a?avDot(a)+esc(a.name):"Unassigned"} · ${esc(roomById(taskRoom(t))?.name||"")}${t.due?" · due "+esc(fmtDate(t.due)):""}</div>
-  ${live?`<div class="output live" data-live="${esc(t.id)}">${esc(live.text||"Starting…")}</div>`:t.output?`<details><summary>Their work${t.outputAt?" · "+esc(fmtDate(t.outputAt)):""}</summary><div class="output">${esc(t.output)}</div></details>`:""}
+  ${live?`<div class="output live" data-live="${esc(t.id)}">${esc(live.text||"Starting…")}</div>`:t.output?workHTML(t,"Their work"):""}
   ${taskActions(t)}</div>`;}
 function feedItems(){
   const ev=[];
@@ -429,13 +450,20 @@ function feedItems(){
   reports.forEach(r=>ev.push([r.createdAt,"Board meeting held. Minutes filed."]));
   return ev.filter(e=>e[0]>0).sort((a,b)=>b[0]-a[0]).slice(0,14);
 }
+const deferred=new Set();
+function typingIn(sel){const ae=document.activeElement; return !!(ae&&ae.closest&&ae.closest(sel)&&ae.closest("form")&&/^(TEXTAREA|INPUT|SELECT)$/.test(ae.tagName)&&(ae.value||"").length>0);}
+document.addEventListener("focusout",()=>setTimeout(()=>{ if(deferred.has("side")&&!typingIn("#side")){deferred.delete("side");renderSide();} if(deferred.has("board")&&!typingIn("#board")){deferred.delete("board");renderBoard();} },150));
 function renderSide(){
+  if(typingIn("#side")){deferred.add("side");return;}
   const s=$("#side");
   if(selection.kind==="agent"){const a=agentById(selection.id); if(!a){selection={kind:"office"};return renderSide();}
     const it=intent(a); const mine=tasks.filter(t=>t.agentId===a.id).sort((x,y)=>(x.status==="done")-(y.status==="done"));
     s.innerHTML=`<div class="panel-head"><span class="tag">STAFF FILE</span><button type="button" class="ghost small" data-back>Back to office</button></div>
     <div class="portrait">${figHTML(a)}<div class="meta"><h2>${esc(a.name)}</h2><div class="designation">${esc(a.role)}</div><div class="tag">Desk: ${esc(roomById(agentDept(a))?.name||"")} · ${it.mode==="working"?"Working in "+esc(roomById(it.room)?.name||""):it.mode==="meeting"?"In the boardroom":"Free for work"}</div></div></div>
     ${a.mind?`<details><summary>How ${esc(firstName(a.name))} works</summary><div class="output">${esc(a.mind)}</div></details>`:""}
+    <h3>Standing rules (${(a.rules||[]).length})</h3>
+    <div class="rules">${(a.rules||[]).map((r,ix)=>`<div class="rule"><span>${esc(r.text)}<br><span class="tag">${esc(fmtDate(r.at))}</span></span>${canWrite?`<button type="button" class="ghost small" data-rule-del="${esc(a.id)}" data-ix="${ix}">Remove</button>`:""}</div>`).join("")||`<span class="tag">None yet. Tick "Make this a standing rule" when you comment on ${esc(firstName(a.name))}'s work, or add one here.</span>`}</div>
+    ${canWrite?`<form class="add" data-addrule="${esc(a.id)}"><label class="f" for="nr_${esc(a.id)}">New standing rule<input id="nr_${esc(a.id)}" name="text" maxlength="400" required placeholder="e.g. Always give prices in AED and end with one clear next step"></label><div class="row"><button class="small primary" type="submit">Add rule</button></div></form>`:""}
     ${canWrite?`<div class="switchrow"><span><b>Autopilot</b><br><span class="tag">${a.auto?"Works through queued tasks and routines on their own":"Waits for you to send them to work"}</span></span><button type="button" class="toggle" role="switch" aria-checked="${!!a.auto}" aria-label="Autopilot for ${esc(a.name)}" data-auto="${esc(a.id)}"></button></div>`:""}
     ${canWrite?`<details><summary>Edit profile</summary><form class="add" data-profile="${esc(a.id)}">
       <label class="f" for="pn_${esc(a.id)}">Name<input id="pn_${esc(a.id)}" name="name" maxlength="40" required value="${esc(a.name)}"></label>
@@ -479,6 +507,7 @@ function select(sel){selection=sel;renderSide();if(innerWidth<960&&sel.kind!=="o
 /* ---------- task board ---------- */
 function renderChips(){$("#roomChips").innerHTML=[{id:"all",name:"All rooms"},...WORK].map(r=>`<button type="button" data-chip="${r.id}" aria-pressed="${roomFilter===r.id}">${esc(r.name)}</button>`).join("");}
 function renderBoard(){
+  if(typingIn("#board")){deferred.add("board");return;}
   const pri={high:0,normal:1,low:2};
   const list=tasks.filter(t=>roomFilter==="all"||taskRoom(t)===roomFilter).sort((a,b)=>(pri[a.priority]??1)-(pri[b.priority]??1)||String(a.due||"9").localeCompare(String(b.due||"9")));
   const today=todayISO();
@@ -486,7 +515,7 @@ function renderBoard(){
     return `<div class="card p-${esc(t.priority||"normal")}"><div class="t">${esc(t.title)}</div>
     <div class="m">${avDot(a)}<select data-assign="${esc(t.id)}" ${canWrite?"":"disabled"} aria-label="Assign agent"><option value="">Unassigned</option>${agents.map(x=>`<option value="${esc(x.id)}" ${x.id===t.agentId?"selected":""}>${esc(x.name)}</option>`).join("")}</select>
     <span>${esc(roomById(taskRoom(t))?.name||"")}</span>${t.due?`<span class="${late?"s-red":""}">${late?"Overdue · ":"Due "}${esc(fmtDate(t.due))}</span>`:""}</div>
-    ${running.get(t.id)?`<div class="output live">${esc((running.get(t.id).text||"").slice(-400)||"Walking over…")}</div>`:t.output?`<details><summary>Work from ${esc(t.outputBy||a?.name||"agent")}</summary><div class="output">${esc(t.output)}</div></details>`:""}
+    ${running.get(t.id)?`<div class="output live">${esc((running.get(t.id).text||"").slice(-400)||"Walking over…")}</div>`:t.output?workHTML(t,"Work from "+(t.outputBy||a?.name||"agent")):""}
     ${t.notes?`<details><summary>Brief</summary><div class="output">${esc(t.notes)}</div></details>`:""}
     ${taskActions(t).replace('class="row"','class="row"')}${canWrite&&t.status==="todo"?"":""}</div>`;}).join("")||'<div class="tag" style="padding:6px">Nothing here.</div>'}</div>`;};
   $("#board").innerHTML=col("todo","To do")+col("doing","In progress")+col("done","Done");
@@ -521,8 +550,8 @@ Staff: ${agents.map(a=>a.name+" ("+a.role+", "+(roomById(agentDept(a))?.name||""
 Tasks:
 ${lines||"(none)"}`;}
 function refreshLive(id){const r=running.get(id);document.querySelectorAll(`[data-live="${CSS.escape(id)}"]`).forEach(n=>n.textContent=r?.text||"Starting…");}
-async function runTask(id){
-  const t=tasks.find(x=>x.id===id); const a=agentById(t?.agentId);
+async function runTask(id,ov){
+  const t0=tasks.find(x=>x.id===id); const t=t0?{...t0,...(ov||{})}:null; const a=agentById(t?.agentId);
   if(!t||!a||!sample||running.has(id)) return;
   const room=taskRoom(t); const ctl=new AbortController();
   running.set(id,{ctl,text:""}); running.set("agent:"+a.id,{room,say:shorten(t.title)});
@@ -535,13 +564,15 @@ ${context()}
 
 Your task: ${t.title}
 ${t.notes?"Brief from Sahill: "+t.notes:""}
-${t.output?"Your previous attempt, improve on it:\n"+t.output.slice(0,4000):""}
+${(a.rules||[]).length?"Standing rules from Sahill, always follow:\n- "+a.rules.map(r=>r.text).join("\n- "):""}
+${t.output?"Your previous attempt:\n"+t.output.slice(0,4000):""}
+${(t.feedback||[]).length?"Sahill's comments on your work, newest last. Fix every point and do it the way he asks:\n- "+t.feedback.map(f=>f.text).join("\n- "):""}
 
 Do the task now and hand back finished work, not a plan to do it: messages ready to send, lists, scripts, calculations, structured drafts. You cannot browse, contact anyone or spend money; where facts are missing, say exactly what Sahill should send you. Plain, direct language; AED. Start with a one-line summary in your own voice, then the work, then "Next step:" and one line.`;
   try{
     const r=await sample(prompt,{signal:ctl.signal,modelTier:"default",cache:false,onText:({text})=>{const s=running.get(id);if(!s)return;s.text=text;refreshLive(id);}});
     running.delete(id); running.delete("agent:"+a.id);
-    await db.doc("tasks/"+id).update({output:r.text,outputBy:a.name,outputAt:new Date().toISOString(),status:"doing"});
+    await db.doc("tasks/"+id).update({output:r.text,outputBy:a.name,outputAt:new Date().toISOString(),status:"doing",...(t.output?{history:[...(t.history||[]),{output:t.output,at:t.outputAt||""}].slice(-3)}:{})});
     toast(`${firstName(a.name)} handed in the work. Review it, then mark it done.`);
   }catch(e){running.delete(id);running.delete("agent:"+a.id);
     if(e?.code==="aborted"||ctl.signal.aborted) toast("Stopped.");
@@ -724,6 +755,7 @@ document.addEventListener("click",async e=>{
   try{
     if(d.auto){const a=agentById(d.auto); await db.doc("agents/"+d.auto).update({auto:!a?.auto}); toast(a?.auto?`${firstName(a.name)} is off autopilot.`:`${firstName(a?.name||"Agent")} is on autopilot and will work through their queue.`); setTimeout(autopilot,800);}
     else if(d.rnow){const r=routines.find(x=>x.id===d.rnow); if(r) runRoutine(r);}
+    else if(d.ruleDel){const a=agentById(d.ruleDel); const r=[...(a?.rules||[])]; r.splice(+d.ix,1); await db.doc(P()+"agents/"+d.ruleDel).update({rules:r}); toast("Rule removed.");}
     else if(d.rdel){ if(d.confirm){await db.doc("routines/"+d.rdel).delete();toast("Routine removed.");} else {d.confirm="1";b.textContent="Confirm remove";setTimeout(()=>{if(b.isConnected){delete b.dataset.confirm;b.textContent="Remove";}},4000);} }
     else if(d.run) runTask(d.run);
     else if(d.stop) running.get(d.stop)?.ctl.abort();
@@ -736,6 +768,19 @@ document.addEventListener("keydown",e=>{ if(e.key==="Escape"&&!$("#chatDrawer").
 document.addEventListener("change",async e=>{const s=e.target.closest("select[data-assign]"); if(!s||!db) return;
   try{await db.doc("tasks/"+s.dataset.assign).update({agentId:s.value}); toast(s.value?`Assigned to ${agentById(s.value)?.name}.`:"Unassigned.");}catch(err){toast("Couldn't save: "+(err?.message||"error"));}});
 document.addEventListener("submit",async e=>{
+  const rv=e.target.closest("form[data-review]"), ar=e.target.closest("form[data-addrule]");
+  if(rv||ar){ e.preventDefault(); if(!db) return; const fd=new FormData(rv||ar); const text=String(fd.get("text")||"").trim();
+    try{
+      if(ar){ if(!text) return; const a=agentById(ar.dataset.addrule); await db.doc(P()+"agents/"+a.id).update({rules:[...(a.rules||[]),{text,at:new Date().toISOString()}]}); ar.reset(); toast(`New rule for ${firstName(a.name)}.`); return; }
+      const t=tasks.find(x=>x.id===rv.dataset.review); if(!t) return; const a=agentById(t.agentId); const act=e.submitter?.value||"note";
+      if(!text&&act==="note") return toast("Write a comment first.");
+      const fb=text?[...(t.feedback||[]),{text,at:new Date().toISOString()}]:(t.feedback||[]);
+      await db.doc(P()+"tasks/"+t.id).update({feedback:fb});
+      if(text&&fd.get("rule")&&a) await db.doc(P()+"agents/"+a.id).update({rules:[...(a.rules||[]),{text,at:new Date().toISOString()}]});
+      if(act==="redo"&&a){ toast(`Sent back to ${firstName(a.name)} with your comments.`); runTask(t.id,{feedback:fb}); }
+      else toast(fd.get("rule")?"Comment saved and added as a standing rule.":"Comment saved.");
+    }catch(err){toast("Couldn't save: "+(err?.message||"error"));}
+    return; }
   const pf=e.target.closest("form[data-profile]"), rf=e.target.closest("form[data-routine]");
   if(pf||rf){e.preventDefault(); if(!db) return; const fd=new FormData(pf||rf);
     try{ if(pf){await db.doc("agents/"+pf.dataset.profile).update({name:String(fd.get("name")).trim(),role:String(fd.get("role")).trim(),dept:fd.get("dept"),mind:String(fd.get("mind")).trim()});toast("Profile saved.");}

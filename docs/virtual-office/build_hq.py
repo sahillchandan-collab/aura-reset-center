@@ -130,16 +130,16 @@ function stateOf(slug,full){
   return `== ${b.name} [business id: ${slug}] (${b.kind})
 GOAL: ${d.meta.goal||b.goal} | STATUS: ${(STATUS[d.meta.status]||STATUS.grey)[0]}${d.meta.note?" ("+d.meta.note+")":""}
 ${full?"ABOUT: "+b.about+"\n":""}ROOMS: ${workOf(slug).map(r=>r.id+"="+r.name).join("; ")}
-STAFF: ${d.agents.map(a=>`[${a.id}] ${a.name}, ${a.role}, desk ${deptIn(slug,a)}${a.auto?", autopilot":""}`).join(" | ")||"none"}
-OPEN TASKS: ${open.slice(0,full?60:15).map(t=>`[${t.id}] ${t.title} (${t.status}, ${nameOf(t.agentId)}${t.due?", due "+t.due:""}${t.priority==="high"?", high":""})`).join(" | ")||"none"}
+STAFF: ${d.agents.map(a=>`[${a.id}] ${a.name}, ${a.role}, desk ${deptIn(slug,a)}${a.auto?", autopilot":""}${(a.rules||[]).length?", rules: "+a.rules.map(r=>r.text).join("; "):""}`).join(" | ")||"none"}
+OPEN TASKS: ${open.slice(0,full?60:15).map(t=>`[${t.id}] ${t.title} (${t.status}, ${nameOf(t.agentId)}${t.due?", due "+t.due:""}${t.priority==="high"?", high":""}${t.output?", work handed in":""}${(t.feedback||[]).length?", "+t.feedback.length+" comments":""})`).join(" | ")||"none"}
 ${full?"ROUTINES: "+(d.routines.map(r=>`${nameOf(r.agentId)}: ${r.title} (${cadenceText(r)})`).join(" | ")||"none")+"\n":""}MEMORY: ${d.memory.slice(-(full?40:6)).map(m=>m.text).join(" / ")||"none"}`;
 }
 const RULES=()=>{
   const head=`Owner: Sahill Chandan, Dubai. Money in AED. Dates like "7 November 2026". Today: ${fmtDate(todayISO())} (${todayISO()}).`;
-  if(view==="office") return `You are the office manager of ${BIZ.name}'s virtual office inside Sahill's HQ. You run a team of AI agents. When Sahill asks for something, act with your tools: create or update tasks and assign them to the right agent (pick by role and desk), set start=true when he wants it done now, hire agents with a person's name and a job designation, add routines for recurring work, update the goal or status, and call remember for every new fact, number, decision, preference or contact he tells you (one short sentence each). Never invent figures. Agents cannot contact people or spend money. After acting, reply in 1-4 short plain sentences saying what you did and who is on it; ask one question only if something essential is missing. Use tools rather than describing what you would do. The business id for every tool is "${cur}".
+  if(view==="office") return `You are the office manager of ${BIZ.name}'s virtual office inside Sahill's HQ. You run a team of AI agents. When Sahill asks for something, act with your tools: create or update tasks and assign them to the right agent (pick by role and desk), set start=true when he wants it done now, hire agents with a person's name and a job designation, add routines for recurring work, update the goal or status, and call remember for every new fact, number, decision, preference or contact he tells you (one short sentence each). Never invent figures. Agents cannot contact people or spend money. After acting, reply in 1-4 short plain sentences saying what you did and who is on it; ask one question only if something essential is missing. When he comments on or corrects an agent's work, use give_feedback (redo=true if it should be fixed now; make_rule=true if it's how they should always work). Use tools rather than describing what you would do. The business id for every tool is "${cur}".
 ${head}
 ${stateOf(cur,true)}`;
-  return `You are Sahill's Chief of Staff in Sahill's HQ, overseeing all five businesses and their AI teams. Priority rule: cash already owed first (Botany rents and cheques), then revenue (Yontro, Aura), then growth assets (Founder Tales), then long-term bets (Barter). When Sahill tells you something or asks for something, act with your tools on the right business id: create or update tasks for the right agent (start=true if he wants it now), hire, add routines, set status, and call remember for every fact, number or decision (business "hq" for things that are about Sahill or all businesses). If he asks what to focus on, answer from the data below and take a position. Never invent figures. Reply in short plain sentences, naming the business and agent for each action.
+  return `You are Sahill's Chief of Staff in Sahill's HQ, overseeing all five businesses and their AI teams. Priority rule: cash already owed first (Botany rents and cheques), then revenue (Yontro, Aura), then growth assets (Founder Tales), then long-term bets (Barter). When Sahill tells you something or asks for something, act with your tools on the right business id: create or update tasks for the right agent (start=true if he wants it now), give feedback on agents' work (redo and/or make it a standing rule), hire, add routines, set status, and call remember for every fact, number or decision (business "hq" for things that are about Sahill or all businesses). If he asks what to focus on, answer from the data below and take a position. Never invent figures. Reply in short plain sentences, naming the business and agent for each action.
 ${head}
 HQ MEMORY: ${HQD.memory.slice(-30).map(m=>m.text).join(" / ")||"none"}
 ${SLUGS.map(x=>stateOf(x,false)).join("\n")}`;
@@ -174,6 +174,16 @@ const chatTools=[
  {name:"set_status",description:"Update a business's goal and/or status (red, amber, green, grey, parked) with a short reason.",
   inputSchema:{type:"object",properties:{business:BIZP,status:{type:"string",enum:["red","amber","green","grey","parked"]},note:{type:"string"},goal:{type:"string"}}},
   execute:async i=>{const slug=slugFor(i); const m={...ALL[slug].meta}; if(i.status) m.status=i.status; if(i.note!==undefined) m.note=String(i.note); if(i.goal) m.goal=String(i.goal); await db.doc(pathOf(slug)+"meta/business").set({goal:m.goal,status:m.status,note:m.note||"",updatedAt:Date.now()}); actLog.push(`${bizOf(slug).name} · Status: ${(STATUS[m.status]||STATUS.grey)[0]}`); return "ok";}},
+ {name:"give_feedback",description:"Comment on an agent's work on a task. redo=true sends it back to be redone following the comment now; make_rule=true also saves the comment as a standing rule the agent follows on every future job.",
+  inputSchema:{type:"object",properties:{business:BIZP,task_id:{type:"string"},comment:{type:"string"},redo:{type:"boolean"},make_rule:{type:"boolean"}},required:["task_id","comment"]},
+  execute:async i=>{const slug=slugFor(i); const t=ALL[slug].tasks.find(x=>x.id===i.task_id); if(!t) throw new Error("No task with that id in "+slug); const at=new Date().toISOString(); const fb=[...(t.feedback||[]),{text:String(i.comment).slice(0,2000),at}];
+   await db.doc(pathOf(slug)+"tasks/"+t.id).update({feedback:fb}); const a=ALL[slug].agents.find(x=>x.id===t.agentId);
+   if(i.make_rule&&a) await db.doc(pathOf(slug)+"agents/"+a.id).update({rules:[...(a.rules||[]),{text:String(i.comment).slice(0,400),at}]});
+   if(i.redo&&a) startQueue.push({slug,id:t.id,ov:{feedback:fb}});
+   actLog.push(`${bizOf(slug).name} · Feedback to ${a?.name||"agent"} on "${t.title}"${i.redo?" (redoing)":""}${i.make_rule?" · new standing rule":""}`); return "ok";}},
+ {name:"add_rule",description:"Add a standing rule an agent must follow on every future job (how to do their work).",
+  inputSchema:{type:"object",properties:{business:BIZP,agent:{type:"string"},rule:{type:"string"}},required:["agent","rule"]},
+  execute:async i=>{const slug=slugFor(i); const a=findAgentIn(slug,i.agent); if(!a) throw new Error("No agent called "+i.agent); await db.doc(pathOf(slug)+"agents/"+a.id).update({rules:[...(a.rules||[]),{text:String(i.rule).slice(0,400),at:new Date().toISOString()}]}); actLog.push(`${bizOf(slug).name} · Rule for ${a.name}: ${i.rule}`); return "ok";}},
  {name:"remember",description:"Save one fact, number, decision, contact or preference Sahill told you, as one short sentence. business = a business id, or \"hq\" for things about Sahill or all businesses.",
   inputSchema:{type:"object",properties:{business:{type:"string"},fact:{type:"string"}},required:["fact"]},
   execute:async i=>{const isHq=String(i.business||"").toLowerCase()==="hq"; const slug=isHq?null:(normBiz(i.business)||(view==="office"?cur:null)); const path=slug?pathOf(slug):"hq/main/";
@@ -190,7 +200,7 @@ rep("""const sug=BIZ.suggestions||[];""","""const sug=view==="hq"?HQ_SUG:(BIZ.su
 rep("""  const q=startQueue.slice(); startQueue=[];
   for(const id of q){ await new Promise(r=>setTimeout(r,500)); runTask(id); }""","""  const q=startQueue.slice(); startQueue=[];
   if(q.length){ const first=q[0].slug; if(view!=="office"||cur!==first){ toast(`Taking you to ${bizOf(first).name} to watch the work.`); location.hash=first; await new Promise(r=>setTimeout(r,1200)); }
-    for(const it of q.filter(x=>x.slug===first)){ await new Promise(r=>setTimeout(r,500)); runTask(it.id); }
+    for(const it of q.filter(x=>x.slug===first)){ await new Promise(r=>setTimeout(r,500)); runTask(it.id,it.ov); }
     const rest=q.filter(x=>x.slug!==first); if(rest.length) toast(`${rest.length} more task${rest.length>1?"s":""} queued in other offices. Autopilot or the daily run picks them up.`); }""")
 rep("""function openChat(){$("#chatDrawer").hidden=false;""","""function openChat(){chatHeader();$("#chatDrawer").hidden=false;""")
 
