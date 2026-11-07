@@ -1,0 +1,647 @@
+<title>__TITLE__</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a top-down virtual office. Floor plan (rooms + walking agents) beside a context panel; task board and board-meeting minutes below. One accent per business. */
+:root{
+  --accent:__ACCENT__; --accent-ink:__ACCENT_INK__;
+  --bg:#eeebe4; --surface:#fbfaf7; --ink:#1d1b18; --muted:#6b665e; --line:#d9d4c9; --soft:#f2efe8;
+  --wall:#3a3631; --corridor:#d8d2c5; --floor-a:#e9dcc4; --floor-b:#dfe6dc; --floor-c:#e4dfee; --floor-d:#f0e3da; --floor-break:#e8e1cf; --floor-board:#d9d0c0;
+  --wood:#b98e5e; --desk:#8a6a48; --plant:#5f8b4c; --screen:#2d3440;
+  --red:#c2362b; --amber:#b06a00; --green:#2f7d4a; --grey:#7d786f;
+  --display:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;
+  --body:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#15140f; --surface:#1f1d19; --ink:#efebe3; --muted:#a39d92; --line:#36322b; --soft:#27241f;
+  --wall:#0b0a08; --corridor:#2b2822; --floor-a:#3a3328; --floor-b:#2c3529; --floor-c:#312c3a; --floor-d:#3a2f2a; --floor-break:#36321f; --floor-board:#2f2a22;
+  --wood:#7e6142; --desk:#5e4834; --plant:#6f9e5a; --screen:#8fb3d9;
+  --red:#ef6b5f; --amber:#e3a23b; --green:#5cbf7d; --grey:#a39d92; --accent:__ACCENT_DARK__; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#15140f; --surface:#1f1d19; --ink:#efebe3; --muted:#a39d92; --line:#36322b; --soft:#27241f;
+  --wall:#0b0a08; --corridor:#2b2822; --floor-a:#3a3328; --floor-b:#2c3529; --floor-c:#312c3a; --floor-d:#3a2f2a; --floor-break:#36321f; --floor-board:#2f2a22;
+  --wood:#7e6142; --desk:#5e4834; --plant:#6f9e5a; --screen:#8fb3d9;
+  --red:#ef6b5f; --amber:#e3a23b; --green:#5cbf7d; --grey:#a39d92; --accent:__ACCENT_DARK__; color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.5;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:18px 48px}
+.wrap{max-width:1280px;margin:0 auto;display:grid;gap:18px}
+h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance}
+h1{font-size:clamp(30px,4.4vw,48px);font-weight:800;letter-spacing:-.02em;line-height:1}
+h2{font-size:20px;font-weight:700;letter-spacing:-.01em}
+h3{font-size:16px;font-weight:700}
+.tag{font-family:var(--mono);font-size:11.5px;color:var(--muted);letter-spacing:.03em}
+/* header */
+.top{display:flex;flex-wrap:wrap;gap:16px 28px;align-items:flex-end;justify-content:space-between}
+.brand{display:flex;gap:14px;align-items:center;min-width:0}
+.logo{width:52px;height:52px;flex:none;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:22px;border-radius:14px;transform:rotate(-4deg)}
+.goalline{font-size:14px;color:var(--muted);max-width:640px;margin-top:6px}
+.goalline b{color:var(--ink);font-weight:600}
+.pill{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11.5px;padding:2px 9px;border:1px solid currentColor;border-radius:999px;white-space:nowrap;vertical-align:1px}
+.pill::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.s-red{color:var(--red)}.s-amber{color:var(--amber)}.s-green{color:var(--green)}.s-grey{color:var(--grey)}
+.kpis{display:flex;gap:8px;flex-wrap:wrap}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:8px 14px;min-width:92px;font-variant-numeric:tabular-nums}
+.kpi b{display:block;font-family:var(--display);font-size:24px;line-height:1.1}
+.kpi span{font-size:11.5px;color:var(--muted)}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap}
+button{font:inherit;font-size:13.5px;font-weight:600;cursor:pointer;border:1.5px solid var(--ink);background:var(--surface);color:var(--ink);padding:7px 13px;border-radius:999px;transition:transform .12s}
+button:hover:not(:disabled){transform:translateY(-1px)}
+button.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+button.dark{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+button.ghost{border-color:transparent;background:transparent;color:var(--muted);padding:5px 8px}
+button.ghost:hover{color:var(--ink)}
+button.small{font-size:12.5px;padding:4px 10px}
+button:disabled{opacity:.5;cursor:default}
+:focus-visible{outline:2.5px solid var(--accent);outline-offset:2px}
+input,select,textarea{font:inherit;font-size:14px;color:var(--ink);background:var(--surface);border:1.5px solid var(--line);padding:8px 10px;width:100%;border-radius:10px}
+textarea{min-height:70px;resize:vertical}
+label.f{display:grid;gap:4px;font-size:12px;color:var(--muted);font-weight:600}
+/* main split */
+.main{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,360px);gap:18px;align-items:start}
+@media (max-width:960px){.main{grid-template-columns:1fr}}
+/* floor */
+.floorwrap{background:var(--wall);border-radius:18px;padding:10px;min-width:0}
+.floor{position:relative;width:100%;aspect-ratio:16/9.4;background:var(--corridor);border-radius:10px;overflow:hidden;
+  background-image:repeating-linear-gradient(90deg,transparent 0 38px,rgba(0,0,0,.035) 38px 40px)}
+.floor.narrow{aspect-ratio:3/4.3}
+.room{position:absolute;border:5px solid var(--wall);border-radius:6px;cursor:pointer;transition:filter .2s,box-shadow .2s}
+.room:hover,.room.sel{box-shadow:inset 0 0 0 3px var(--accent)}
+.room .plaque{position:absolute;left:8px;top:6px;font-family:var(--display);font-weight:700;font-size:clamp(10px,1.25vw,14px);background:var(--surface);color:var(--ink);padding:1px 8px;border-radius:6px;box-shadow:0 1px 0 rgba(0,0,0,.15);white-space:nowrap;max-width:calc(100% - 16px);overflow:hidden;text-overflow:ellipsis;z-index:2}
+.room .count{position:absolute;right:8px;top:6px;font-family:var(--mono);font-size:10.5px;background:var(--accent);color:var(--accent-ink);padding:1px 7px;border-radius:99px;z-index:2}
+.room.f-a{background:var(--floor-a);background-image:repeating-linear-gradient(0deg,transparent 0 13px,rgba(0,0,0,.05) 13px 14px)}
+.room.f-b{background:var(--floor-b);background-image:radial-gradient(rgba(0,0,0,.06) 1px,transparent 1.5px);background-size:10px 10px}
+.room.f-c{background:var(--floor-c);background-image:linear-gradient(45deg,rgba(0,0,0,.04) 25%,transparent 25% 75%,rgba(0,0,0,.04) 75%),linear-gradient(45deg,rgba(0,0,0,.04) 25%,transparent 25% 75%,rgba(0,0,0,.04) 75%);background-size:18px 18px;background-position:0 0,9px 9px}
+.room.f-d{background:var(--floor-d);background-image:repeating-linear-gradient(90deg,transparent 0 16px,rgba(0,0,0,.05) 16px 17px)}
+.room.f-break{background:var(--floor-break);background-image:linear-gradient(rgba(0,0,0,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,.05) 1px,transparent 1px);background-size:20px 20px}
+.room.f-board{background:var(--floor-board)}
+.door{position:absolute;background:var(--corridor);z-index:1}
+.furn{position:absolute;pointer-events:none}
+.desk{background:var(--desk);border-radius:3px;box-shadow:0 2px 0 rgba(0,0,0,.25)}
+.desk::after{content:"";position:absolute;left:30%;top:18%;width:40%;height:38%;background:var(--screen);border-radius:2px;opacity:.9}
+.plant{background:var(--plant);border-radius:50%;box-shadow:inset -3px -3px 0 rgba(0,0,0,.18)}
+.table{background:var(--wood);border-radius:999px;box-shadow:0 3px 0 rgba(0,0,0,.25)}
+.sofa{background:var(--accent);opacity:.75;border-radius:8px 8px 4px 4px}
+.coffee{background:var(--wall);border-radius:3px}
+.rug{border:2px dashed rgba(0,0,0,.15);border-radius:50%}
+/* agents */
+.agent{position:absolute;width:0;height:0;z-index:5;transition-property:left,top;transition-timing-function:linear;cursor:pointer}
+.agent .who{position:absolute;left:0;top:0;transform:translate(-50%,-88%);display:grid;justify-items:center;gap:1px}
+.agent .fig{position:relative;width:clamp(22px,2.6vw,32px);aspect-ratio:1/1.25}
+.agent .torso{position:absolute;left:8%;right:8%;bottom:0;height:52%;background:var(--shirt);border-radius:45% 45% 25% 25%;box-shadow:inset 0 -3px 0 rgba(0,0,0,.18)}
+.agent .head{position:absolute;left:22%;right:22%;top:0;aspect-ratio:1;background:var(--skin);border-radius:50%;box-shadow:0 1px 0 rgba(0,0,0,.2)}
+.agent .hair{position:absolute;left:18%;right:18%;top:-6%;height:36%;background:var(--hair);border-radius:50% 50% 30% 30%}
+.agent .name{font-family:var(--mono);font-size:clamp(8.5px,.85vw,10.5px);background:var(--surface);color:var(--ink);padding:0 5px;border-radius:5px;white-space:nowrap;box-shadow:0 1px 0 rgba(0,0,0,.2)}
+.agent.walking .fig{animation:bob .32s ease-in-out infinite alternate}
+.agent.working .fig::after{content:"";position:absolute;left:12%;right:12%;bottom:-8%;height:18%;background:var(--screen);border-radius:2px}
+.agent.sel .name{background:var(--accent);color:var(--accent-ink)}
+.bubble{position:absolute;left:50%;bottom:calc(100% + 4px);transform:translateX(-50%);background:var(--surface);color:var(--ink);border:1.5px solid var(--ink);border-radius:10px;padding:2px 8px;font-size:11px;font-weight:600;white-space:nowrap;max-width:180px;overflow:hidden;text-overflow:ellipsis;z-index:6}
+.bubble::after{content:"";position:absolute;left:50%;top:100%;transform:translateX(-50%);border:5px solid transparent;border-top-color:var(--ink)}
+.bubble .dots::after{content:"…";animation:dots 1s steps(3) infinite}
+@keyframes bob{from{transform:translateY(0)}to{transform:translateY(-3px)}}
+@keyframes dots{0%{content:"."}50%{content:".."}100%{content:"..."}}
+@media (prefers-reduced-motion:reduce){.agent{transition-duration:0s!important}.agent.walking .fig{animation:none}}
+.legend{display:flex;gap:14px;flex-wrap:wrap;color:#cfc8bb;font-size:12px;padding:8px 4px 0}
+/* panel */
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:16px;display:grid;gap:14px;min-width:0}
+.side{position:sticky;top:calc(12px + env(safe-area-inset-top,0px))}
+@media (max-width:960px){.side{position:static}}
+.panel-head{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.portrait{display:flex;gap:12px;align-items:center}
+.portrait .fig{width:52px;aspect-ratio:1/1.25;position:relative;flex:none}
+.portrait .fig .torso,.portrait .fig .head,.portrait .fig .hair{position:absolute}
+.portrait .fig .torso{left:8%;right:8%;bottom:0;height:52%;background:var(--shirt);border-radius:45% 45% 25% 25%}
+.portrait .fig .head{left:22%;right:22%;top:0;aspect-ratio:1;background:var(--skin);border-radius:50%}
+.portrait .fig .hair{left:18%;right:18%;top:-6%;height:36%;background:var(--hair);border-radius:50% 50% 30% 30%}
+.portrait .meta{min-width:0}
+.mini{display:grid;gap:8px}
+.mini-task{border:1px solid var(--line);border-radius:12px;padding:8px 10px;display:grid;gap:6px;background:var(--soft)}
+.mini-task .t{font-weight:600;font-size:14px;overflow-wrap:anywhere}
+.row{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.feed{display:grid;gap:6px;font-size:13px;max-height:260px;overflow:auto}
+.feed div{display:flex;gap:8px}
+.feed time{font-family:var(--mono);font-size:11px;color:var(--muted);flex:none;padding-top:2px}
+.output{background:var(--soft);border-radius:10px;padding:10px 12px;font-size:13.5px;white-space:pre-wrap;overflow-wrap:anywhere;max-height:380px;overflow:auto}
+.live{border:1.5px dashed var(--accent)}
+.empty{color:var(--muted);font-size:14px;padding:14px;border:1.5px dashed var(--line);border-radius:12px;text-align:center}
+details summary{cursor:pointer;font-size:13px;font-weight:600}
+/* board */
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chips button{font-weight:600;border-color:var(--line);font-size:12.5px;padding:4px 11px}
+.chips button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.board{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media (max-width:820px){.board{grid-template-columns:1fr}}
+.col{background:var(--soft);border-radius:14px;padding:10px;display:grid;gap:8px;align-content:start;min-width:0}
+.col h3{font-size:14px;display:flex;justify-content:space-between}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px;display:grid;gap:6px;border-left:5px solid var(--line)}
+.card.p-high{border-left-color:var(--red)}.card.p-normal{border-left-color:var(--accent)}
+.card .t{font-weight:600;overflow-wrap:anywhere}
+.card .m{display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-size:12px;color:var(--muted)}
+.card .m select{width:auto;font-size:12px;padding:2px 6px;border-radius:8px}
+.av{display:inline-block;width:16px;height:16px;border-radius:50%;background:var(--shirt);box-shadow:inset 0 6px 0 var(--skin);vertical-align:-3px;margin-right:4px}
+form.add{display:grid;gap:8px;background:var(--soft);padding:12px;border-radius:14px}
+form.add .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px}
+/* hiring modal */
+.modal{position:fixed;inset:0;background:rgba(10,9,7,.55);z-index:30;display:grid;place-items:center;padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.sheet{background:var(--surface);border-radius:20px;max-width:920px;width:100%;max-height:100%;overflow:auto;padding:20px;display:grid;gap:16px}
+.cands{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.cand{border:1.5px solid var(--line);border-radius:16px;padding:14px;display:grid;gap:8px;align-content:start}
+.cand .skills{display:flex;gap:4px;flex-wrap:wrap}
+.cand .skills span{font-size:11.5px;background:var(--soft);border-radius:99px;padding:1px 8px}
+.cand p{margin:0;font-size:13px;color:var(--muted)}
+.notice{font-size:13px;color:var(--muted);background:var(--soft);padding:8px 12px;border-radius:10px}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(16px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:99px;font-size:13.5px;z-index:40;max-width:calc(100% - 32px)}
+.switch{font-size:12.5px;color:var(--muted)}
+.switch a{color:var(--muted)}
+.minutes{display:grid;gap:8px}
+.auto-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--green);margin-right:3px;vertical-align:1px;box-shadow:0 0 0 2px var(--surface)}
+.switchrow{display:flex;align-items:center;gap:10px;justify-content:space-between;background:var(--soft);border-radius:12px;padding:10px 12px}
+.toggle{position:relative;width:44px;height:24px;border-radius:99px;border:1.5px solid var(--ink);background:var(--surface);padding:0;flex:none}
+.toggle::after{content:"";position:absolute;top:2px;left:2px;width:17px;height:17px;border-radius:50%;background:var(--ink);transition:left .15s}
+.toggle[aria-checked="true"]{background:var(--green);border-color:var(--green)}
+.toggle[aria-checked="true"]::after{left:21px;background:#fff}
+.routine{display:flex;gap:8px;justify-content:space-between;align-items:center;border:1px solid var(--line);border-radius:12px;padding:8px 10px;flex-wrap:wrap}
+.routine b{font-size:14px}
+.designation{font-weight:600;color:var(--accent)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .designation{color:var(--accent)}}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <div class="logo" aria-hidden="true">__INITIAL__</div>
+      <div style="min-width:0">
+        <div class="tag">__KIND__ · VIRTUAL OFFICE</div>
+        <h1>__NAME__</h1>
+        <div class="goalline"><b>Goal:</b> <span id="goalText">__GOAL__</span> <span id="statusPill" class="pill s-grey">…</span> <span id="statusNote"></span></div>
+      </div>
+    </div>
+    <div class="kpis" aria-label="Office numbers">
+      <div class="kpi"><b id="kStaff">–</b><span>on staff</span></div>
+      <div class="kpi"><b id="kBusy">–</b><span>at work now</span></div>
+      <div class="kpi"><b id="kOpen">–</b><span>open tasks</span></div>
+      <div class="kpi"><b id="kDone">–</b><span>done</span></div>
+    </div>
+  </header>
+
+  <div class="toolbar">
+    <button class="primary" id="openHire" type="button">Hire an agent</button>
+    <button class="dark" id="callMeeting" type="button">Call a board meeting</button>
+    <button id="newTaskBtn" type="button">New task</button>
+    <button id="editStatus" type="button">Edit goal and status</button>
+  </div>
+  <div id="banner" class="notice" hidden></div>
+
+  <div class="main">
+    <div class="floorwrap">
+      <div id="floor" class="floor" role="group" aria-label="Office floor plan"></div>
+      <div class="legend"><span>Click a room to see its work.</span><span>Click an agent to brief them.</span><span>Agents walk to the room of the task they're on.</span></div>
+    </div>
+    <aside class="panel side" id="side" aria-live="polite"></aside>
+  </div>
+
+  <section class="panel" aria-labelledby="boardH">
+    <div class="panel-head"><h2 id="boardH">Task board</h2><div class="chips" id="roomChips" role="group" aria-label="Filter by room"></div></div>
+    <form id="taskForm" class="add" hidden>
+      <label class="f" for="tTitle">Task<input id="tTitle" required maxlength="200" placeholder="What needs doing?"></label>
+      <div class="grid">
+        <label class="f" for="tAgent">Assign to<select id="tAgent"></select></label>
+        <label class="f" for="tRoom">Room<select id="tRoom"></select></label>
+        <label class="f" for="tDue">Due<input id="tDue" type="date"></label>
+        <label class="f" for="tPri">Priority<select id="tPri"><option value="high">High</option><option value="normal" selected>Normal</option><option value="low">Low</option></select></label>
+      </div>
+      <label class="f" for="tNotes">Brief for the agent (optional)<textarea id="tNotes" maxlength="3000" placeholder="Context, numbers, what the result should look like"></textarea></label>
+      <div class="row"><button class="primary" type="submit">Add to board</button><button type="button" id="cancelTask">Cancel</button></div>
+    </form>
+    <div class="board" id="board"></div>
+  </section>
+
+  <section class="panel" aria-labelledby="minH">
+    <div class="panel-head"><h2 id="minH">Board meeting minutes</h2><span class="tag">Status reports from the boardroom</span></div>
+    <form id="statusForm" class="add" hidden>
+      <label class="f" for="sGoal">Goal<textarea id="sGoal" maxlength="500"></textarea></label>
+      <div class="grid">
+        <label class="f" for="sStatus">Status<select id="sStatus"><option value="red">Red</option><option value="amber">Amber</option><option value="green">Green</option><option value="grey">Unknown</option><option value="parked">Parked</option></select></label>
+        <label class="f" for="sNote">Reason<input id="sNote" maxlength="160"></label>
+      </div>
+      <div class="row"><button class="primary" type="submit">Save</button><button type="button" id="cancelStatus">Cancel</button></div>
+    </form>
+    <div class="minutes" id="reports"></div>
+  </section>
+
+  <nav class="switch" aria-label="More">Part of Sahill's GM Board · <a href="https://claude.ai/artifact/UxrehG1pVv7qZTC85E1Q4y" target="_blank" rel="noopener">Open the board</a></nav>
+</div>
+
+<div class="modal" id="hireModal" hidden role="dialog" aria-modal="true" aria-labelledby="hireH">
+  <div class="sheet">
+    <div class="panel-head"><div><div class="tag">HIRING BOARD</div><h2 id="hireH">Who should join __NAME__?</h2></div><button type="button" id="closeHire">Close</button></div>
+    <div class="cands" id="cands"></div>
+    <form id="customHire" class="add">
+      <h3>Write your own job post</h3>
+      <div class="grid">
+        <label class="f" for="hName">Name<input id="hName" required maxlength="40" placeholder="e.g. Noor"></label>
+        <label class="f" for="hRole">Job designation<input id="hRole" required maxlength="80" placeholder="e.g. WhatsApp follow-up specialist"></label>
+        <label class="f" for="hRoom">Works in<select id="hRoom"></select></label>
+      </div>
+      <label class="f" for="hMind">How they think and work<textarea id="hMind" maxlength="2000" placeholder="Focus, tone, what good work looks like, what to avoid"></textarea></label>
+      <div class="row"><button class="primary" type="submit">Hire</button></div>
+    </form>
+  </div>
+</div>
+
+<script>
+const BIZ = __BIZJSON__;
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const fmtDate = d => { if(!d) return ""; const x = new Date(typeof d==="string"&&d.length===10 ? d+"T00:00:00" : d); return isNaN(x) ? "" : x.toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"}); };
+const fmtTime = ms => { const x=new Date(ms); return isNaN(x)?"":x.toLocaleString("en-GB",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"}); };
+const todayISO = () => new Date().toISOString().slice(0,10);
+const ROOMS = BIZ.rooms; const WORK = ROOMS.filter(r=>r.id!=="break"&&r.id!=="board");
+const roomById = id => ROOMS.find(r=>r.id===id);
+let db=null, sample=null, canWrite=true;
+let routines=[], autoBusy=false; const DAYS=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+let agents=[], tasks=[], reports=[], meta={goal:BIZ.goal,status:BIZ.status,note:BIZ.note};
+let roomFilter="all", selection={kind:"office"}, meeting=false; const running=new Map(); const pos=new Map();
+
+function toast(m){document.querySelectorAll(".toast").forEach(t=>t.remove());const t=document.createElement("div");t.className="toast";t.textContent=m;document.body.appendChild(t);setTimeout(()=>t.remove(),3000);}
+function banner(m){const b=$("#banner");b.textContent=m;b.hidden=!m;}
+const STATUS={red:["Red","s-red"],amber:["Amber","s-amber"],green:["Green","s-green"],grey:["Unknown","s-grey"],parked:["Parked","s-grey"]};
+
+/* ---------- looks ---------- */
+const SKIN=["#f1c9a5","#e0ac7e","#c68a5c","#a26a42","#7a4b2a","#5a3720"], HAIR=["#1f1a17","#3b2a1e","#6b4423","#a0522d","#d8b06a","#8a8a8a","#2b2b4a"], SHIRT=["#3b6ea5","#2f7d4a","#8e44ad","#c0392b","#d35400","#16a085","#34495e","#b8860b","#6d4c41","#e84393"];
+function hash(s){let h=2166136261;for(const c of String(s)){h^=c.charCodeAt(0);h=Math.imul(h,16777619);}return h>>>0;}
+function look(a){const h=hash(a.name+(a.id||""));return {skin:SKIN[h%SKIN.length],hair:HAIR[(h>>>4)%HAIR.length],shirt:a.shirt||SHIRT[(h>>>8)%SHIRT.length]};}
+function figHTML(a){const l=look(a);return `<div class="fig" style="--skin:${l.skin};--hair:${l.hair};--shirt:${l.shirt}"><div class="torso"></div><div class="head"></div><div class="hair"></div></div>`;}
+function avDot(a){if(!a) return "";const l=look(a);return `<span class="av" style="--skin:${l.skin};--shirt:${l.shirt}" aria-hidden="true"></span>`;}
+const agentDept = a => a.dept || BIZ.agentDept[a.id] || WORK[0].id;
+const agentById = id => agents.find(a=>a.id===id);
+const taskRoom = t => t.dept || (agentById(t.agentId) ? agentDept(agentById(t.agentId)) : WORK[0].id);
+const firstName = n => String(n).replace(/^AI\s+/,"").split(/\s+/)[0];
+
+/* ---------- floor geometry ---------- */
+let narrow=false;
+function rect(r){return narrow?r.n:r.w;}  // [x,y,w,h] in %
+function buildFloor(){
+  const f=$("#floor"); narrow=f.clientWidth<620; f.classList.toggle("narrow",narrow);
+  f.innerHTML=ROOMS.map(r=>{const [x,y,w,h]=rect(r);const fl=r.id==="break"?"f-break":r.id==="board"?"f-board":"f-"+r.floor;
+    return `<div class="room ${fl}" data-room="${r.id}" style="left:${x}%;top:${y}%;width:${w}%;height:${h}%" tabindex="0" role="button" aria-label="${esc(r.name)}"><span class="plaque">${esc(r.name)}</span><span class="count" data-count="${r.id}" hidden></span>${furniture(r)}</div>`;}).join("");
+  agents.forEach(a=>{const p=pos.get(a.id); if(p) p.el=null;});
+  renderAgentsOnFloor(true); markSel();
+}
+function furniture(r){
+  const F=(c,x,y,w,h)=>`<div class="furn ${c}" style="left:${x}%;top:${y}%;width:${w}%;height:${h}%"></div>`;
+  if(r.id==="board") return F("table",22,38,56,30)+F("plant",4,78,9,14)+F("plant",87,78,9,14);
+  if(r.id==="break") return F("rug",30,34,40,44)+F("sofa",8,72,34,14)+F("coffee",84,24,10,16)+F("plant",86,76,9,14);
+  return F("desk",12,30,22,14)+F("desk",44,30,22,14)+F("desk",12,64,22,14)+F("desk",44,64,22,14)+F("plant",84,72,10,16)+(r.floor==="a"?F("table",74,26,18,22):"");
+}
+function spot(roomId,seed){const r=roomById(roomId)||ROOMS[0];const [x,y,w,h]=rect(r);
+  const sx=[0.23,0.55,0.23,0.55,0.8,0.4,0.7], sy=[0.55,0.55,0.9,0.9,0.5,0.75,0.8];
+  let i=seed%sx.length; let px=sx[i], py=sy[i];
+  if(roomId==="board"){const ang=(seed%10)/10*Math.PI*2; px=0.5+Math.cos(ang)*0.36; py=0.55+Math.sin(ang)*0.3;}
+  if(roomId==="break"){px=0.2+((seed*37)%60)/100; py=0.45+((seed*53)%40)/100;}
+  return {x:x+w*px, y:y+h*Math.min(py,0.93), room:roomId};
+}
+function walk(a,target){
+  const p=pos.get(a.id); if(!p||!p.el) return;
+  const fw=$("#floor").clientWidth, fh=$("#floor").clientHeight;
+  const pts=[]; const cur={x:p.x,y:p.y};
+  if(p.room!==target.room){ if(narrow){pts.push({x:50,y:cur.y},{x:50,y:target.y});} else {pts.push({x:cur.x,y:BIZ.corridorY},{x:target.x,y:BIZ.corridorY});} }
+  pts.push(target);
+  const id=(p.mv=(p.mv||0)+1); p.room=target.room; p.el.classList.add("walking");
+  let prev=cur;
+  const step=()=>{ if(p.mv!==id) return; const n=pts.shift(); if(!n){p.el.classList.remove("walking");return;}
+    const d=Math.hypot((n.x-prev.x)*fw/100,(n.y-prev.y)*fh/100); const ms=Math.max(120,d*9);
+    p.el.style.transitionDuration=ms+"ms"; p.el.style.left=n.x+"%"; p.el.style.top=n.y+"%"; p.x=n.x;p.y=n.y; prev=n; setTimeout(step,ms); };
+  step();
+}
+function intent(a){
+  const r=running.get("agent:"+a.id); if(r) return {room:r.room,mode:"working",say:r.say};
+  if(meeting) return {room:"board",mode:"meeting",say:"In the meeting"};
+  const doing=tasks.filter(t=>t.agentId===a.id&&t.status==="doing").sort((x,y)=>(y.createdAt||0)-(x.createdAt||0))[0];
+  if(doing) return {room:taskRoom(doing),mode:"working",say:shorten(doing.title)};
+  return {room:null,mode:"idle"};
+}
+function shorten(s){s=String(s);return s.length>34?s.slice(0,33)+"…":s;}
+function renderAgentsOnFloor(force){
+  const f=$("#floor"); const live=new Set(agents.map(a=>a.id));
+  for(const [id,p] of pos){ if(!live.has(id)){p.el?.remove();pos.delete(id);} }
+  agents.forEach((a,i)=>{
+    let p=pos.get(a.id); const it=intent(a);
+    if(!p||!p.el){
+      const el=document.createElement("div"); el.className="agent"; el.dataset.agent=a.id; el.tabIndex=0; el.setAttribute("role","button"); el.setAttribute("aria-label",a.name+", "+a.role);
+      el.innerHTML=`<div class="who"><div class="bubble" hidden></div>${figHTML(a)}<span class="name"><span class="auto-dot" hidden></span>${esc(firstName(a.name))}</span></div>`;
+      f.appendChild(el);
+      const start=spot(it.room||agentDept(a),i%7);
+      if(!p){p={x:start.x,y:start.y,room:start.room,mode:null,idleRoom:agentDept(a)};pos.set(a.id,p);}
+      else { const s=spot(p.room,i%7); p.x=s.x;p.y=s.y; }
+      p.el=el; el.style.transitionDuration="0ms"; el.style.left=p.x+"%"; el.style.top=p.y+"%";
+    }
+    const want=it.room||p.idleRoom||agentDept(a);
+    const seed=i;
+    if(force||p.room!==want||p.mode!==it.mode){ p.mode=it.mode; walk(a,spot(want,seed%7)); }
+    p.el.classList.toggle("working",it.mode==="working");
+    const ad=p.el.querySelector(".auto-dot"); if(ad) ad.hidden=!a.auto;
+    const b=p.el.querySelector(".bubble");
+    if(it.say){b.hidden=false;b.innerHTML=esc(it.say)+(running.get("agent:"+a.id)?'<span class="dots"></span>':"");} else if(!p.quip){b.hidden=true;}
+  });
+  ROOMS.forEach(r=>{const c=document.querySelector(`[data-count="${r.id}"]`); if(!c) return; const n=tasks.filter(t=>t.status!=="done"&&taskRoom(t)===r.id).length; c.hidden=!n||r.id==="break"||r.id==="board"; c.textContent=n;});
+  markSel();
+}
+const QUIPS=["Coffee first","Back in 5","Reading the brief","Checking numbers","Ready for work","Stretching"];
+setInterval(()=>{ // idle wandering
+  agents.forEach(a=>{const p=pos.get(a.id); if(!p||p.mode!=="idle"||Math.random()<0.5) return;
+    p.idleRoom=Math.random()<0.35?"break":agentDept(a); walk(a,spot(p.idleRoom,Math.floor(Math.random()*7)));
+    if(Math.random()<0.25&&p.el){const b=p.el.querySelector(".bubble");b.hidden=false;b.textContent=QUIPS[Math.floor(Math.random()*QUIPS.length)];p.quip=true;setTimeout(()=>{if(p.mode==="idle"){b.hidden=true;}p.quip=false;},2600);}
+  });
+},7000);
+function markSel(){document.querySelectorAll(".room").forEach(r=>r.classList.toggle("sel",selection.kind==="room"&&selection.id===r.dataset.room));document.querySelectorAll(".agent").forEach(e=>e.classList.toggle("sel",selection.kind==="agent"&&selection.id===e.dataset.agent));}
+
+/* ---------- header / kpis ---------- */
+function renderMeta(){$("#goalText").textContent=meta.goal||BIZ.goal;const [lab,cls]=STATUS[meta.status]||STATUS.grey;const p=$("#statusPill");p.className="pill "+cls;p.textContent=lab;$("#statusNote").textContent=meta.note?"· "+meta.note:"";}
+function renderKpis(){$("#kStaff").textContent=agents.length;$("#kBusy").textContent=agents.filter(a=>intent(a).mode==="working").length;$("#kOpen").textContent=tasks.filter(t=>t.status!=="done").length;$("#kDone").textContent=tasks.filter(t=>t.status==="done").length;}
+
+/* ---------- side panel ---------- */
+function statusPill(t){return `<span class="pill ${t.status==="done"?"s-green":t.status==="doing"?"s-amber":"s-grey"}">${t.status==="done"?"Done":t.status==="doing"?"In progress":"To do"}</span>`;}
+function taskActions(t){ if(!canWrite) return ""; const busy=running.has(t.id);
+  return `<div class="row">${t.agentId&&sample&&t.status!=="done"?`<button type="button" class="primary small" data-run="${esc(t.id)}" ${busy?"disabled":""}>${busy?"Working…":t.output?"Redo it":"Send them to do it"}</button>`:""}
+  ${busy?`<button type="button" class="small" data-stop="${esc(t.id)}">Stop</button>`:""}
+  ${t.status!=="done"?`<button type="button" class="small" data-st="done" data-id="${esc(t.id)}">Mark done</button>`:`<button type="button" class="small" data-st="todo" data-id="${esc(t.id)}">Reopen</button>`}
+  <button type="button" class="ghost small" data-del="${esc(t.id)}">Delete</button></div>`;}
+function miniTask(t){const a=agentById(t.agentId); const live=running.get(t.id);
+  return `<div class="mini-task"><div class="row" style="justify-content:space-between"><span class="t">${esc(t.title)}</span>${statusPill(t)}</div>
+  <div class="tag">${a?avDot(a)+esc(a.name):"Unassigned"} · ${esc(roomById(taskRoom(t))?.name||"")}${t.due?" · due "+esc(fmtDate(t.due)):""}</div>
+  ${live?`<div class="output live" data-live="${esc(t.id)}">${esc(live.text||"Starting…")}</div>`:t.output?`<details><summary>Their work${t.outputAt?" · "+esc(fmtDate(t.outputAt)):""}</summary><div class="output">${esc(t.output)}</div></details>`:""}
+  ${taskActions(t)}</div>`;}
+function feedItems(){
+  const ev=[];
+  agents.forEach(a=>{if(a.createdAt>1e12) ev.push([a.createdAt,`${a.name} joined as ${a.role}.`]);});
+  tasks.forEach(t=>{const a=agentById(t.agentId);const n=a?firstName(a.name):"Someone";
+    if(t.createdAt>1e12) ev.push([t.createdAt,`New task in ${roomById(taskRoom(t))?.name||"the office"}: ${t.title}`]);
+    if(t.outputAt) ev.push([Date.parse(t.outputAt),`${n} handed in work on "${shorten(t.title)}".`]);
+    if(t.doneAt) ev.push([Date.parse(t.doneAt),`"${shorten(t.title)}" marked done.`]);});
+  reports.forEach(r=>ev.push([r.createdAt,"Board meeting held. Minutes filed."]));
+  return ev.filter(e=>e[0]>0).sort((a,b)=>b[0]-a[0]).slice(0,14);
+}
+function renderSide(){
+  const s=$("#side");
+  if(selection.kind==="agent"){const a=agentById(selection.id); if(!a){selection={kind:"office"};return renderSide();}
+    const it=intent(a); const mine=tasks.filter(t=>t.agentId===a.id).sort((x,y)=>(x.status==="done")-(y.status==="done"));
+    s.innerHTML=`<div class="panel-head"><span class="tag">STAFF FILE</span><button type="button" class="ghost small" data-back>Back to office</button></div>
+    <div class="portrait">${figHTML(a)}<div class="meta"><h2>${esc(a.name)}</h2><div class="designation">${esc(a.role)}</div><div class="tag">Desk: ${esc(roomById(agentDept(a))?.name||"")} · ${it.mode==="working"?"Working in "+esc(roomById(it.room)?.name||""):it.mode==="meeting"?"In the boardroom":"Free for work"}</div></div></div>
+    ${a.mind?`<details><summary>How ${esc(firstName(a.name))} works</summary><div class="output">${esc(a.mind)}</div></details>`:""}
+    ${canWrite?`<div class="switchrow"><span><b>Autopilot</b><br><span class="tag">${a.auto?"Works through queued tasks and routines on their own":"Waits for you to send them to work"}</span></span><button type="button" class="toggle" role="switch" aria-checked="${!!a.auto}" aria-label="Autopilot for ${esc(a.name)}" data-auto="${esc(a.id)}"></button></div>`:""}
+    ${canWrite?`<details><summary>Edit profile</summary><form class="add" data-profile="${esc(a.id)}">
+      <label class="f" for="pn_${esc(a.id)}">Name<input id="pn_${esc(a.id)}" name="name" maxlength="40" required value="${esc(a.name)}"></label>
+      <label class="f" for="pd_${esc(a.id)}">Job designation<input id="pd_${esc(a.id)}" name="role" maxlength="80" required value="${esc(a.role)}"></label>
+      <label class="f" for="pr_${esc(a.id)}">Desk<select id="pr_${esc(a.id)}" name="dept">${WORK.map(r=>`<option value="${r.id}" ${r.id===agentDept(a)?"selected":""}>${esc(r.name)}</option>`).join("")}</select></label>
+      <label class="f" for="pm_${esc(a.id)}">How they think and work<textarea id="pm_${esc(a.id)}" name="mind" maxlength="2000">${esc(a.mind||"")}</textarea></label>
+      <div class="row"><button class="primary small" type="submit">Save profile</button></div></form></details>`:""}
+    <h3>Routines (${routines.filter(r=>r.agentId===a.id).length})</h3>
+    <div class="mini">${routines.filter(r=>r.agentId===a.id).map(r=>`<div class="routine"><span><b>${esc(r.title)}</b><br><span class="tag">${esc(cadenceText(r))} · ${r.lastRunAt?"last run "+esc(fmtTime(r.lastRunAt)):"not run yet"}${isDue(r)?" · due now":""}</span></span>${canWrite?`<span class="row">${sample?`<button type="button" class="small" data-rnow="${esc(r.id)}">Run now</button>`:""}<button type="button" class="ghost small" data-rdel="${esc(r.id)}">Remove</button></span>`:""}</div>`).join("")||'<div class="tag">No routines. Add a recurring job below and it runs automatically.</div>'}</div>
+    ${canWrite?`<form class="add" data-routine="${esc(a.id)}"><label class="f" for="rt_${esc(a.id)}">New routine<input id="rt_${esc(a.id)}" name="title" maxlength="160" required placeholder="e.g. Weekly pipeline report"></label>
+      <div class="row"><select name="cadence" aria-label="How often"><option value="daily">Every day</option><option value="weekly" selected>Every week</option><option value="monthly">Every month</option></select>
+      <select name="day" aria-label="Day of week">${DAYS.map((d,i)=>`<option value="${i}" ${i===1?"selected":""}>${d}</option>`).join("")}</select>
+      <button class="primary small" type="submit">Add routine</button></div>
+      <input name="brief" maxlength="1000" placeholder="Brief (optional): what the output should cover" aria-label="Routine brief"></form>`:""}
+    ${canWrite?`<form class="add" data-quick="${esc(a.id)}"><label class="f" for="q_${esc(a.id)}">Give ${esc(firstName(a.name))} a task<input id="q_${esc(a.id)}" maxlength="200" required placeholder="e.g. Draft a follow-up for the spa owner"></label>
+      <div class="row"><select aria-label="Room" id="qr_${esc(a.id)}">${WORK.map(r=>`<option value="${r.id}" ${r.id===agentDept(a)?"selected":""}>${esc(r.name)}</option>`).join("")}</select><button class="primary small" type="submit">Assign</button>${sample?`<button class="small" type="submit" data-andrun="1">Assign and start</button>`:""}</div></form>`:""}
+    <h3>Tasks (${mine.length})</h3><div class="mini">${mine.map(miniTask).join("")||'<div class="empty">No tasks yet.</div>'}</div>
+    ${canWrite?`<button type="button" class="ghost small" data-fire="${esc(a.id)}">Let ${esc(firstName(a.name))} go</button>`:""}`;
+  } else if(selection.kind==="room"){const r=roomById(selection.id); if(!r){selection={kind:"office"};return renderSide();}
+    if(r.id==="board"){ s.innerHTML=`<div class="panel-head"><span class="tag">ROOM</span><button type="button" class="ghost small" data-back>Back to office</button></div><h2>${esc(r.name)}</h2><p class="tag">${esc(r.about)}</p>${canWrite?`<button class="dark" type="button" data-meeting>Call a board meeting</button>`:""}<div class="tag">${reports.length} meeting${reports.length===1?"":"s"} held. Minutes are below the task board.</div>`; markSel(); return; }
+    const here=agents.filter(a=>pos.get(a.id)?.room===r.id); const rt=tasks.filter(t=>taskRoom(t)===r.id&&t.status!=="done");
+    s.innerHTML=`<div class="panel-head"><span class="tag">ROOM</span><button type="button" class="ghost small" data-back>Back to office</button></div>
+    <h2>${esc(r.name)}</h2><p class="tag" style="margin:0">${esc(r.about)}</p>
+    <div class="row">${here.map(a=>`<button type="button" class="small" data-pick="${esc(a.id)}">${avDot(a)}${esc(firstName(a.name))}</button>`).join("")||'<span class="tag">Nobody in the room right now.</span>'}</div>
+    <h3>Open work here (${rt.length})</h3><div class="mini">${rt.map(miniTask).join("")||'<div class="empty">No open tasks in this room.</div>'}</div>
+    ${canWrite&&r.id!=="break"?`<button type="button" data-newin="${r.id}">New task in ${esc(r.name)}</button>`:""}`;
+  } else {
+    const fi=feedItems(); const lr=reports.slice().sort((a,b)=>b.createdAt-a.createdAt)[0];
+    s.innerHTML=`<div class="panel-head"><h2>Office today</h2><span class="tag">${esc(fmtDate(todayISO()))}</span></div>
+    ${agents.length?"":`<div class="empty">The office is empty. <button type="button" class="primary small" data-hire>Hire your first agent</button></div>`}
+    ${lr?`<details><summary>Latest board meeting · ${esc(fmtTime(lr.createdAt))}</summary><div class="output">${esc(lr.body)}</div></details>`:""}
+    <h3>Who's doing what</h3><div class="mini">${agents.map(a=>{const it=intent(a);return `<button type="button" class="ghost" style="text-align:left;display:flex;gap:8px;align-items:center;padding:4px 0;color:var(--ink)" data-pick="${esc(a.id)}">${avDot(a)}<span><b>${esc(a.name)}</b>${a.auto?' <span class="auto-dot" title="Autopilot"></span>':""} <span class="designation" style="font-size:12px">${esc(a.role)}</span><br><span class="tag">${it.mode==="working"?"Working: "+esc(it.say||""):it.mode==="meeting"?"In the boardroom":"Free · "+tasks.filter(t=>t.agentId===a.id&&t.status==="todo").length+" queued"}</span></span></button>`;}).join("")}</div>
+    <h3>Automations</h3><div class="mini">${routines.length?routines.slice().sort((x,y)=>isDue(y)-isDue(x)).slice(0,8).map(r=>{const a=agentById(r.agentId);return `<div class="tag">${avDot(a)}${esc(a?firstName(a.name):"Unassigned")}: ${esc(r.title)} · ${esc(cadenceText(r))}${isDue(r)?" · <b>due</b>":""}</div>`;}).join(""):'<span class="tag">No routines yet. Open an agent\'s staff file to add one.</span>'}
+      <span class="tag">${agents.filter(a=>a.auto).length} of ${agents.length} on autopilot${autoBusy?" · working now":""}</span></div>
+    <h3>Activity</h3><div class="feed">${fi.map(e=>`<div><time>${esc(fmtTime(e[0]))}</time><span>${esc(e[1])}</span></div>`).join("")||'<span class="tag">Nothing yet today. Send an agent to work and it shows up here.</span>'}</div>`;
+  }
+  markSel();
+}
+function select(sel){selection=sel;renderSide();if(innerWidth<960&&sel.kind!=="office") $("#side").scrollIntoView({behavior:"smooth",block:"start"});}
+
+/* ---------- task board ---------- */
+function renderChips(){$("#roomChips").innerHTML=[{id:"all",name:"All rooms"},...WORK].map(r=>`<button type="button" data-chip="${r.id}" aria-pressed="${roomFilter===r.id}">${esc(r.name)}</button>`).join("");}
+function renderBoard(){
+  const pri={high:0,normal:1,low:2};
+  const list=tasks.filter(t=>roomFilter==="all"||taskRoom(t)===roomFilter).sort((a,b)=>(pri[a.priority]??1)-(pri[b.priority]??1)||String(a.due||"9").localeCompare(String(b.due||"9")));
+  const today=todayISO();
+  const col=(st,label)=>{const L=list.filter(t=>t.status===st);return `<div class="col"><h3><span>${label}</span><span class="tag">${L.length}</span></h3>${L.map(t=>{const a=agentById(t.agentId);const late=t.due&&t.status!=="done"&&t.due<today;
+    return `<div class="card p-${esc(t.priority||"normal")}"><div class="t">${esc(t.title)}</div>
+    <div class="m">${avDot(a)}<select data-assign="${esc(t.id)}" ${canWrite?"":"disabled"} aria-label="Assign agent"><option value="">Unassigned</option>${agents.map(x=>`<option value="${esc(x.id)}" ${x.id===t.agentId?"selected":""}>${esc(x.name)}</option>`).join("")}</select>
+    <span>${esc(roomById(taskRoom(t))?.name||"")}</span>${t.due?`<span class="${late?"s-red":""}">${late?"Overdue · ":"Due "}${esc(fmtDate(t.due))}</span>`:""}</div>
+    ${running.get(t.id)?`<div class="output live">${esc((running.get(t.id).text||"").slice(-400)||"Walking over…")}</div>`:t.output?`<details><summary>Work from ${esc(t.outputBy||a?.name||"agent")}</summary><div class="output">${esc(t.output)}</div></details>`:""}
+    ${t.notes?`<details><summary>Brief</summary><div class="output">${esc(t.notes)}</div></details>`:""}
+    ${taskActions(t).replace('class="row"','class="row"')}${canWrite&&t.status==="todo"?"":""}</div>`;}).join("")||'<div class="tag" style="padding:6px">Nothing here.</div>'}</div>`;};
+  $("#board").innerHTML=col("todo","To do")+col("doing","In progress")+col("done","Done");
+}
+function fillSelects(){
+  const ta=$("#tAgent"),cur=ta.value; ta.innerHTML='<option value="">Unassigned</option>'+agents.map(a=>`<option value="${esc(a.id)}">${esc(a.name)}</option>`).join(""); if([...ta.options].some(o=>o.value===cur)) ta.value=cur;
+  const opts=WORK.map(r=>`<option value="${r.id}">${esc(r.name)}</option>`).join(""); for(const id of ["#tRoom","#hRoom"]){const s=$(id),c=s.value;s.innerHTML=opts;if(c)s.value=c;}
+}
+function renderReports(){const el=$("#reports"); if(!reports.length){el.innerHTML=`<div class="empty">No meetings yet. Call a board meeting: the team gathers in the boardroom and files a status report against the goal.</div>`;return;}
+  el.innerHTML=reports.slice().sort((a,b)=>b.createdAt-a.createdAt).slice(0,12).map((r,i)=>`<details ${i===0?"open":""}><summary>${esc(fmtTime(r.createdAt))} · ${esc(r.title||"Board meeting")}</summary><div class="output">${esc(r.body)}</div></details>`).join("");}
+function renderAll(){renderMeta();renderKpis();renderAgentsOnFloor();renderSide();renderBoard();fillSelects();}
+
+/* ---------- hiring ---------- */
+function renderCands(){
+  const have=new Set(agents.map(a=>a.name.toLowerCase()));
+  $("#cands").innerHTML=BIZ.candidates.map((c,i)=>`<div class="cand"><div class="portrait">${figHTML({name:c.name,id:"cand"+i,shirt:c.shirt})}<div class="meta"><h3>${esc(c.name)}</h3><div class="tag">${esc(c.role)}</div><div class="tag">Works in ${esc(roomById(c.dept)?.name||"")}</div></div></div>
+    <p>${esc(c.pitch)}</p><div class="skills">${c.skills.map(s=>`<span>${esc(s)}</span>`).join("")}</div>
+    ${have.has(c.name.toLowerCase())?'<span class="tag">Already on your team</span>':`<button type="button" class="primary small" data-hirec="${i}" ${canWrite?"":"disabled"}>Hire ${esc(firstName(c.name))}</button>`}</div>`).join("");
+}
+async function hire(data){ if(!db) return toast("Hiring isn't available on this view.");
+  try{ const ref=await db.collection("agents").add({...data,createdAt:Date.now()}); toast(`${data.name} is walking in. Welcome to ${BIZ.name}.`); return ref; }catch(e){toast("Couldn't hire: "+(e?.message||e?.code||"error"));}}
+
+/* ---------- Claude work ---------- */
+function context(){
+  const lines=tasks.map(t=>`- [${t.status}] ${t.title} | ${agentById(t.agentId)?.name||"unassigned"} | ${roomById(taskRoom(t))?.name} | ${t.priority||"normal"}${t.due?" | due "+t.due:""}`).join("\n");
+  return `Business: ${BIZ.name} (${BIZ.kind}), owned by Sahill Chandan, Dubai. Money in AED. Dates like "7 November 2026".
+About: ${BIZ.about}
+Goal: ${meta.goal||BIZ.goal}
+Status: ${(STATUS[meta.status]||STATUS.grey)[0]}${meta.note?" ("+meta.note+")":""}
+Today: ${fmtDate(todayISO())}
+Staff: ${agents.map(a=>a.name+" ("+a.role+", "+(roomById(agentDept(a))?.name||"")+")").join("; ")||"none"}
+Tasks:
+${lines||"(none)"}`;}
+function refreshLive(id){const r=running.get(id);document.querySelectorAll(`[data-live="${CSS.escape(id)}"]`).forEach(n=>n.textContent=r?.text||"Starting…");}
+async function runTask(id){
+  const t=tasks.find(x=>x.id===id); const a=agentById(t?.agentId);
+  if(!t||!a||!sample||running.has(id)) return;
+  const room=taskRoom(t); const ctl=new AbortController();
+  running.set(id,{ctl,text:""}); running.set("agent:"+a.id,{room,say:shorten(t.title)});
+  if(t.status==="todo"&&db) db.doc("tasks/"+id).update({status:"doing"}).catch(()=>{});
+  renderAll(); toast(`${firstName(a.name)} is heading to ${roomById(room)?.name}.`);
+  const prompt=`You are ${a.name}, an AI employee of ${BIZ.name}, working in the ${roomById(room)?.name}. Your role: ${a.role}.
+How you work: ${a.mind||"(as your role suggests)"}
+
+${context()}
+
+Your task: ${t.title}
+${t.notes?"Brief from Sahill: "+t.notes:""}
+${t.output?"Your previous attempt, improve on it:\n"+t.output.slice(0,4000):""}
+
+Do the task now and hand back finished work, not a plan to do it: messages ready to send, lists, scripts, calculations, structured drafts. You cannot browse, contact anyone or spend money; where facts are missing, say exactly what Sahill should send you. Plain, direct language; AED. Start with a one-line summary in your own voice, then the work, then "Next step:" and one line.`;
+  try{
+    const r=await sample(prompt,{signal:ctl.signal,modelTier:"default",cache:false,onText:({text})=>{const s=running.get(id);if(!s)return;s.text=text;refreshLive(id);}});
+    running.delete(id); running.delete("agent:"+a.id);
+    await db.doc("tasks/"+id).update({output:r.text,outputBy:a.name,outputAt:new Date().toISOString(),status:"doing"});
+    toast(`${firstName(a.name)} handed in the work. Review it, then mark it done.`);
+  }catch(e){running.delete(id);running.delete("agent:"+a.id);
+    if(e?.code==="aborted"||ctl.signal.aborted) toast("Stopped.");
+    else if(e?.code==="not_granted") banner("Claude access wasn't allowed on this page, so agents can't do work here. Allow it from the page's Permissions menu.");
+    else if(e?.code==="rate_limited") toast("Claude is busy or you've hit a usage limit. Try again shortly.");
+    else toast(`${firstName(a.name)} couldn't finish: ${e?.message||"unknown error"}`);}
+  renderAll();
+}
+async function boardMeeting(){
+  if(!sample) return toast("Claude isn't available on this view.");
+  if(meeting) return; meeting=true; $("#callMeeting").disabled=true; $("#callMeeting").textContent="Meeting in progress…";
+  renderAgentsOnFloor(); select({kind:"room",id:"board"}); toast("Everyone to the boardroom.");
+  const work=tasks.filter(t=>t.output).slice(-8).map(t=>`### ${t.title} (${t.outputBy||agentById(t.agentId)?.name||""})\n${t.output.slice(0,1200)}`).join("\n\n");
+  const prompt=`You chair the weekly board meeting of ${BIZ.name} for Sahill. Write the minutes as a status report.
+${context()}
+
+Recent work handed in:
+${work||"(none yet)"}
+
+Format, plain text:
+Status: Red / Amber / Green / Unknown, and the one-line reason.
+Progress against the goal: 2-3 lines with numbers where known.
+Round the table: one line per staff member on what they did and what they're on next.
+Overdue or stuck: bullets.
+Decisions: the next 3 actions, each with its owner.
+Ask of Sahill: one decision or input needed.
+Be direct and take a position. Never invent figures.`;
+  try{
+    const r=await sample(prompt,{modelTier:"default",cache:false});
+    await db.collection("reports").add({title:"Board meeting",body:r.text,createdAt:Date.now()});
+    const m=r.text.match(/Status:\s*(Red|Amber|Green|Unknown)/i);
+    if(m&&meta.status!=="parked"){const s=m[1].toLowerCase()==="unknown"?"grey":m[1].toLowerCase(); await db.doc("meta/business").set({...meta,status:s,updatedAt:Date.now()});}
+    toast("Meeting over. Minutes filed.");
+  }catch(e){ if(e?.code==="not_granted") banner("Claude access wasn't allowed on this page, so meetings can't run here."); else toast("The meeting broke up early: "+(e?.message||"error")); }
+  meeting=false; $("#callMeeting").disabled=false; $("#callMeeting").textContent="Call a board meeting"; renderAll();
+}
+
+/* ---------- automation ---------- */
+function cadenceText(r){return r.cadence==="daily"?"Every day":r.cadence==="monthly"?"Every month":"Every "+DAYS[+r.day||0];}
+function isDue(r,now=new Date()){
+  if(!agentById(r.agentId)) return false;
+  const last=r.lastRunAt?new Date(r.lastRunAt):null; const sameDay=last&&last.toDateString()===now.toDateString();
+  if(r.cadence==="daily") return !sameDay;
+  if(r.cadence==="monthly") return !last||last.getMonth()!==now.getMonth()||last.getFullYear()!==now.getFullYear();
+  const age=last?(now-last)/864e5:99; return (now.getDay()===(+r.day||0)&&!sameDay)||age>=7;
+}
+async function runRoutine(r){
+  const a=agentById(r.agentId); if(!a||!db) return;
+  const stamp=fmtDate(todayISO());
+  await db.doc("routines/"+r.id).update({lastRunAt:new Date().toISOString()});
+  const ref=db.collection("tasks").doc();
+  await ref.set({title:`${r.title} · ${stamp}`,agentId:a.id,dept:agentDept(a),due:todayISO(),priority:"normal",notes:(r.brief||"")+(r.brief?"\n":"")+"Recurring routine ("+cadenceText(r)+").",status:"doing",routineId:r.id,createdAt:Date.now()});
+  await new Promise(res=>setTimeout(res,400));
+  if(sample) await runTask(ref.id);
+}
+async function autopilot(){
+  if(autoBusy||!db||!sample||!canWrite||meeting) return;
+  const due=routines.find(r=>isDue(r)&&agentById(r.agentId)?.auto);
+  const next=!due&&tasks.filter(t=>t.status==="todo"&&agentById(t.agentId)?.auto&&!running.has(t.id)&&!running.has("agent:"+t.agentId))
+    .sort((a,b)=>({high:0,normal:1,low:2}[a.priority]??1)-({high:0,normal:1,low:2}[b.priority]??1))[0];
+  if(!due&&!next) return;
+  autoBusy=true; renderSide();
+  try{ if(due) await runRoutine(due); else await runTask(next.id); }catch(e){ toast("Autopilot paused: "+(e?.message||"error")); }
+  autoBusy=false; renderAll();
+}
+setInterval(autopilot,20000); setTimeout(autopilot,6000);
+
+/* ---------- events ---------- */
+document.addEventListener("click",async e=>{
+  const b=e.target.closest("button,[data-room],[data-agent]"); if(!b) return;
+  const d=b.dataset;
+  if(d.agent&&b.classList.contains("agent")) return select({kind:"agent",id:d.agent});
+  if(d.room&&b.classList.contains("room")) return select({kind:"room",id:d.room});
+  if(d.back!==undefined) return select({kind:"office"});
+  if(d.pick) return select({kind:"agent",id:d.pick});
+  if(d.hire!==undefined) return openHire();
+  if(d.meeting!==undefined) return boardMeeting();
+  if(d.chip){roomFilter=d.chip;renderChips();renderBoard();return;}
+  if(d.newin){openTaskForm(d.newin);return;}
+  if(d.hirec){const c=BIZ.candidates[+d.hirec]; await hire({name:c.name,role:c.role,dept:c.dept,mind:c.mind,shirt:c.shirt||""}); renderCands(); return;}
+  if(!db) return;
+  try{
+    if(d.auto){const a=agentById(d.auto); await db.doc("agents/"+d.auto).update({auto:!a?.auto}); toast(a?.auto?`${firstName(a.name)} is off autopilot.`:`${firstName(a?.name||"Agent")} is on autopilot and will work through their queue.`); setTimeout(autopilot,800);}
+    else if(d.rnow){const r=routines.find(x=>x.id===d.rnow); if(r) runRoutine(r);}
+    else if(d.rdel){ if(d.confirm){await db.doc("routines/"+d.rdel).delete();toast("Routine removed.");} else {d.confirm="1";b.textContent="Confirm remove";setTimeout(()=>{if(b.isConnected){delete b.dataset.confirm;b.textContent="Remove";}},4000);} }
+    else if(d.run) runTask(d.run);
+    else if(d.stop) running.get(d.stop)?.ctl.abort();
+    else if(d.st) await db.doc("tasks/"+d.id).update({status:d.st,...(d.st==="done"?{doneAt:new Date().toISOString()}:{})});
+    else if(d.del){ if(d.confirm){await db.doc("tasks/"+d.del).delete();toast("Task deleted.");} else {d.confirm="1";b.textContent="Confirm delete";setTimeout(()=>{if(b.isConnected){delete b.dataset.confirm;b.textContent="Delete";}},4000);} }
+    else if(d.fire){ if(d.confirm){const a=agentById(d.fire); await db.doc("agents/"+d.fire).delete(); toast(`${a?.name||"Agent"} has left. Their tasks are unassigned.`); select({kind:"office"});} else {d.confirm="1";b.textContent="Confirm: let them go";setTimeout(()=>{if(b.isConnected){delete b.dataset.confirm;b.textContent="Let go";}},4000);} }
+  }catch(err){toast("Couldn't save: "+(err?.message||err?.code||"error"));}
+});
+document.addEventListener("keydown",e=>{ if((e.key==="Enter"||e.key===" ")&&e.target.matches(".room,.agent")){e.preventDefault();e.target.click();} if(e.key==="Escape"&&!$("#hireModal").hidden) closeHire(); });
+document.addEventListener("change",async e=>{const s=e.target.closest("select[data-assign]"); if(!s||!db) return;
+  try{await db.doc("tasks/"+s.dataset.assign).update({agentId:s.value}); toast(s.value?`Assigned to ${agentById(s.value)?.name}.`:"Unassigned.");}catch(err){toast("Couldn't save: "+(err?.message||"error"));}});
+document.addEventListener("submit",async e=>{
+  const pf=e.target.closest("form[data-profile]"), rf=e.target.closest("form[data-routine]");
+  if(pf||rf){e.preventDefault(); if(!db) return; const fd=new FormData(pf||rf);
+    try{ if(pf){await db.doc("agents/"+pf.dataset.profile).update({name:String(fd.get("name")).trim(),role:String(fd.get("role")).trim(),dept:fd.get("dept"),mind:String(fd.get("mind")).trim()});toast("Profile saved.");}
+      else {await db.collection("routines").add({agentId:rf.dataset.routine,title:String(fd.get("title")).trim(),cadence:fd.get("cadence"),day:+fd.get("day"),brief:String(fd.get("brief")||"").trim(),createdAt:Date.now()});rf.reset();toast("Routine added. It runs when due, on autopilot or from the daily run.");}
+    }catch(err){toast("Couldn't save: "+(err?.message||"error"));} return;}
+});
+document.addEventListener("submit",async e=>{const f=e.target.closest("form[data-quick]"); if(!f) return; e.preventDefault(); if(!db) return;
+  const id=f.dataset.quick; const title=f.querySelector("input").value.trim(); if(!title) return; const andRun=e.submitter?.dataset.andrun;
+  try{const ref=db.collection("tasks").doc(); await ref.set({title,agentId:id,dept:f.querySelector("select").value,due:"",priority:"normal",notes:"",status:andRun?"doing":"todo",createdAt:Date.now()}); f.reset(); toast("Assigned.");
+    if(andRun) setTimeout(()=>runTask(ref.id),300);}catch(err){toast("Couldn't assign: "+(err?.message||"error"));}});
+function openTaskForm(room){const f=$("#taskForm");f.hidden=false;fillSelects();if(room)$("#tRoom").value=room;f.scrollIntoView({behavior:"smooth",block:"center"});$("#tTitle").focus({preventScroll:true});}
+$("#newTaskBtn").onclick=()=>openTaskForm();
+$("#cancelTask").onclick=()=>{$("#taskForm").hidden=true;};
+$("#tAgent").onchange=()=>{const a=agentById($("#tAgent").value); if(a) $("#tRoom").value=agentDept(a);};
+$("#taskForm").onsubmit=async e=>{e.preventDefault(); if(!db) return toast("Saving isn't available on this view.");
+  const title=$("#tTitle").value.trim(); if(!title) return;
+  try{await db.collection("tasks").add({title,agentId:$("#tAgent").value||"",dept:$("#tRoom").value,due:$("#tDue").value||"",priority:$("#tPri").value,notes:$("#tNotes").value.trim(),status:"todo",createdAt:Date.now()});
+    ["#tTitle","#tDue","#tNotes"].forEach(s=>$(s).value="");$("#tPri").value="normal";$("#taskForm").hidden=true;toast("Task pinned to the board.");}catch(err){toast("Couldn't add: "+(err?.message||"error"));}};
+function openHire(){renderCands();fillSelects();$("#hireModal").hidden=false;$("#closeHire").focus();}
+function closeHire(){$("#hireModal").hidden=true;$("#openHire").focus();}
+$("#openHire").onclick=openHire; $("#closeHire").onclick=closeHire;
+$("#hireModal").addEventListener("click",e=>{if(e.target.id==="hireModal") closeHire();});
+$("#customHire").onsubmit=async e=>{e.preventDefault();const name=$("#hName").value.trim(),role=$("#hRole").value.trim(); if(!name||!role) return;
+  await hire({name,role,dept:$("#hRoom").value,mind:$("#hMind").value.trim()}); e.target.reset(); renderCands();};
+$("#callMeeting").onclick=boardMeeting;
+$("#editStatus").onclick=()=>{const f=$("#statusForm");f.hidden=!f.hidden;$("#sGoal").value=meta.goal||BIZ.goal;$("#sStatus").value=meta.status||"grey";$("#sNote").value=meta.note||"";if(!f.hidden)f.scrollIntoView({behavior:"smooth",block:"center"});};
+$("#cancelStatus").onclick=()=>{$("#statusForm").hidden=true;};
+$("#statusForm").onsubmit=async e=>{e.preventDefault(); if(!db) return;
+  try{await db.doc("meta/business").set({goal:$("#sGoal").value.trim()||BIZ.goal,status:$("#sStatus").value,note:$("#sNote").value.trim(),updatedAt:Date.now()});$("#statusForm").hidden=true;toast("Goal and status saved.");}catch(err){toast("Couldn't save: "+(err?.message||"error"));}};
+let rz; new ResizeObserver(()=>{clearTimeout(rz);rz=setTimeout(()=>{const n=$("#floor").clientWidth<620; if(n!==narrow) buildFloor();},120);}).observe($("#floor"));
+
+/* ---------- boot ---------- */
+renderMeta(); renderChips(); buildFloor(); renderSide(); renderBoard(); renderReports(); fillSelects(); renderKpis();
+(async()=>{
+  const timer=setTimeout(()=>{ if(!db) banner("Couldn't reach the office's saved data. Open this page signed in to claude.ai to see your staff and tasks."); },10000);
+  const C=window.claude;
+  const [d,s,u]=await Promise.all([C?.use?.("db"),C?.use?.("sample"),C?.use?.("user")].map(p=>Promise.resolve(p).catch(()=>null)));
+  sample=s||null;
+  if(u){ try{ if(await u.can("data.write")===false) canWrite=false; }catch{} }
+  if(!d) return;
+  db=d; clearTimeout(timer);
+  if(!canWrite){ banner("You're visiting this office. Only Sahill and editors can hire, assign or send agents to work."); ["#openHire","#callMeeting","#newTaskBtn","#editStatus"].forEach(x=>$(x).hidden=true); }
+  else if(!sample) banner("Claude isn't available on this view, so agents can't do work here. You can still hire and assign.");
+  const onErr=e=>banner("Couldn't load saved data ("+(e?.code||"error")+").");
+  db.collection("agents").onSnapshot(q=>{agents=q.docs.map(x=>({id:x.id,...x.data()})).sort((a,b)=>(a.createdAt||0)-(b.createdAt||0));renderAll();if(!$("#hireModal").hidden)renderCands();},onErr);
+  db.collection("tasks").onSnapshot(q=>{tasks=q.docs.map(x=>({id:x.id,...x.data()}));renderAll();},onErr);
+  db.collection("routines").onSnapshot(q=>{routines=q.docs.map(x=>({id:x.id,...x.data()}));renderSide();},onErr);
+  db.collection("reports").onSnapshot(q=>{reports=q.docs.map(x=>({id:x.id,...x.data()}));renderReports();renderSide();},onErr);
+  db.doc("meta/business").onSnapshot(x=>{if(x.exists) meta={...meta,...x.data()};renderMeta();},onErr);
+})();
+</script>
