@@ -1,0 +1,458 @@
+<title>Yontro Sales</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,500..900&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: phone-first sales CRM in Yontro black/orange. Top bar + tabs (Today, Leads, Calendar, Hamza, Team). Big quick-add buttons. */
+:root{
+  --or:#FF5A1F; --or-ink:#111111; --bg:#f4f2ee; --surface:#ffffff; --ink:#141414; --muted:#6c6862; --line:#e3dfd8; --soft:#f0ede7;
+  --green:#1f8a4c; --red:#c8372b; --amber:#b57300; --blue:#2c5fa8;
+  --display:"Archivo","Arial Narrow",system-ui,sans-serif; --body:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif; --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f0f0f;--surface:#191919;--ink:#f2efe9;--muted:#a29d95;--line:#2c2b29;--soft:#222120;--or:#ff6a33;--green:#4cc27e;--red:#ff6b5e;--amber:#f0b03c;--blue:#7fa8e6;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0f0f0f;--surface:#191919;--ink:#f2efe9;--muted:#a29d95;--line:#2c2b29;--soft:#222120;--or:#ff6a33;--green:#4cc27e;--red:#ff6b5e;--amber:#f0b03c;--blue:#7fa8e6;color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.45;padding-bottom:calc(84px + env(safe-area-inset-bottom,0px))}
+.wrap{max-width:980px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:14px;display:grid;gap:14px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:#111;z-index:10}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:#111;color:#fff}
+.top .in{max-width:980px;margin:0 auto;padding:10px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px));display:flex;align-items:center;justify-content:space-between;gap:10px}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:900;font-size:20px;letter-spacing:-.01em}
+.brand .y{width:30px;height:30px;border-radius:8px;background:var(--or);color:#111;display:grid;place-items:center;font-size:18px}
+.brand small{font-family:var(--mono);font-weight:400;font-size:11px;color:#bbb;letter-spacing:.04em}
+.who{font-size:12.5px;color:#ddd;display:flex;gap:8px;align-items:center}
+.who select{background:#222;color:#fff;border:1px solid #444;border-radius:8px;padding:4px 6px;font:inherit;font-size:12.5px}
+nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:9;background:var(--surface);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px)}
+nav.tabs .in{max-width:980px;margin:0 auto;display:flex;padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px)}
+nav.tabs button{flex:1;border:0;background:transparent;color:var(--muted);font:inherit;font-size:12px;font-weight:600;padding:9px 2px 10px;display:grid;justify-items:center;gap:3px;cursor:pointer}
+nav.tabs button svg{width:22px;height:22px}
+nav.tabs button[aria-current="page"]{color:var(--or)}
+h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance}
+h1{font-size:26px;font-weight:900;letter-spacing:-.01em}
+h2{font-size:18px;font-weight:800}
+.tag{font-family:var(--mono);font-size:11.5px;color:var(--muted)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px;display:grid;gap:10px;min-width:0}
+.head{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+@media (max-width:560px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 12px;display:grid;gap:4px;font-variant-numeric:tabular-nums}
+.kpi b{font-family:var(--display);font-size:28px;font-weight:900;line-height:1}
+.kpi b small{font-size:14px;color:var(--muted);font-weight:700}
+.kpi span{font-size:12px;color:var(--muted);font-weight:600}
+.bar{height:6px;background:var(--soft);border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--or);border-radius:99px}
+.bar i.ok{background:var(--green)}
+.quick{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}
+@media (max-width:640px){.quick{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.quick button{border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:14px;padding:12px 4px;font:inherit;font-weight:700;font-size:13px;display:grid;justify-items:center;gap:5px;cursor:pointer}
+.quick button svg{width:22px;height:22px;color:var(--or)}
+.quick button:hover{border-color:var(--or)}
+button{font:inherit;cursor:pointer}
+.btn{border:1.5px solid var(--ink);background:var(--surface);color:var(--ink);border-radius:999px;padding:8px 14px;font-weight:700;font-size:13.5px}
+.btn.or{background:var(--or);border-color:var(--or);color:var(--or-ink)}
+.btn.dark{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.btn.sm{padding:5px 11px;font-size:12.5px}
+.btn.ghost{border-color:transparent;color:var(--muted)}
+.btn:disabled{opacity:.5}
+:focus-visible{outline:2.5px solid var(--or);outline-offset:2px}
+.list{display:grid;gap:8px}
+.item{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--surface)}
+.item .t{font-weight:700;overflow-wrap:anywhere}
+.item .s{font-size:12.5px;color:var(--muted)}
+.item.done .t{text-decoration:line-through;color:var(--muted)}
+.item.late{border-left:4px solid var(--red)}
+.ic{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:var(--soft);color:var(--or)}
+.ic svg{width:18px;height:18px}
+.check{width:26px;height:26px;border-radius:8px;border:2px solid var(--line);background:var(--surface);display:grid;place-items:center;color:#fff;padding:0}
+.check[aria-checked="true"]{background:var(--green);border-color:var(--green)}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:4px 11px;font-size:12.5px;font-weight:600}
+.chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.stage{font-family:var(--mono);font-size:11px;padding:2px 8px;border-radius:99px;white-space:nowrap;background:var(--soft)}
+.st-won{background:var(--green);color:#fff}.st-lost{background:var(--red);color:#fff}.st-meeting{background:var(--blue);color:#fff}.st-proposal{background:var(--amber);color:#111}
+input,select,textarea{font:inherit;font-size:15px;color:var(--ink);background:var(--surface);border:1.5px solid var(--line);border-radius:10px;padding:9px 10px;width:100%}
+textarea{min-height:70px;resize:vertical}
+label.f{display:grid;gap:4px;font-size:12.5px;font-weight:700;color:var(--muted)}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.sheet-bg{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:30;display:grid;align-items:end;justify-items:center}
+.sheet{background:var(--surface);width:100%;max-width:560px;border-radius:20px 20px 0 0;padding:16px max(16px,env(safe-area-inset-right,0px)) calc(16px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));max-height:92vh;overflow:auto;display:grid;gap:10px}
+@media (min-width:700px){.sheet-bg{align-items:center}.sheet{border-radius:20px}}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg button{border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:10px;padding:7px 11px;font-weight:600;font-size:13px}
+.seg button[aria-pressed="true"]{border-color:var(--or);background:var(--or);color:var(--or-ink)}
+.week{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+.day{border:1.5px solid var(--line);border-radius:12px;background:var(--surface);padding:6px 4px;text-align:center;font-size:12px;font-weight:700;color:var(--ink)}
+.day b{display:block;font-family:var(--display);font-size:20px}
+.day .dots{display:flex;gap:3px;justify-content:center;min-height:6px;margin-top:3px}
+.day .dots i{width:6px;height:6px;border-radius:50%;background:var(--or)}
+.day[aria-pressed="true"]{border-color:var(--or);background:color-mix(in srgb,var(--or) 12%,var(--surface))}
+.day.today b{color:var(--or)}
+.chat{display:flex;flex-direction:column;gap:8px;max-height:56vh;overflow:auto;padding:4px}
+.msg{max-width:86%;padding:9px 12px;border-radius:14px;font-size:14.5px;white-space:pre-wrap;overflow-wrap:anywhere}
+.msg.rep{align-self:flex-end;background:var(--or);color:var(--or-ink);border-bottom-right-radius:4px}
+.msg.hamza{align-self:flex-start;background:var(--soft);border-bottom-left-radius:4px}
+.msg.score{align-self:stretch;max-width:100%;background:color-mix(in srgb,var(--green) 12%,var(--surface));border:1.5px solid var(--green)}
+.msg .w{display:block;font-family:var(--mono);font-size:10.5px;opacity:.7;margin-top:3px}
+.coach{display:flex;gap:10px;align-items:center}
+.coach .av{width:44px;height:44px;border-radius:50%;background:#111;color:var(--or);display:grid;place-items:center;font-family:var(--display);font-weight:900;font-size:18px;border:2px solid var(--or);flex:none}
+.composer{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:end}
+.composer textarea{min-height:48px}
+table{border-collapse:collapse;width:100%;font-size:13.5px;font-variant-numeric:tabular-nums}
+th,td{border-bottom:1px solid var(--line);padding:8px 6px;text-align:left;white-space:nowrap}
+th{font-size:11.5px;color:var(--muted);font-family:var(--mono);font-weight:500}
+.scroll{overflow-x:auto}
+.empty{color:var(--muted);text-align:center;padding:16px;border:1.5px dashed var(--line);border-radius:12px;font-size:14px}
+.notice{background:color-mix(in srgb,var(--or) 14%,var(--surface));border:1.5px solid var(--or);border-radius:12px;padding:10px 12px;font-size:14px;font-weight:600}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(92px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:99px;font-size:13.5px;z-index:40;max-width:calc(100% - 32px)}
+.dots-anim::after{content:"…";animation:d 1s steps(3) infinite}
+@keyframes d{0%{content:"."}50%{content:".."}100%{content:"..."}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+
+<header class="top"><div class="in">
+  <div class="brand"><span class="y">Y</span><span>Yontro Sales<br><small>CRM · COACHED BY HAMZA</small></span></div>
+  <div class="who" id="who"></div>
+</div></header>
+
+<main class="wrap" id="app">
+  <div id="banner" class="notice" hidden></div>
+
+  <!-- TODAY -->
+  <section id="v-today" class="view" style="display:grid;gap:14px">
+    <div class="head"><div><div class="tag" id="todayDate"></div><h1 id="hello">Today</h1></div></div>
+    <div class="kpis" id="kpis"></div>
+    <div class="card"><div class="head"><h2>Log it</h2><span class="tag">Tap after every call, meeting or deal</span></div><div class="quick" id="quick"></div></div>
+    <div class="card" id="checkinCard"></div>
+    <div class="card"><div class="head"><h2>Due today</h2><span class="tag" id="dueCount"></span></div><div class="list" id="due"></div></div>
+  </section>
+
+  <!-- LEADS -->
+  <section id="v-leads" class="view" hidden style="display:grid;gap:14px">
+    <div class="head"><h1>Leads</h1><button class="btn or" type="button" data-add="lead">+ New lead</button></div>
+    <input id="leadSearch" type="search" placeholder="Search business, contact or phone" aria-label="Search leads">
+    <div class="chips" id="stageChips" role="group" aria-label="Filter by stage"></div>
+    <div class="list" id="leadList"></div>
+  </section>
+
+  <!-- CALENDAR -->
+  <section id="v-cal" class="view" hidden style="display:grid;gap:14px">
+    <div class="head"><h1>Calendar</h1><div class="row" style="display:flex;gap:6px"><button class="btn sm" type="button" id="wkPrev" aria-label="Previous week">‹</button><button class="btn sm" type="button" id="wkToday">This week</button><button class="btn sm" type="button" id="wkNext" aria-label="Next week">›</button></div></div>
+    <div class="week" id="week"></div>
+    <div class="card"><div class="head"><h2 id="dayTitle"></h2><button class="btn sm or" type="button" data-add="meeting">+ Add</button></div><div class="list" id="dayList"></div></div>
+  </section>
+
+  <!-- HAMZA -->
+  <section id="v-hamza" class="view" hidden style="display:grid;gap:14px">
+    <div class="card">
+      <div class="coach"><div class="av" aria-hidden="true">H</div><div><h2>Hamza Qureshi</h2><div class="tag">Sales Lead · your manager and coach</div></div></div>
+      <div class="seg" role="group" aria-label="What to do with Hamza">
+        <button type="button" data-mode="checkin" aria-pressed="true">Daily check-in</button>
+        <button type="button" data-mode="train" aria-pressed="false">Train me</button>
+        <button type="button" data-mode="roleplay" aria-pressed="false">Roleplay a sale</button>
+      </div>
+      <div id="modeBar"></div>
+      <div class="chat" id="chat" aria-live="polite"></div>
+      <form class="composer" id="chatForm"><label for="chatIn" style="position:absolute;left:-9999px">Message Hamza</label><textarea id="chatIn" maxlength="3000" placeholder="Type your answer…"></textarea><button class="btn or" type="submit" id="chatSend">Send</button></form>
+    </div>
+  </section>
+
+  <!-- TEAM (owner) -->
+  <section id="v-team" class="view" hidden style="display:grid;gap:14px">
+    <div class="head"><h1>Sales team</h1><span class="tag">Only you see this</span></div>
+    <div class="card"><div class="head"><h2>This week</h2><span class="tag">Targets per day: 100 contacts · 4 booked · 2 held</span></div><div class="scroll"><table id="teamTable"></table></div></div>
+    <div class="card"><div class="head"><h2>Latest check-ins</h2></div><div class="list" id="teamCheckins"></div></div>
+    <div class="card"><div class="head"><h2>Hamza's playbook</h2><span class="tag">What Hamza knows about Yontro. Edit to teach him more</span></div>
+      <textarea id="playbook" style="min-height:220px" aria-label="Playbook"></textarea><div><button class="btn or" type="button" id="savePlaybook">Save playbook</button></div></div>
+    <div class="card"><h2>Add a sales rep</h2><p class="tag" style="margin:0">Share this CRM with them from the Share menu (Contributor access). When they open it signed in, they get their own login, their own leads and Hamza as their coach.</p></div>
+  </section>
+</main>
+
+<nav class="tabs" aria-label="Sections"><div class="in" id="tabs"></div></nav>
+
+<div class="sheet-bg" id="sheetBg" hidden><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle" id="sheet"></div></div>
+
+<script>
+const PRODUCT=`YONTRO (yontro.ae) — social media marketing agency for businesses that want customers, not just followers. Yontro - F.Z.E, Ajman Free Zone licence 57169; office 214, Clover Bay Tower, Business Bay, Dubai. Website, branding, social media management and paid traffic under one roof. 4 years in the UAE market; single client videos with 100K+ views; brands include Ferrari World, Subway, 2GIS, Il Forno, Vincitore, Botany.
+OFFER TO OPEN DOORS: a free video, shot and edited at the prospect's premises, before they sign.
+PACKAGES (per month, AED, paid in advance):
+- Launch 5,000: 5 videos + 5 posts, tailored strategy and social media management, basic website or redesign, seven-day habit build, monthly report.
+- Growth 7,500 (most value): 10 videos + 10 posts, everything in Launch, website plus full branding, online-presence audit and fix, storyline series with the owner on camera.
+- Scale 10,000: 15 videos + 15 posts, everything in Growth, tailor-made paid campaign aimed at sales (ad budget paid by client to platforms), priority shoots, quarterly review.
+Add-ons quoted: ad management, design packs, podcast-style video, models/props, extra videos, event coverage.
+TERMS: 3-month minimum (1 or 2 months only by exception, written in the agreement); then month to month with 30 days' notice. First month paid on signing, each month paid before it starts; cash, card or cheque to Yontro - F.Z.E. Non-refundable; a missed video is made up next month or credited. Two rounds of changes per video; client approves within 48 hours. Results (views, followers, sales) are targets, not guarantees.
+HOW IT WORKS: 1) Visit + Get Viral Blueprint questionnaire, 2) three-month strategy, 3) one shoot day a month at the premises, 4) posting, replies, enquiries forwarded, monthly report. Month 1 foundation (website/branding fixed, daily posting for 7 days), month 2 storyline, month 3 scale.
+WHAT CLIENT GIVES: 2-3 hours a month, someone on camera, materials in week one, one point of contact, payment in advance.
+PROMISE: every video on the date promised; miss one and we make it up.
+REFERRALS: referrer gets 20% off next month per referred business that signs (5 = a free month); friend gets 10% off first month plus the free video.
+TARGET CUSTOMERS: Dubai SMEs — restaurants and cafés, salons and spas, clinics, gyms, retail and mobile shops, real estate.
+SALES PROCESS: cold call / visit / WhatsApp → offer the free video → book a meeting (visit) → show case studies → proposal (package + term) → sign the service agreement + first month paid. Daily KPI per rep: 100 contacts (calls, visits, WhatsApps), 4 meetings booked, 2 meetings held.
+COMMON OBJECTIONS: "too expensive" (compare with one hire's salary; start on Launch; results tracked as enquiries), "we tried an agency before" (strategy first, one shoot day, monthly report, promise), "no time" (2-3 hours a month), "let me think" (book the free video shoot date now), "can we do 1 month" (3 months is how the plan works; 1-2 only by exception).`;
+const TARGET={calls:100,booked:4,held:2};
+const PKG={Launch:5000,Growth:7500,Scale:10000};
+const STAGES=["New","Contacted","Meeting booked","Meeting held","Proposal","Won","Lost"];
+const ICON={
+  call:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2"/></svg>',
+  meeting:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6M15 20c0-2.2 1.3-4 3-4.5"/></svg>',
+  followup:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12a8 8 0 0114-5.3M20 12a8 8 0 01-14 5.3"/><path d="M18 3v4h-4M6 21v-4h4"/></svg>',
+  contract:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V9z"/><path d="M14 3v6h6M8 15l2 2 4-4"/></svg>',
+  todo:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 12l3 3 5-6"/></svg>',
+  reminder:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 8a6 6 0 0112 0c0 7 3 8 3 8H3s3-1 3-8"/><path d="M10 20a2 2 0 004 0"/></svg>',
+  lead:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 21V8l8-5 8 5v13"/><path d="M9 21v-6h6v6"/></svg>',
+  today:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg>',
+  cal:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>',
+  coach:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5h16v11H8l-4 4z"/></svg>',
+  team:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>'
+};
+const LABEL={call:"Call",meeting:"Meeting",followup:"Follow-up",contract:"Contract",todo:"To-do",reminder:"Reminder",lead:"Lead"};
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const dxb=(d=new Date())=>d.toLocaleDateString("en-CA",{timeZone:"Asia/Dubai"});
+const fmtD=iso=>{ if(!iso) return ""; const d=new Date(iso+"T12:00:00"); return d.toLocaleDateString("en-GB",{weekday:"short",day:"numeric",month:"long"}); };
+const fmtLong=iso=>new Date(iso+"T12:00:00").toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
+const addDays=(iso,n)=>{const d=new Date(iso+"T12:00:00"); d.setDate(d.getDate()+n); return dxb(d);};
+const weekStart=iso=>{const d=new Date(iso+"T12:00:00"); const wd=(d.getDay()+6)%7; d.setDate(d.getDate()-wd); return dxb(d);};
+const aed=n=>"AED "+Number(n||0).toLocaleString("en-US");
+function toast(m){document.querySelectorAll(".toast").forEach(t=>t.remove());const t=document.createElement("div");t.className="toast";t.textContent=m;document.body.appendChild(t);setTimeout(()=>t.remove(),2800);}
+
+let db=null,user=null,sample=null,me=null,isOwner=false,viewRep=null,names={};
+let leads=[],acts=[],kpis=[],chats=[],playbook="";
+let tab="today",stageF="All",calDay=dxb(),calWeek=weekStart(dxb()),mode="checkin",session="",busy=false,ctl=null;
+
+/* ---------- derived ---------- */
+const mine=list=>list.filter(x=>x.repId===viewRep);
+function repStats(rep,from,to){
+  const A=acts.filter(a=>a.repId===rep&&a.date>=from&&a.date<=to);
+  const calls=A.filter(a=>a.type==="call").length;
+  const booked=acts.filter(a=>a.repId===rep&&a.type==="meeting"&&dxb(new Date(a.createdAt||0))>=from&&dxb(new Date(a.createdAt||0))<=to).length;
+  const held=A.filter(a=>a.type==="meeting"&&a.done).length;
+  const con=A.filter(a=>a.type==="contract"); const value=con.reduce((s,a)=>s+(+a.amount||0),0);
+  const fu=A.filter(a=>a.type==="followup").length;
+  return {calls,booked,held,contracts:con.length,value,followups:fu};
+}
+function leadName(id){return leads.find(l=>l.id===id)?.business||"";}
+function stageCls(s){return s==="Won"?"st-won":s==="Lost"?"st-lost":/Meeting/.test(s)?"st-meeting":s==="Proposal"?"st-proposal":"";}
+
+/* ---------- render ---------- */
+function renderWho(){
+  if(isOwner){ const reps=[...new Set([...leads,...acts,...kpis].map(x=>x.repId).filter(Boolean))];
+    $("#who").innerHTML=reps.length?`Viewing <select id="repPick" aria-label="Which rep">${reps.map(r=>`<option value="${esc(r)}" ${r===viewRep?"selected":""}>${esc(names[r]||"Rep")}${r===me?" (you)":""}</option>`).join("")}</select>`:`<span>Owner view</span>`;
+  } else $("#who").textContent=names[me]?names[me]:"";
+}
+function renderTabs(){
+  const T=[["today","Today",ICON.today],["leads","Leads",ICON.lead],["cal","Calendar",ICON.cal],["hamza","Hamza",ICON.coach],...(isOwner?[["team","Team",ICON.team]]:[])];
+  $("#tabs").innerHTML=T.map(([k,l,i])=>`<button type="button" data-tab="${k}" ${tab===k?'aria-current="page"':""}>${i}<span>${l}</span></button>`).join("");
+  document.querySelectorAll(".view").forEach(v=>v.hidden=v.id!=="v-"+tab);
+}
+function renderToday(){
+  const t=dxb(); $("#todayDate").textContent=fmtLong(t).toUpperCase();
+  const first=(names[viewRep]||"").split(" ")[0]; $("#hello").textContent=first?`Let's sell, ${first}`:"Today";
+  const s=repStats(viewRep,t,t); const ms=repStats(viewRep,t.slice(0,8)+"01",t);
+  const tile=(v,tg,l)=>`<div class="kpi"><b>${v}${tg?`<small> / ${tg}</small>`:""}</b><span>${l}</span>${tg?`<div class="bar"><i class="${v>=tg?"ok":""}" style="width:${Math.min(100,v/tg*100)}%"></i></div>`:""}</div>`;
+  $("#kpis").innerHTML=tile(s.calls,TARGET.calls,"Contacts today")+tile(s.booked,TARGET.booked,"Meetings booked")+tile(s.held,TARGET.held,"Meetings held")+`<div class="kpi"><b>${ms.contracts}</b><span>Contracts this month · ${aed(ms.value)}</span></div>`;
+  $("#quick").innerHTML=["call","meeting","followup","contract","todo","reminder"].map(k=>`<button type="button" data-add="${k}">${ICON[k]}${LABEL[k]}</button>`).join("");
+  const ci=kpis.find(k=>k.repId===viewRep&&k.date===t);
+  $("#checkinCard").innerHTML=ci?`<div class="head"><h2>Check-in done</h2><span class="tag">${ci.calls??"–"} contacts · ${ci.booked??"–"} booked · ${ci.held??"–"} held</span></div>${ci.feedback?`<div style="font-size:14px">${esc(ci.feedback)}</div>`:""}`
+    :`<div class="coach"><div class="av" aria-hidden="true">H</div><div style="flex:1"><h2>Daily check-in with Hamza</h2><div class="tag">5 quick questions. Takes 2 minutes.</div></div><button class="btn or" type="button" data-go="checkin">Start</button></div>`;
+  const due=mine(acts).filter(a=>["followup","todo","reminder","meeting"].includes(a.type)&&!a.done&&a.date&&a.date<=t).sort((x,y)=>(x.date+(x.time||"")).localeCompare(y.date+(y.time||"")));
+  $("#dueCount").textContent=due.length?`${due.length} to do`:"";
+  $("#due").innerHTML=due.length?due.map(itemHTML).join(""):`<div class="empty">Nothing due. Log your calls as you go.</div>`;
+}
+function itemHTML(a){
+  const late=a.date&&a.date<dxb()&&!a.done; const biz=a.business||leadName(a.leadId);
+  const title=a.type==="todo"||a.type==="reminder"?a.text:`${LABEL[a.type]}${biz?" · "+biz:""}`;
+  const sub=[a.date?fmtD(a.date):"",a.time||"",a.type==="contract"?`${a.package||""} · ${a.months||""} mo · ${aed(a.amount)}`:"",a.outcome||"",a.type!=="todo"&&a.type!=="reminder"?a.notes:""].filter(Boolean).join(" · ");
+  const can=["followup","todo","reminder","meeting"].includes(a.type);
+  return `<div class="item ${a.done?"done":""} ${late?"late":""}"><span class="ic">${ICON[a.type]||""}</span><div style="min-width:0"><div class="t">${esc(title)}</div><div class="s">${esc(sub)}${late?" · overdue":""}</div></div>${can?`<button type="button" class="check" role="checkbox" aria-checked="${!!a.done}" aria-label="Mark done" data-done="${esc(a.id)}">${a.done?"✓":""}</button>`:`<button type="button" class="btn ghost sm" data-edit="${esc(a.id)}">Edit</button>`}</div>`;
+}
+function renderLeads(){
+  const q=($("#leadSearch").value||"").toLowerCase();
+  $("#stageChips").innerHTML=["All",...STAGES].map(s=>`<button type="button" class="chip" data-stage="${s}" aria-pressed="${stageF===s}">${s} <span class="tag">${s==="All"?mine(leads).length:mine(leads).filter(l=>l.stage===s).length}</span></button>`).join("");
+  const L=mine(leads).filter(l=>(stageF==="All"||l.stage===stageF)&&(!q||[l.business,l.contact,l.phone,l.sector].join(" ").toLowerCase().includes(q))).sort((a,b)=>(b.updatedAt||0)-(a.updatedAt||0));
+  $("#leadList").innerHTML=L.length?L.map(l=>`<button type="button" class="item" style="text-align:left;width:100%;cursor:pointer" data-lead="${esc(l.id)}"><span class="ic">${ICON.lead}</span><div style="min-width:0"><div class="t">${esc(l.business)}</div><div class="s">${esc([l.contact,l.phone,l.sector,l.area].filter(Boolean).join(" · "))}${l.nextDate?" · next "+esc(fmtD(l.nextDate)):""}</div></div><span class="stage ${stageCls(l.stage)}">${esc(l.stage||"New")}</span></button>`).join(""):`<div class="empty">No leads here yet. Every call you log creates one.</div>`;
+}
+function renderCal(){
+  const t=dxb(); const days=[...Array(7)].map((_,i)=>addDays(calWeek,i));
+  $("#week").innerHTML=days.map(d=>{const n=mine(acts).filter(a=>a.date===d&&["meeting","followup","reminder","todo","contract"].includes(a.type)).length;
+    return `<button type="button" class="day ${d===t?"today":""}" data-day="${d}" aria-pressed="${d===calDay}">${new Date(d+"T12:00:00").toLocaleDateString("en-GB",{weekday:"short"})}<b>${+d.slice(8)}</b><span class="dots">${"<i></i>".repeat(Math.min(n,4))}</span></button>`;}).join("");
+  $("#dayTitle").textContent=fmtLong(calDay);
+  const L=mine(acts).filter(a=>a.date===calDay).sort((x,y)=>(x.time||"99").localeCompare(y.time||"99"));
+  $("#dayList").innerHTML=L.length?L.map(itemHTML).join(""):`<div class="empty">Nothing on this day.</div>`;
+}
+function renderTeam(){
+  if(!isOwner) return; const t=dxb(), ws=weekStart(t);
+  const reps=[...new Set([...leads,...acts,...kpis].map(x=>x.repId).filter(Boolean))];
+  $("#teamTable").innerHTML=`<thead><tr><th>Rep</th><th>Today contacts</th><th>Week contacts</th><th>Booked</th><th>Held</th><th>Contracts</th><th>Value</th><th>Check-in</th></tr></thead><tbody>${reps.map(r=>{const d=repStats(r,t,t),w=repStats(r,ws,t); const ci=kpis.filter(k=>k.repId===r).sort((a,b)=>b.date.localeCompare(a.date))[0];
+    return `<tr><td><b>${esc(names[r]||"Rep")}</b></td><td>${d.calls} / ${TARGET.calls}</td><td>${w.calls}</td><td>${w.booked}</td><td>${w.held}</td><td>${w.contracts}</td><td>${aed(w.value)}</td><td>${ci?(ci.date===t?"Today":esc(fmtD(ci.date))):"Never"}</td></tr>`;}).join("")||`<tr><td colspan="8">No reps active yet. Share the CRM with Usama.</td></tr>`}</tbody>`;
+  const K=kpis.slice().sort((a,b)=>(b.createdAt||0)-(a.createdAt||0)).slice(0,10);
+  $("#teamCheckins").innerHTML=K.length?K.map(k=>`<div class="item"><span class="ic">${ICON.coach}</span><div style="min-width:0"><div class="t">${esc(names[k.repId]||"Rep")} · ${esc(fmtD(k.date))}</div><div class="s">${k.calls??"–"} contacts · ${k.booked??"–"} booked · ${k.held??"–"} held · ${k.contracts??0} contracts${k.blockers?" · blocker: "+esc(k.blockers):""}</div>${k.feedback?`<div style="font-size:13px;margin-top:4px">Hamza: ${esc(k.feedback)}</div>`:""}</div><span></span></div>`).join(""):`<div class="empty">No check-ins yet.</div>`;
+  if(document.activeElement!==$("#playbook")) $("#playbook").value=playbook||PRODUCT;
+}
+function renderChat(){
+  const L=chats.filter(c=>c.repId===viewRep&&c.mode===mode&&(mode!=="roleplay"||c.session===session)).sort((a,b)=>(a.createdAt||0)-(b.createdAt||0)).slice(-40);
+  const bar={checkin:`<div class="tag">Hamza asks your daily KPI questions and logs your numbers.</div>${L.length?"":`<button class="btn or sm" type="button" id="startCheckin">Start today's check-in</button>`}`,
+    train:`<div class="chips"><button class="chip" type="button" data-say="Quiz me on our packages and prices">Quiz me</button><button class="chip" type="button" data-say="Teach me how to pitch the free video offer">Pitch the free video</button><button class="chip" type="button" data-say="How do I handle 'it's too expensive'?">Too expensive</button><button class="chip" type="button" data-say="How do I handle 'I need to think about it'?">Need to think</button></div>`,
+    roleplay:`<div class="chips">${["Restaurant owner","Salon owner","Clinic manager","Gym owner","Mobile shop owner"].map(p=>`<button class="chip" type="button" data-rp="${p}">${p}</button>`).join("")}${session&&L.length?`<button class="btn sm dark" type="button" id="endRp">End and get my score</button>`:""}</div>`}[mode];
+  $("#modeBar").innerHTML=bar;
+  $("#chat").innerHTML=(L.length?L:[{role:"hamza",text:mode==="checkin"?"Ready when you are. Tap Start to begin today's check-in.":mode==="train"?"Ask me anything about Yontro's offer, or pick a topic above.":"Pick a prospect above. I'll play them; you sell to me. When you're done, tap End to get your score."}]).map(m=>`<div class="msg ${m.kind==="score"?"score":m.role==="rep"?"rep":"hamza"}">${esc(m.text)}${m.createdAt?`<span class="w">${new Date(m.createdAt).toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit",timeZone:"Asia/Dubai"})}</span>`:""}</div>`).join("")+(busy?`<div class="msg hamza"><span class="dots-anim">Hamza is typing</span></div>`:"");
+  const c=$("#chat"); c.scrollTop=c.scrollHeight; $("#chatSend").disabled=busy||!sample;
+  $("#chatIn").placeholder=mode==="roleplay"?(session?"Your pitch…":"Pick a prospect first"):"Type your answer…";
+}
+function renderAll(){renderWho();renderTabs();if(tab==="today")renderToday();if(tab==="leads")renderLeads();if(tab==="cal")renderCal();if(tab==="team")renderTeam();if(tab==="hamza")renderChat();}
+
+/* ---------- forms ---------- */
+function openSheet(type,data){
+  data=data||{}; const t=dxb();
+  const leadOpts=`<datalist id="leadNames">${mine(leads).map(l=>`<option value="${esc(l.business)}"></option>`).join("")}</datalist>`;
+  const bizF=`<label class="f" for="fBiz">Business<input id="fBiz" list="leadNames" required value="${esc(data.business||leadName(data.leadId)||"")}" placeholder="e.g. Al Noor Salon">${leadOpts}</label>`;
+  const dt=(lbl,def)=>`<div class="grid2"><label class="f" for="fDate">${lbl}<input id="fDate" type="date" value="${esc(data.date||def||t)}"></label><label class="f" for="fTime">Time<input id="fTime" type="time" value="${esc(data.time||"")}"></label></div>`;
+  const notes=`<label class="f" for="fNotes">Notes<textarea id="fNotes" placeholder="Optional">${esc(data.notes||"")}</textarea></label>`;
+  let body="";
+  if(type==="call") body=bizF+`<div class="grid2"><label class="f" for="fContact">Contact<input id="fContact" value="${esc(data.contact||"")}"></label><label class="f" for="fPhone">Phone<input id="fPhone" inputmode="tel" value="${esc(data.phone||"")}"></label></div>
+    <label class="f">How did it go?<div class="seg" id="fOutcome">${["No answer","Not interested","Interested","Call back","Meeting booked"].map(o=>`<button type="button" data-v="${o}" aria-pressed="${(data.outcome||"")===o}">${o}</button>`).join("")}</div></label>
+    <div id="fExtra"></div>`+notes;
+  if(type==="meeting") body=bizF+dt("Date")+`<label class="f">Where<div class="seg" id="fWhere">${["At their business","Our office","Online"].map(o=>`<button type="button" data-v="${o}" aria-pressed="${(data.where||"At their business")===o}">${o}</button>`).join("")}</div></label>`+notes+(data.id?`<label class="f" style="display:flex;gap:8px;align-items:center"><input id="fHeld" type="checkbox" style="width:auto" ${data.done?"checked":""}> Meeting held</label>`:"");
+  if(type==="followup") body=bizF+dt("Follow up on",addDays(t,1))+notes;
+  if(type==="contract") body=bizF+`<label class="f">Package<div class="seg" id="fPkg">${Object.keys(PKG).map(p=>`<button type="button" data-v="${p}" aria-pressed="${(data.package||"Growth")===p}">${p} · ${PKG[p].toLocaleString()}</button>`).join("")}</div></label>
+    <label class="f">Term<div class="seg" id="fMonths">${[3,2,1].map(m=>`<button type="button" data-v="${m}" aria-pressed="${+(data.months||3)===m}">${m} month${m>1?"s":""}</button>`).join("")}</div></label>
+    <label class="f">Paid by<div class="seg" id="fPaid">${["Cash","Card","Cheque"].map(m=>`<button type="button" data-v="${m}" aria-pressed="${(data.paid||"Card")===m}">${m}</button>`).join("")}</div></label>
+    <div class="grid2"><label class="f" for="fDate">Signed on<input id="fDate" type="date" value="${esc(data.date||t)}"></label><label class="f" for="fAmt">Total (AED)<input id="fAmt" inputmode="numeric" value="${esc(data.amount||PKG.Growth*3)}"></label></div>`+notes;
+  if(type==="todo") body=`<label class="f" for="fText">To-do<input id="fText" required value="${esc(data.text||"")}" placeholder="e.g. Send proposal to Café Bloom"></label><label class="f" for="fDate">By<input id="fDate" type="date" value="${esc(data.date||t)}"></label>`;
+  if(type==="reminder") body=`<label class="f" for="fText">Remind me to<input id="fText" required value="${esc(data.text||"")}" placeholder="e.g. Call Ahmed after 4pm"></label>`+dt("When");
+  if(type==="lead") body=`<label class="f" for="fBiz">Business<input id="fBiz" required value="${esc(data.business||"")}"></label><div class="grid2"><label class="f" for="fContact">Contact<input id="fContact" value="${esc(data.contact||"")}"></label><label class="f" for="fPhone">Phone<input id="fPhone" inputmode="tel" value="${esc(data.phone||"")}"></label></div>
+    <div class="grid2"><label class="f" for="fSector">Sector<select id="fSector">${["","Restaurant / café","Salon / spa","Clinic","Gym","Retail / mobile","Real estate","Other"].map(o=>`<option ${o===(data.sector||"")?"selected":""}>${o}</option>`).join("")}</select></label><label class="f" for="fArea">Area<input id="fArea" value="${esc(data.area||"")}" placeholder="e.g. JLT"></label></div>
+    <label class="f" for="fStage">Stage<select id="fStage">${STAGES.map(s=>`<option ${s===(data.stage||"New")?"selected":""}>${s}</option>`).join("")}</select></label>
+    <div class="grid2"><label class="f" for="fNext">Next step<input id="fNext" value="${esc(data.nextStep||"")}" placeholder="e.g. Shoot free video"></label><label class="f" for="fNextD">Next date<input id="fNextD" type="date" value="${esc(data.nextDate||"")}"></label></div>`+notes;
+  const hist=type==="lead"&&data.id?mine(acts).filter(a=>a.leadId===data.id).sort((a,b)=>(b.createdAt||0)-(a.createdAt||0)):[];
+  $("#sheet").innerHTML=`<div class="head"><h2 id="sheetTitle">${data.id?"Edit":"Log"} ${LABEL[type].toLowerCase()}</h2><button class="btn ghost sm" type="button" data-close>Close</button></div>
+    <form id="sheetForm" data-type="${type}" data-id="${esc(data.id||"")}" style="display:grid;gap:10px">${body}
+    <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn or" type="submit">Save</button>${data.id?`<button class="btn ghost" type="button" data-del="${esc(data.id)}" data-coll="${type==="lead"?"leads":"activities"}">Delete</button>`:""}${type==="lead"&&data.id?`<button class="btn sm" type="button" data-add="call" data-forlead="${esc(data.id)}">+ Call</button><button class="btn sm" type="button" data-add="meeting" data-forlead="${esc(data.id)}">+ Meeting</button><button class="btn sm" type="button" data-add="contract" data-forlead="${esc(data.id)}">+ Contract</button>`:""}</div></form>
+    ${hist.length?`<h3>History</h3><div class="list">${hist.map(itemHTML).join("")}</div>`:""}`;
+  $("#sheetBg").hidden=false;
+  const first=$("#sheet input,#sheet select,#sheet textarea"); if(first) setTimeout(()=>first.focus(),50);
+  if(type==="call") callExtra();
+  if(type==="contract") recalc();
+}
+function segVal(id){return $(id)?.querySelector('[aria-pressed="true"]')?.dataset.v||"";}
+function callExtra(){ const o=segVal("#fOutcome"); $("#fExtra").innerHTML=o==="Meeting booked"?`<div class="grid2"><label class="f" for="fMDate">Meeting date<input id="fMDate" type="date" value="${addDays(dxb(),1)}"></label><label class="f" for="fMTime">Time<input id="fMTime" type="time" value="11:00"></label></div>`:o==="Call back"||o==="Interested"?`<label class="f" for="fFDate">Follow up on<input id="fFDate" type="date" value="${addDays(dxb(),1)}"></label>`:""; }
+function recalc(){ const p=PKG[segVal("#fPkg")]||0, m=+segVal("#fMonths")||0; if($("#fAmt")) $("#fAmt").value=p*m; }
+function closeSheet(){$("#sheetBg").hidden=true;}
+async function upsertLead(business,patch){
+  business=String(business||"").trim(); if(!business) return null;
+  const ex=mine(leads).find(l=>l.business.toLowerCase()===business.toLowerCase());
+  const rank=s=>STAGES.indexOf(s);
+  if(ex){ const u={updatedAt:Date.now(),...patch}; if(patch.stage&&rank(patch.stage)<rank(ex.stage||"New")&&ex.stage!=="Lost") delete u.stage; await db.doc("leads/"+ex.id).update(u); return ex.id; }
+  const ref=await db.collection("leads").add({repId:viewRep,business,stage:"New",createdAt:Date.now(),updatedAt:Date.now(),...patch}); return ref.id;
+}
+async function saveSheet(f){
+  const type=f.dataset.type, id=f.dataset.id; const v=s=>($(s)?.value||"").trim(); const now=Date.now();
+  try{
+    if(type==="lead"){ const d={business:v("#fBiz"),contact:v("#fContact"),phone:v("#fPhone"),sector:v("#fSector"),area:v("#fArea"),stage:v("#fStage"),nextStep:v("#fNext"),nextDate:v("#fNextD"),notes:v("#fNotes"),updatedAt:now};
+      if(id) await db.doc("leads/"+id).update(d); else await db.collection("leads").add({repId:viewRep,createdAt:now,...d}); toast("Lead saved."); closeSheet(); return; }
+    let a={repId:viewRep,type,date:v("#fDate")||dxb(),time:v("#fTime"),notes:v("#fNotes"),updatedAt:now};
+    if(type==="todo"||type==="reminder") a.text=v("#fText");
+    if(["call","meeting","followup","contract"].includes(type)){ a.business=v("#fBiz");
+      const stage=type==="call"?(segVal("#fOutcome")==="Meeting booked"?"Meeting booked":segVal("#fOutcome")==="Not interested"?"Lost":"Contacted"):type==="meeting"?($("#fHeld")?.checked?"Meeting held":"Meeting booked"):type==="contract"?"Won":undefined;
+      a.leadId=await upsertLead(a.business,{...(stage?{stage}:{}),...(type==="call"?{contact:v("#fContact")||undefined,phone:v("#fPhone")||undefined}:{})}); }
+    if(type==="call"){ a.outcome=segVal("#fOutcome")||"Logged"; a.date=dxb(); a.time=new Date().toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit",timeZone:"Asia/Dubai"}); }
+    if(type==="meeting"){ a.where=segVal("#fWhere"); a.done=!!$("#fHeld")?.checked; }
+    if(type==="contract"){ a.package=segVal("#fPkg"); a.months=+segVal("#fMonths"); a.paid=segVal("#fPaid"); a.amount=+String(v("#fAmt")).replace(/[^\d]/g,"")||0; }
+    Object.keys(a).forEach(k=>a[k]===undefined&&delete a[k]);
+    if(id) await db.doc("activities/"+id).update(a); else await db.collection("activities").add({...a,createdAt:now});
+    if(type==="call"&&!id){ const o=a.outcome;
+      if(o==="Meeting booked"&&v("#fMDate")) await db.collection("activities").add({repId:viewRep,type:"meeting",business:a.business,leadId:a.leadId,date:v("#fMDate"),time:v("#fMTime"),where:"At their business",notes:"",createdAt:now+1});
+      if((o==="Call back"||o==="Interested")&&v("#fFDate")) await db.collection("activities").add({repId:viewRep,type:"followup",business:a.business,leadId:a.leadId,date:v("#fFDate"),notes:a.notes,createdAt:now+1});
+    }
+    toast(type==="contract"?"Contract logged. Well done!":`${LABEL[type]} saved.`); closeSheet();
+  }catch(e){ toast("Couldn't save: "+(e?.message||e?.code||"error")); }
+}
+
+/* ---------- Hamza ---------- */
+function repContext(){
+  const t=dxb(), ws=weekStart(t); const d=repStats(viewRep,t,t), w=repStats(viewRep,ws,t);
+  const open=mine(leads).filter(l=>!["Won","Lost"].includes(l.stage)).slice(0,25).map(l=>`${l.business} (${l.stage}${l.nextDate?", next "+l.nextDate:""})`).join("; ");
+  const due=mine(acts).filter(a=>!a.done&&a.date&&a.date<=t&&["followup","meeting","todo","reminder"].includes(a.type)).map(a=>`${LABEL[a.type]} ${a.business||a.text||""} ${a.date}`).join("; ");
+  const last=kpis.filter(k=>k.repId===viewRep).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,5).map(k=>`${k.date}: ${k.calls} contacts, ${k.booked} booked, ${k.held} held${k.blockers?", blocker "+k.blockers:""}`).join(" | ");
+  return `REP: ${names[viewRep]||"the rep"}. Today ${t}. Logged today: ${d.calls} contacts, ${d.booked} meetings booked, ${d.held} held, ${d.contracts} contracts. This week: ${w.calls} contacts, ${w.booked} booked, ${w.held} held, ${w.contracts} contracts (${aed(w.value)}).
+OPEN LEADS: ${open||"none"}
+DUE/OVERDUE: ${due||"none"}
+RECENT CHECK-INS: ${last||"none"}`;
+}
+function rules(){
+  const base=`You are Hamza Qureshi, Sales Lead at Yontro in Dubai, managing and coaching ${names[viewRep]||"a sales rep"}. You know Yontro's offer inside out:\n${playbook||PRODUCT}\n\n${repContext()}\nTargets per day: ${TARGET.calls} contacts, ${TARGET.booked} meetings booked, ${TARGET.held} held. Money in AED.`;
+  if(mode==="checkin") return base+`\n\nMODE: DAILY CHECK-IN. Ask these one or two at a time, briefly: 1) contacts made today (calls, visits, WhatsApps), 2) meetings booked and held, 3) follow-ups done and due, 4) any contracts or proposals, 5) what's blocking you. Use their logged numbers as a starting point and ask them to log anything missing. Once you have the answers, call save_checkin, then give one line of honest feedback against target and ONE concrete tip for tomorrow. Keep every message to 1-3 short lines. Firm, warm, like a good sales manager.`;
+  if(mode==="train") return base+`\n\nMODE: TRAINING. Teach the product and how to sell it. Be concrete: exact lines to say, numbers, objection answers. Quiz when asked (one question at a time, then feedback). Keep messages short (max 6 lines). Never invent offers, prices or terms beyond the playbook.`;
+  return base+`\n\nMODE: ROLEPLAY. You play a realistic Dubai prospect: ${session.split("|")[0]}. Stay fully in character: busy, a bit skeptical, raise real objections (price, time, bad past agency, "send me something"). Short replies like a real person on the phone or at the counter. Don't coach during the roleplay. Only agree to a meeting or deal if the rep earns it.`;
+}
+async function hamza(text,opts={}){
+  if(!sample) return toast("Hamza needs Claude. Allow it from this page's Permissions menu.");
+  if(busy) return; text=String(text||"").trim(); if(!text&&!opts.system) return;
+  const rep=viewRep; const now=Date.now();
+  if(text&&!opts.hidden) await db.collection("chats").add({repId:rep,mode,session:mode==="roleplay"?session:"",role:"rep",text,createdAt:now});
+  busy=true; renderChat(); ctl=new AbortController();
+  const hist=chats.filter(c=>c.repId===rep&&c.mode===mode&&(mode!=="roleplay"||c.session===session)).sort((a,b)=>(a.createdAt||0)-(b.createdAt||0)).slice(-24).map(c=>({role:c.role==="rep"?"user":"assistant",content:c.text}));
+  const msgs=[{role:"user",content:rules()},...hist]; if(text&&!opts.hidden) msgs.push({role:"user",content:text}); if(opts.system) msgs.push({role:"user",content:opts.system});
+  const tools=mode==="checkin"?[{name:"save_checkin",description:"Save today's check-in numbers and your one-line feedback.",inputSchema:{type:"object",properties:{calls:{type:"number"},booked:{type:"number"},held:{type:"number"},followups:{type:"number"},contracts:{type:"number"},blockers:{type:"string"},feedback:{type:"string"}},required:["calls","booked","held","feedback"]},
+    execute:async i=>{ const id=rep+"_"+dxb(); await db.doc("kpi/"+id).set({repId:rep,date:dxb(),calls:+i.calls||0,booked:+i.booked||0,held:+i.held||0,followups:+i.followups||0,contracts:+i.contracts||0,blockers:String(i.blockers||""),feedback:String(i.feedback||""),createdAt:Date.now()}); return "saved"; }}]:undefined;
+  let reply="";
+  try{ const r=await sample(msgs,{signal:ctl.signal,modelTier:opts.tier||"default",cache:false,...(tools?{tools}:{})}); reply=r.text.trim(); }
+  catch(e){ reply=e?.code==="not_granted"?"I need Claude access on this page to talk. Allow it from the Permissions menu.":e?.code==="rate_limited"?"I'm busy right now. Try again in a few minutes.":"Something went wrong: "+(e?.message||e?.code||"error"); }
+  await db.collection("chats").add({repId:rep,mode,session:mode==="roleplay"?session:"",role:"hamza",kind:opts.kind||"",text:reply||"…",createdAt:Date.now()+1});
+  busy=false; renderAll();
+}
+
+/* ---------- events ---------- */
+document.addEventListener("click",async e=>{
+  const b=e.target.closest("button,[data-lead]"); if(!b) return; const d=b.dataset;
+  if(d.tab){ tab=d.tab; renderAll(); scrollTo(0,0); return; }
+  if(d.add){ if(!viewRep) return toast("Sign in to log."); const pre={}; if(d.forlead){ const l=leads.find(x=>x.id===d.forlead); pre.business=l?.business; pre.leadId=d.forlead; } if(d.add==="meeting"&&tab==="cal") pre.date=calDay; openSheet(d.add,pre); return; }
+  if(d.close!==undefined){ closeSheet(); return; }
+  if(d.lead){ openSheet("lead",leads.find(x=>x.id===d.lead)); return; }
+  if(d.edit){ const a=acts.find(x=>x.id===d.edit); if(a) openSheet(a.type,a); return; }
+  if(d.done){ const a=acts.find(x=>x.id===d.done); if(!a) return; try{ await db.doc("activities/"+a.id).update({done:!a.done,updatedAt:Date.now()}); if(a.type==="meeting"&&!a.done&&a.leadId) await upsertLead(a.business,{stage:"Meeting held"}); }catch(err){toast("Couldn't save.");} return; }
+  if(d.del){ if(!d.confirm){ d.confirm="1"; b.textContent="Tap again to delete"; return; } try{ await db.doc(d.coll+"/"+d.del).delete(); toast("Deleted."); closeSheet(); }catch(err){toast("Couldn't delete.");} return; }
+  if(d.stage){ stageF=d.stage; renderLeads(); return; }
+  if(d.day){ calDay=d.day; renderCal(); return; }
+  if(d.mode){ mode=d.mode; document.querySelectorAll("[data-mode]").forEach(x=>x.setAttribute("aria-pressed",String(x===b))); if(mode==="roleplay"&&!session){ const last=chats.filter(c=>c.repId===viewRep&&c.mode==="roleplay").sort((a,b)=>(b.createdAt||0)-(a.createdAt||0))[0]; session=last?.session||""; } renderChat(); return; }
+  if(d.go==="checkin"){ tab="hamza"; mode="checkin"; renderAll(); document.querySelectorAll("[data-mode]").forEach(x=>x.setAttribute("aria-pressed",String(x.dataset.mode==="checkin"))); if(!chats.some(c=>c.repId===viewRep&&c.mode==="checkin"&&dxb(new Date(c.createdAt||0))===dxb())) hamza("",{system:"Start today's check-in now with your first question."}); return; }
+  if(b.id==="startCheckin"){ hamza("",{system:"Start today's check-in now with your first question."}); return; }
+  if(d.say){ hamza(d.say); return; }
+  if(d.rp){ session=d.rp+"|"+Date.now(); mode="roleplay"; renderChat(); hamza("",{system:`Begin the roleplay now: you are a ${d.rp} in Dubai. The rep has just walked in or called. Open in character with one short line.`}); return; }
+  if(b.id==="endRp"){ hamza("",{system:"STOP the roleplay and step out of character as Hamza the coach. Score the rep out of 10 on: opener, discovery questions, value and the free video offer, objection handling, close (asked for the meeting/deal). Then give the 3 most useful fixes with exact lines to say next time. Keep it under 12 lines.",kind:"score"}); return; }
+  if(b.id==="savePlaybook"){ try{ await db.doc("meta/playbook").set({text:$("#playbook").value,updatedAt:Date.now()}); toast("Playbook saved. Hamza now uses it."); }catch(err){toast("Couldn't save.");} return; }
+  if(b.id==="wkPrev"){ calWeek=addDays(calWeek,-7); calDay=calWeek; renderCal(); return; }
+  if(b.id==="wkNext"){ calWeek=addDays(calWeek,7); calDay=calWeek; renderCal(); return; }
+  if(b.id==="wkToday"){ calWeek=weekStart(dxb()); calDay=dxb(); renderCal(); return; }
+  const seg=b.closest(".seg"); if(seg&&b.dataset.v!==undefined){ seg.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",String(x===b))); if(seg.id==="fOutcome") callExtra(); if(seg.id==="fPkg"||seg.id==="fMonths") recalc(); return; }
+});
+$("#sheetBg").addEventListener("click",e=>{ if(e.target.id==="sheetBg") closeSheet(); });
+document.addEventListener("keydown",e=>{ if(e.key==="Escape"&&!$("#sheetBg").hidden) closeSheet(); });
+document.addEventListener("submit",e=>{ if(e.target.id==="sheetForm"){ e.preventDefault(); saveSheet(e.target); } if(e.target.id==="chatForm"){ e.preventDefault(); if(mode==="roleplay"&&!session) return toast("Pick a prospect first."); const v=$("#chatIn").value; $("#chatIn").value=""; hamza(v); } });
+$("#chatIn").addEventListener("keydown",e=>{ if(e.key==="Enter"&&!e.shiftKey){ e.preventDefault(); $("#chatForm").requestSubmit(); } });
+$("#leadSearch").addEventListener("input",renderLeads);
+document.addEventListener("change",e=>{ if(e.target.id==="repPick"){ viewRep=e.target.value; session=""; renderAll(); } });
+
+/* ---------- boot ---------- */
+renderTabs(); renderToday();
+(async()=>{
+  const timer=setTimeout(()=>{ if(!db){ $("#banner").textContent="Open this CRM signed in to claude.ai to see your leads."; $("#banner").hidden=false; } },10000);
+  const C=window.claude;
+  const [d,u,s]=await Promise.all([C?.use?.("db"),C?.use?.("user"),C?.use?.("sample")].map(p=>Promise.resolve(p).catch(()=>null)));
+  user=u; sample=s||null; if(!d){ return; } db=d; clearTimeout(timer);
+  try{ me=await user?.id?.(); }catch(_){ me=null; } isOwner=!!(await user?.isOwner?.().catch(()=>false));
+  viewRep=me; if(!me){ $("#banner").textContent="Sign in to claude.ai to get your own sales login."; $("#banner").hidden=false; }
+  if(!sample){ $("#banner").textContent="Hamza needs Claude access on this page. Everything else works."; $("#banner").hidden=false; }
+  if(isOwner) tab="team";
+  const docs=q=>q.docs.map(x=>({id:x.id,...x.data()}));
+  const refreshNames=async()=>{ try{ const ids=[...new Set([me,...leads.map(x=>x.repId),...acts.map(x=>x.repId),...kpis.map(x=>x.repId)].filter(Boolean))]; if(user?.profiles&&ids.length){ const ps=await user.profiles(ids); ids.forEach(i=>{ if(ps?.[i]?.name) names[i]=ps[i].name; }); } }catch(_){} renderAll(); };
+  const onErr=e=>{ $("#banner").textContent="Couldn't load ("+(e?.code||"error")+")."; $("#banner").hidden=false; };
+  db.collection("leads").onSnapshot(q=>{leads=docs(q);renderAll();},onErr);
+  db.collection("activities").onSnapshot(q=>{acts=docs(q);renderAll();},onErr);
+  db.collection("kpi").onSnapshot(q=>{kpis=docs(q);refreshNames();},onErr);
+  db.collection("chats").onSnapshot(q=>{chats=docs(q);if(tab==="hamza")renderChat();},onErr);
+  db.doc("meta/playbook").onSnapshot(x=>{ playbook=x.exists?(x.data().text||""):""; if(tab==="team") renderTeam(); },onErr);
+  refreshNames();
+  // reminders due now
+  setTimeout(()=>{ const t=dxb(); const due=acts.filter(a=>a.repId===viewRep&&!a.done&&a.type==="reminder"&&a.date<=t); if(due.length){ $("#banner").textContent=`Reminder: ${due.map(a=>a.text).slice(0,3).join(" · ")}`; $("#banner").hidden=false; } },2500);
+})();
+</script>
