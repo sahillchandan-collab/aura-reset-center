@@ -292,6 +292,19 @@ button.ok{background:var(--green);border-color:var(--green);color:#fff}
 .soundbtn{flex:none;display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;padding:5px 11px;border:1.5px solid var(--line);border-radius:999px;background:var(--surface);color:var(--ink);cursor:pointer}
 .soundbtn svg{width:15px;height:15px}
 @media (prefers-reduced-motion:reduce){.confetti,.steam::before,.steam::after,.light,.livebadge,.room.live .desk::after{animation:none!important}}
+.attrow{display:flex;gap:6px;flex-wrap:wrap}
+.attchip{display:inline-flex;align-items:center;gap:6px;background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:4px 6px 4px 4px;font-size:12px;max-width:220px}
+.attchip img,.attchip .ficon{width:34px;height:34px;object-fit:cover;border-radius:6px;flex:none;background:var(--surface);display:grid;place-items:center}
+.attchip span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.attchip button{border:0;background:transparent;padding:2px 6px;font-size:14px;color:var(--muted)}
+.atts{display:grid;gap:6px;margin-top:6px}
+.atts img{max-width:240px;max-height:240px;border-radius:10px;display:block}
+.atts video{max-width:260px;border-radius:10px;display:block;background:#000}
+.filechip{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:inherit;background:rgba(0,0,0,.08);border-radius:10px;padding:6px 10px;font-size:13px;max-width:260px}
+.filechip span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.filechip svg,.attbtn svg{width:16px;height:16px;flex:none}
+.attbtn{display:inline-flex;align-items:center;gap:6px}
+#dmDrawer.drop{outline:3px dashed var(--accent);outline-offset:-10px}
 .bizbar{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin;align-items:center}
 .bizbar a{flex:none;display:inline-flex;align-items:center;gap:7px;text-decoration:none;color:var(--ink);font-weight:600;font-size:13.5px;padding:6px 13px;border:1.5px solid var(--line);border-radius:999px;background:var(--surface)}
 .bizbar a:hover{border-color:var(--ink)}
@@ -453,8 +466,10 @@ button.ok{background:var(--green);border-color:var(--green);color:#fff}
   <form class="composer" id="dmForm">
     <div class="suggest" id="dmSuggest"></div>
     <label class="f" for="dmIn" style="position:absolute;left:-9999px">Message</label>
-    <textarea id="dmIn" maxlength="4000" placeholder="Reply: change something, ask why, or give a new job"></textarea>
-    <div class="row" style="justify-content:space-between"><span class="tag" id="dmState"></span><span class="row"><button type="button" id="dmStop" hidden>Stop</button><button class="primary" type="submit" id="dmSend">Send</button></span></div>
+    <div class="attrow" id="dmAtts"></div>
+    <textarea id="dmIn" maxlength="4000" placeholder="Reply: change something, ask why, or give a new job. Drop files here."></textarea>
+    <input type="file" id="dmFile" multiple hidden accept="image/*,video/*,application/pdf,.pdf,.csv,.txt,.md,.json">
+    <div class="row" style="justify-content:space-between"><span class="tag" id="dmState"></span><span class="row"><button type="button" class="attbtn" id="dmAttach" title="Attach photos, videos or files"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12.5l-8.6 8.6a5 5 0 01-7.1-7.1l9.2-9.2a3.4 3.4 0 014.8 4.8l-9.2 9.2a1.7 1.7 0 01-2.4-2.4l8.5-8.5"/></svg>Attach</button><button type="button" id="dmStop" hidden>Stop</button><button class="primary" type="submit" id="dmSend">Send</button></span></div>
   </form>
 </aside>
 
@@ -491,6 +506,7 @@ const todayISO = () => new Date().toISOString().slice(0,10);
 let ROOMS = BIZ.rooms; let WORK = ROOMS.filter(r=>r.id!=="break"&&r.id!=="board");
 const roomById = id => ROOMS.find(r=>r.id===id);
 let db=null, sample=null, canWrite=true;
+let assets=null, sampleCaps=null;
 let routines=[], autoBusy=false, chat=[], memory=[], chatCtl=null; const DAYS=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 let agents=[], tasks=[], reports=[], meta={goal:BIZ.goal,status:BIZ.status,note:BIZ.note};
 let roomFilter="all", selection={kind:"office"}, meeting=false; const running=new Map(); const pos=new Map();
@@ -1150,7 +1166,7 @@ function inboxCard(x){
     ${canWrite?`<form data-dmq="1" data-slug="${esc(x.slug)}" data-ag="${esc(a.id)}">
       <label class="f" for="q2_${esc(key)}" style="position:absolute;left:-9999px">Reply to ${esc(a.name)}</label>
       <textarea id="q2_${esc(key)}" name="text" maxlength="4000" placeholder="Reply to ${esc(firstName(a.name))}: change something, ask why, or give a new job"></textarea>
-      <div class="row"><button class="primary small" type="submit">Send</button>${ow?`<button class="ok small" type="button" data-dmapprove="${esc(x.slug)}|${esc(ow.t.id)}|${esc(a.id)}">Approve</button>`:""}<button class="small" type="button" data-dmopen="${esc(x.slug)}|${esc(a.id)}">Open conversation</button></div>
+      <div class="row"><button class="primary small" type="submit">Send</button>${ow?`<button class="ok small" type="button" data-dmapprove="${esc(x.slug)}|${esc(ow.t.id)}|${esc(a.id)}">Approve</button>`:""}<button class="small" type="button" data-dmopen="${esc(x.slug)}|${esc(a.id)}">Open conversation</button>${assets?`<button class="small attbtn" type="button" data-dmattach="${esc(x.slug)}|${esc(a.id)}">Attach file</button>`:""}</div>
     </form>`:""}
   </article>`;
 }
@@ -1168,7 +1184,7 @@ function renderDM(){
   el.innerHTML=(th.length?"":`<div class="msg assistant">Hi Sahill, it's ${esc(firstName(a.name))}. Tell me what you need, ask me anything about my work, or give me a new job.</div>`)+th.slice(-60).map(m=>{
     if(m.kind==="work"){const t=ALL[slug].tasks.find(x=>x.id===m.taskId); const done=t&&t.status==="done";
       return `<div class="msg assistant work"><div class="wt">Work handed in · ${esc(m.title||t?.title||"Task")}</div>${esc(m.text)}<span class="when">${esc(fmtTime(m.createdAt))}</span>${t&&!done&&canWrite?`<div class="row"><button class="ok small" type="button" data-dmapprove="${esc(slug)}|${esc(t.id)}|${esc(agentId)}">Approve</button><span class="tag">or reply below with changes</span></div>`:done?`<div class="tag" style="margin-top:6px">Approved</div>`:""}</div>`;}
-    return `<div class="msg ${m.role==="sahill"?"user":"assistant"}">${esc(m.text)}${m.actions?.length?`<div class="acts">${m.actions.map(x=>`<span>✓ ${esc(x)}</span>`).join("")}</div>`:""}<span class="when">${esc(fmtTime(m.createdAt))}</span></div>`;}).join("")
+    return `<div class="msg ${m.role==="sahill"?"user":"assistant"}">${esc(m.text)}${m.attachments?.length?`<div class="atts">${attHTML(m.attachments)}</div>`:""}${m.actions?.length?`<div class="acts">${m.actions.map(x=>`<span>✓ ${esc(x)}</span>`).join("")}</div>`:""}<span class="when">${esc(fmtTime(m.createdAt))}</span></div>`;}).join("")
     +(busy?`<div class="msg assistant">${esc(busy.text||"")}<span class="dots">${busy.text?"":"Typing"}</span></div>`:"");
   el.scrollTop=el.scrollHeight;
   $("#dmSend").disabled=!!busy; $("#dmStop").hidden=!busy; $("#dmState").textContent=busy?`${firstName(a.name)} is working on it…`:"Everything here is saved and remembered.";
@@ -1194,6 +1210,7 @@ How to respond:
 - If he approves or says it's fine, call mark_done.
 - If he asks to remove or replace staff, or to clear tasks in this business, do it with remove_agent and delete_tasks (you may remove yourself last if he asks), then confirm in one line what was removed.
 - If he asks a question, answer it directly. If you truly need something from him to do the job, ask one clear question.
+- Sahill can send you files. Images are shown to you and text files (CSV, TXT, MD, JSON) are pasted into his message: use them. You cannot open PDFs or videos: say what you'll use them for and ask for the key details you need from them.
 - You cannot contact anyone, browse or spend money. Never invent figures.
 Talk like an employee texting the boss on WhatsApp: 1 to 3 short lines, first person, no headings, no pleasantries. Lead with what you need from him (a decision, a number, an approval), then what you did. Finished work goes into update_work, not into your chat reply.`;
 }
@@ -1220,21 +1237,37 @@ function dmTools(slug,a,log,created){
     execute:async i=>{await db.collection(base+"memory").add({text:String(i.fact).slice(0,600),createdAt:Date.now(),source:"dm:"+a.name}); log.push(`Remembered: ${i.fact}`); return "saved";}},
   ];
 }
-async function sendDM(slug,agentId,text){
-  text=String(text||"").trim(); if(!text||!db) return; const key=slug+"/"+agentId; if(dmBusy.has(key)) return;
+async function sendDM(slug,agentId,text,files){
+  files=files||[]; text=String(text||"").trim(); if((!text&&!files.length)||!db) return; const key=slug+"/"+agentId; if(dmBusy.has(key)) return;
+  let attachments=[], imgs=[], notes=[];
+  if(files.length){
+    if(!assets){ toast("Uploading needs edit access to Sahill's HQ."); if(!text) return; }
+    else { $("#dmState").textContent=`Uploading ${files.length} file${files.length>1?"s":""}…`;
+      const caps=sampleCaps; const imgTypes=caps?.images?.mediaTypes||[];
+      for(const f of files){
+        try{ const tt=textType(f); const r=await assets.upload(f,tt?{type:tt}:undefined); attachments.push({id:r.id,url:r.url,name:f.name,type:r.contentType||f.type,size:r.sizeBytes||f.size});
+          if(f.type.startsWith("image/")&&imgTypes.includes(f.type)&&imgs.length<(caps.images.maxCount||4)&&f.size<=(caps.images.maxInputBytes||5e6)) { imgs.push(f); notes.push(`[Image attached: ${f.name}, shown to you]`); }
+          else if(tt&&f.size<400000){ const txt=await f.text(); notes.push(`[File ${f.name}]\n${txt.slice(0,30000)}${txt.length>30000?"\n…(cut)":""}`); }
+          else notes.push(`[File attached: ${f.name}, ${f.type||"unknown type"}, ${fmtSize(f.size)}. You can't open this type.]`);
+        }catch(e){ toast(`Couldn't upload ${f.name}: ${e?.code==="too_large"||e?.code==="payload_too_large"?"file too big (max 20 MB)":e?.code==="unsupported_type"?"type not supported (use images, video, PDF, CSV, TXT)":(e?.message||e?.code||"error")}`); }
+      }
+    }
+    if(!text&&!attachments.length) return;
+  }
+  if(!text) text=`Sent ${attachments.length} file${attachments.length>1?"s":""}: ${attachments.map(x=>x.name).join(", ")}`;
   const base="biz/"+slug+"/"; const D=ALL[slug]; const a=D.agents.find(x=>x.id===agentId); if(!a) return;
   const th=threadOf(slug,agentId); const ow=openWorkIn(slug,th); const lastW=[...th].reverse().find(m=>m.kind==="work"); const focusT=ow?ow.t:(lastW?D.tasks.find(t=>t.id===lastW.taskId&&t.status!=="done"):null);
   const at=new Date().toISOString();
-  try{ await db.collection(base+"dm").add({agentId,role:"sahill",kind:"msg",text,taskId:focusT?.id||"",createdAt:Date.now()});
+  try{ await db.collection(base+"dm").add({agentId,role:"sahill",kind:"msg",text,taskId:focusT?.id||"",...(attachments.length?{attachments}:{}),createdAt:Date.now()});
     if(focusT) await db.doc(base+"tasks/"+focusT.id).update({feedback:[...(focusT.feedback||[]),{text,at}]}); }catch(e){ return toast("Couldn't send: "+(e?.message||"error")); }
   if(!sample){ toast(`Sent. ${firstName(a.name)} will reply in the next daily run.`); return; }
-  const turns=th.slice(-18).map(m=>m.kind==="work"?{role:"assistant",content:`[Work handed in on task "${m.title||""}" (${m.taskId})]\n${String(m.text).slice(0,2500)}`}:{role:m.role==="sahill"?"user":"assistant",content:String(m.text)}).filter(m=>m.content);
-  turns.push({role:"user",content:text});
+  const turns=th.slice(-18).map(m=>m.kind==="work"?{role:"assistant",content:`[Work handed in on task "${m.title||""}" (${m.taskId})]\n${String(m.text).slice(0,2500)}`}:{role:m.role==="sahill"?"user":"assistant",content:String(m.text)+(m.attachments?.length?` [attached: ${m.attachments.map(x=>x.name).join(", ")}]`:"")}).filter(m=>m.content);
+  turns.push({role:"user",content:text+(notes.length?"\n\n"+notes.join("\n\n"):"")});
   SFX.play("send"); const busy={text:""}; dmBusy.set(key,busy); running.set("agent:"+agentId,{room:focusT?(focusT.dept||deptIn(slug,a)):deptIn(slug,a),say:"Working on your message"});
   if(view==="office"&&cur===slug) renderAgentsOnFloor(); renderDM(); updateBadge();
   const log=[], created={}; dmCtl=new AbortController(); let reply="";
   try{
-    const r=await sample([{role:"user",content:dmRules(slug,a,focusT)},...turns],{tools:dmTools(slug,a,log,created),signal:dmCtl.signal,modelTier:"default",onText:({text:t})=>{busy.text=t; if(dmOpen&&dmOpen.slug===slug&&dmOpen.agentId===agentId) renderDM();}});
+    const r=await sample([{role:"user",content:dmRules(slug,a,focusT)},...turns],{tools:dmTools(slug,a,log,created),signal:dmCtl.signal,modelTier:"default",...(imgs.length?{images:imgs}:{}),onText:({text:t})=>{busy.text=t; if(dmOpen&&dmOpen.slug===slug&&dmOpen.agentId===agentId) renderDM();}});
     reply=r.text.trim();
   }catch(e){ reply=e?.code==="cancelled"||e?.code==="aborted"?"(stopped)":e?.code==="not_granted"?"I can't reply until Claude is allowed on this page (Permissions menu).":e?.code==="rate_limited"?"I'm at a usage limit right now. Try me again in a few minutes.":"Sorry, something went wrong: "+(e?.message||"unknown error"); if(e?.text) reply=e.text+"\n\n"+reply; }
   dmBusy.delete(key); running.delete("agent:"+agentId); SFX.play("msg");
@@ -1242,13 +1275,33 @@ async function sendDM(slug,agentId,text){
   if(!(dmOpen&&dmOpen.slug===slug&&dmOpen.agentId===agentId)) showPingMsg(slug,a,reply);
   if(view==="office"&&cur===slug) renderAll(); renderDM(); updateBadge();
 }
+function fmtSize(n){n=+n||0;return n>1048576?(n/1048576).toFixed(1)+" MB":Math.max(1,Math.round(n/1024))+" KB";}
+function textType(f){const n=f.name.toLowerCase(); if(n.endsWith(".csv")) return "text/csv"; if(n.endsWith(".md")) return "text/markdown"; if(n.endsWith(".json")) return "application/json"; if(n.endsWith(".txt")) return "text/plain"; return null;}
+const FILE_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V9z"/><path d="M14 3v6h6"/></svg>';
+function attURL(f){return f.url||("/_blob/"+f.id);}
+function attHTML(list){ return (list||[]).map(f=>{const u=esc(attURL(f)); const t=f.type||"";
+  if(t.startsWith("image/")) return `<a href="${u}" target="_blank" rel="noopener"><img src="${u}" alt="${esc(f.name)}" loading="lazy"></a>`;
+  if(t.startsWith("video/")) return `<video src="${u}" controls preload="metadata"></video>`;
+  return `<a class="filechip" href="${u}" target="_blank" rel="noopener">${FILE_SVG}<span>${esc(f.name)}</span><span class="tag">${esc(fmtSize(f.size))}</span></a>`;}).join(""); }
+let dmPending=[];
+function renderPendingAtts(){ $("#dmAtts").innerHTML=dmPending.map((p,i)=>`<span class="attchip">${p.prev?`<img src="${p.prev}" alt="">`:`<span class="ficon">${FILE_SVG}</span>`}<span>${esc(p.file.name)}</span><button type="button" data-attdel="${i}" aria-label="Remove ${esc(p.file.name)}">×</button></span>`).join(""); }
+function addFiles(list){ if(!assets) return toast("Uploading needs edit access to Sahill's HQ."); for(const f of list){ if(f.size>20*1048576){toast(`${f.name} is over 20 MB. Send a shorter clip or a link.`);continue;} if(dmPending.length>=6){toast("Up to 6 files per message.");break;} dmPending.push({file:f,prev:f.type.startsWith("image/")?URL.createObjectURL(f):""}); } renderPendingAtts(); }
+function takePending(){ const f=dmPending.map(p=>p.file); dmPending.forEach(p=>p.prev&&URL.revokeObjectURL(p.prev)); dmPending=[]; renderPendingAtts(); return f; }
+$("#dmAttach").onclick=()=>$("#dmFile").click();
+$("#dmFile").onchange=e=>{addFiles([...e.target.files]); e.target.value="";};
+$("#dmAtts").addEventListener("click",e=>{const b=e.target.closest("[data-attdel]"); if(!b) return; const p=dmPending.splice(+b.dataset.attdel,1)[0]; if(p?.prev) URL.revokeObjectURL(p.prev); renderPendingAtts();});
+$("#dmDrawer").addEventListener("dragover",e=>{if(e.dataTransfer?.types?.includes("Files")){e.preventDefault();$("#dmDrawer").classList.add("drop");}});
+$("#dmDrawer").addEventListener("dragleave",e=>{if(e.target===$("#dmDrawer")) $("#dmDrawer").classList.remove("drop");});
+$("#dmDrawer").addEventListener("drop",e=>{e.preventDefault();$("#dmDrawer").classList.remove("drop"); if(e.dataTransfer?.files?.length) addFiles([...e.dataTransfer.files]);});
+$("#dmIn").addEventListener("paste",e=>{const fs=[...(e.clipboardData?.files||[])]; if(fs.length){e.preventDefault(); addFiles(fs);}});
 $("#closeDM").onclick=closeDM; $("#dmStop").onclick=()=>dmCtl?.abort();
-$("#dmForm").onsubmit=e=>{e.preventDefault(); if(!dmOpen) return; const v=$("#dmIn").value; $("#dmIn").value=""; sendDM(dmOpen.slug,dmOpen.agentId,v);};
+$("#dmForm").onsubmit=e=>{e.preventDefault(); if(!dmOpen) return; const v=$("#dmIn").value; const fs=takePending(); if(!v.trim()&&!fs.length) return; $("#dmIn").value=""; sendDM(dmOpen.slug,dmOpen.agentId,v,fs);};
 $("#dmIn").addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();$("#dmForm").requestSubmit();}});
 $("#dmSuggest").addEventListener("click",e=>{const b=e.target.closest("[data-dmsug]"); if(b&&dmOpen) sendDM(dmOpen.slug,dmOpen.agentId,b.dataset.dmsug);});
 document.addEventListener("submit",e=>{const f=e.target.closest("form[data-dmq]"); if(!f) return; e.preventDefault(); const v=f.querySelector("textarea").value.trim(); if(!v) return toast("Write a reply first.");
   f.querySelector("textarea").value=""; document.activeElement?.blur?.(); openDM(f.dataset.slug,f.dataset.ag); sendDM(f.dataset.slug,f.dataset.ag,v);});
-document.addEventListener("click",async e=>{const b=e.target.closest("[data-dmapprove],[data-dmopen],[data-dm]"); if(!b) return;
+document.addEventListener("click",async e=>{const b=e.target.closest("[data-dmapprove],[data-dmopen],[data-dm],[data-dmattach]"); if(!b) return;
+  if(b.dataset.dmattach){ const [sl,ag]=b.dataset.dmattach.split("|"); openDM(sl,ag); $("#dmFile").click(); return; }
   if(b.dataset.dm){ openDM(cur,b.dataset.dm); return; }
   if(b.dataset.dmopen){ const [sl,ag]=b.dataset.dmopen.split("|"); openDM(sl,ag); return; }
   const [sl,tid,ag]=b.dataset.dmapprove.split("|"); if(!db) return;
@@ -1340,8 +1393,9 @@ renderNav(); route();
 (async()=>{
   const timer=setTimeout(()=>{ if(!db){ $("#hqBanner").textContent="Couldn't reach your saved data. Open this page signed in to claude.ai."; $("#hqBanner").hidden=false; banner("Couldn't reach your saved data. Open this page signed in to claude.ai."); } },10000);
   const C=window.claude;
-  const [d,s2,u]=await Promise.all([C?.use?.("db"),C?.use?.("sample"),C?.use?.("user")].map(p=>Promise.resolve(p).catch(()=>null)));
-  sample=s2||null;
+  const [d,s2,u,as]=await Promise.all([C?.use?.("db"),C?.use?.("sample"),C?.use?.("user"),C?.use?.("assets")].map(p=>Promise.resolve(p).catch(()=>null)));
+  sample=s2||null; assets=as||null; if(sample) sampleCaps=await sample.limits().catch(()=>null);
+  $("#dmAttach").hidden=!assets;
   if(u){ try{ if(await u.can("data.write")===false) canWrite=false; }catch{} }
   if(!d) return;
   db=d; clearTimeout(timer);
