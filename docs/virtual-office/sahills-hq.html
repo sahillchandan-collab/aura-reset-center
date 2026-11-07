@@ -368,7 +368,7 @@ button.ok{background:var(--green);border-color:var(--green);color:#fff}
       <div class="suggest" id="hqSuggest"></div>
     </section>
     <section class="panel" aria-labelledby="teamH">
-      <div class="panel-head"><h2 id="teamH">Message anyone</h2><span class="tag">Each agent has their own chat with you</span></div>
+      <div class="panel-head"><h2 id="teamH">Team chats</h2><span class="tag">One group chat per business. Whoever is responsible replies</span></div>
       <div class="list" id="teamList"></div>
     </section>
     <section class="panel" aria-labelledby="bizH">
@@ -775,7 +775,7 @@ Do the task now and hand back finished work, not a plan to do it: messages ready
     const r=await sample(prompt,{signal:ctl.signal,modelTier:"default",cache:false,onText:({text})=>{const s=running.get(id);if(!s)return;s.text=text;refreshLive(id);}});
     running.delete(id); running.delete("agent:"+a.id);
     await db.doc(pre+"tasks/"+id).update({output:r.text,outputBy:a.name,outputAt:new Date().toISOString(),status:"doing",...(t.output?{history:[...(t.history||[]),{output:t.output,at:t.outputAt||""}].slice(-3)}:{})});
-    SFX.play("work"); try{ await db.collection(pre+"dm").add({agentId:a.id,role:"agent",kind:"work",taskId:id,title:t.title,text:r.text,createdAt:Date.now()}); }catch(_){}
+    SFX.play("work"); try{ await db.collection(pre+"dm").add({agentId:"team",speakerId:a.id,role:"agent",kind:"work",taskId:id,title:t.title,text:r.text,createdAt:Date.now()}); }catch(_){}
     toast(`${firstName(a.name)} (${bname}) finished. Please review it.`);
   }catch(e){running.delete(id);running.delete("agent:"+a.id);
     if(e?.code==="aborted"||ctl.signal.aborted) toast("Stopped.");
@@ -976,7 +976,7 @@ async function sendChat(text){
     for(const it of q.filter(x=>x.slug===first)){ await new Promise(r=>setTimeout(r,500)); runTask(it.id,it.ov); }
     const rest=q.filter(x=>x.slug!==first); if(rest.length) toast(`${rest.length} more task${rest.length>1?"s":""} queued in other offices. Autopilot or the daily run picks them up.`); }
 }
-function openChat(){chatHeader();$("#chatDrawer").hidden=false;$("#openChat").hidden=true;renderChat();$("#chatIn").focus();const el=$("#msgs");el.scrollTop=el.scrollHeight;}
+function openChat(){ if(view==="office"&&cur){ openDM(cur,"team"); return; } chatHeader();$("#chatDrawer").hidden=false;$("#openChat").hidden=true;renderChat();$("#chatIn").focus();const el=$("#msgs");el.scrollTop=el.scrollHeight;}
 function closeChat(){$("#chatDrawer").hidden=true;$("#openChat").hidden=false;}
 $("#openChat").onclick=openChat; $("#closeChat").onclick=closeChat;
 $("#stopChat").onclick=()=>chatCtl?.abort();
@@ -1106,7 +1106,7 @@ setInterval(updateSky,60000);
 const HQ_SUG=["What should I focus on today?","Botany: a tenant paid AED 30,000 today","Ask Omar and Fatima for a status update now"];
 function applyAccent(c){const r=document.documentElement.style;r.setProperty("--acc-l",c.accent);r.setProperty("--acc-d",c.dark);r.setProperty("--acc-ink",c.ink);}
 function chatHeader(){ if(view==="hq"){$("#chatTag").textContent="SAHILL'S HQ · CHIEF OF STAFF";$("#chatH").textContent="Talk to your Chief of Staff";$("#chatIn").placeholder="e.g. Botany: unit 1204 bounced a AED 25,000 cheque. Get Daniel on it.";$("#openChat").lastChild.textContent="Chief of Staff";}
-  else {$("#chatTag").textContent=BIZ.name.toUpperCase()+" · OFFICE MANAGER";$("#chatH").textContent="Tell the office what to do";$("#chatIn").placeholder="e.g. Ask "+(agents[0]?firstName(agents[0].name):"the team")+" to start on the top task now";$("#openChat").lastChild.textContent="Office chat";} }
+  else {$("#chatTag").textContent=BIZ.name.toUpperCase()+" · OFFICE MANAGER";$("#chatH").textContent="Tell the office what to do";$("#chatIn").placeholder="e.g. Ask "+(agents[0]?firstName(agents[0].name):"the team")+" to start on the top task now";$("#openChat").lastChild.textContent="Team chat";} }
 function syncGlobals(){ if(view==="office"){const d=ALL[cur];agents=d.agents;tasks=d.tasks;routines=d.routines;reports=d.reports;meta=d.meta;chat=d.chat;memory=d.memory;} else {chat=HQD.chat;memory=HQD.memory;} }
 function renderNav(){ $("#bizbar").innerHTML=`<a href="#hq" style="--c:var(--ink)" ${view==="hq"?'aria-current="page"':""}><span class="d" aria-hidden="true"></span>Sahill's HQ</a><span class="sep" aria-hidden="true"></span>`+BIZES.map(b=>`<a href="#${b.slug}" style="--c:${b.accent}" ${view==="office"&&cur===b.slug?'aria-current="page"':""}><span class="d" aria-hidden="true"></span>${esc(b.name)}</a>`).join("")+`<a href="#review" class="rvnav" id="rvNav" hidden>Waiting on you <b id="rvNavN">0</b></a>`+soundBtnHTML(); updateBadge(); }
 function enterOffice(slug){
@@ -1157,19 +1157,21 @@ function openWorkIn(slug,th){ // work handed in since Sahill last spoke, still n
   const lastS=[...th].reverse().find(m=>m.role==="sahill"); const after=th.filter(m=>m.kind==="work"&&(!lastS||(m.createdAt||0)>(lastS.createdAt||0)));
   const w=after[after.length-1]; if(!w) return null; const t=ALL[slug].tasks.find(x=>x.id===w.taskId); return t&&t.status!=="done"?{w,t}:null;
 }
+function teamOf(slug){const b=bizOf(slug);return {id:"team",name:b.name+" team",role:"Team group chat",shirt:b.accent,team:true};}
+function agentOrTeam(slug,id){return id==="team"?teamOf(slug):ALL[slug].agents.find(x=>x.id===id);}
 function awaiting(slug,a){ if(dmBusy.has(slug+"/"+a.id)) return null; const th=threadOf(slug,a.id); const last=th[th.length-1]; if(!last||last.role!=="agent") return null;
   if(last.kind==="work"){const t=ALL[slug].tasks.find(x=>x.id===last.taskId); if(!t||t.status==="done") return null;} return {last,th}; }
-function inbox(slug){ const out=[]; (slug?[slug]:SLUGS).forEach(sl=>ALL[sl].agents.forEach(a=>{const r=awaiting(sl,a); if(r) out.push({slug:sl,a,m:r.last,th:r.th});})); return out.sort((x,y)=>(y.m.createdAt||0)-(x.m.createdAt||0)); }
+function inbox(slug){ const out=[]; (slug?[slug]:SLUGS).forEach(sl=>[teamOf(sl),...ALL[sl].agents].forEach(a=>{const r=awaiting(sl,a); if(r) out.push({slug:sl,a,m:r.last,th:r.th});})); return out.sort((x,y)=>(y.m.createdAt||0)-(x.m.createdAt||0)); }
 function reviewQueue(slug){ return inbox(slug); }
 function inboxCard(x){
   const b=bizOf(x.slug), a=x.a, ow=openWorkIn(x.slug,x.th); const key=x.slug+"_"+a.id;
   return `<article class="rcard" style="--c:${b.accent}">
-    <div class="rhead"><span class="btag" style="--c:${b.accent}">${esc(b.name)}</span>${(()=>{const sp=x.m.speakerId&&x.m.speakerId!==a.id?ALL[x.slug].agents.find(y=>y.id===x.m.speakerId):null; return sp?`${avDot(sp)}<b>${esc(sp.name)}</b><span>${esc(sp.role)} · in ${esc(firstName(a.name))}'s chat</span>`:`${avDot(a)}<b>${esc(a.name)}</b><span>${esc(a.role)}</span>`;})()}<span>· ${esc(fmtTime(x.m.createdAt))}</span></div>
+    <div class="rhead"><span class="btag" style="--c:${b.accent}">${esc(b.name)}</span>${(()=>{const sp=x.m.speakerId&&x.m.speakerId!==a.id?ALL[x.slug].agents.find(y=>y.id===x.m.speakerId):null; return sp?`${avDot(sp)}<b>${esc(sp.name)}</b><span>${esc(sp.role)} · ${a.team?"team chat":"in "+esc(firstName(a.name))+"'s chat"}</span>`:`${avDot(a)}<b>${esc(a.name)}</b><span>${esc(a.role)}</span>`;})()}<span>· ${esc(fmtTime(x.m.createdAt))}</span></div>
     ${ow?`<div class="rtitle">${esc(ow.t.title)}</div><div class="rprev">${esc(String(ow.w.text).slice(0,380))}</div>`:""}
     ${x.m.kind!=="work"?`<div class="lastmsg">${esc(String(x.m.text).slice(0,500))}</div>`:""}
     ${canWrite?`<form data-dmq="1" data-slug="${esc(x.slug)}" data-ag="${esc(a.id)}">
       <label class="f" for="q2_${esc(key)}" style="position:absolute;left:-9999px">Reply to ${esc(a.name)}</label>
-      <textarea id="q2_${esc(key)}" name="text" maxlength="4000" placeholder="Reply to ${esc(firstName(a.name))}: change something, ask why, or give a new job"></textarea>
+      <textarea id="q2_${esc(key)}" name="text" maxlength="4000" placeholder="${a.team?"Message the "+esc(bizOf(x.slug).name)+" team":"Reply to "+esc(firstName(a.name))}: change something, ask why, or give a new job"></textarea>
       <div class="row"><button class="primary small" type="submit">Send</button>${ow?`<button class="ok small" type="button" data-dmapprove="${esc(x.slug)}|${esc(ow.t.id)}|${esc(a.id)}">Approve</button>`:""}<button class="small" type="button" data-dmopen="${esc(x.slug)}|${esc(a.id)}">Open conversation</button>${assets?`<button class="small attbtn" type="button" data-dmattach="${esc(x.slug)}|${esc(a.id)}">Attach file</button>`:""}</div>
     </form>`:""}
   </article>`;
@@ -1182,25 +1184,25 @@ document.addEventListener("focusout",()=>setTimeout(()=>{ for(const sel of [...r
 function openDM(slug,agentId){ dmOpen={slug,agentId}; $("#dmDrawer").hidden=false; renderDM(); $("#dmIn").focus(); }
 function closeDM(){ dmOpen=null; $("#dmDrawer").hidden=true; }
 function renderDM(){
-  if(!dmOpen) return; const {slug,agentId}=dmOpen; const a=ALL[slug].agents.find(x=>x.id===agentId); if(!a){closeDM();return;}
+  if(!dmOpen) return; const {slug,agentId}=dmOpen; const a=agentOrTeam(slug,agentId); if(!a){closeDM();return;} const isTeam=agentId==="team";
   const b=bizOf(slug); const th=threadOf(slug,agentId); const AG=id=>ALL[slug].agents.find(x=>x.id===id);
-  const parts=[...new Set(th.filter(m=>m.speakerId&&m.speakerId!==agentId).map(m=>m.speakerId))].map(AG).filter(Boolean);
-  $("#dmWho").innerHTML=`${figHTML(a)}<div style="min-width:0"><h2 id="dmName" style="font-size:18px">${esc(a.name)}</h2><div class="tag">${esc(a.role)} · ${esc(b.name)}</div>${parts.length?`<div class="dmwith tag">with ${parts.map(x=>avDot(x)+esc(firstName(x.name))).join(", ")}</div>`:""}</div>`;
+  const parts=isTeam?ALL[slug].agents:[...new Set(th.filter(m=>m.speakerId&&m.speakerId!==agentId).map(m=>m.speakerId))].map(AG).filter(Boolean);
+  $("#dmWho").innerHTML=isTeam?`<div class="logo" style="width:40px;height:40px;font-size:18px;border-radius:12px;background:${b.accent};color:${b.ink}">${esc(b.initial)}</div><div style="min-width:0"><h2 id="dmName" style="font-size:18px">${esc(b.name)} team</h2><div class="dmwith tag">${parts.map(x=>avDot(x)+esc(firstName(x.name))).join(", ")||"No staff yet"}</div></div>`:`${figHTML(a)}<div style="min-width:0"><h2 id="dmName" style="font-size:18px">${esc(a.name)}</h2><div class="tag">${esc(a.role)} · ${esc(b.name)}</div>${parts.length?`<div class="dmwith tag">with ${parts.map(x=>avDot(x)+esc(firstName(x.name))).join(", ")}</div>`:""}</div>`;
   const spkHTML=m=>{ if(!m.speakerId||m.speakerId===agentId) return ""; const x=AG(m.speakerId); return `<div class="spk">${x?avDot(x)+esc(x.name)+" · "+esc(x.role):"Colleague"}</div>`; }; const busy=dmBusy.get(slug+"/"+agentId); const el=$("#dmMsgs");
-  el.innerHTML=(th.length?"":`<div class="msg assistant">Hi Sahill, it's ${esc(firstName(a.name))}. Tell me what you need, ask me anything about my work, or give me a new job.</div>`)+th.slice(-60).map(m=>{
+  el.innerHTML=(th.length?"":isTeam?`<div class="msg sys">This is the ${esc(b.name)} team chat. Tell the team what you need: whoever is responsible replies, and others add a point only if it helps.</div>`:`<div class="msg assistant">Hi Sahill, it's ${esc(firstName(a.name))}. Tell me what you need, ask me anything about my work, or give me a new job.</div>`)+th.slice(-60).map(m=>{
     if(m.kind==="join") return `<div class="msg sys">${esc(m.text)}</div>`;
     if(m.kind==="work"){const t=ALL[slug].tasks.find(x=>x.id===m.taskId); const done=t&&t.status==="done";
       return `<div class="msg assistant work">${spkHTML(m)}<div class="wt">Work handed in · ${esc(m.title||t?.title||"Task")}</div>${esc(m.text)}<span class="when">${esc(fmtTime(m.createdAt))}</span>${t&&!done&&canWrite?`<div class="row"><button class="ok small" type="button" data-dmapprove="${esc(slug)}|${esc(t.id)}|${esc(agentId)}">Approve</button><span class="tag">or reply below with changes</span></div>`:done?`<div class="tag" style="margin-top:6px">Approved</div>`:""}</div>`;}
     return `<div class="msg ${m.role==="sahill"?"user":"assistant"}">${m.role==="agent"?spkHTML(m):""}${esc(m.text)}${m.attachments?.length?`<div class="atts">${attHTML(m.attachments)}</div>`:""}${m.actions?.length?`<div class="acts">${m.actions.map(x=>`<span>✓ ${esc(x)}</span>`).join("")}</div>`:""}<span class="when">${esc(fmtTime(m.createdAt))}</span></div>`;}).join("")
     +(busy?`<div class="msg assistant">${busy.who&&busy.who!==agentId?spkHTML({speakerId:busy.who}):""}${esc(busy.text||"")}<span class="dots">${busy.text?"":"Typing"}</span></div>`:"");
   el.scrollTop=el.scrollHeight;
-  $("#dmSend").disabled=!!busy; $("#dmStop").hidden=!busy; $("#dmState").textContent=busy?`${firstName((AG(busy.who)||a).name)} is working on it…`:"Everything here is saved and remembered.";
+  $("#dmSend").disabled=!!busy; $("#dmStop").hidden=!busy; $("#dmState").textContent=busy?`${busy.who&&AG(busy.who)?firstName(AG(busy.who).name)+" is typing…":"Finding who's responsible…"}`:"Everything here is saved and remembered.";
   const ow=openWorkIn(slug,th);
   $("#dmSuggest").innerHTML=busy?"":(ow?["Looks good, approve it","Make it shorter","Explain your reasoning"]:["What are you working on?","What do you need from me?"]).map(x=>`<button type="button" data-dmsug="${esc(x)}">${esc(x)}</button>`).join("");
 }
 function dmRules(slug,a,focus,intro){
   const b=bizOf(slug), d=ALL[slug]; const mine=d.tasks.filter(t=>t.agentId===a.id);
-  return `You are ${a.name}, ${a.role} at ${b.name}, an AI employee in Sahill's HQ. ${intro?`${intro.by.name} (${intro.by.role}) just brought you into their chat with Sahill Chandan, your boss, to handle something in your area. Introduce yourself in a few words, take the job and do it.`:"You are in a chat with Sahill Chandan, your boss."} Dubai; money in AED; dates like "7 November 2026". Today: ${fmtDate(todayISO())} (${todayISO()}).
+  return `You are ${a.name}, ${a.role} at ${b.name}, an AI employee in Sahill's HQ. ${intro?.mode==="lead"?`You are in the ${b.name} team group chat with Sahill Chandan, your boss, and your colleagues. You are the one responsible for his latest message: reply and do the work.`:intro?.mode==="chime"?`You are in the ${b.name} team group chat. ${intro.lead.name} (${intro.lead.role}) is handling Sahill's latest request. Add ONE short, useful point from your own area that helps their task (1-2 lines, no tools unless truly needed). If you have nothing genuinely valuable to add, reply with exactly: PASS`:intro?`${intro.by.name} (${intro.by.role}) just brought you into their chat with Sahill Chandan, your boss, to handle something in your area. Introduce yourself in a few words, take the job and do it.`:"You are in a chat with Sahill Chandan, your boss."} Dubai; money in AED; dates like "7 November 2026". Today: ${fmtDate(todayISO())} (${todayISO()}).
 How you work: ${a.mind||"as your role suggests"}
 ${(a.rules||[]).length?"Standing rules from Sahill (always follow):\n- "+a.rules.map(r=>r.text).join("\n- "):""}
 
@@ -1240,6 +1242,8 @@ function dmTools(slug,a,log,created,threadId,handoffs){
     execute:async i=>{const cur=ALL[slug].agents.find(x=>x.id===a.id)||a; await db.doc(base+"agents/"+a.id).update({rules:[...(cur.rules||[]),{text:String(i.rule).slice(0,400),at:new Date().toISOString()}]}); log.push(`New rule: ${i.rule}`); return "saved";}},
    ...(handoffs?[{name:"bring_in_colleague",description:"Bring a colleague from this business into this chat to take a job outside your role. They join right after your reply, introduce themselves and do the job here.",inputSchema:{type:"object",properties:{agent:{type:"string",description:"colleague's name or role"},handoff:{type:"string",description:"what they need to do, with the context they need"},task_title:{type:"string",description:"short title for the job"}},required:["agent","handoff"]},
     execute:async i=>{const col=findAgentIn(slug,i.agent); if(!col) throw new Error("No colleague called "+i.agent+". Staff: "+ALL[slug].agents.map(x=>x.name+" ("+x.role+")").join(", ")); if(col.id===a.id) throw new Error("That's you"); handoffs.push({col,handoff:String(i.handoff),task_title:String(i.task_title||"")}); log.push(`Brought in ${col.name} (${col.role})`); return `${col.name} will join this chat right after your reply.`;}}]:[]),
+   {name:"hire_agent",description:"Hire a new agent into this business when Sahill asks: a person's name, a job designation and instructions.",inputSchema:{type:"object",properties:{name:{type:"string"},designation:{type:"string"},room:{type:"string"},instructions:{type:"string"}},required:["name","designation"]},
+    execute:async i=>{const ref=await db.collection(base+"agents").add({name:String(i.name).slice(0,40),role:String(i.designation).slice(0,80),dept:findRoomIn(slug,i.room)?.id||workOf(slug)[0].id,mind:String(i.instructions||"").slice(0,2000),createdAt:Date.now()}); SFX.play("hire"); log.push(`Hired ${i.name} (${i.designation})`); return {id:ref.id};}},
    {name:"remove_agent",description:"Remove (fire) an agent in this business when Sahill asks. Their open tasks become unassigned.",inputSchema:{type:"object",properties:{agent:{type:"string"}},required:["agent"]},
     execute:async i=>removeAgentIn(slug,i.agent,log)},
    {name:"delete_tasks",description:"Permanently delete tasks in this business when Sahill asks to clear them: task_ids, or a scope (all_open, done, all), optionally one agent's.",inputSchema:{type:"object",properties:DEL_SCHEMA},
@@ -1249,6 +1253,7 @@ function dmTools(slug,a,log,created,threadId,handoffs){
   ];
 }
 async function sendDM(slug,agentId,text,files){
+  if(agentId==="team") return sendTeam(slug,text,files);
   files=files||[]; text=String(text||"").trim(); if((!text&&!files.length)||!db) return; const key=slug+"/"+agentId; if(dmBusy.has(key)) return;
   let attachments=[], imgs=[], notes=[];
   if(files.length){
@@ -1295,6 +1300,67 @@ async function sendDM(slug,agentId,text,files){
   }
   dmBusy.delete(key); SFX.play("msg");
   if(!(dmOpen&&dmOpen.slug===slug&&dmOpen.agentId===agentId)) showPingMsg(slug,a,res.reply);
+  if(view==="office"&&cur===slug) renderAll(); renderDM(); updateBadge();
+}
+async function prepFiles(files){
+  const out={attachments:[],imgs:[],notes:[]}; if(!files?.length) return out;
+  if(!assets){ toast("Uploading needs edit access to Sahill's HQ."); return out; }
+  $("#dmState").textContent=`Uploading ${files.length} file${files.length>1?"s":""}…`; const caps=sampleCaps; const imgTypes=caps?.images?.mediaTypes||[];
+  for(const f of files){ try{ const tt=textType(f); const r=await assets.upload(f,tt?{type:tt}:undefined); out.attachments.push({id:r.id,url:r.url,name:f.name,type:r.contentType||f.type,size:r.sizeBytes||f.size});
+      if(f.type.startsWith("image/")&&imgTypes.includes(f.type)&&out.imgs.length<(caps.images.maxCount||4)&&f.size<=(caps.images.maxInputBytes||5e6)){ out.imgs.push(f); out.notes.push(`[Image attached: ${f.name}, shown to you]`); }
+      else if(tt&&f.size<400000){ const txt=await f.text(); out.notes.push(`[File ${f.name}]\n${txt.slice(0,30000)}${txt.length>30000?"\n…(cut)":""}`); }
+      else out.notes.push(`[File attached: ${f.name}, ${f.type||"unknown type"}, ${fmtSize(f.size)}. You can't open this type.]`);
+    }catch(e){ toast(`Couldn't upload ${f.name}: ${e?.code==="unsupported_type"?"type not supported (use images, video, PDF, CSV, TXT)":(e?.message||e?.code||"error")}`); } }
+  return out;
+}
+async function routeTeam(slug,th,text,focusT){
+  const D=ALL[slug]; const low=text.toLowerCase(); if(!D.agents.length) return null;
+  const hit=D.agents.find(x=>new RegExp("(^|\\W)"+firstName(x.name).toLowerCase().replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+"(\\W|$)").test(low));
+  const fallback={lead:(hit||(focusT&&D.agents.find(x=>x.id===focusT.agentId))||[...th].reverse().map(m=>D.agents.find(x=>x.id===m.speakerId)).find(Boolean)||D.agents[0]).id,chime:[]};
+  if(hit) return {lead:hit.id,chime:[]};
+  try{
+    const recent=th.slice(-8).map(m=>m.role==="sahill"?"Sahill: "+String(m.text).slice(0,200):`${D.agents.find(x=>x.id===m.speakerId)?.name||"Agent"}: ${String(m.text).slice(0,200)}`).join("\n");
+    const r=await sample.json(`Route a message in the ${bizOf(slug).name} team group chat. Pick who must reply: the person responsible (the owner of the task being discussed, or whose role fits the new job). Optionally pick up to 2 colleagues who have something genuinely useful to add from their own area; usually none.
+STAFF: ${D.agents.map(a=>`[${a.id}] ${a.name}, ${a.role}`).join(" | ")}
+OPEN TASKS: ${D.tasks.filter(t=>t.status!=="done").slice(0,25).map(t=>`${t.title} (owner ${D.agents.find(a=>a.id===t.agentId)?.name||"none"})`).join(" | ")||"none"}
+${focusT?`TASK IN FOCUS: ${focusT.title} (owner ${D.agents.find(a=>a.id===focusT.agentId)?.name||"none"})`:""}
+RECENT:\n${recent||"(none)"}
+SAHILL NOW: ${text.slice(0,1500)}
+Reply with only JSON like {"lead":"<staff id>","chime":["<staff id>"]}.`,{modelTier:"quick",cache:false});
+    const ok=id=>D.agents.some(a=>a.id===id); if(r&&ok(r.lead)) return {lead:r.lead,chime:(Array.isArray(r.chime)?r.chime:[]).filter(id=>ok(id)&&id!==r.lead).slice(0,2)};
+  }catch(_){}
+  return fallback;
+}
+async function sendTeam(slug,text,files){
+  files=files||[]; text=String(text||"").trim(); if((!text&&!files.length)||!db) return; const key=slug+"/team"; if(dmBusy.has(key)) return;
+  const {attachments,imgs,notes}=await prepFiles(files); if(!text&&!attachments.length) return;
+  if(!text) text=`Sent ${attachments.length} file${attachments.length>1?"s":""}: ${attachments.map(x=>x.name).join(", ")}`;
+  const base="biz/"+slug+"/"; const D=ALL[slug]; const th=threadOf(slug,"team"); const ow=openWorkIn(slug,th);
+  const lastW=[...th].reverse().find(m=>m.kind==="work"); const focusT=ow?ow.t:(lastW?D.tasks.find(t=>t.id===lastW.taskId&&t.status!=="done"):null);
+  try{ await db.collection(base+"dm").add({agentId:"team",role:"sahill",kind:"msg",text,taskId:focusT?.id||"",...(attachments.length?{attachments}:{}),createdAt:Date.now()});
+    if(focusT) await db.doc(base+"tasks/"+focusT.id).update({feedback:[...(focusT.feedback||[]),{text,at:new Date().toISOString()}]}); }catch(e){ return toast("Couldn't send: "+(e?.message||"error")); }
+  if(!sample){ toast("Sent. The team will reply in the next daily run."); return; }
+  if(!D.agents.length){ toast("This office has no staff yet. Hire someone first."); return; }
+  SFX.play("send"); const busy={text:"",who:""}; dmBusy.set(key,busy); renderDM(); updateBadge(); dmCtl=new AbortController();
+  const route=await routeTeam(slug,th,text,focusT); const lead=D.agents.find(x=>x.id===route.lead)||D.agents[0];
+  const post=async(who,r)=>{ try{ await db.collection(base+"dm").add({agentId:"team",speakerId:who.id,role:"agent",kind:"msg",text:r.reply||"Done.",actions:r.log.slice(0,12),createdAt:Date.now()+1}); }catch(_){} };
+  const userText="Sahill: "+text+(notes.length?"\n\n"+notes.join("\n\n"):"");
+  busy.who=lead.id; renderDM();
+  const res=await replyAs(slug,"team",lead,th,userText,imgs,focusT&&focusT.agentId===lead.id?focusT:null,{mode:"lead"},busy);
+  await post(lead,res);
+  let hist=[...th,{role:"sahill",text,createdAt:Date.now()},{role:"agent",speakerId:lead.id,text:res.reply,createdAt:Date.now()+1}];
+  let queue=[...res.handoffs], guard=0;
+  while(queue.length&&guard<3&&!dmCtl.signal.aborted){ guard++; const h=queue.shift(); const col=h.col;
+    let task=null; if(h.task_title){ try{ const ref=db.collection(base+"tasks").doc(); task={title:h.task_title.slice(0,200),agentId:col.id,dept:deptIn(slug,col),due:"",priority:"normal",notes:h.handoff.slice(0,3000),status:"doing",createdAt:Date.now()}; await ref.set(task); task={id:ref.id,...task}; }catch(_){task=null;} }
+    busy.text=""; busy.who=col.id; renderDM();
+    const r2=await replyAs(slug,"team",col,hist,`[${lead.name}, ${lead.role}]: @${firstName(col.name)} ${h.handoff}${task?`\n(Your new task id: ${task.id}, "${task.title}". Do the work now and save it with update_work on that id.)`:""}`,null,task,{by:lead},busy,task?{[task.id]:task}:null);
+    await post(col,r2); hist=[...hist,{role:"agent",speakerId:col.id,text:r2.reply,createdAt:Date.now()}]; queue.push(...r2.handoffs);
+  }
+  for(const cid of route.chime){ if(dmCtl.signal.aborted) break; const c=D.agents.find(x=>x.id===cid); if(!c) continue; busy.text=""; busy.who=c.id; renderDM();
+    const r3=await replyAs(slug,"team",c,hist,"(Your colleague just replied above. Add your point or PASS.)",null,null,{mode:"chime",lead},busy);
+    const t3=(r3.reply||"").trim(); if(t3&&!/^pass\b/i.test(t3)&&t3.length>2){ await post(c,r3); hist=[...hist,{role:"agent",speakerId:c.id,text:t3,createdAt:Date.now()}]; } }
+  dmBusy.delete(key); SFX.play("msg");
+  if(!(dmOpen&&dmOpen.slug===slug&&dmOpen.agentId==="team")) showPingMsg(slug,lead,res.reply);
   if(view==="office"&&cur===slug) renderAll(); renderDM(); updateBadge();
 }
 async function replyAs(slug,threadId,sp,th,userText,imgs,focusT,intro,busy,seed){
@@ -1345,7 +1411,7 @@ document.addEventListener("submit",e=>{const f=e.target.closest("form[data-dmq]"
   f.querySelector("textarea").value=""; document.activeElement?.blur?.(); openDM(f.dataset.slug,f.dataset.ag); sendDM(f.dataset.slug,f.dataset.ag,v);});
 document.addEventListener("click",async e=>{const b=e.target.closest("[data-dmapprove],[data-dmopen],[data-dm],[data-dmattach]"); if(!b) return;
   if(b.dataset.dmattach){ const [sl,ag]=b.dataset.dmattach.split("|"); openDM(sl,ag); $("#dmFile").click(); return; }
-  if(b.dataset.dm){ openDM(cur,b.dataset.dm); return; }
+  if(b.dataset.dm){ const ag=ALL[cur].agents.find(x=>x.id===b.dataset.dm); openDM(cur,"team"); if(ag){ $("#dmIn").value=firstName(ag.name)+", "; $("#dmIn").focus(); } return; }
   if(b.dataset.dmopen){ const [sl,ag]=b.dataset.dmopen.split("|"); openDM(sl,ag); return; }
   const [sl,tid,ag]=b.dataset.dmapprove.split("|"); if(!db) return;
   SFX.play("approve"); confetti();
@@ -1369,7 +1435,7 @@ function pingBox(html,onOpen){ SFX.play("ping");
   setTimeout(()=>el.remove(),20000);
 }
 function showPing(x,n){
-  const who=`${esc(firstName(x.a.name))} (${esc(bizOf(x.slug).name)})`;
+  const spk=x.m.speakerId?ALL[x.slug].agents.find(y=>y.id===x.m.speakerId):null; const who=`${esc(firstName((spk||x.a).name))} (${esc(bizOf(x.slug).name)})`;
   pingBox(x.m.kind==="work"?`Please review: ${who} finished “${esc(shorten(x.m.title||"a task"))}”${n>1?` and ${n-1} more`:""}`:`${who}: ${esc(shorten(x.m.text))}`,()=>openDM(x.slug,x.a.id));
 }
 function showPingMsg(slug,a,text){ pingBox(`${esc(firstName(a.name))} (${esc(bizOf(slug).name)}) replied: ${esc(shorten(text))}`,()=>openDM(slug,a.id)); }
@@ -1410,7 +1476,7 @@ function renderHQ(){
     return `<a class="bizrow" href="#${b.slug}" style="--c:${b.accent};--ci:${b.ink}"><span class="sq" aria-hidden="true">${esc(b.initial)}</span>
       <span style="min-width:0"><span class="nm">${esc(b.name)} <span class="pill ${cls}">${lab}</span></span><span class="sub">${bz.length?esc(bz.map(a=>firstName(a.name)).join(", "))+" working now":d.agents.length+" staff, nobody working right now"}</span></span>
       <span class="chipset">${rv?`<span class="chip rv">${rv} waiting on you</span>`:""}${lt.length?`<span class="chip late">${lt.length} overdue</span>`:""}<span class="chip">${o.length} open</span></span></a>`;}).join("");
-  $("#teamList").innerHTML=BIZES.map(b=>{const L=ALL[b.slug].agents; return L.length?`<div class="teamrow" style="align-items:center"><span class="btag" style="--c:${b.accent};min-width:150px">${esc(b.name)}</span>${L.map(a=>`<button type="button" class="small" data-dmopen="${esc(b.slug)}|${esc(a.id)}">${avDot(a)}${esc(a.name)} <span class="tag">${esc(a.role)}</span></button>`).join("")}</div>`:"";}).join("")||'<div class="empty">No agents yet. Walk into an office and hire one.</div>';
+  $("#teamList").innerHTML=BIZES.map(b=>{const L=ALL[b.slug].agents; return L.length?`<div class="teamrow" style="align-items:center"><span class="btag" style="--c:${b.accent};min-width:150px">${esc(b.name)}</span><button type="button" class="small primary" data-dmopen="${esc(b.slug)}|team">Team chat</button>${L.map(a=>`<button type="button" class="small" data-dmopen="${esc(b.slug)}|${esc(a.id)}">${avDot(a)}${esc(a.name)} <span class="tag">${esc(a.role)}</span></button>`).join("")}</div>`:"";}).join("")||'<div class="empty">No agents yet. Walk into an office and hire one.</div>';
   const n=inbox().length, red=BIZES.filter(b=>ALL[b.slug].meta.status==="red").map(b=>b.name);
   $("#hqLine").innerHTML=`${n?`<b style="color:var(--rv-ink)">${n} agent${n>1?"s":""} waiting on you</b> · `:""}${busy} of ${staff} agents working${late?` · <b style="color:var(--red)">${late} overdue</b>`:""}${red.length?` · Red: ${esc(red.join(", "))}`:""}`;
   const br=HQD.briefs.slice().sort((x,y)=>y.createdAt-x.createdAt);
