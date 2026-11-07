@@ -92,6 +92,8 @@ label.f{display:grid;gap:4px;font-size:12.5px;font-weight:700;color:var(--muted)
 .msg{max-width:86%;padding:9px 12px;border-radius:14px;font-size:14.5px;white-space:pre-wrap;overflow-wrap:anywhere}
 .msg.rep{align-self:flex-end;background:var(--or);color:var(--or-ink);border-bottom-right-radius:4px}
 .msg.hamza{align-self:flex-start;background:var(--soft);border-bottom-left-radius:4px}
+.msg.tip{align-self:flex-start;max-width:92%;background:color-mix(in srgb,var(--amber) 14%,var(--surface));border:1.5px dashed var(--amber);font-size:13.5px}
+.msg.tip::before{content:"Hamza's tip";display:block;font-family:var(--mono);font-size:10.5px;font-weight:600;color:var(--amber);margin-bottom:2px;letter-spacing:.04em}
 .msg.score{align-self:stretch;max-width:100%;background:color-mix(in srgb,var(--green) 12%,var(--surface));border:1.5px solid var(--green)}
 .msg .w{display:block;font-family:var(--mono);font-size:10.5px;opacity:.7;margin-top:3px}
 .coach{display:flex;gap:10px;align-items:center}
@@ -122,6 +124,16 @@ th{font-size:11.5px;color:var(--muted);font-family:var(--mono);font-weight:500}
 .kiosk .ring{height:8px;background:#333;border-radius:99px;overflow:hidden;width:min(420px,80vw);margin:18px auto}
 .kiosk .ring i{display:block;height:100%;background:var(--or)}
 .ver{font-family:var(--mono);font-size:11px;padding:1px 7px;border-radius:99px}.ver.ok{background:var(--green);color:#fff}.ver.no{background:var(--red);color:#fff}.ver.wait{background:var(--soft);color:var(--muted)}
+.paper{background:#fff;color:#141414;border-radius:10px;border:1px solid var(--line);overflow:hidden;font-size:14.5px;line-height:1.6}
+.paper .pbar{background:#111;color:#fff;display:flex;justify-content:space-between;align-items:center;padding:12px 16px}
+.paper .pbar b{font-family:var(--display);font-weight:900;font-size:18px;display:flex;gap:8px;align-items:center}
+.paper .pbar b i{width:24px;height:24px;border-radius:6px;background:#FF5A1F;color:#111;display:grid;place-items:center;font-style:normal;font-size:14px}
+.paper .pbody{padding:18px 18px 8px}
+.paper h1{font-size:24px;margin:0 0 10px}.paper h2{font-size:17px;margin:16px 0 6px;color:#111;border-left:4px solid #FF5A1F;padding-left:8px}.paper h3{font-size:15px;margin:12px 0 4px}
+.paper p{margin:0 0 8px}.paper ul,.paper ol{margin:0 0 10px;padding-left:20px}
+.paper table{border-collapse:collapse;width:100%;margin:6px 0 12px;font-size:13.5px;display:block;overflow-x:auto}
+.paper th,.paper td{border:1px solid #e3dfd8;padding:6px 8px;text-align:left;white-space:normal}.paper th{background:#111;color:#fff}
+.paper .pfoot{font-family:var(--mono);font-size:10.5px;color:#6c6862;border-top:2px solid #FF5A1F;padding:8px 16px}
 .dots-anim::after{content:"…";animation:d 1s steps(3) infinite}
 @keyframes d{0%{content:"."}50%{content:".."}100%{content:"..."}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important}}
@@ -169,10 +181,12 @@ th{font-size:11.5px;color:var(--muted);font-family:var(--mono);font-weight:500}
         <button type="button" data-mode="checkin" aria-pressed="true">Daily check-in</button>
         <button type="button" data-mode="train" aria-pressed="false">Train me</button>
         <button type="button" data-mode="roleplay" aria-pressed="false">Roleplay a sale</button>
+        <button type="button" data-mode="docs" aria-pressed="false">Make a document</button>
       </div>
       <div id="modeBar"></div>
       <div class="chat" id="chat" aria-live="polite"></div>
       <form class="composer" id="chatForm"><label for="chatIn" style="position:absolute;left:-9999px">Message Hamza</label><textarea id="chatIn" maxlength="3000" placeholder="Type your answer…"></textarea><button class="btn or" type="submit" id="chatSend">Send</button></form>
+      <div id="docsPanel" hidden style="display:grid;gap:12px"></div>
     </div>
   </section>
 
@@ -210,6 +224,25 @@ REFERRALS: referrer gets 20% off next month per referred business that signs (5 
 TARGET CUSTOMERS: Dubai SMEs — restaurants and cafés, salons and spas, clinics, gyms, retail and mobile shops, real estate.
 SALES PROCESS: cold call / visit / WhatsApp → offer the free video → book a meeting (visit) → show case studies → proposal (package + term) → sign the service agreement + first month paid. Daily KPI per rep: 100 contacts (calls, visits, WhatsApps), 4 meetings booked, 2 meetings held.
 COMMON OBJECTIONS: "too expensive" (compare with one hire's salary; start on Launch; results tracked as enquiries), "we tried an agency before" (strategy first, one shoot day, monthly report, promise), "no time" (2-3 hours a month), "let me think" (book the free video shoot date now), "can we do 1 month" (3 months is how the plan works; 1-2 only by exception).`;
+const PSYCH=`SALES PSYCHOLOGY PLAYBOOK (use it to coach, name the principle, give the exact line):
+- Reciprocity: the free video is a gift; give first, then ask for the shoot date. "We'll shoot it either way; if it brings you enquiries, we talk."
+- Loss aversion: people fear losing more than they want gains. "Every week your Instagram is quiet, those customers book with the place next door."
+- Social proof: similar businesses nearby. "Our spa client in JLT got 40 enquiries in month one." Name a category, never invent a client or number.
+- Authority: 4 years in the UAE, Ferrari World, Subway; strategy first, Get Viral Blueprint.
+- Commitment and consistency: get small yeses first ("Would more weekday bookings help?"), then the bigger yes.
+- Scarcity and urgency (only if true): shoot days are limited each month; offer two specific slots.
+- Anchoring: mention Scale 10,000 first, then Growth 7,500 feels reasonable; compare to one staff salary.
+- Liking and mirroring: match their pace and words; busy owner = short sentences.
+- Labelling emotions (Chris Voss): "It sounds like you've been burned by an agency before." Then pause.
+- Calibrated questions: "What would need to be true for this to be worth it?" "How do most guests find you today?"
+- Silence after the ask: ask for the slot, then stop talking.
+- Reframing price: cost per enquiry, not cost per month.
+CLIENT TYPES:
+- Restaurant/café owner: time-poor, busy at service, often burned by agencies → be brief, label the past pain, loss aversion on empty tables, offer the free video of the signature dish, two shoot slots before opening.
+- Salon/spa owner: visual, reputation-driven, worried about staff on camera → social proof from beauty clients, before/after, reassure that we coach staff, focus on weekday bookings.
+- Clinic manager/doctor: cautious, compliance and trust → authority, professionalism, patient-education content, no hype, propose a strategy call first.
+- Gym owner: results and seasons (Ramadan, New Year, summer) → urgency tied to the season, member transformations, referral angle.
+- Mobile/retail shop: price-sensitive, wants quick ROI → anchor high then Launch 5,000, cost per enquiry, offer-driven videos, footfall.`;
 const TARGET={calls:100,booked:4,held:2};
 const PKG={Launch:5000,Growth:7500,Scale:10000};
 const STAGES=["New","Contacted","Meeting booked","Meeting held","Proposal","Won","Lost"];
@@ -239,6 +272,7 @@ function toast(m){document.querySelectorAll(".toast").forEach(t=>t.remove());con
 
 let db=null,user=null,sample=null,me=null,isOwner=false,viewRep=null,names={};
 let leads=[],acts=[],kpis=[],chats=[],playbook="",tlog=[],reports=[],officeSecret=null;
+let coachLive=true;
 let tab="today",stageF="All",calDay=dxb(),calWeek=weekStart(dxb()),mode="checkin",session="",busy=false,ctl=null;
 
 /* ---------- derived ---------- */
@@ -384,12 +418,13 @@ function renderTeam(){
 
 }
 function renderChat(){
+  const isDocs=mode==="docs"; $("#docsPanel").hidden=!isDocs; $("#chat").hidden=isDocs; $("#chatForm").hidden=isDocs; $("#modeBar").hidden=isDocs; if(isDocs){ renderDocsPanel(); return; }
   const L=chats.filter(c=>c.repId===viewRep&&c.mode===mode&&(mode!=="roleplay"||c.session===session)).sort((a,b)=>(a.createdAt||0)-(b.createdAt||0)).slice(-40);
   const bar={checkin:`<div class="tag">Hamza asks your daily KPI questions and logs your numbers.</div>${L.length?"":`<button class="btn or sm" type="button" id="startCheckin">Start today's check-in</button>`}`,
-    train:`<div class="chips"><button class="chip" type="button" data-say="Quiz me on our packages and prices">Quiz me</button><button class="chip" type="button" data-say="Teach me how to pitch the free video offer">Pitch the free video</button><button class="chip" type="button" data-say="How do I handle 'it's too expensive'?">Too expensive</button><button class="chip" type="button" data-say="How do I handle 'I need to think about it'?">Need to think</button></div>`,
-    roleplay:`<div class="chips">${["Restaurant owner","Salon owner","Clinic manager","Gym owner","Mobile shop owner"].map(p=>`<button class="chip" type="button" data-rp="${p}">${p}</button>`).join("")}${session&&L.length?`<button class="btn sm dark" type="button" id="endRp">End and get my score</button>`:""}</div>`}[mode];
+    train:`<div class="chips"><button class="chip" type="button" data-say="Quiz me on our packages and prices">Quiz me</button><button class="chip" type="button" data-say="Teach me how to pitch the free video offer">Pitch the free video</button><button class="chip" type="button" data-say="How do I handle 'it's too expensive'?">Too expensive</button><button class="chip" type="button" data-say="How do I handle 'I need to think about it'?">Need to think</button><button class="chip" type="button" data-say="Teach me the psychology of selling to each client type: restaurant, salon, clinic, gym, mobile shop. Short, with one line to use for each.">Psychology by client type</button><button class="chip" type="button" data-say="Which psychology principle should I use when an owner says they were burned by an agency before? Give me the exact words.">Burned before</button></div>`,
+    roleplay:`<div class="chips">${["Restaurant owner","Salon owner","Clinic manager","Gym owner","Mobile shop owner"].map(p=>`<button class="chip" type="button" data-rp="${p}">${p}</button>`).join("")}</div><div class="chips" style="margin-top:6px"><button class="chip" type="button" id="toggleCoach" aria-pressed="${coachLive}">Live coaching: ${coachLive?"On":"Off"}</button>${session&&L.length?`<button class="chip" type="button" id="coachNow">Coach me now</button><button class="btn sm dark" type="button" id="endRp">End and get my score</button>`:""}</div>`}[mode];
   $("#modeBar").innerHTML=bar;
-  $("#chat").innerHTML=(L.length?L:[{role:"hamza",text:mode==="checkin"?"Ready when you are. Tap Start to begin today's check-in.":mode==="train"?"Ask me anything about Yontro's offer, or pick a topic above.":"Pick a prospect above. I'll play them; you sell to me. When you're done, tap End to get your score."}]).map(m=>`<div class="msg ${m.kind==="score"?"score":m.role==="rep"?"rep":"hamza"}">${esc(m.text)}${m.createdAt?`<span class="w">${new Date(m.createdAt).toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit",timeZone:"Asia/Dubai"})}</span>`:""}</div>`).join("")+(busy?`<div class="msg hamza"><span class="dots-anim">Hamza is typing</span></div>`:"");
+  $("#chat").innerHTML=(L.length?L:[{role:"hamza",text:mode==="checkin"?"Ready when you are. Tap Start to begin today's check-in.":mode==="train"?"Ask me anything about Yontro's offer, or pick a topic above.":"Pick a prospect above. I'll play them; you sell to me. When you're done, tap End to get your score."}]).map(m=>`<div class="msg ${m.kind==="score"?"score":m.kind==="tip"?"tip":m.role==="rep"?"rep":"hamza"}">${esc(m.text)}${m.createdAt?`<span class="w">${new Date(m.createdAt).toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit",timeZone:"Asia/Dubai"})}</span>`:""}</div>`).join("")+(busy?`<div class="msg hamza"><span class="dots-anim">Hamza is typing</span></div>`:"");
   const c=$("#chat"); c.scrollTop=c.scrollHeight; $("#chatSend").disabled=busy||!sample;
   $("#chatIn").placeholder=mode==="roleplay"?(session?"Your pitch…":"Pick a prospect first"):"Type your answer…";
 }
@@ -478,8 +513,11 @@ MEETING NOTES TODAY: ${mine(acts).filter(a=>a.type==="meeting"&&a.liveNotes&&a.s
 function rules(){
   const base=`You are Hamza Qureshi, Sales Lead at Yontro in Dubai, managing and coaching ${names[viewRep]||"a sales rep"}. You know Yontro's offer inside out:\n${playbook||PRODUCT}\n\n${repContext()}\nTargets per day: ${TARGET.calls} contacts, ${TARGET.booked} meetings booked, ${TARGET.held} held. Money in AED.`;
   if(mode==="checkin") return base+`\n\nMODE: DAILY CHECK-IN. Ask these one or two at a time, briefly: 1) contacts made today (calls, visits, WhatsApps), 2) meetings booked and held, 3) follow-ups done and due, 4) any contracts or proposals, 5) what's blocking you. Use their logged numbers as a starting point and ask them to log anything missing. Once you have the answers, call save_checkin, then give one line of honest feedback against target and ONE concrete tip for tomorrow. Keep every message to 1-3 short lines. Firm, warm, like a good sales manager.`;
-  if(mode==="train") return base+`\n\nMODE: TRAINING. Teach the product and how to sell it. Be concrete: exact lines to say, numbers, objection answers. Quiz when asked (one question at a time, then feedback). Keep messages short (max 6 lines). Never invent offers, prices or terms beyond the playbook.`;
-  return base+`\n\nMODE: ROLEPLAY. You play a realistic Dubai prospect: ${session.split("|")[0]}. Stay fully in character: busy, a bit skeptical, raise real objections (price, time, bad past agency, "send me something"). Short replies like a real person on the phone or at the counter. Don't coach during the roleplay. Only agree to a meeting or deal if the rep earns it.`;
+  if(mode==="train") return base+`\n\n${PSYCH}\n\nMODE: TRAINING. Teach the product and how to sell it. Be concrete: exact lines to say, numbers, objection answers. Quiz when asked (one question at a time, then feedback). Keep messages short (max 6 lines). Never invent offers, prices or terms beyond the playbook.`;
+  return base+`\n\n${PSYCH}\n\nMODE: ROLEPLAY. You play a realistic Dubai prospect: ${session.split("|")[0]}. Stay fully in character: busy, a bit skeptical, raise real objections (price, time, bad past agency, "send me something") typical of that client type. Short replies like a real person on the phone or at the counter. Only agree to a meeting or deal if the rep earns it.${coachLive?`
+LIVE COACHING IS ON. Reply in exactly this format:
+PROSPECT: <your in-character reply>
+COACH: <as Hamza, max 3 short lines: what the prospect is really feeling, the psychology principle to use now, and the exact best line the rep should say next>`:" Don't coach during the roleplay."}`;
 }
 async function hamza(text,opts={}){
   if(!sample) return toast("Hamza needs Claude. Allow it from this page's Permissions menu.");
@@ -487,14 +525,16 @@ async function hamza(text,opts={}){
   const rep=viewRep; const now=Date.now();
   if(text&&!opts.hidden) await db.collection("chats").add({repId:rep,mode,session:mode==="roleplay"?session:"",role:"rep",text,createdAt:now});
   busy=true; renderChat(); ctl=new AbortController();
-  const hist=chats.filter(c=>c.repId===rep&&c.mode===mode&&(mode!=="roleplay"||c.session===session)).sort((a,b)=>(a.createdAt||0)-(b.createdAt||0)).slice(-24).map(c=>({role:c.role==="rep"?"user":"assistant",content:c.text}));
+  const hist=chats.filter(c=>c.repId===rep&&c.mode===mode&&(mode!=="roleplay"||c.session===session)).sort((a,b)=>(a.createdAt||0)-(b.createdAt||0)).slice(-24).map(c=>c.kind==="tip"?{role:"user",content:"[Hamza's earlier coaching tip to the rep, not said by the prospect: "+c.text+"]"}:{role:c.role==="rep"?"user":"assistant",content:c.text});
   const msgs=[{role:"user",content:rules()},...hist]; if(text&&!opts.hidden) msgs.push({role:"user",content:text}); if(opts.system) msgs.push({role:"user",content:opts.system});
   const tools=mode==="checkin"?[{name:"save_checkin",description:"Save today's check-in numbers and your one-line feedback.",inputSchema:{type:"object",properties:{calls:{type:"number"},booked:{type:"number"},held:{type:"number"},followups:{type:"number"},contracts:{type:"number"},blockers:{type:"string"},feedback:{type:"string"}},required:["calls","booked","held","feedback"]},
     execute:async i=>{ const id=rep+"_"+dxb(); await db.doc("kpi/"+id).set({repId:rep,date:dxb(),calls:+i.calls||0,booked:+i.booked||0,held:+i.held||0,followups:+i.followups||0,contracts:+i.contracts||0,blockers:String(i.blockers||""),feedback:String(i.feedback||""),createdAt:Date.now()}); return "saved"; }}]:undefined;
   let reply="";
   try{ const r=await sample(msgs,{signal:ctl.signal,modelTier:opts.tier||"default",cache:false,...(tools?{tools}:{})}); reply=r.text.trim(); }
   catch(e){ reply=e?.code==="not_granted"?"I need Claude access on this page to talk. Allow it from the Permissions menu.":e?.code==="rate_limited"?"I'm busy right now. Try again in a few minutes.":"Something went wrong: "+(e?.message||e?.code||"error"); }
-  await db.collection("chats").add({repId:rep,mode,session:mode==="roleplay"?session:"",role:"hamza",kind:opts.kind||"",text:reply||"…",createdAt:Date.now()+1});
+  const mm=mode==="roleplay"&&!opts.kind?reply.match(/PROSPECT:\s*([\s\S]*?)\n\s*COACH:\s*([\s\S]*)$/i):null;
+  if(mm){ await db.collection("chats").add({repId:rep,mode,session,role:"hamza",kind:"",text:mm[1].trim(),createdAt:Date.now()+1}); await db.collection("chats").add({repId:rep,mode,session,role:"hamza",kind:"tip",text:mm[2].trim(),createdAt:Date.now()+2}); }
+  else await db.collection("chats").add({repId:rep,mode,session:mode==="roleplay"?session:"",role:"hamza",kind:opts.kind||"",text:(reply||"…").replace(/^PROSPECT:\s*/i,""),createdAt:Date.now()+1});
   busy=false; renderAll();
 }
 
@@ -507,6 +547,103 @@ async function makeReport(btn){
   catch(e){ toast("Hamza couldn't write the report: "+(e?.message||e?.code||"error")); }
   btn.disabled=false; btn.textContent="Ask Hamza for a report";
 }
+/* ---------- documents ---------- */
+let docsList=[], docType="Proposal", downloads=null, docBusy=false;
+const DOCTYPES=["Invoice","Proposal","Presentation","Rate card","Case study"];
+const COMPANY="Yontro - F.Z.E · Ajman Free Zone licence 57169 · Office 214, Clover Bay Tower, Business Bay, Dubai · admin@yontro.ae · +971 52 432 1112 · yontro.ae";
+function inlineMD(x){ return x.replace(/\*\*([^*]+)\*\*/g,"<b>$1</b>").replace(/(^|[^*])\*([^*\n]+)\*/g,"$1<i>$2</i>"); }
+function md(src){ const L=esc(String(src||"")).split("\n"); let out=[],i=0;
+  while(i<L.length){ const l=L[i]; let m;
+    if(/^\s*\|.*\|\s*$/.test(l)){ const rows=[]; while(i<L.length&&/^\s*\|.*\|\s*$/.test(L[i])) rows.push(L[i++]); const cells=r=>r.trim().replace(/^\||\|$/g,"").split("|").map(c=>c.trim()); const body=rows.filter(r=>!/^\s*\|[\s:|-]+\|\s*$/.test(r)); const h=cells(body[0]||"");
+      out.push(`<table><thead><tr>${h.map(c=>`<th>${inlineMD(c)}</th>`).join("")}</tr></thead><tbody>${body.slice(1).map(r=>`<tr>${cells(r).map(c=>`<td>${inlineMD(c)}</td>`).join("")}</tr>`).join("")}</tbody></table>`); continue; }
+    if((m=l.match(/^(#{1,3})\s+(.*)/))){ out.push(`<h${m[1].length}>${inlineMD(m[2])}</h${m[1].length}>`); i++; continue; }
+    if(/^\s*[-*•]\s+/.test(l)){ const it=[]; while(i<L.length&&/^\s*[-*•]\s+/.test(L[i])) it.push(L[i++].replace(/^\s*[-*•]\s+/,"")); out.push(`<ul>${it.map(x=>`<li>${inlineMD(x)}</li>`).join("")}</ul>`); continue; }
+    if(/^\s*\d+[.)]\s+/.test(l)){ const it=[]; while(i<L.length&&/^\s*\d+[.)]\s+/.test(L[i])) it.push(L[i++].replace(/^\s*\d+[.)]\s+/,"")); out.push(`<ol>${it.map(x=>`<li>${inlineMD(x)}</li>`).join("")}</ol>`); continue; }
+    if(/^\s*-{3,}\s*$/.test(l)){ out.push("<hr>"); i++; continue; }
+    if(!l.trim()){ i++; continue; }
+    const para=[]; while(i<L.length&&L[i].trim()&&!/^(#{1,3}\s|\s*[-*•]\s+|\s*\d+[.)]\s+|\s*\|)/.test(L[i])) para.push(L[i++]); out.push(`<p>${inlineMD(para.join("<br>"))}</p>`); }
+  return out.join(""); }
+function paperHTML(d){ return `<div class="paper"><div class="pbar"><b><i>Y</i>YONTRO</b><span class="tag" style="color:#ddd">${esc(d.type.toUpperCase())}</span></div><div class="pbody">${md(d.body)}</div><div class="pfoot">${esc(COMPANY)}</div></div>`; }
+function brandedFile(d){ return `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(d.title)}</title><style>body{margin:0;background:#f4f2ee;font-family:Helvetica,Arial,sans-serif;color:#141414}.page{max-width:820px;margin:24px auto;background:#fff;box-shadow:0 8px 30px rgba(0,0,0,.12)}.bar{background:#111;color:#fff;padding:18px 28px;display:flex;justify-content:space-between;align-items:center}.bar b{font-size:22px;letter-spacing:.04em}.bar b span{display:inline-block;background:#FF5A1F;color:#111;width:30px;height:30px;line-height:30px;text-align:center;border-radius:7px;margin-right:10px}.body{padding:28px;line-height:1.6;font-size:15px}h1{font-size:28px;margin:0 0 12px}h2{font-size:18px;border-left:4px solid #FF5A1F;padding-left:10px;margin:22px 0 8px}table{border-collapse:collapse;width:100%;margin:8px 0 14px}th,td{border:1px solid #e3dfd8;padding:7px 9px;text-align:left}th{background:#111;color:#fff}.foot{border-top:3px solid #FF5A1F;padding:12px 28px;font-size:11px;color:#6c6862}@media print{body{background:#fff}.page{box-shadow:none;margin:0}}</style></head><body><div class="page"><div class="bar"><b><span>Y</span>YONTRO</b><span>${esc(d.type.toUpperCase())}</span></div><div class="body">${md(d.body)}</div><div class="foot">${esc(COMPANY)}</div></div></body></html>`; }
+function leadInfo(name){ const l=mine(leads).find(x=>x.business.toLowerCase()===String(name||"").toLowerCase()); if(!l) return "No lead record."; const notes=mine(acts).filter(a=>a.leadId===l.id&&(a.liveNotes||a.notesSummary)).map(a=>(a.notesSummary||a.liveNotes)).join(" | "); return `Lead: ${l.business}; contact ${l.contact||"?"}; sector ${l.sector||"?"}; area ${l.area||"?"}; stage ${l.stage}; next step ${l.nextStep||"?"}. Meeting notes: ${notes||"none"}.`; }
+function invoiceMD(f){ const price=PKG[f.pkg]||0; const qty=f.bill==="Full term"?f.months:1; const total=price*qty; const no="INV-"+dxb().replace(/-/g,"")+"-"+String(Date.now()).slice(-4);
+  return {title:`${no} · ${f.client}`,body:`# Invoice ${no}
+
+| | |
+|---|---|
+| Bill to | ${f.client}${f.contact?" · "+f.contact:""} |
+| Invoice date | ${fmtLong(dxb())} |
+| Term | ${f.months} month${f.months>1?"s":""}, paid monthly in advance |
+| Due | ${f.bill==="Full term"?"On signing":"On signing (first month)"} |
+
+## Items
+| Item | Qty | Rate (AED) | Amount (AED) |
+|---|---|---|---|
+| ${f.pkg} package (${{Launch:"5 videos + 5 posts",Growth:"10 videos + 10 posts",Scale:"15 videos + 15 posts"}[f.pkg]}), monthly | ${qty} month${qty>1?"s":""} | ${price.toLocaleString("en-US")} | ${total.toLocaleString("en-US")} |
+
+**Total due: AED ${total.toLocaleString("en-US")}**
+
+## Payment
+- Paid in advance by ${f.paid.toLowerCase()} (cash, card or cheque payable to Yontro - F.Z.E).
+- The first month is paid on signing and work starts once it is received; each following month is invoiced 7 days ahead and paid before it starts.
+- Ad spend for paid campaigns is paid by the client directly to the platforms and is not part of this invoice.
+
+Thank you for choosing Yontro.`}; }
+function renderDocsPanel(){
+  const el=$("#docsPanel"); const t=docType; const D=mine(docsList).sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
+  const leadDL=`<datalist id="docLeads">${mine(leads).map(l=>`<option value="${esc(l.business)}"></option>`).join("")}</datalist>`;
+  const hint={Proposal:"e.g. Growth for 3 months, focus on weekday bookings, owner nervous on camera",Presentation:"e.g. 8-slide pitch for a gym, Ramadan angle",["Rate card"]:"e.g. for salons and spas, include add-ons",["Case study"]:"Paste the real results: views, enquiries, bookings, before/after. Hamza never invents numbers."}[t]||"";
+  el.innerHTML=`<div class="tag">Hamza writes it in Yontro's style from your lead's details and meeting notes. You can revise it and download it.</div>
+  <div class="chips">${DOCTYPES.map(x=>`<button type="button" class="chip" data-doctype="${x}" aria-pressed="${x===t}">${x}</button>`).join("")}</div>
+  <form id="docForm" style="display:grid;gap:10px"><label class="f" for="dClient">Client${leadDL}<input id="dClient" list="docLeads" required placeholder="Business name"></label>
+  ${t==="Invoice"?`<label class="f" for="dContact">Contact name (optional)<input id="dContact"></label>
+    <label class="f">Package<div class="seg" id="dPkg">${Object.keys(PKG).map(p=>`<button type="button" data-v="${p}" aria-pressed="${p==="Growth"}">${p} · ${PKG[p].toLocaleString()}</button>`).join("")}</div></label>
+    <label class="f">Term<div class="seg" id="dMonths">${[3,2,1].map(m=>`<button type="button" data-v="${m}" aria-pressed="${m===3}">${m} month${m>1?"s":""}</button>`).join("")}</div></label>
+    <label class="f">Bill now<div class="seg" id="dBill">${["First month","Full term"].map(m=>`<button type="button" data-v="${m}" aria-pressed="${m==="First month"}">${m}</button>`).join("")}</div></label>
+    <label class="f">Paid by<div class="seg" id="dPaid">${["Card","Cash","Cheque"].map(m=>`<button type="button" data-v="${m}" aria-pressed="${m==="Card"}">${m}</button>`).join("")}</div></label>`
+   :`<label class="f" for="dAsk">What should it include?<textarea id="dAsk" placeholder="${esc(hint)}"></textarea></label>`}
+  <button class="btn or" type="submit" ${docBusy?"disabled":""}>${docBusy?"Hamza is writing…":t==="Invoice"?"Create invoice":"Create with Hamza"}</button></form>
+  <h3>My documents</h3><div class="list">${D.length?D.map(d=>`<button type="button" class="item" style="text-align:left;width:100%;cursor:pointer" data-opendoc="${esc(d.id)}"><span class="ic">${ICON.contract}</span><div style="min-width:0"><div class="t">${esc(d.title)}</div><div class="s">${esc(d.type)} · ${esc(d.client||"")} · v${d.version||1} · ${esc(new Date(d.createdAt).toLocaleDateString("en-GB",{day:"numeric",month:"short"}))}</div></div><span class="stage">Open</span></button>`).join(""):`<div class="empty">No documents yet.</div>`}</div>`;
+}
+async function writeDoc(type,client,ask,prev){
+  if(!sample){ toast("Hamza needs Claude access."); return null; }
+  const fmt={Proposal:`# Proposal for ${client}\nSections: ## Where you are today (their situation from notes) · ## What we'll do in 90 days (month 1 foundation, month 2 storyline, month 3 scale) · ## Recommended package (table: package, what's included, AED per month, term, total) · ## Why Yontro · ## Terms (paid in advance, 3-month term, approvals in 48h) · ## Next step (free video / sign this week).`,
+    Presentation:`# ${client}: pitch deck\nSlide by slide: '## Slide N: <title>' with 3-5 bullets each and a line 'Say:' with the speaking line. 8-10 slides: hook, their problem, cost of staying quiet, how Yontro works, the free video, packages, proof, plan for them, terms, next step.`,
+    ["Rate card"]:`# Yontro rate card${client?" for "+client:""}\nTable of the three packages (what's included, AED per month), add-ons (quoted), terms, referral offer, how to start.`,
+    ["Case study"]:`# Case study: ${client}\nSections: ## The client · ## The challenge · ## What we did · ## Results (ONLY figures given in the request; otherwise write [add: views/enquiries/bookings]) · ## In their words ([add client quote]) · ## Line to use in pitches.`}[type];
+  const prompt=`You are Hamza Qureshi, Yontro's Sales Lead, preparing a ${type} for ${names[viewRep]||"the rep"} to send to a client. Use only facts from the playbook and the details below. Never invent prices, clients, numbers or results; use [add: …] placeholders where something is missing. Persuasive but honest, clear, Dubai SME tone, AED.
+${playbook||PRODUCT}
+${PSYCH}
+CLIENT: ${client}. ${leadInfo(client)}
+REQUEST: ${ask||"(none)"}
+${prev?`PREVIOUS VERSION:\n${prev.body}\n\nCHANGES ASKED: ${ask}\nRewrite the full document with those changes.`:""}
+FORMAT (Markdown only, no preamble): ${fmt}`;
+  const r=await sample(prompt,{modelTier:"default",cache:false}); return r.text.trim().replace(/^```(markdown)?\s*|\s*```$/g,"");
+}
+function openDocSheet(d){
+  $("#sheet").innerHTML=`<div class="head"><h2 id="sheetTitle">${esc(d.title)}</h2><button class="btn ghost sm" type="button" data-close>Close</button></div>
+  <div class="tag">${esc(d.type)} · ${esc(d.client||"")} · version ${d.version||1}</div>${paperHTML(d)}
+  <div class="btnrow">${downloads?`<button class="btn or" type="button" data-dl="${esc(d.id)}">Download</button>`:""}<button class="btn" type="button" data-copydoc="${esc(d.id)}">Copy text</button><button class="btn ghost" type="button" data-del="${esc(d.id)}" data-coll="docs">Delete</button></div>
+  ${d.type!=="Invoice"?`<form id="reviseForm" data-id="${esc(d.id)}" style="display:grid;gap:8px"><label class="f" for="rAsk">Ask Hamza to change it<textarea id="rAsk" required placeholder="e.g. Shorter, add the Ramadan offer, make the price table clearer"></textarea></label><button class="btn dark" type="submit">Revise</button></form>`:""}
+  ${downloads?`<p class="tag" style="margin:0">Download saves a branded page. Open it and use Print → Save as PDF to send it as a PDF.</p>`:""}`;
+  $("#sheetBg").hidden=false;
+}
+document.addEventListener("submit",async e=>{
+  if(e.target.id==="docForm"){ e.preventDefault(); if(docBusy) return; const client=$("#dClient").value.trim(); if(!client) return;
+    try{ if(docType==="Invoice"){ const inv=invoiceMD({client,contact:$("#dContact").value.trim(),pkg:segVal("#dPkg"),months:+segVal("#dMonths"),bill:segVal("#dBill"),paid:segVal("#dPaid")}); const ref=await db.collection("docs").add({repId:viewRep,type:"Invoice",client,title:inv.title,body:inv.body,version:1,createdAt:Date.now()}); toast("Invoice created."); openDocSheet({id:ref.id,type:"Invoice",client,title:inv.title,body:inv.body,version:1}); return; }
+      docBusy=true; renderDocsPanel(); const body=await writeDoc(docType,client,$("#dAsk").value.trim()); docBusy=false;
+      if(body){ const title=`${docType} · ${client}`; const ref=await db.collection("docs").add({repId:viewRep,type:docType,client,title,body,version:1,createdAt:Date.now()}); openDocSheet({id:ref.id,type:docType,client,title,body,version:1}); }
+    }catch(err){ docBusy=false; toast("Couldn't create it: "+(err?.message||err?.code||"error")); }
+    renderDocsPanel(); return; }
+  if(e.target.id==="reviseForm"){ e.preventDefault(); const d=docsList.find(x=>x.id===e.target.dataset.id); const ask=$("#rAsk").value.trim(); if(!d||!ask) return; const btn=e.target.querySelector("button"); btn.disabled=true; btn.textContent="Hamza is revising…";
+    try{ const body=await writeDoc(d.type,d.client,ask,d); if(body){ const v=(d.version||1)+1; await db.doc("docs/"+d.id).update({body,version:v,prev:d.body,updatedAt:Date.now()}); openDocSheet({...d,body,version:v}); toast("Revised."); } }catch(err){ toast("Couldn't revise."); btn.disabled=false; btn.textContent="Revise"; } return; }
+});
+document.addEventListener("click",async e=>{ const b=e.target.closest("[data-doctype],[data-opendoc],[data-dl],[data-copydoc]"); if(!b) return; const d=b.dataset;
+  if(d.doctype){ docType=d.doctype; renderDocsPanel(); return; }
+  if(d.opendoc){ const x=docsList.find(y=>y.id===d.opendoc); if(x) openDocSheet(x); return; }
+  if(d.dl){ const x=docsList.find(y=>y.id===d.dl); if(!x||!downloads) return; try{ await downloads.save({filename:`Yontro ${x.type} - ${x.client||"client"}.html`.replace(/[\\/:*?"<>|]/g,""),data:new Blob([brandedFile(x)],{type:"text/html"})}); }catch(err){ if(err?.code!=="cancelled"&&err?.code!=="declined") toast("Download didn't work here."); } return; }
+  if(d.copydoc){ const x=docsList.find(y=>y.id===d.copydoc); if(!x) return; try{ await navigator.clipboard.writeText(x.body); toast("Copied."); }catch(_){ toast("Couldn't copy on this device."); } return; }
+});
 /* ---------- events ---------- */
 document.addEventListener("click",async e=>{
   const b=e.target.closest("button,[data-lead]"); if(!b) return; const d=b.dataset;
@@ -524,7 +661,9 @@ document.addEventListener("click",async e=>{
   if(b.id==="startCheckin"){ hamza("",{system:"Start today's check-in now with your first question."}); return; }
   if(d.say){ hamza(d.say); return; }
   if(d.rp){ session=d.rp+"|"+Date.now(); mode="roleplay"; renderChat(); hamza("",{system:`Begin the roleplay now: you are a ${d.rp} in Dubai. The rep has just walked in or called. Open in character with one short line.`}); return; }
-  if(b.id==="endRp"){ hamza("",{system:"STOP the roleplay and step out of character as Hamza the coach. Score the rep out of 10 on: opener, discovery questions, value and the free video offer, objection handling, close (asked for the meeting/deal). Then give the 3 most useful fixes with exact lines to say next time. Keep it under 12 lines.",kind:"score"}); return; }
+  if(b.id==="toggleCoach"){ coachLive=!coachLive; renderChat(); toast(coachLive?"Live coaching on: Hamza whispers a tip after each reply.":"Live coaching off: pure roleplay."); return; }
+  if(b.id==="coachNow"){ hamza("",{system:"Step OUT of character for a moment as Hamza the coach. Based on the conversation so far: 1) what the prospect is really thinking and feeling, 2) which psychology principle fits right now and why, 3) the exact best next line for the rep (and one alternative). Max 6 short lines. End with: 'Back to the roleplay, your turn.'",kind:"tip"}); return; }
+  if(b.id==="endRp"){ hamza("",{system:"STOP the roleplay and step out of character as Hamza the coach. Score the rep out of 10 on: opener, discovery questions, value and the free video offer, objection handling, close (asked for the meeting/deal), and use of psychology (which principles they used well or missed for this client type). Then give the 3 most useful fixes with the principle and the exact line to say next time. Keep it under 14 lines.",kind:"score"}); return; }
   if(b.id==="punchIn"){ punchInSheet(); return; }
   if(b.id==="punchOut"){ punchOutSheet(); return; }
   if(b.id==="breakStart"){ await logEvent("break_start"); toast("Break started. Enjoy."); return; }
@@ -560,7 +699,7 @@ renderTabs(); renderToday();
   const timer=setTimeout(()=>{ if(!db){ $("#banner").textContent="Open this CRM signed in to claude.ai to see your leads."; $("#banner").hidden=false; } },10000);
   const C=window.claude;
   const [d,u,s]=await Promise.all([C?.use?.("db"),C?.use?.("user"),C?.use?.("sample")].map(p=>Promise.resolve(p).catch(()=>null)));
-  user=u; sample=s||null; if(!d){ return; } db=d; clearTimeout(timer);
+  user=u; sample=s||null; downloads=await C?.use?.("downloads")?.catch?.(()=>null)||null; if(!d){ return; } db=d; clearTimeout(timer);
   try{ me=await user?.id?.(); }catch(_){ me=null; } isOwner=!!(await user?.isOwner?.().catch(()=>false));
   viewRep=me; if(!me){ $("#banner").textContent="Sign in to claude.ai to get your own sales login."; $("#banner").hidden=false; }
   if(!sample){ $("#banner").textContent="Hamza needs Claude access on this page. Everything else works."; $("#banner").hidden=false; }
@@ -571,6 +710,7 @@ renderTabs(); renderToday();
   db.collection("leads").onSnapshot(q=>{leads=docs(q);renderAll();},onErr);
   db.collection("activities").onSnapshot(q=>{acts=docs(q);renderAll();},onErr);
   db.collection("kpi").onSnapshot(q=>{kpis=docs(q);refreshNames();},onErr);
+  db.collection("docs").onSnapshot(q=>{docsList=docs(q);if(tab==="hamza"&&mode==="docs"&&!docBusy&&!document.activeElement?.closest?.("#docForm"))renderDocsPanel();},onErr);
   db.collection("timelog").onSnapshot(q=>{tlog=docs(q);renderAll();},onErr);
   db.collection("reports").onSnapshot(q=>{reports=docs(q);if(tab==="team")renderTeam();},()=>{});
   db.collection("chats").onSnapshot(q=>{chats=docs(q);if(tab==="hamza")renderChat();},onErr);
