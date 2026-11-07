@@ -179,7 +179,7 @@ th{font-size:11.5px;color:var(--muted);font-family:var(--mono);font-weight:500}
   <!-- TEAM (owner) -->
   <section id="v-team" class="view" hidden style="display:grid;gap:14px">
     <div class="head"><h1>Sales team</h1><span class="tag">Only you see this</span></div>
-    <div class="card"><div class="head"><h2>Attendance today</h2><button class="btn sm or" type="button" id="openKiosk">Open office screen</button></div><p class="tag" style="margin:0">Punch-in needs the code on the office screen, so it only works from your office. Keep the screen open on an office tablet or laptop.</p><div class="scroll"><table id="attTable"></table></div></div>
+    <div class="card"><div class="head"><h2>Attendance today</h2></div><div class="scroll"><table id="attTable"></table></div></div>
     <div class="card"><div class="head"><h2>Hamza's reports</h2><button class="btn sm dark" type="button" id="makeReport">Ask Hamza for a report</button></div><div class="list" id="reportList"></div></div>
     <div class="card"><div class="head"><h2>This week</h2><span class="tag">Targets per day: 100 contacts · 4 booked · 2 held</span></div><div class="scroll"><table id="teamTable"></table></div></div>
     <div class="card"><div class="head"><h2>Latest check-ins</h2></div><div class="list" id="teamCheckins"></div></div>
@@ -290,8 +290,8 @@ function renderShift(){
     :st.on?`<button class="btn amber" type="button" id="breakStart">Start break</button><button class="btn" type="button" id="punchOut">Punch out</button>`
     :`<button class="btn green" type="button" id="punchIn">Punch in</button>`;
   el.innerHTML=`<div class="st"><span class="dot" aria-hidden="true"></span><span class="big">${status}</span><span class="clock">${since}</span></div>
-  <div class="tag">Worked ${dur(st.worked)} · breaks ${dur(st.breakMs)} · in meetings ${dur(st.meetMs)}${st.firstIn?` · punch-in ${st.firstIn.verified===true?'<span class="ver ok">at office ✓</span>':st.firstIn.verified===false?'<span class="ver no">code mismatch</span>':'<span class="ver wait">checking</span>'}`:""}</div>
-  ${st.L.length?`<details><summary class="tag">Today's timeline</summary><div class="timeline">${st.L.map(e=>`<div><time>${hm(e.at)}</time><span>${esc({punch_in:"Punched in at the office",punch_out:"Punched out"+(e.place?" · "+e.place:""),break_start:"Break started",break_end:"Break ended",meeting_in:"Checked in to meeting · "+(e.business||"")+(e.place?" @ "+e.place:""),meeting_out:"Checked out of meeting · "+(e.business||"")}[e.kind]||e.kind)}</span></div>`).join("")}</div></details>`:""}
+  <div class="tag">Worked ${dur(st.worked)} · breaks ${dur(st.breakMs)} · in meetings ${dur(st.meetMs)}${st.firstIn?.place?` · started at ${esc(st.firstIn.place)}`:""}</div>
+  ${st.L.length?`<details><summary class="tag">Today's timeline</summary><div class="timeline">${st.L.map(e=>`<div><time>${hm(e.at)}</time><span>${esc({punch_in:"Punched in"+(e.place?" · "+e.place:""),punch_out:"Punched out"+(e.place?" · "+e.place:""),break_start:"Break started",break_end:"Break ended",meeting_in:"Checked in to meeting · "+(e.business||"")+(e.place?" @ "+e.place:""),meeting_out:"Checked out of meeting · "+(e.business||"")}[e.kind]||e.kind)}</span></div>`).join("")}</div></details>`:""}
   <div class="btnrow">${btns}</div>`;
   const lm=$("#liveMeeting"); if(st.live&&self){ lm.hidden=false; lm.innerHTML=`<div class="head"><h2>Meeting with ${esc(st.live.business||"")}</h2><span class="clock tag">${dur(Date.now()-st.live.startAt)}</span></div><div class="tag">${esc(st.live.startPlace||"")}${st.live.startMap?` · <a href="${esc(st.live.startMap)}" target="_blank" rel="noopener">map</a>`:""}</div><label class="f" for="liveNotes">Notes (saved as you type, only for you and Hamza)<textarea id="liveNotes" style="min-height:140px" placeholder="What they need, budget, objections, decision maker, next step…">${esc(st.live.liveNotes||"")}</textarea></label><div class="btnrow"><button class="btn" type="button" data-mout="${esc(st.live.id)}">Check out of meeting</button></div>`; } else { lm.hidden=true; lm.innerHTML=""; }
 }
@@ -300,9 +300,8 @@ let notesT=null;
 document.addEventListener("input",e=>{ if(e.target.id!=="liveNotes"&&e.target.id!=="sheetNotes") return; const id=e.target.dataset.mid||shiftState(viewRep,dxb()).live?.id; if(!id) return; clearTimeout(notesT); const v=e.target.value; notesT=setTimeout(()=>{ db.doc("activities/"+id).update({liveNotes:v,updatedAt:Date.now()}).catch(()=>{}); },1200); });
 function punchInSheet(){
   $("#sheet").innerHTML=`<div class="head"><h2 id="sheetTitle">Punch in</h2><button class="btn ghost sm" type="button" data-close>Close</button></div>
-  <form id="punchForm" style="display:grid;gap:10px"><label class="f" for="pCode">Enter the 6-digit code on the office screen<input id="pCode" class="codein" inputmode="numeric" maxlength="6" autocomplete="one-time-code" required placeholder="------"></label>
-  <p class="tag" style="margin:0">Punch-in only works at the Yontro office. The code changes every minute.</p><button class="btn green" type="submit">Punch in</button></form>`;
-  $("#sheetBg").hidden=false; setTimeout(()=>$("#pCode").focus(),50);
+  <form id="punchForm" style="display:grid;gap:10px"><label class="f" for="pPlace">Where are you starting? (optional)<input id="pPlace" placeholder="e.g. Office, or first client visit in JLT"></label><button class="btn green" type="submit">Punch in now</button></form>`;
+  $("#sheetBg").hidden=false;
 }
 function punchOutSheet(){
   $("#sheet").innerHTML=`<div class="head"><h2 id="sheetTitle">Punch out</h2><button class="btn ghost sm" type="button" data-close>Close</button></div>
@@ -379,10 +378,10 @@ function renderTeam(){
   $("#teamCheckins").innerHTML=K.length?K.map(k=>`<div class="item"><span class="ic">${ICON.coach}</span><div style="min-width:0"><div class="t">${esc(names[k.repId]||"Rep")} · ${esc(fmtD(k.date))}</div><div class="s">${k.calls??"–"} contacts · ${k.booked??"–"} booked · ${k.held??"–"} held · ${k.contracts??0} contracts${k.blockers?" · blocker: "+esc(k.blockers):""}</div>${k.feedback?`<div style="font-size:13px;margin-top:4px">Hamza: ${esc(k.feedback)}</div>`:""}</div><span></span></div>`).join(""):`<div class="empty">No check-ins yet.</div>`;
   if(document.activeElement!==$("#playbook")) $("#playbook").value=playbook||PRODUCT;
   const repsA=[...new Set([...reps,...tlog.map(x=>x.repId)])];
-  $("#attTable").innerHTML=`<thead><tr><th>Rep</th><th>Status</th><th>In</th><th>At office</th><th>Out</th><th>Worked</th><th>Breaks</th><th>Meetings</th></tr></thead><tbody>${repsA.map(r=>{const st=shiftState(r,t); const s=st.live?"In meeting":st.brk?"On break":st.on?"On shift":st.outAt?"Done":"Not in";
-    return `<tr><td><b>${esc(names[r]||"Rep")}</b></td><td>${s}</td><td>${st.inAt?hm(st.inAt):"–"}</td><td>${st.firstIn?(st.firstIn.verified===true?'<span class="ver ok">✓</span>':st.firstIn.verified===false?'<span class="ver no">✗ mismatch</span>':'<span class="ver wait">…</span>'):"–"}</td><td>${st.outAt?hm(st.outAt):"–"}</td><td>${st.inAt?dur(st.worked):"–"}</td><td>${st.inAt?dur(st.breakMs):"–"}</td><td>${dur(st.meetMs)}</td></tr>`;}).join("")||`<tr><td colspan="8">Nobody has punched in yet.</td></tr>`}</tbody>`;
+  $("#attTable").innerHTML=`<thead><tr><th>Rep</th><th>Status</th><th>In</th><th>Started at</th><th>Out</th><th>Worked</th><th>Breaks</th><th>Meetings</th></tr></thead><tbody>${repsA.map(r=>{const st=shiftState(r,t); const s=st.live?"In meeting":st.brk?"On break":st.on?"On shift":st.outAt?"Done":"Not in";
+    return `<tr><td><b>${esc(names[r]||"Rep")}</b></td><td>${s}</td><td>${st.inAt?hm(st.inAt):"–"}</td><td>${esc(st.firstIn?.place||"–")}</td><td>${st.outAt?hm(st.outAt):"–"}</td><td>${st.inAt?dur(st.worked):"–"}</td><td>${st.inAt?dur(st.breakMs):"–"}</td><td>${dur(st.meetMs)}</td></tr>`;}).join("")||`<tr><td colspan="8">Nobody has punched in yet.</td></tr>`}</tbody>`;
   $("#reportList").innerHTML=reports.length?reports.slice().sort((a,b)=>b.createdAt-a.createdAt).slice(0,8).map((r,i)=>`<details ${i===0?"open":""}><summary>${esc(new Date(r.createdAt).toLocaleString("en-GB",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit",timeZone:"Asia/Dubai"}))} · ${esc(r.title||"Report")}</summary><div style="white-space:pre-wrap;font-size:14px;margin-top:6px">${esc(r.body)}</div></details>`).join(""):'<div class="empty">No reports yet. Tap Ask Hamza for a report.</div>';
-  verifyPunches();
+
 }
 function renderChat(){
   const L=chats.filter(c=>c.repId===viewRep&&c.mode===mode&&(mode!=="roleplay"||c.session===session)).sort((a,b)=>(a.createdAt||0)-(b.createdAt||0)).slice(-40);
@@ -473,7 +472,7 @@ function repContext(){
 OPEN LEADS: ${open||"none"}
 DUE/OVERDUE: ${due||"none"}
 RECENT CHECK-INS: ${last||"none"}
-ATTENDANCE TODAY: ${(()=>{const st=shiftState(viewRep,t); return st.inAt?`punched in ${hm(st.inAt)}${st.outAt?", out "+hm(st.outAt):""}, worked ${dur(st.worked)}, breaks ${dur(st.breakMs)}, meetings ${dur(st.meetMs)}${st.firstIn?.verified===false?", punch-in code did NOT match the office screen":""}`:"not punched in";})()}
+ATTENDANCE TODAY: ${(()=>{const st=shiftState(viewRep,t); return st.inAt?`punched in ${hm(st.inAt)}${st.outAt?", out "+hm(st.outAt):""}, worked ${dur(st.worked)}, breaks ${dur(st.breakMs)}, meetings ${dur(st.meetMs)}`:"not punched in";})()}
 MEETING NOTES TODAY: ${mine(acts).filter(a=>a.type==="meeting"&&a.liveNotes&&a.startAt&&dxb(new Date(a.startAt))===t).map(a=>a.business+": "+a.liveNotes.slice(0,400)).join(" | ")||"none"}`;
 }
 function rules(){
@@ -502,8 +501,8 @@ async function hamza(text,opts={}){
 async function makeReport(btn){
   if(!sample) return toast("Hamza needs Claude access."); btn.disabled=true; btn.textContent="Hamza is writing…";
   const t=dxb(), ws=weekStart(t); const reps=[...new Set([...leads,...acts,...kpis,...tlog].map(x=>x.repId).filter(Boolean))];
-  const lines=reps.map(r=>{ const days=[...Array(7)].map((_,i)=>addDays(ws,i)).filter(d=>d<=t).map(d=>{const st=shiftState(r,d); const k=repStats(r,d,d); return `${d}: ${st.inAt?`in ${hm(st.inAt)}${st.firstIn?.verified===false?" (code mismatch)":""}, out ${st.outAt?hm(st.outAt):"–"}, worked ${dur(st.worked)}, breaks ${dur(st.breakMs)}, meetings ${dur(st.meetMs)}`:"no punch-in"}; ${k.calls} contacts, ${k.booked} booked, ${k.held} held, ${k.contracts} contracts`;}).join("\n"); const ci=kpis.filter(k=>k.repId===r&&k.date>=ws).map(k=>`${k.date} blocker: ${k.blockers||"none"}`).join("; "); return `REP ${names[r]||r}\n${days}\nCheck-ins: ${ci||"none"}`; }).join("\n\n");
-  try{ const r=await sample(`You are Hamza Qureshi, Yontro's Sales Lead, reporting to Sahill (the owner) on your sales team for the week so far. Targets per rep per day: ${TARGET.calls} contacts, ${TARGET.booked} meetings booked, ${TARGET.held} held; shift punch-in must be at the office.\n\n${lines||"No data yet."}\n\nWrite a short report: one-line verdict per rep, attendance (late starts, short days, long breaks, code mismatches), KPIs vs target, meetings and contracts, what you'll coach next, and one decision for Sahill. Plain text, under 18 lines, direct.`,{modelTier:"default",cache:false});
+  const lines=reps.map(r=>{ const days=[...Array(7)].map((_,i)=>addDays(ws,i)).filter(d=>d<=t).map(d=>{const st=shiftState(r,d); const k=repStats(r,d,d); return `${d}: ${st.inAt?`in ${hm(st.inAt)}${st.firstIn?.place?" ("+st.firstIn.place+")":""}, out ${st.outAt?hm(st.outAt):"–"}, worked ${dur(st.worked)}, breaks ${dur(st.breakMs)}, meetings ${dur(st.meetMs)}`:"no punch-in"}; ${k.calls} contacts, ${k.booked} booked, ${k.held} held, ${k.contracts} contracts`;}).join("\n"); const ci=kpis.filter(k=>k.repId===r&&k.date>=ws).map(k=>`${k.date} blocker: ${k.blockers||"none"}`).join("; "); return `REP ${names[r]||r}\n${days}\nCheck-ins: ${ci||"none"}`; }).join("\n\n");
+  try{ const r=await sample(`You are Hamza Qureshi, Yontro's Sales Lead, reporting to Sahill (the owner) on your sales team for the week so far. Targets per rep per day: ${TARGET.calls} contacts, ${TARGET.booked} meetings booked, ${TARGET.held} held; reps punch in and out themselves.\n\n${lines||"No data yet."}\n\nWrite a short report: one-line verdict per rep, attendance (late starts, short days, long breaks), KPIs vs target, meetings and contracts, what you'll coach next, and one decision for Sahill. Plain text, under 18 lines, direct.`,{modelTier:"default",cache:false});
     await db.collection("reports").add({title:"Weekly team report",body:r.text.trim(),createdAt:Date.now()}); toast("Report saved."); }
   catch(e){ toast("Hamza couldn't write the report: "+(e?.message||e?.code||"error")); }
   btn.disabled=false; btn.textContent="Ask Hamza for a report";
@@ -546,7 +545,7 @@ document.addEventListener("click",async e=>{
 $("#sheetBg").addEventListener("click",e=>{ if(e.target.id==="sheetBg") closeSheet(); });
 document.addEventListener("keydown",e=>{ if(e.key==="Escape"&&!$("#kiosk").hidden) closeKiosk(); if(e.key==="Escape"&&!$("#sheetBg").hidden) closeSheet(); });
 document.addEventListener("submit",async e=>{
-  if(e.target.id==="punchForm"){ e.preventDefault(); const c=$("#pCode").value.replace(/\D/g,""); if(c.length!==6) return toast("Enter the 6 digits from the office screen."); await logEvent("punch_in",{code:c}); toast("Punched in. Have a great day."); closeSheet(); return; }
+  if(e.target.id==="punchForm"){ e.preventDefault(); await logEvent("punch_in",{place:$("#pPlace").value.trim()}); toast("Punched in. Have a great day."); closeSheet(); return; }
   if(e.target.id==="punchOutForm"){ e.preventDefault(); const st=shiftState(viewRep,dxb()); if(st.brk) await logEvent("break_end"); if(st.live){ await db.doc("activities/"+st.live.id).update({endAt:Date.now(),done:true}); await logEvent("meeting_out",{activityId:st.live.id,business:st.live.business||""}); } await logEvent("punch_out",{place:$("#poPlace").value.trim()}); toast(`Punched out. You worked ${dur(shiftState(viewRep,dxb()).worked)}.`); closeSheet(); return; }
   if(e.target.id==="meetInForm"){ e.preventDefault(); const id=e.target.dataset.id; const a=acts.find(x=>x.id===id); const place=$("#miPlace").value.trim(), map=$("#miMap").value.trim(); const at=Date.now(); await db.doc("activities/"+id).update({startAt:at,startPlace:place,startMap:/^https?:\/\//.test(map)?map:"",updatedAt:at}); await logEvent("meeting_in",{activityId:id,business:a?.business||"",place,map}); toast("Checked in. Take notes as you go."); closeSheet(); tab="today"; renderAll(); setTimeout(()=>$("#liveNotes")?.focus(),300); return; }
 });
