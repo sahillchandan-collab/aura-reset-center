@@ -137,6 +137,13 @@ th{font-size:11.5px;color:var(--muted);font-family:var(--mono);font-weight:500}
 .dots-anim::after{content:"…";animation:d 1s steps(3) infinite}
 @keyframes d{0%{content:"."}50%{content:".."}100%{content:"..."}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important}}
+.tour-block{position:fixed;inset:0;z-index:69}
+.tour-hole{position:fixed;z-index:70;border-radius:14px;box-shadow:0 0 0 9999px rgba(0,0,0,.62);pointer-events:none;transition:all .25s ease;outline:2.5px solid var(--or)}
+.tour-card{position:fixed;z-index:71;width:min(350px,calc(100vw - 24px));background:var(--surface);color:var(--ink);border-radius:16px;padding:14px 16px;box-shadow:0 18px 50px rgba(0,0,0,.35);display:grid;gap:8px}
+.tour-card p{margin:0;font-size:14.5px}.tour-card h2{font-size:18px}
+.tour-dots{display:flex;gap:4px;flex-wrap:wrap}.tour-dots i{width:7px;height:7px;border-radius:50%;background:var(--line)}.tour-dots i.on{background:var(--or)}
+.tour-dont{display:flex;gap:8px;align-items:center;font-size:13px;color:var(--muted);font-weight:600}.tour-dont input{width:auto}
+.helpbtn{width:30px;height:30px;border-radius:50%;border:1.5px solid #555;background:#222;color:#fff;font-weight:800;font-size:15px;padding:0;flex:none}
 .hzbtn{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(80px + env(safe-area-inset-bottom,0px));z-index:26;width:58px;height:58px;border-radius:50%;border:2px solid var(--or);background:#111;color:var(--or);font-family:var(--display);font-weight:900;font-size:24px;box-shadow:0 8px 24px rgba(0,0,0,.3);display:grid;place-items:center;padding:0}
 .hzbtn[aria-expanded="true"]{background:var(--or);color:#111}
 .hzbtn .dot{position:absolute;top:1px;right:1px;width:15px;height:15px;border-radius:50%;background:var(--red);border:2px solid #111}
@@ -170,7 +177,7 @@ th{font-size:11.5px;color:var(--muted);font-family:var(--mono);font-weight:500}
 
 <header class="top"><div class="in">
   <div class="brand"><img src="data:image/jpeg;base64,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" alt="Yontro" style="height:34px;width:auto;border-radius:6px"><span>Yontro Sales<br><small>YONTRO.AE / SALES CRM</small></span></div>
-  <div class="who" id="who"></div>
+  <div style="display:flex;gap:10px;align-items:center;min-width:0"><div class="who" id="who"></div><button class="helpbtn" type="button" id="helpBtn" aria-label="How to use this CRM" title="How to use this CRM">?</button></div>
 </div></header>
 
 <main class="wrap" id="app">
@@ -1171,6 +1178,67 @@ function openHz(m){ hzOpen=true; if(m){ mode=m; if(m==="roleplay"&&!session){ co
 function closeHz(){ hzOpen=false; $("#hz").hidden=true; $("#hzBtn").setAttribute("aria-expanded","false"); }
 function hzDot(){ const seen=+lsGet("hzSeen",0); const last=Math.max(0,...wchats.filter(c=>c.role==="hamza").map(c=>c.createdAt||0)); const on=!hzOpen&&last>seen; $("#hzDot").hidden=!on; $("#hzLbl").hidden=!on; }
 
+/* ---------- first-use tour ---------- */
+const TOUR=[
+ {title:"Welcome to Yontro Sales",text:"This is where you run your working day: punch in, log every call, book and hold meetings, sign clients and talk to Hamza, your manager. This short tour shows what to do on each screen. Tap Next."},
+ {tab:"today",sel:"#shiftCard",title:"1. Start and end your day here",text:"Tap Punch in when you start work (add where you are). Use Start break and End break for breaks, and Punch out when you finish. Sahill sees your hours."},
+ {tab:"today",sel:"#kpis",title:"2. Your daily targets",text:"Every day: 100 contacts, 4 meetings booked, 2 meetings held. These fill up automatically from what you log, so log everything."},
+ {tab:"today",sel:"#quick",card:true,title:"3. Log it, every time",text:"Call after every call or WhatsApp. Meeting to book one. Follow-up to plan the next touch. Contract when a client signs. To-do and Reminder for anything else. If it isn't logged, it didn't happen."},
+ {tab:"today",sel:"#checkinCard",title:"4. Daily check-in with Hamza",text:"Before you punch out, do your 2-minute check-in. Hamza asks about your numbers, gives honest feedback and one tip for tomorrow."},
+ {tab:"today",sel:"#wellCard",title:"5. Look after yourself",text:"A daily affirmation, Hamza's morning message, a water tracker (he reminds you every 90 minutes) and a 10-minute silence break in the afternoon. This card is private to you."},
+ {tab:"today",sel:"#due",card:true,title:"6. Due today",text:"Follow-ups, meetings, to-dos and reminders for today. Tick them off as you go. A red edge means it's overdue."},
+ {tab:"leads",sel:"#leadSearch",title:"7. Leads",text:"Every business you call becomes a lead automatically. Search by name, contact or phone. Tap + New lead to add one by hand."},
+ {tab:"leads",sel:"#stageChips",title:"8. Keep stages up to date",text:"New → Contacted → Meeting booked → Meeting held → Proposal → Won or Lost. Tap a lead to change its stage, add the next step and see its full history. This is how Hamza and Sahill see your pipeline."},
+ {tab:"cal",sel:"#week",title:"9. Your week",text:"Dots show what's planned each day. Tap a day to see its meetings, follow-ups and reminders, and use + Add to book something."},
+ {tab:"cal",sel:"#dayTitle",title:"10. At a meeting",text:"When you arrive, tap Check in (type where you are and paste a Google Maps pin). Take notes during the meeting, then Check out. Hamza can summarise your notes and suggest the next step."},
+ {tab:"papers",sel:"#paperQuick",card:true,title:"11. Signing a client",text:"Client ready? Tap Service agreement, pick the lead and fill in their details, package and payment. The official agreement is filled in for you. Send it to Sahill. Once he signs and stamps it, download it and get the client's signature."},
+ {tab:"papers",sel:"#paperQuick",card:true,title:"12. Letters",text:"Need an official letter, like sick leave, annual leave, a salary certificate, an NOC or a letter to a client? Tap Ask Hamza for a letter. He types it on Yontro's letterhead, Sahill approves and stamps it, and it comes back here."},
+ {tab:"papers",sel:"#docsPanel",card:true,title:"13. Make a document",text:"Invoices (exact prices, VAT handled for you), proposals, presentations, rate cards and case studies. Hamza writes them from your lead's notes. Revise and download."},
+ {sel:"#hzBtn",title:"14. Hamza is always here",text:"Tap H any time. Ask: questions and letters. Check-in: your daily numbers. Train me: the offer and objections. Roleplay: practise a sale with live coaching. How I'm doing: a private chat about how you feel."},
+ {title:"Your daily rhythm",text:"Punch in → calls and visits (log every one) → meetings (check in, take notes) → check-in with Hamza → Punch out. Tap ? at the top any time to see this tour again.",last:true}
+];
+let tourI=-1, tourDont=false, tourOn=false;
+function tourEls(){ if($("#tourCard")) return;
+  const blk=document.createElement("div"); blk.id="tourBlock"; blk.className="tour-block"; document.body.appendChild(blk);
+  const h=document.createElement("div"); h.id="tourHole"; h.className="tour-hole"; document.body.appendChild(h);
+  const c=document.createElement("div"); c.id="tourCard"; c.className="tour-card"; c.setAttribute("role","dialog"); c.setAttribute("aria-modal","true"); c.setAttribute("aria-labelledby","tourTitle"); document.body.appendChild(c); }
+function tourTarget(s){ if(!s.sel) return null; let e=$(s.sel); if(e&&s.card) e=e.closest(".card")||e; if(!e) return null; if(e.closest("[hidden]")) return null; const r=e.getBoundingClientRect(); return r.width||r.height?e:null; }
+function tourStart(fromHere){ closeSheet(); if(hzOpen) closeHz(); hideNudge(); tourEls(); tourOn=true; tourDont=lsGet("tourOff_"+me,"")==="1";
+  let i=0; if(fromHere){ const k=TOUR.findIndex(s=>s.tab===tab); if(k>0&&tab!=="today") i=k; } tourI=i-1; tourStep(1); }
+function tourStep(dir){ let i=tourI+dir;
+  while(i>=0&&i<TOUR.length){ const s=TOUR[i]; if(s.tab&&s.tab!==tab){ tab=s.tab; renderAll(); } const el=tourTarget(s); if(!s.sel||el){ tourI=i; tourShow(s,el); return; } i+=dir; }
+  if(i<0){ tourI=0; tourShow(TOUR[0],null); return; } tourEnd(); }
+function tourShow(s,el){
+  const c=$("#tourCard"), h=$("#tourHole"); $("#tourBlock").hidden=false; c.hidden=false; h.hidden=false;
+  const n=TOUR.length;
+  c.innerHTML=`<div class="tag">${tourI+1} of ${n}</div><h2 id="tourTitle">${esc(s.title)}</h2><p>${esc(s.text)}</p>
+   <div class="tour-bar"><div class="tour-dots" aria-hidden="true">${TOUR.map((_,k)=>`<i class="${k===tourI?"on":""}"></i>`).join("")}</div></div>
+   <label class="tour-dont"><input type="checkbox" id="tourDont" ${tourDont?"checked":""}> Don't show this again</label>
+   <div class="btnrow" style="justify-content:space-between"><button class="btn ghost sm" type="button" data-tour="skip">${s.last?"Close":"Skip tour"}</button><span class="btnrow">${tourI>0?`<button class="btn sm" type="button" data-tour="back">Back</button>`:""}<button class="btn or sm" type="button" data-tour="next">${s.last?"Start using it":"Next"}</button></span></div>`;
+  if(el&&el.id!=="hzBtn") el.scrollIntoView({block:"center",behavior:"instant"});
+  requestAnimationFrame(()=>tourPlace(el)); setTimeout(()=>c.querySelector('[data-tour="next"]')?.focus(),50); }
+function tourPlace(el){ const c=$("#tourCard"), h=$("#tourHole"); if(!c||c.hidden) return; const vw=innerWidth, vh=innerHeight, pad=8;
+  const cw=c.offsetWidth, ch=c.offsetHeight;
+  $("#tourBlock").style.background=el?"transparent":"rgba(0,0,0,.62)"; h.style.visibility=el?"visible":"hidden";
+  if(!el){ h.style.cssText=`left:${vw/2}px;top:${vh/2}px;width:0;height:0;visibility:hidden`; c.style.left=Math.max(12,(vw-cw)/2)+"px"; c.style.top=Math.max(12,(vh-ch)/2)+"px"; return; }
+  const r=el.getBoundingClientRect(); const top=Math.max(4,r.top-pad), bot=Math.min(vh-4,r.bottom+pad);
+  h.style.cssText=`left:${Math.max(4,r.left-pad)}px;top:${top}px;width:${Math.min(vw-8,r.width+pad*2)}px;height:${Math.max(0,bot-top)}px`;
+  let y; if(vh-bot>=ch+12) y=bot+10; else if(top>=ch+12) y=top-ch-10; else y=Math.max(12,vh-ch-12);
+  let x=Math.min(Math.max(12,r.left+r.width/2-cw/2),vw-cw-12); c.style.left=x+"px"; c.style.top=y+"px"; }
+async function tourEnd(){ tourOn=false; ["#tourCard","#tourHole","#tourBlock"].forEach(s=>{ const e=$(s); if(e) e.hidden=true; });
+  if(tourDont){ lsSet("tourOff_"+me,"1"); try{ if(me&&db) await db.doc(`data/users/${me}/prefs`).set({tourOff:true,at:Date.now()}); }catch(_){} }
+  else { lsSet("tourOff_"+me,""); try{ if(me&&db) await db.doc(`data/users/${me}/prefs`).set({tourOff:false,at:Date.now()}); }catch(_){} }
+  tab="today"; renderAll(); scrollTo(0,0); }
+async function tourAuto(){ if(!me||isOwner||tourOn) return; if(lsGet("tourOff_"+me,"")==="1") return;
+  try{ const x=await db.doc(`data/users/${me}/prefs`).get(); if(x?.exists&&x.data().tourOff){ lsSet("tourOff_"+me,"1"); return; } }catch(_){}
+  if(!$("#sheetBg").hidden||!$("#med").hidden) return; tourStart(false); }
+document.addEventListener("click",e=>{ const b=e.target.closest("[data-tour],#helpBtn"); if(!b) return;
+  if(b.id==="helpBtn"){ tourStart(true); return; }
+  const a=b.dataset.tour; if(a==="next") tourStep(1); else if(a==="back") tourStep(-1); else if(a==="skip") tourEnd(); });
+document.addEventListener("change",e=>{ if(e.target.id==="tourDont") tourDont=e.target.checked; });
+document.addEventListener("keydown",e=>{ if(!tourOn) return; if(e.key==="Escape"){ e.stopImmediatePropagation(); tourEnd(); } if(e.key==="ArrowRight") tourStep(1); if(e.key==="ArrowLeft") tourStep(-1); },true);
+addEventListener("resize",()=>{ if(tourOn) tourPlace(tourTarget(TOUR[tourI])); });
+
 /* ---------- events ---------- */
 document.addEventListener("click",async e=>{
   const b=e.target.closest("button,[data-lead]"); if(!b) return; const d=b.dataset;
@@ -1249,6 +1317,7 @@ renderTabs(); renderToday();
   if(me){ subApprovals(me); subWell(); db.collection(`data/users/${me}/well/chat`).onSnapshot(q=>{ wchats=docs(q); wLoaded=true; hzDot(); if(hzOpen&&mode==="well") renderChat(); weekendCheck(); },()=>{}); setTimeout(()=>{ try{ wellTick(); }catch(_){} },4000); }
   db.doc("meta/playbook").onSnapshot(x=>{ playbook=x.exists?(x.data().text||""):""; if(tab==="team") renderTeam(); },onErr);
   refreshNames();
+  setTimeout(()=>{ tourAuto().catch(()=>{}); },2500);
   // reminders due now
   setTimeout(()=>{ const t=dxb(); const due=acts.filter(a=>a.repId===viewRep&&!a.done&&a.type==="reminder"&&a.date<=t); if(due.length){ $("#banner").textContent=`Reminder: ${due.map(a=>a.text).slice(0,3).join(" · ")}`; $("#banner").hidden=false; } },2500);
 })();
