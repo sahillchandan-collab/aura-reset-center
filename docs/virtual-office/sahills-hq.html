@@ -1,0 +1,1100 @@
+<title>Sahill's HQ</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a top-down virtual office. Floor plan (rooms + walking agents) beside a context panel; task board and board-meeting minutes below. One accent per business. */
+:root{
+  --accent:var(--acc-l,#2F4B7C); --accent-ink:var(--acc-ink,#ffffff);
+  --bg:#eeebe4; --surface:#fbfaf7; --ink:#1d1b18; --muted:#6b665e; --line:#d9d4c9; --soft:#f2efe8;
+  --wall:#3a3631; --corridor:#d8d2c5; --floor-a:#e9dcc4; --floor-b:#dfe6dc; --floor-c:#e4dfee; --floor-d:#f0e3da; --floor-break:#e8e1cf; --floor-board:#d9d0c0;
+  --wood:#b98e5e; --desk:#8a6a48; --plant:#5f8b4c; --screen:#2d3440;
+  --red:#c2362b; --amber:#b06a00; --green:#2f7d4a; --grey:#7d786f;
+  --display:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;
+  --body:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#15140f; --surface:#1f1d19; --ink:#efebe3; --muted:#a39d92; --line:#36322b; --soft:#27241f;
+  --wall:#0b0a08; --corridor:#2b2822; --floor-a:#3a3328; --floor-b:#2c3529; --floor-c:#312c3a; --floor-d:#3a2f2a; --floor-break:#36321f; --floor-board:#2f2a22;
+  --wood:#7e6142; --desk:#5e4834; --plant:#6f9e5a; --screen:#8fb3d9;
+  --red:#ef6b5f; --amber:#e3a23b; --green:#5cbf7d; --grey:#a39d92; --accent:var(--acc-d,#8FB0E8); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#15140f; --surface:#1f1d19; --ink:#efebe3; --muted:#a39d92; --line:#36322b; --soft:#27241f;
+  --wall:#0b0a08; --corridor:#2b2822; --floor-a:#3a3328; --floor-b:#2c3529; --floor-c:#312c3a; --floor-d:#3a2f2a; --floor-break:#36321f; --floor-board:#2f2a22;
+  --wood:#7e6142; --desk:#5e4834; --plant:#6f9e5a; --screen:#8fb3d9;
+  --red:#ef6b5f; --amber:#e3a23b; --green:#5cbf7d; --grey:#a39d92; --accent:var(--acc-d,#8FB0E8); color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.5;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:18px 48px}
+.wrap{max-width:1280px;margin:0 auto;display:grid;gap:18px}
+h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance}
+h1{font-size:clamp(30px,4.4vw,48px);font-weight:800;letter-spacing:-.02em;line-height:1}
+h2{font-size:20px;font-weight:700;letter-spacing:-.01em}
+h3{font-size:16px;font-weight:700}
+.tag{font-family:var(--mono);font-size:11.5px;color:var(--muted);letter-spacing:.03em}
+/* header */
+.top{display:flex;flex-wrap:wrap;gap:16px 28px;align-items:flex-end;justify-content:space-between}
+.brand{display:flex;gap:14px;align-items:center;min-width:0}
+.logo{width:52px;height:52px;flex:none;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:22px;border-radius:14px;transform:rotate(-4deg)}
+.goalline{font-size:14px;color:var(--muted);max-width:640px;margin-top:6px}
+.goalline b{color:var(--ink);font-weight:600}
+.pill{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11.5px;padding:2px 9px;border:1px solid currentColor;border-radius:999px;white-space:nowrap;vertical-align:1px}
+.pill::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.s-red{color:var(--red)}.s-amber{color:var(--amber)}.s-green{color:var(--green)}.s-grey{color:var(--grey)}
+.kpis{display:flex;gap:8px;flex-wrap:wrap}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:8px 14px;min-width:92px;font-variant-numeric:tabular-nums}
+.kpi b{display:block;font-family:var(--display);font-size:24px;line-height:1.1}
+.kpi span{font-size:11.5px;color:var(--muted)}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap}
+button{font:inherit;font-size:13.5px;font-weight:600;cursor:pointer;border:1.5px solid var(--ink);background:var(--surface);color:var(--ink);padding:7px 13px;border-radius:999px;transition:transform .12s}
+button:hover:not(:disabled){transform:translateY(-1px)}
+button.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+button.dark{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+button.ghost{border-color:transparent;background:transparent;color:var(--muted);padding:5px 8px}
+button.ghost:hover{color:var(--ink)}
+button.small{font-size:12.5px;padding:4px 10px}
+button:disabled{opacity:.5;cursor:default}
+:focus-visible{outline:2.5px solid var(--accent);outline-offset:2px}
+input,select,textarea{font:inherit;font-size:14px;color:var(--ink);background:var(--surface);border:1.5px solid var(--line);padding:8px 10px;width:100%;border-radius:10px}
+textarea{min-height:70px;resize:vertical}
+label.f{display:grid;gap:4px;font-size:12px;color:var(--muted);font-weight:600}
+/* main split */
+.main{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,360px);gap:18px;align-items:start}
+@media (max-width:960px){.main{grid-template-columns:1fr}}
+/* floor */
+.floorwrap{background:var(--wall);border-radius:18px;padding:10px;min-width:0}
+.floor{position:relative;width:100%;aspect-ratio:16/9.4;background:var(--corridor);border-radius:10px;overflow:hidden;
+  background-image:repeating-linear-gradient(90deg,transparent 0 38px,rgba(0,0,0,.035) 38px 40px)}
+.floor.narrow{aspect-ratio:3/4.3}
+.room{position:absolute;border:5px solid var(--wall);border-radius:6px;cursor:pointer;transition:filter .2s,box-shadow .2s}
+.room:hover,.room.sel{box-shadow:inset 0 0 0 3px var(--accent)}
+.room .plaque{position:absolute;left:8px;top:6px;font-family:var(--display);font-weight:700;font-size:clamp(10px,1.25vw,14px);background:var(--surface);color:var(--ink);padding:1px 8px;border-radius:6px;box-shadow:0 1px 0 rgba(0,0,0,.15);white-space:nowrap;max-width:calc(100% - 16px);overflow:hidden;text-overflow:ellipsis;z-index:2}
+.room .count{position:absolute;right:8px;top:6px;font-family:var(--mono);font-size:10.5px;background:var(--accent);color:var(--accent-ink);padding:1px 7px;border-radius:99px;z-index:2}
+.room.f-a{background:var(--floor-a);background-image:repeating-linear-gradient(0deg,transparent 0 13px,rgba(0,0,0,.05) 13px 14px)}
+.room.f-b{background:var(--floor-b);background-image:radial-gradient(rgba(0,0,0,.06) 1px,transparent 1.5px);background-size:10px 10px}
+.room.f-c{background:var(--floor-c);background-image:linear-gradient(45deg,rgba(0,0,0,.04) 25%,transparent 25% 75%,rgba(0,0,0,.04) 75%),linear-gradient(45deg,rgba(0,0,0,.04) 25%,transparent 25% 75%,rgba(0,0,0,.04) 75%);background-size:18px 18px;background-position:0 0,9px 9px}
+.room.f-d{background:var(--floor-d);background-image:repeating-linear-gradient(90deg,transparent 0 16px,rgba(0,0,0,.05) 16px 17px)}
+.room.f-break{background:var(--floor-break);background-image:linear-gradient(rgba(0,0,0,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,.05) 1px,transparent 1px);background-size:20px 20px}
+.room.f-board{background:var(--floor-board)}
+.door{position:absolute;background:var(--corridor);z-index:1}
+.furn{position:absolute;pointer-events:none}
+.desk{background:var(--desk);border-radius:3px;box-shadow:0 2px 0 rgba(0,0,0,.25)}
+.desk::after{content:"";position:absolute;left:30%;top:18%;width:40%;height:38%;background:var(--screen);border-radius:2px;opacity:.9}
+.plant{background:var(--plant);border-radius:50%;box-shadow:inset -3px -3px 0 rgba(0,0,0,.18)}
+.table{background:var(--wood);border-radius:999px;box-shadow:0 3px 0 rgba(0,0,0,.25)}
+.sofa{background:var(--accent);opacity:.75;border-radius:8px 8px 4px 4px}
+.coffee{background:var(--wall);border-radius:3px}
+.rug{border:2px dashed rgba(0,0,0,.15);border-radius:50%}
+/* agents */
+.agent{position:absolute;width:0;height:0;z-index:5;transition-property:left,top;transition-timing-function:linear;cursor:pointer}
+.agent .who{position:absolute;left:0;top:0;transform:translate(-50%,-88%);display:grid;justify-items:center;gap:1px}
+.agent .fig{position:relative;width:clamp(22px,2.6vw,32px);aspect-ratio:1/1.25}
+.agent .torso{position:absolute;left:8%;right:8%;bottom:0;height:52%;background:var(--shirt);border-radius:45% 45% 25% 25%;box-shadow:inset 0 -3px 0 rgba(0,0,0,.18)}
+.agent .head{position:absolute;left:22%;right:22%;top:0;aspect-ratio:1;background:var(--skin);border-radius:50%;box-shadow:0 1px 0 rgba(0,0,0,.2)}
+.agent .hair{position:absolute;left:18%;right:18%;top:-6%;height:36%;background:var(--hair);border-radius:50% 50% 30% 30%}
+.agent .name{font-family:var(--mono);font-size:clamp(8.5px,.85vw,10.5px);background:var(--surface);color:var(--ink);padding:0 5px;border-radius:5px;white-space:nowrap;box-shadow:0 1px 0 rgba(0,0,0,.2)}
+.agent.walking .fig{animation:bob .32s ease-in-out infinite alternate}
+.agent.working .fig::after{content:"";position:absolute;left:12%;right:12%;bottom:-8%;height:18%;background:var(--screen);border-radius:2px}
+.agent.sel .name{background:var(--accent);color:var(--accent-ink)}
+.bubble{position:absolute;left:50%;bottom:calc(100% + 4px);transform:translateX(-50%);background:var(--surface);color:var(--ink);border:1.5px solid var(--ink);border-radius:10px;padding:2px 8px;font-size:11px;font-weight:600;white-space:nowrap;max-width:180px;overflow:hidden;text-overflow:ellipsis;z-index:6}
+.bubble::after{content:"";position:absolute;left:50%;top:100%;transform:translateX(-50%);border:5px solid transparent;border-top-color:var(--ink)}
+.bubble .dots::after{content:"…";animation:dots 1s steps(3) infinite}
+@keyframes bob{from{transform:translateY(0)}to{transform:translateY(-3px)}}
+@keyframes dots{0%{content:"."}50%{content:".."}100%{content:"..."}}
+@media (prefers-reduced-motion:reduce){.agent{transition-duration:0s!important}.agent.walking .fig{animation:none}}
+.legend{display:flex;gap:14px;flex-wrap:wrap;color:#cfc8bb;font-size:12px;padding:8px 4px 0}
+/* panel */
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:16px;display:grid;gap:14px;min-width:0}
+.side{position:sticky;top:calc(12px + env(safe-area-inset-top,0px))}
+@media (max-width:960px){.side{position:static}}
+.panel-head{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.portrait{display:flex;gap:12px;align-items:center}
+.portrait .fig{width:52px;aspect-ratio:1/1.25;position:relative;flex:none}
+.portrait .fig .torso,.portrait .fig .head,.portrait .fig .hair{position:absolute}
+.portrait .fig .torso{left:8%;right:8%;bottom:0;height:52%;background:var(--shirt);border-radius:45% 45% 25% 25%}
+.portrait .fig .head{left:22%;right:22%;top:0;aspect-ratio:1;background:var(--skin);border-radius:50%}
+.portrait .fig .hair{left:18%;right:18%;top:-6%;height:36%;background:var(--hair);border-radius:50% 50% 30% 30%}
+.portrait .meta{min-width:0}
+.mini{display:grid;gap:8px}
+.mini-task{border:1px solid var(--line);border-radius:12px;padding:8px 10px;display:grid;gap:6px;background:var(--soft)}
+.mini-task .t{font-weight:600;font-size:14px;overflow-wrap:anywhere}
+.row{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.feed{display:grid;gap:6px;font-size:13px;max-height:260px;overflow:auto}
+.feed div{display:flex;gap:8px}
+.feed time{font-family:var(--mono);font-size:11px;color:var(--muted);flex:none;padding-top:2px}
+.output{background:var(--soft);border-radius:10px;padding:10px 12px;font-size:13.5px;white-space:pre-wrap;overflow-wrap:anywhere;max-height:380px;overflow:auto}
+.live{border:1.5px dashed var(--accent)}
+.empty{color:var(--muted);font-size:14px;padding:14px;border:1.5px dashed var(--line);border-radius:12px;text-align:center}
+details summary{cursor:pointer;font-size:13px;font-weight:600}
+/* board */
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chips button{font-weight:600;border-color:var(--line);font-size:12.5px;padding:4px 11px}
+.chips button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.board{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media (max-width:820px){.board{grid-template-columns:1fr}}
+.col{background:var(--soft);border-radius:14px;padding:10px;display:grid;gap:8px;align-content:start;min-width:0}
+.col h3{font-size:14px;display:flex;justify-content:space-between}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px;display:grid;gap:6px;border-left:5px solid var(--line)}
+.card.p-high{border-left-color:var(--red)}.card.p-normal{border-left-color:var(--accent)}
+.card .t{font-weight:600;overflow-wrap:anywhere}
+.card .m{display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-size:12px;color:var(--muted)}
+.card .m select{width:auto;font-size:12px;padding:2px 6px;border-radius:8px}
+.av{display:inline-block;width:16px;height:16px;border-radius:50%;background:var(--shirt);box-shadow:inset 0 6px 0 var(--skin);vertical-align:-3px;margin-right:4px}
+form.add{display:grid;gap:8px;background:var(--soft);padding:12px;border-radius:14px}
+form.add .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px}
+/* hiring modal */
+.modal{position:fixed;inset:0;background:rgba(10,9,7,.55);z-index:30;display:grid;place-items:center;padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.sheet{background:var(--surface);border-radius:20px;max-width:920px;width:100%;max-height:100%;overflow:auto;padding:20px;display:grid;gap:16px}
+.cands{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.cand{border:1.5px solid var(--line);border-radius:16px;padding:14px;display:grid;gap:8px;align-content:start}
+.cand .skills{display:flex;gap:4px;flex-wrap:wrap}
+.cand .skills span{font-size:11.5px;background:var(--soft);border-radius:99px;padding:1px 8px}
+.cand p{margin:0;font-size:13px;color:var(--muted)}
+.notice{font-size:13px;color:var(--muted);background:var(--soft);padding:8px 12px;border-radius:10px}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(16px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:99px;font-size:13.5px;z-index:40;max-width:calc(100% - 32px)}
+.switch{font-size:12.5px;color:var(--muted)}
+.switch a{color:var(--muted)}
+.minutes{display:grid;gap:8px}
+.review{display:grid;gap:6px;border-top:1px dashed var(--line);padding-top:8px;margin-top:6px}
+.review textarea{min-height:56px;font-size:13.5px}
+.review .chk{display:flex;gap:6px;align-items:center;font-size:12.5px;color:var(--muted)}
+.review .chk input{width:auto}
+.fb{display:grid;gap:4px;margin-top:6px}
+.fb div{font-size:12.5px;background:var(--surface);border-left:3px solid var(--accent);padding:4px 8px;border-radius:4px}
+.fb div span{font-family:var(--mono);font-size:10.5px;color:var(--muted);margin-right:6px}
+.rules{display:grid;gap:6px}
+.rule{display:flex;gap:8px;justify-content:space-between;align-items:flex-start;background:var(--soft);border-radius:10px;padding:7px 10px;font-size:13.5px}
+.rule span{overflow-wrap:anywhere}
+.view{display:grid;gap:18px;min-width:0}
+.hqtop .logo{background:var(--ink);color:var(--bg)}
+.offices{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.ocard{background:var(--surface);border:1px solid var(--line);border-radius:18px;overflow:hidden;display:grid;grid-template-rows:auto 1fr;text-decoration:none;color:var(--ink);transition:transform .15s,box-shadow .15s}
+.ocard:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(0,0,0,.12)}
+.ocard .band{background:var(--c);color:var(--ci);padding:14px 16px 12px;display:flex;justify-content:space-between;align-items:flex-start;gap:8px;position:relative;
+  background-image:linear-gradient(90deg,rgba(255,255,255,.12) 1px,transparent 1px),linear-gradient(rgba(255,255,255,.12) 1px,transparent 1px);background-size:14px 14px}
+.ocard .band h3{font-size:22px;line-height:1.05;color:var(--ci)}
+.ocard .band .k{font-family:var(--mono);font-size:10.5px;opacity:.85;letter-spacing:.04em}
+.ocard .band .pill{background:var(--surface);border-color:transparent}
+.ocard .body{padding:14px 16px;display:grid;gap:10px;align-content:start}
+.ocard .goal{font-size:13px;color:var(--muted)}
+.staffrow{display:flex;gap:2px;align-items:flex-end;min-height:40px;flex-wrap:wrap}
+.staffrow .fig{width:26px;aspect-ratio:1/1.25;position:relative}
+.staffrow .fig .torso,.staffrow .fig .head,.staffrow .fig .hair{position:absolute}
+.staffrow .fig .torso{left:8%;right:8%;bottom:0;height:52%;background:var(--shirt);border-radius:45% 45% 25% 25%}
+.staffrow .fig .head{left:22%;right:22%;top:0;aspect-ratio:1;background:var(--skin);border-radius:50%}
+.staffrow .fig .hair{left:18%;right:18%;top:-6%;height:36%;background:var(--hair);border-radius:50% 50% 30% 30%}
+.staffrow .busy .fig::after{content:"";position:absolute;left:12%;right:12%;bottom:-8%;height:18%;background:var(--screen);border-radius:2px}
+.nums{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;font-variant-numeric:tabular-nums}
+.nums div{background:var(--soft);border-radius:10px;padding:6px 8px}
+.nums b{display:block;font-family:var(--display);font-size:19px;line-height:1.1}
+.nums span{font-size:11px;color:var(--muted)}
+.nums .bad b{color:var(--red)}
+.enter{font-weight:700;font-size:13.5px;color:var(--ink)}
+.hqcols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;align-items:start}
+@media (max-width:860px){.hqcols{grid-template-columns:1fr}}
+.list{display:grid;gap:8px}
+.li{display:grid;gap:3px;border:1px solid var(--line);border-radius:12px;padding:9px 11px;background:var(--surface);text-decoration:none;color:var(--ink)}
+.li:hover{border-color:var(--ink)}
+.li .t{font-weight:600;font-size:14px;overflow-wrap:anywhere}
+.btag{display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:11px;color:var(--muted)}
+.btag::before{content:"";width:8px;height:8px;border-radius:2px;background:var(--c)}
+.prio{display:grid;gap:6px;counter-reset:p}
+.prio div{display:flex;gap:10px;align-items:baseline;font-size:14px}
+.prio div::before{counter-increment:p;content:counter(p);font-family:var(--display);font-weight:800;font-size:18px;color:var(--muted);min-width:16px}
+.rvbg{}
+:root{--rv:#d98a00;--rv-bg:#fff4dc;--rv-ink:#5a3a00}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--rv:#f0b43c;--rv-bg:#2e2512;--rv-ink:#ffe2a6}}
+:root[data-theme="dark"]{--rv:#f0b43c;--rv-bg:#2e2512;--rv-ink:#ffe2a6}
+.reviewpanel{background:var(--rv-bg);border:2px solid var(--rv);border-radius:18px;padding:16px;display:grid;gap:12px;min-width:0}
+.reviewpanel h2{display:flex;align-items:center;gap:10px;color:var(--rv-ink)}
+.reviewpanel .tag{color:var(--rv-ink);opacity:.85}
+.count-badge{display:inline-grid;place-items:center;min-width:28px;height:28px;padding:0 8px;border-radius:99px;background:var(--rv);color:#1d1400;font-family:var(--display);font-size:16px}
+.bell{width:12px;height:12px;border-radius:50%;background:var(--rv);display:inline-block;animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 color-mix(in srgb,var(--rv) 60%,transparent)}50%{box-shadow:0 0 0 7px transparent}}
+.rlist{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:12px}
+.rcard{background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--c);border-radius:14px;padding:12px 14px;display:grid;gap:8px;min-width:0}
+.rhead{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+.rhead b{color:var(--ink)}
+.rtitle{font-family:var(--display);font-weight:700;font-size:17px;line-height:1.2;overflow-wrap:anywhere}
+.rprev{font-size:13.5px;color:var(--ink);white-space:pre-wrap;overflow-wrap:anywhere;background:var(--soft);border-radius:10px;padding:8px 10px;max-height:7.5em;overflow:hidden;position:relative}
+.rcard form{display:grid;gap:6px}
+.rcard textarea{min-height:44px;font-size:13.5px}
+.rcard .chk{display:flex;gap:6px;align-items:center;font-size:12.5px;color:var(--muted)}
+.rcard .chk input{width:auto}
+button.ok{background:var(--green);border-color:var(--green);color:#fff}
+.allclear{font-size:15px;color:var(--rv-ink);padding:6px 2px}
+.bizbar a.rvnav{flex:none;margin-left:auto;display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-weight:700;font-size:13.5px;padding:6px 14px;border-radius:999px;background:var(--rv);color:#1d1400;border:1.5px solid var(--rv)}
+.bizbar a.rvnav b{background:#1d1400;color:var(--rv);border-radius:99px;padding:0 7px;font-size:12px}
+.rvping{position:fixed;top:calc(12px + env(safe-area-inset-top,0px));left:50%;transform:translateX(-50%);z-index:45;background:var(--rv);color:#1d1400;border-radius:16px;padding:10px 12px 10px 16px;display:flex;gap:10px;align-items:center;box-shadow:0 10px 30px rgba(0,0,0,.3);max-width:calc(100% - 32px);font-weight:600;font-size:14px}
+.rvping span{overflow:hidden;text-overflow:ellipsis}
+.rvping button{border-color:#1d1400;background:#1d1400;color:var(--rv);padding:5px 12px}
+.rvping button.x{background:transparent;color:#1d1400}
+.tell{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:end}
+.tell textarea{min-height:56px}
+.hqlog{display:grid;gap:8px;max-height:260px;overflow:auto}
+.hqlog .msg{max-width:100%}
+.bizrows{display:grid;gap:8px}
+.bizrow{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center;text-decoration:none;color:var(--ink);border:1px solid var(--line);border-radius:14px;padding:10px 14px;background:var(--surface)}
+.bizrow:hover{border-color:var(--ink)}
+.bizrow .sq{width:38px;height:38px;border-radius:10px;background:var(--c);color:var(--ci);display:grid;place-items:center;font-family:var(--display);font-weight:800}
+.bizrow .nm{font-family:var(--display);font-weight:700;font-size:17px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.bizrow .sub{font-size:12.5px;color:var(--muted)}
+.chipset{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.chip{font-size:12px;font-weight:700;padding:3px 9px;border-radius:99px;background:var(--soft);white-space:nowrap}
+.chip.rv{background:var(--rv);color:#1d1400}.chip.late{background:var(--red);color:#fff}
+@media (max-width:560px){.bizrow{grid-template-columns:auto minmax(0,1fr)}.chipset{grid-column:1/-1;justify-content:flex-start}}
+.bizbar{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin;align-items:center}
+.bizbar a{flex:none;display:inline-flex;align-items:center;gap:7px;text-decoration:none;color:var(--ink);font-weight:600;font-size:13.5px;padding:6px 13px;border:1.5px solid var(--line);border-radius:999px;background:var(--surface)}
+.bizbar a:hover{border-color:var(--ink)}
+.bizbar a[aria-current="page"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.bizbar a .d{width:9px;height:9px;border-radius:3px;background:var(--c)}
+.bizbar .sep{flex:none;width:1px;height:22px;background:var(--line);margin:0 4px}
+.bizbar a.board{color:var(--muted);font-weight:500}
+/* office chat */
+.launcher{position:fixed;right:max(16px,calc(env(safe-area-inset-right,0px) + 16px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:25;display:flex;align-items:center;gap:8px;box-shadow:0 6px 20px rgba(0,0,0,.25);padding:11px 18px;font-size:15px}
+.launcher .ping{width:9px;height:9px;border-radius:50%;background:var(--accent-ink);opacity:.8}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(460px,100%);background:var(--surface);border-left:1px solid var(--line);z-index:35;display:grid;grid-template-rows:auto auto 1fr auto;box-shadow:-10px 0 30px rgba(0,0,0,.18);
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);padding-right:env(safe-area-inset-right,0px)}
+.drawer header{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:14px 16px;border-bottom:1px solid var(--line)}
+.drawer .tabs{display:flex;gap:6px;padding:8px 16px;border-bottom:1px solid var(--line)}
+.drawer .tabs button{font-size:12.5px;padding:4px 12px;border-color:var(--line)}
+.drawer .tabs button[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.msgs{overflow:auto;padding:14px 16px;display:flex;flex-direction:column;gap:10px;min-height:0}
+.msg{max-width:88%;padding:9px 12px;border-radius:14px;font-size:14px;white-space:pre-wrap;overflow-wrap:anywhere}
+.msg.user{align-self:flex-end;background:var(--accent);color:var(--accent-ink);border-bottom-right-radius:4px}
+.msg.assistant{align-self:flex-start;background:var(--soft);border-bottom-left-radius:4px}
+.msg .acts{display:grid;gap:3px;margin-top:6px;padding-top:6px;border-top:1px dashed var(--line);font-family:var(--mono);font-size:11px;color:var(--muted)}
+.msg .when{display:block;font-family:var(--mono);font-size:10.5px;opacity:.7;margin-top:4px}
+.composer{display:grid;gap:6px;padding:10px 16px 14px;border-top:1px solid var(--line)}
+.composer textarea{min-height:52px;max-height:160px}
+.suggest{display:flex;gap:6px;flex-wrap:wrap}
+.suggest button{font-size:12px;font-weight:500;padding:3px 10px;border-color:var(--line)}
+.memlist{overflow:auto;padding:14px 16px;display:grid;gap:8px;align-content:start;min-height:0}
+.mem{display:flex;gap:8px;justify-content:space-between;align-items:flex-start;background:var(--soft);border-radius:10px;padding:8px 10px;font-size:14px}
+.mem span{overflow-wrap:anywhere}
+.auto-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--green);margin-right:3px;vertical-align:1px;box-shadow:0 0 0 2px var(--surface)}
+.switchrow{display:flex;align-items:center;gap:10px;justify-content:space-between;background:var(--soft);border-radius:12px;padding:10px 12px}
+.toggle{position:relative;width:44px;height:24px;border-radius:99px;border:1.5px solid var(--ink);background:var(--surface);padding:0;flex:none}
+.toggle::after{content:"";position:absolute;top:2px;left:2px;width:17px;height:17px;border-radius:50%;background:var(--ink);transition:left .15s}
+.toggle[aria-checked="true"]{background:var(--green);border-color:var(--green)}
+.toggle[aria-checked="true"]::after{left:21px;background:#fff}
+.routine{display:flex;gap:8px;justify-content:space-between;align-items:center;border:1px solid var(--line);border-radius:12px;padding:8px 10px;flex-wrap:wrap}
+.routine b{font-size:14px}
+.designation{font-weight:600;color:var(--accent)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .designation{color:var(--accent)}}
+</style>
+
+<div class="wrap">
+  <nav class="bizbar" aria-label="Switch business" id="bizbar"></nav>
+  <div id="hqView" class="view">
+    <header class="top hqtop">
+      <div class="brand"><div class="logo" aria-hidden="true">S</div><div style="min-width:0"><div class="tag">SAHILL CHANDAN · DUBAI · <span id="hqDate"></span></div><h1>Sahill's HQ</h1><div class="goalline" id="hqLine">Loading your offices…</div></div></div>
+    </header>
+    <div id="hqBanner" class="notice" hidden></div>
+    <section class="reviewpanel" id="reviewPanel" aria-labelledby="rvH">
+      <div class="panel-head"><h2 id="rvH"><span class="bell" aria-hidden="true"></span>Please review <span class="count-badge" id="rvCount">0</span></h2><span class="tag">Work your agents finished. Approve it, or say what to change and send it back.</span></div>
+      <div class="rlist" id="reviewList"></div>
+    </section>
+    <section class="panel" aria-labelledby="tellH">
+      <div class="panel-head"><h2 id="tellH">Tell your team what to do</h2><button class="ghost small" id="cosBtn" type="button">Open full chat</button></div>
+      <div class="hqlog" id="hqChatLog"></div>
+      <form class="tell" id="hqTell"><label class="f" for="hqTellIn" style="position:absolute;left:-9999px">Message</label><textarea id="hqTellIn" maxlength="4000" placeholder="e.g. Botany: unit 1204 bounced a AED 25,000 cheque. Get Daniel on it now."></textarea><button class="primary" type="submit" id="hqTellBtn">Send</button></form>
+      <div class="suggest" id="hqSuggest"></div>
+    </section>
+    <section class="panel" aria-labelledby="bizH">
+      <div class="panel-head"><h2 id="bizH">Your businesses</h2><span class="tag">Tap one to walk into its office</span></div>
+      <div class="bizrows" id="bizRows"></div>
+    </section>
+    <section class="panel" aria-labelledby="briefH">
+      <div class="panel-head"><h2 id="briefH">Today's brief</h2><button class="small" id="briefBtn" type="button">Write a fresh brief</button></div>
+      <div class="minutes" id="briefs"></div>
+    </section>
+  </div>
+  <div id="officeView" class="view" hidden>
+  <header class="top">
+    <div class="brand">
+      <div class="logo" aria-hidden="true" id="bizInitial"></div>
+      <div style="min-width:0">
+        <div class="tag"><span id="bizKind"></span> · VIRTUAL OFFICE</div>
+        <h1 id="bizName"></h1>
+        <div class="goalline"><b>Goal:</b> <span id="goalText"></span> <span id="statusPill" class="pill s-grey">…</span> <span id="statusNote"></span> <button class="ghost small" id="editStatus" type="button">Edit</button></div>
+      </div>
+    </div>
+    <div class="kpis" aria-label="Office numbers">
+      <div class="kpi"><b id="kStaff">–</b><span>on staff</span></div>
+      <div class="kpi"><b id="kBusy">–</b><span>at work now</span></div>
+      <div class="kpi"><b id="kOpen">–</b><span>open tasks</span></div>
+      <div class="kpi"><b id="kDone">–</b><span>done</span></div>
+    </div>
+  </header>
+
+  <section class="reviewpanel" id="officeReview" hidden aria-labelledby="orvH">
+    <div class="panel-head"><h2 id="orvH"><span class="bell" aria-hidden="true"></span>Please review <span class="count-badge" id="orvCount">0</span></h2><span class="tag">Finished work in this office</span></div>
+    <div class="rlist" id="officeReviewList"></div>
+  </section>
+  <div class="toolbar">
+    <button class="primary" id="openHire" type="button">Hire an agent</button>
+    <button class="dark" id="callMeeting" type="button">Call a board meeting</button>
+    <button id="newTaskBtn" type="button">New task</button>
+  </div>
+  <div id="banner" class="notice" hidden></div>
+
+  <div class="main">
+    <div class="floorwrap">
+      <div id="floor" class="floor" role="group" aria-label="Office floor plan"></div>
+    </div>
+    <aside class="panel side" id="side" aria-live="polite"></aside>
+  </div>
+
+  <section class="panel" aria-labelledby="boardH">
+    <div class="panel-head"><h2 id="boardH">Task board</h2><div class="chips" id="roomChips" role="group" aria-label="Filter by room"></div></div>
+    <form id="taskForm" class="add" hidden>
+      <label class="f" for="tTitle">Task<input id="tTitle" required maxlength="200" placeholder="What needs doing?"></label>
+      <div class="grid">
+        <label class="f" for="tAgent">Assign to<select id="tAgent"></select></label>
+        <label class="f" for="tRoom">Room<select id="tRoom"></select></label>
+        <label class="f" for="tDue">Due<input id="tDue" type="date"></label>
+        <label class="f" for="tPri">Priority<select id="tPri"><option value="high">High</option><option value="normal" selected>Normal</option><option value="low">Low</option></select></label>
+      </div>
+      <label class="f" for="tNotes">Brief for the agent (optional)<textarea id="tNotes" maxlength="3000" placeholder="Context, numbers, what the result should look like"></textarea></label>
+      <div class="row"><button class="primary" type="submit">Add to board</button><button type="button" id="cancelTask">Cancel</button></div>
+    </form>
+    <div class="board" id="board"></div>
+  </section>
+
+  <section class="panel" aria-labelledby="minH">
+    <div class="panel-head"><h2 id="minH">Board meeting minutes</h2><span class="tag">Status reports from the boardroom</span></div>
+    <form id="statusForm" class="add" hidden>
+      <label class="f" for="sGoal">Goal<textarea id="sGoal" maxlength="500"></textarea></label>
+      <div class="grid">
+        <label class="f" for="sStatus">Status<select id="sStatus"><option value="red">Red</option><option value="amber">Amber</option><option value="green">Green</option><option value="grey">Unknown</option><option value="parked">Parked</option></select></label>
+        <label class="f" for="sNote">Reason<input id="sNote" maxlength="160"></label>
+      </div>
+      <div class="row"><button class="primary" type="submit">Save</button><button type="button" id="cancelStatus">Cancel</button></div>
+    </form>
+    <div class="minutes" id="reports"></div>
+  </section>
+
+  </div>
+  <nav class="switch" aria-label="More">Sahill's HQ · <a href="https://claude.ai/artifact/UxrehG1pVv7qZTC85E1Q4y" target="_blank" rel="noopener">Open the board</a></nav>
+</div>
+
+<button type="button" class="primary launcher" id="openChat" aria-controls="chatDrawer"><span class="ping" aria-hidden="true"></span>Office chat</button>
+<aside class="drawer" id="chatDrawer" hidden aria-labelledby="chatH">
+  <header><div><div class="tag" id="chatTag"></div><h2 id="chatH"></h2></div><button type="button" id="closeChat">Close</button></header>
+  <div class="tabs" role="tablist"><button type="button" role="tab" aria-selected="true" data-ctab="chat">Chat</button><button type="button" role="tab" aria-selected="false" data-ctab="memory">Memory (<span id="memCount">0</span>)</button></div>
+  <div class="msgs" id="msgs" aria-live="polite"></div>
+  <div class="memlist" id="memlist" hidden></div>
+  <form class="composer" id="chatForm">
+    <div class="suggest" id="suggest"></div>
+    <label class="f" for="chatIn" style="position:absolute;left:-9999px">Message</label>
+    <textarea id="chatIn" maxlength="4000" placeholder="e.g. Ask Omar to draft follow-ups for the 4 warm prospects and start now"></textarea>
+    <div class="row" style="justify-content:space-between"><span class="tag" id="chatState">Everything you say here is saved to this office's memory.</span><span class="row"><button type="button" id="stopChat" hidden>Stop</button><button class="primary" type="submit" id="sendChat">Send</button></span></div>
+  </form>
+</aside>
+
+<div class="modal" id="hireModal" hidden role="dialog" aria-modal="true" aria-labelledby="hireH">
+  <div class="sheet">
+    <div class="panel-head"><div><div class="tag">HIRING BOARD</div><h2 id="hireH">Who should join <span id="hireBiz"></span>?</h2></div><button type="button" id="closeHire">Close</button></div>
+    <div class="cands" id="cands"></div>
+    <form id="customHire" class="add">
+      <h3>Write your own job post</h3>
+      <div class="grid">
+        <label class="f" for="hName">Name<input id="hName" required maxlength="40" placeholder="e.g. Noor"></label>
+        <label class="f" for="hRole">Job designation<input id="hRole" required maxlength="80" placeholder="e.g. WhatsApp follow-up specialist"></label>
+        <label class="f" for="hRoom">Works in<select id="hRoom"></select></label>
+      </div>
+      <label class="f" for="hMind">How they think and work<textarea id="hMind" maxlength="2000" placeholder="Focus, tone, what good work looks like, what to avoid"></textarea></label>
+      <div class="row"><button class="primary" type="submit">Hire</button></div>
+    </form>
+  </div>
+</div>
+
+<script>
+const BIZES = [{"slug": "yontro", "name": "Yontro", "kind": "Marketing agency \u00b7 yontro.ae", "goal": "5 signed clients by 31 December 2026 (AED 25,000+ a month), so Yontro covers its AED 8,000 payroll.", "status": "red", "note": "0 contracts after one month \u00b7 4 warm prospects", "about": "Social media marketing agency, Yontro - F.Z.E (Ajman Free Zone), office in Business Bay, Dubai. Packages Launch AED 5,000 / Growth 7,500 / Scale 10,000 a month, paid in advance, 3-month standard term (1-2 months by exception). Sales: cold calling and visits by Usama Rehman offering a free video, plus Meta ads. Azeem Shafi is the videographer. Started 19 October 2026, no contracts signed yet. Account manager role open.", "rooms": [{"id": "sales", "name": "Sales Floor", "about": "Pipeline, calls, follow-ups and closes.", "floor": "a", "w": [1.5, 3, 31, 42], "n": [2, 2, 46, 30]}, {"id": "studio", "name": "Video Studio", "about": "Shoot plans, shot lists and edits.", "floor": "c", "w": [34.5, 3, 31, 42], "n": [52, 2, 46, 30]}, {"id": "content", "name": "Content Lab", "about": "Case studies, captions, calendars and ad creative.", "floor": "b", "w": [67.5, 3, 31, 42], "n": [2, 35, 46, 30]}, {"id": "research", "name": "Research Desk", "about": "Prospect lists and pre-meeting briefs.", "floor": "d", "w": [1.5, 55, 31, 42], "n": [52, 35, 46, 30]}, {"id": "break", "name": "Break Room", "about": "Where free agents grab coffee between jobs.", "floor": "break", "w": [34.5, 55, 31, 42], "n": [2, 68, 46, 30]}, {"id": "board", "name": "Boardroom", "about": "The whole team meets here for board meetings and status reports.", "floor": "board", "w": [67.5, 55, 31, 42], "n": [52, 68, 46, 30]}], "agentDept": {"sales-manager": "sales", "content-strategist": "content", "lead-researcher": "research"}, "candidates": [{"name": "Tariq Saleh", "role": "Closer \u00b7 Senior Account Executive", "dept": "sales", "pitch": "Joins tough meetings and turns warm prospects into signed 3-month contracts.", "skills": ["Objection handling", "Proposals", "Negotiation"], "mind": "Close with confidence: restate the prospect's pain, show the case study, offer the 1-month starter term only when needed. Always end with a clear next step and date.", "shirt": ""}, {"name": "Mei Lin", "role": "Meta Ads Specialist", "dept": "content", "pitch": "Builds and tunes lead-gen campaigns for the free-video offer.", "skills": ["Meta Ads", "Copy testing", "Lead forms"], "mind": "Write ad sets for Dubai SME owners; test 3 hooks; report cost per lead and booked meeting, not likes.", "shirt": ""}, {"name": "Joel Fernandes", "role": "Shoot Producer", "dept": "studio", "pitch": "Plans shoots so Azeem gets three great videos out of one visit.", "skills": ["Shot lists", "Scheduling", "Storyboards"], "mind": "Plan every shoot: hook, b-roll list, location notes, timing. Keep it doable in 90 minutes.", "shirt": ""}, {"name": "Aisha Qureshi", "role": "Account Manager", "dept": "content", "pitch": "Looks after signed clients: onboarding, monthly calendars and reporting.", "skills": ["Onboarding", "Calendars", "Client reports"], "mind": "Clients first: clear monthly calendar, weekly update, monthly results report with views and enquiries.", "shirt": ""}, {"name": "Marco Bianchi", "role": "Cold Outreach Writer", "dept": "sales", "pitch": "Writes WhatsApp and email openers that get replies.", "skills": ["WhatsApp scripts", "Email", "Follow-ups"], "mind": "Short, specific, personal. One question per message. Mention the free video and a result from a similar business.", "shirt": ""}], "accent": "#FF5A1F", "ink": "#111111", "dark": "#FF6B35", "initial": "Y", "corridorY": 50, "suggestions": ["What's everyone working on?", "Usama booked 3 meetings today, log it", "Get Omar to write follow-ups for the 4 warm prospects now"]}, {"slug": "botany", "name": "Botany Properties", "kind": "Real estate \u00b7 management and advisory", "goal": "By 31 December 2026: every overdue rent collected or in the legal process, every vacant flat let, monthly statements going to both owners. Then 5 investor meetings a week.", "status": "red", "note": "No rental register yet \u00b7 amounts owed unknown", "about": "Dubai real estate company: property management at 10% of yearly rent, and investment advisory (2% acquisition commission). Partner Mia (videos and ads). Holds POA for owners Panagiotis Evangelinos and Georgios Boktor; problems are vacant flats, overdue rent and bounced cheques needing legal action (returned-cheque certificate, formal notice, RDSC, execution judge; confirm with a lawyer). Investor client Mr Hashim has a 5-year Al Manara Tower (JVT) plan.", "rooms": [{"id": "rentals", "name": "Rentals Desk", "about": "The rental register, cheques, rents and owner statements.", "floor": "a", "w": [1.5, 3, 31, 42], "n": [2, 2, 46, 30]}, {"id": "legal", "name": "Legal Room", "about": "Demand notices, RDSC files and lawyer follow-ups.", "floor": "c", "w": [34.5, 3, 31, 42], "n": [52, 2, 46, 30]}, {"id": "investors", "name": "Investor Lounge", "about": "Investment plans, yields and client meetings.", "floor": "b", "w": [67.5, 3, 31, 42], "n": [2, 35, 46, 30]}, {"id": "media", "name": "Media Room", "about": "Listings, photos and videos with Mia.", "floor": "d", "w": [1.5, 55, 31, 42], "n": [52, 35, 46, 30]}, {"id": "break", "name": "Break Room", "about": "Where free agents grab coffee between jobs.", "floor": "break", "w": [34.5, 55, 31, 42], "n": [2, 68, 46, 30]}, {"id": "board", "name": "Boardroom", "about": "The whole team meets here for board meetings and status reports.", "floor": "board", "w": [67.5, 55, 31, 42], "n": [52, 68, 46, 30]}], "agentDept": {"property-manager": "rentals", "legal-assistant": "legal", "investor-advisor": "investors"}, "candidates": [{"name": "Nadia Haddad", "role": "Leasing Agent", "dept": "rentals", "pitch": "Gets vacant flats listed, viewed and let within 30 days.", "skills": ["Listings", "Viewings", "Pricing"], "mind": "Price to let in 30 days. Write listings for Property Finder and Bayut, schedule viewings, qualify tenants.", "shirt": ""}, {"name": "Samir Aziz", "role": "Collections Officer", "dept": "legal", "pitch": "Chases overdue rent firmly and politely, and logs every step.", "skills": ["Payment plans", "Notices", "Follow-up logs"], "mind": "Firm and polite. Offer a payment plan before escalating. Log every contact with date and amount.", "shirt": ""}, {"name": "Grace Lim", "role": "Owner Relations Manager", "dept": "rentals", "pitch": "Keeps Panagiotis and Georgios informed and confident.", "skills": ["Owner statements", "Updates", "Renewals"], "mind": "Monthly statement per owner: rent received, arrears, actions, next steps. Calm and transparent.", "shirt": ""}, {"name": "Hassan Javed", "role": "Real Estate Content Producer", "dept": "media", "pitch": "Turns Mia's market knowledge into short investor videos.", "skills": ["Scripts", "Reels", "Market explainers"], "mind": "60-second scripts on Dubai investing: yields, JVT, equity release. One clear takeaway per video.", "shirt": ""}, {"name": "Olivia Brooks", "role": "Mortgage and Finance Analyst", "dept": "investors", "pitch": "Models equity release and loan scenarios for investors.", "skills": ["LTV", "Cash flow", "Bank comparisons"], "mind": "Conservative numbers. Show monthly cash flow, LTV and the worst case.", "shirt": ""}], "accent": "#2E6B4F", "ink": "#ffffff", "dark": "#5DBB8C", "initial": "B", "corridorY": 50, "suggestions": ["Start the rental register now", "Tenant in a flat bounced a cheque, what next?", "What does Fatima need from me?"]}, {"slug": "foundertales", "name": "Founder Tales", "kind": "Media brand \u00b7 foundertales.ae", "goal": "2,000 followers by 30 November 2026 \u00b7 5,000 followers and the first paid feature sold by 31 March 2027.", "status": "amber", "note": "About 1,000 followers \u00b7 no website or sales kit yet", "about": "Founder-story media brand for young entrepreneurs, about 1,000 followers (November 2026). Azeem Shafi makes 3 videos a day. Plan: grow, then sell paid feature episodes to founders (needs a website and a sales kit with rate card), later a news publication and an exclusive founders network with an acquisition model.", "rooms": [{"id": "studio", "name": "Studio", "about": "Story ideas, hooks and shoot plans.", "floor": "a", "w": [1.5, 3, 31, 42], "n": [2, 2, 46, 30]}, {"id": "edit", "name": "Edit Bay", "about": "Edits, captions, thumbnails and posting.", "floor": "c", "w": [34.5, 3, 31, 42], "n": [52, 2, 46, 30]}, {"id": "partners", "name": "Partnerships", "about": "Paid features, media kit and founder sales.", "floor": "b", "w": [67.5, 3, 31, 42], "n": [2, 35, 46, 30]}, {"id": "web", "name": "Newsroom", "about": "Website, articles and the future publication.", "floor": "d", "w": [1.5, 55, 31, 42], "n": [52, 35, 46, 30]}, {"id": "break", "name": "Break Room", "about": "Where free agents grab coffee between jobs.", "floor": "break", "w": [34.5, 55, 31, 42], "n": [2, 68, 46, 30]}, {"id": "board", "name": "Boardroom", "about": "The whole team meets here for board meetings and status reports.", "floor": "board", "w": [67.5, 55, 31, 42], "n": [52, 68, 46, 30]}], "agentDept": {"growth-manager": "studio", "partnerships": "partners"}, "candidates": [{"name": "Zara Ahmed", "role": "Story Producer", "dept": "studio", "pitch": "Finds founders with stories worth telling and writes the angle.", "skills": ["Research", "Interviews", "Story arcs"], "mind": "Every story needs a turning point. Find it, write the hook in 8 words, plan a 60-second arc.", "shirt": ""}, {"name": "Leo Martins", "role": "Short-form Editor", "dept": "edit", "pitch": "Cuts videos that keep people watching to the end.", "skills": ["Hooks", "Captions", "Pacing"], "mind": "First 2 seconds decide everything. Suggest cuts, on-screen text and captions for each video.", "shirt": ""}, {"name": "Priya Nair", "role": "Founder Partnerships Manager", "dept": "partners", "pitch": "Sells feature episodes to Dubai founders.", "skills": ["Outreach", "Media kit", "Pricing"], "mind": "Lead with audience proof. Pitch the feature episode; upsell article and boosted reach.", "shirt": ""}, {"name": "Sam Wright", "role": "Editor-in-Chief", "dept": "web", "pitch": "Plans the website and the future Founder Tales publication.", "skills": ["Editorial", "SEO", "Newsletters"], "mind": "Clear, useful writing for young founders. Build the content plan around evergreen founder lessons.", "shirt": ""}, {"name": "Noura Al Habtoor", "role": "Community Manager", "dept": "edit", "pitch": "Replies, DMs and collabs that turn viewers into followers.", "skills": ["Engagement", "Collabs", "DMs"], "mind": "Reply fast and personally. Find 5 collab accounts a week. Track follower growth daily.", "shirt": ""}], "accent": "#C8902A", "ink": "#111111", "dark": "#E3B04B", "initial": "F", "corridorY": 50, "suggestions": ["Give me today's 3 video ideas", "We hit 1,200 followers, remember it", "Have Amara draft the rate card now"]}, {"slug": "aura", "name": "Aura Wellness Center", "kind": "Wellness center \u00b7 Sahill is GM", "goal": "Monthly revenue above the AED 170,833 break-even, then a 20% margin (about AED 205,000 a month).", "status": "grey", "note": "No revenue figures shared yet", "about": "Wellness center in Dubai where Sahill is General Manager. Monthly running costs about AED 170,833: rent AED 730,000 a year (60,833 a month), salaries 80,000, DEWA 10,000, marketing 10,000, other 10,000. Sales-boost levers: off-peak offers, corporate wellness packages, memberships over one-offs, referrals and Google reviews, content and Meta ads run by Yontro tracked on bookings.", "rooms": [{"id": "front", "name": "Front Desk", "about": "Bookings, walk-ins, reviews and guest experience.", "floor": "a", "w": [1.5, 3, 31, 42], "n": [2, 2, 46, 30]}, {"id": "members", "name": "Memberships", "about": "Packages, renewals and the break-even tracker.", "floor": "c", "w": [34.5, 3, 31, 42], "n": [52, 2, 46, 30]}, {"id": "corporate", "name": "Corporate Sales", "about": "Company wellness deals and partnerships.", "floor": "b", "w": [67.5, 3, 31, 42], "n": [2, 35, 46, 30]}, {"id": "marketing", "name": "Marketing", "about": "Offers, content and bookings-focused ads.", "floor": "d", "w": [1.5, 55, 31, 42], "n": [52, 35, 46, 30]}, {"id": "break", "name": "Break Room", "about": "Where free agents grab coffee between jobs.", "floor": "break", "w": [34.5, 55, 31, 42], "n": [2, 68, 46, 30]}, {"id": "board", "name": "Boardroom", "about": "The whole team meets here for board meetings and status reports.", "floor": "board", "w": [67.5, 55, 31, 42], "n": [52, 68, 46, 30]}], "agentDept": {"gm-assistant": "members", "corporate-sales": "corporate"}, "candidates": [{"name": "Layla Karim", "role": "Guest Experience Lead", "dept": "front", "pitch": "Turns first-time visitors into members and happy reviewers.", "skills": ["Reviews", "Follow-ups", "Upsells"], "mind": "Every visit ends with a review ask and a next booking. Warm, calm, premium tone.", "shirt": ""}, {"name": "Ethan Cole", "role": "Retention Analyst", "dept": "members", "pitch": "Spots members about to leave and wins them back.", "skills": ["Churn", "Win-back offers", "Renewals"], "mind": "Find who hasn't visited in 3 weeks; draft a personal win-back message and offer.", "shirt": ""}, {"name": "Maryam Siddiqui", "role": "Partnerships Manager", "dept": "corporate", "pitch": "Partners with gyms, hotels and clinics for referrals.", "skills": ["Partnerships", "Referral deals", "Events"], "mind": "Find partners whose clients want wellness; propose simple referral deals with clear numbers.", "shirt": ""}, {"name": "Diego Alvarez", "role": "Performance Marketer", "dept": "marketing", "pitch": "Runs bookings-focused ads with Yontro.", "skills": ["Meta Ads", "Offers", "Tracking"], "mind": "Measure cost per booking. Test off-peak offers. Kill what doesn't book.", "shirt": ""}, {"name": "Sara Johansson", "role": "Pricing Strategist", "dept": "members", "pitch": "Designs memberships and packages that cover the break-even.", "skills": ["Pricing", "Packages", "Break-even"], "mind": "Work from AED 170,833 a month. Show how many memberships or sessions close the gap.", "shirt": ""}], "accent": "#6E5BA8", "ink": "#ffffff", "dark": "#A795E0", "initial": "A", "corridorY": 50, "suggestions": ["Here are last month's numbers\u2026", "Build the corporate package now", "Hire someone for Google reviews"]}, {"slug": "barter", "name": "Barter", "kind": "Car-swap marketplace \u00b7 idea stage", "goal": "Prove demand with 50 car listings and 3 completed swaps before building any app.", "status": "parked", "note": "Idea stage, until Yontro and Botany are green", "about": "Idea-stage marketplace app in the UAE where people swap cars instead of selling for cash, with cash top-ups for value differences. Open questions: demand, fair valuation (inspection partner), RTA transfer, insurance and car loans, how Barter earns (listing fee, swap fee, inspection and transfer service, finance referrals), competition (dubizzle, CarSwitch, dealer trade-ins). Long-term aim: raise VC funding or sell.", "rooms": [{"id": "lab", "name": "Research Lab", "about": "Market research, interviews and validation data.", "floor": "a", "w": [1.5, 3, 31, 42], "n": [2, 2, 46, 30]}, {"id": "market", "name": "Market Desk", "about": "Listings, matching and the demand test.", "floor": "c", "w": [34.5, 3, 31, 42], "n": [52, 2, 46, 30]}, {"id": "product", "name": "Product Room", "about": "Concept, MVP scope and user flows.", "floor": "b", "w": [67.5, 3, 31, 42], "n": [2, 35, 46, 30]}, {"id": "partners", "name": "Partners Desk", "about": "Inspection, finance and RTA partners.", "floor": "d", "w": [1.5, 55, 31, 42], "n": [52, 35, 46, 30]}, {"id": "break", "name": "Break Room", "about": "Where free agents grab coffee between jobs.", "floor": "break", "w": [34.5, 55, 31, 42], "n": [2, 68, 46, 30]}, {"id": "board", "name": "Boardroom", "about": "The whole team meets here for board meetings and status reports.", "floor": "board", "w": [67.5, 55, 31, 42], "n": [52, 68, 46, 30]}], "agentDept": {"research-analyst": "lab"}, "candidates": [{"name": "Kenji Watanabe", "role": "Product Manager", "dept": "product", "pitch": "Turns the concept into a lean MVP scope.", "skills": ["MVP scoping", "User flows", "Roadmaps"], "mind": "Smallest thing that proves swaps happen. Cut everything else.", "shirt": ""}, {"name": "Fatma Yilmaz", "role": "Growth Tester", "dept": "market", "pitch": "Runs the Instagram and form demand test.", "skills": ["Landing pages", "Forms", "Instagram"], "mind": "Aim for 50 listings. Track listings, matches and completed swaps weekly.", "shirt": ""}, {"name": "Ahmed Farouk", "role": "Automotive Partnerships Lead", "dept": "partners", "pitch": "Brings in inspection, finance and transfer partners.", "skills": ["Inspections", "Car finance", "RTA"], "mind": "Find partners that make swaps safe: valuation, loan settlement, RTA transfer.", "shirt": ""}, {"name": "Chloe Durand", "role": "Investor Relations Analyst", "dept": "product", "pitch": "Builds the story and numbers for a future raise.", "skills": ["Pitch decks", "Market sizing", "VC lists"], "mind": "Only raise on real traction. Size the UAE used-car market honestly.", "shirt": ""}], "accent": "#1F5FBF", "ink": "#ffffff", "dark": "#5B93E8", "initial": "B", "corridorY": 50, "suggestions": ["What should we test first?", "Have Elena write the one-page concept", "Park Barter until January"]}];
+const HQ = {name:"Sahill's HQ",accent:"#2F4B7C",ink:"#ffffff",dark:"#8FB0E8"};
+let BIZ = BIZES[0], view="hq", cur=null;
+const SLUGS=BIZES.map(b=>b.slug); const bizOf=s=>BIZES.find(b=>b.slug===s);
+const P=()=>"biz/"+cur+"/"; const CP=()=>view==="hq"?"hq/main/":P();
+const ALL={}; SLUGS.forEach(s=>ALL[s]={agents:[],tasks:[],routines:[],reports:[],memory:[],chat:[],meta:{goal:bizOf(s).goal,status:bizOf(s).status,note:bizOf(s).note}});
+const HQD={chat:[],memory:[],briefs:[]};
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const fmtDate = d => { if(!d) return ""; const x = new Date(typeof d==="string"&&d.length===10 ? d+"T00:00:00" : d); return isNaN(x) ? "" : x.toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"}); };
+const fmtTime = ms => { const x=new Date(ms); return isNaN(x)?"":x.toLocaleString("en-GB",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"}); };
+const todayISO = () => new Date().toISOString().slice(0,10);
+let ROOMS = BIZ.rooms; let WORK = ROOMS.filter(r=>r.id!=="break"&&r.id!=="board");
+const roomById = id => ROOMS.find(r=>r.id===id);
+let db=null, sample=null, canWrite=true;
+let routines=[], autoBusy=false, chat=[], memory=[], chatCtl=null; const DAYS=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+let agents=[], tasks=[], reports=[], meta={goal:BIZ.goal,status:BIZ.status,note:BIZ.note};
+let roomFilter="all", selection={kind:"office"}, meeting=false; const running=new Map(); const pos=new Map();
+
+function toast(m){document.querySelectorAll(".toast").forEach(t=>t.remove());const t=document.createElement("div");t.className="toast";t.textContent=m;document.body.appendChild(t);setTimeout(()=>t.remove(),3000);}
+function banner(m){const b=$("#banner");b.textContent=m;b.hidden=!m;}
+const STATUS={red:["Red","s-red"],amber:["Amber","s-amber"],green:["Green","s-green"],grey:["Unknown","s-grey"],parked:["Parked","s-grey"]};
+
+/* ---------- looks ---------- */
+const SKIN=["#f1c9a5","#e0ac7e","#c68a5c","#a26a42","#7a4b2a","#5a3720"], HAIR=["#1f1a17","#3b2a1e","#6b4423","#a0522d","#d8b06a","#8a8a8a","#2b2b4a"], SHIRT=["#3b6ea5","#2f7d4a","#8e44ad","#c0392b","#d35400","#16a085","#34495e","#b8860b","#6d4c41","#e84393"];
+function hash(s){let h=2166136261;for(const c of String(s)){h^=c.charCodeAt(0);h=Math.imul(h,16777619);}return h>>>0;}
+function look(a){const h=hash(a.name+(a.id||""));return {skin:SKIN[h%SKIN.length],hair:HAIR[(h>>>4)%HAIR.length],shirt:a.shirt||SHIRT[(h>>>8)%SHIRT.length]};}
+function figHTML(a){const l=look(a);return `<div class="fig" style="--skin:${l.skin};--hair:${l.hair};--shirt:${l.shirt}"><div class="torso"></div><div class="head"></div><div class="hair"></div></div>`;}
+function avDot(a){if(!a) return "";const l=look(a);return `<span class="av" style="--skin:${l.skin};--shirt:${l.shirt}" aria-hidden="true"></span>`;}
+const agentDept = a => a.dept || BIZ.agentDept[a.id] || WORK[0].id;
+const agentById = id => agents.find(a=>a.id===id);
+const taskRoom = t => t.dept || (agentById(t.agentId) ? agentDept(agentById(t.agentId)) : WORK[0].id);
+const firstName = n => String(n).replace(/^AI\s+/,"").split(/\s+/)[0];
+
+/* ---------- floor geometry ---------- */
+let narrow=false;
+function rect(r){return narrow?r.n:r.w;}  // [x,y,w,h] in %
+function buildFloor(){
+  const f=$("#floor"); narrow=f.clientWidth<620; f.classList.toggle("narrow",narrow);
+  f.innerHTML=ROOMS.map(r=>{const [x,y,w,h]=rect(r);const fl=r.id==="break"?"f-break":r.id==="board"?"f-board":"f-"+r.floor;
+    return `<div class="room ${fl}" data-room="${r.id}" style="left:${x}%;top:${y}%;width:${w}%;height:${h}%" tabindex="0" role="button" aria-label="${esc(r.name)}"><span class="plaque">${esc(r.name)}</span><span class="count" data-count="${r.id}" hidden></span>${furniture(r)}</div>`;}).join("");
+  agents.forEach(a=>{const p=pos.get(a.id); if(p) p.el=null;});
+  renderAgentsOnFloor(true); markSel();
+}
+function furniture(r){
+  const F=(c,x,y,w,h)=>`<div class="furn ${c}" style="left:${x}%;top:${y}%;width:${w}%;height:${h}%"></div>`;
+  if(r.id==="board") return F("table",22,38,56,30)+F("plant",4,78,9,14)+F("plant",87,78,9,14);
+  if(r.id==="break") return F("rug",30,34,40,44)+F("sofa",8,72,34,14)+F("coffee",84,24,10,16)+F("plant",86,76,9,14);
+  return F("desk",12,30,22,14)+F("desk",44,30,22,14)+F("desk",12,64,22,14)+F("desk",44,64,22,14)+F("plant",84,72,10,16)+(r.floor==="a"?F("table",74,26,18,22):"");
+}
+function spot(roomId,seed){const r=roomById(roomId)||ROOMS[0];const [x,y,w,h]=rect(r);
+  const sx=[0.23,0.55,0.23,0.55,0.8,0.4,0.7], sy=[0.55,0.55,0.9,0.9,0.5,0.75,0.8];
+  let i=seed%sx.length; let px=sx[i], py=sy[i];
+  if(roomId==="board"){const ang=(seed%10)/10*Math.PI*2; px=0.5+Math.cos(ang)*0.36; py=0.55+Math.sin(ang)*0.3;}
+  if(roomId==="break"){px=0.2+((seed*37)%60)/100; py=0.45+((seed*53)%40)/100;}
+  return {x:x+w*px, y:y+h*Math.min(py,0.93), room:roomId};
+}
+function walk(a,target){
+  const p=pos.get(a.id); if(!p||!p.el) return;
+  const fw=$("#floor").clientWidth, fh=$("#floor").clientHeight;
+  const pts=[]; const cur={x:p.x,y:p.y};
+  if(p.room!==target.room){ if(narrow){pts.push({x:50,y:cur.y},{x:50,y:target.y});} else {pts.push({x:cur.x,y:BIZ.corridorY},{x:target.x,y:BIZ.corridorY});} }
+  pts.push(target);
+  const id=(p.mv=(p.mv||0)+1); p.room=target.room; p.el.classList.add("walking");
+  let prev=cur;
+  const step=()=>{ if(p.mv!==id) return; const n=pts.shift(); if(!n){p.el.classList.remove("walking");return;}
+    const d=Math.hypot((n.x-prev.x)*fw/100,(n.y-prev.y)*fh/100); const ms=Math.max(120,d*9);
+    p.el.style.transitionDuration=ms+"ms"; p.el.style.left=n.x+"%"; p.el.style.top=n.y+"%"; p.x=n.x;p.y=n.y; prev=n; setTimeout(step,ms); };
+  step();
+}
+function intent(a){
+  const r=running.get("agent:"+a.id); if(r) return {room:r.room,mode:"working",say:r.say};
+  if(meeting) return {room:"board",mode:"meeting",say:"In the meeting"};
+  const doing=tasks.filter(t=>t.agentId===a.id&&t.status==="doing").sort((x,y)=>(y.createdAt||0)-(x.createdAt||0))[0];
+  if(doing) return {room:taskRoom(doing),mode:"working",say:shorten(doing.title)};
+  return {room:null,mode:"idle"};
+}
+function shorten(s){s=String(s);return s.length>34?s.slice(0,33)+"…":s;}
+function renderAgentsOnFloor(force){
+  const f=$("#floor"); const live=new Set(agents.map(a=>a.id));
+  for(const [id,p] of pos){ if(!live.has(id)){p.el?.remove();pos.delete(id);} }
+  agents.forEach((a,i)=>{
+    let p=pos.get(a.id); const it=intent(a);
+    if(!p||!p.el){
+      const el=document.createElement("div"); el.className="agent"; el.dataset.agent=a.id; el.tabIndex=0; el.setAttribute("role","button"); el.setAttribute("aria-label",a.name+", "+a.role);
+      el.innerHTML=`<div class="who"><div class="bubble" hidden></div>${figHTML(a)}<span class="name"><span class="auto-dot" hidden></span>${esc(firstName(a.name))}</span></div>`;
+      f.appendChild(el);
+      const start=spot(it.room||agentDept(a),i%7);
+      if(!p){p={x:start.x,y:start.y,room:start.room,mode:null,idleRoom:agentDept(a)};pos.set(a.id,p);}
+      else { const s=spot(p.room,i%7); p.x=s.x;p.y=s.y; }
+      p.el=el; el.style.transitionDuration="0ms"; el.style.left=p.x+"%"; el.style.top=p.y+"%";
+    }
+    const want=it.room||p.idleRoom||agentDept(a);
+    const seed=i;
+    if(force||p.room!==want||p.mode!==it.mode){ p.mode=it.mode; walk(a,spot(want,seed%7)); }
+    p.el.classList.toggle("working",it.mode==="working");
+    const ad=p.el.querySelector(".auto-dot"); if(ad) ad.hidden=!a.auto;
+    const b=p.el.querySelector(".bubble");
+    if(it.say){b.hidden=false;b.innerHTML=esc(it.say)+(running.get("agent:"+a.id)?'<span class="dots"></span>':"");} else if(!p.quip){b.hidden=true;}
+  });
+  ROOMS.forEach(r=>{const c=document.querySelector(`[data-count="${r.id}"]`); if(!c) return; const n=tasks.filter(t=>t.status!=="done"&&taskRoom(t)===r.id).length; c.hidden=!n||r.id==="break"||r.id==="board"; c.textContent=n;});
+  markSel();
+}
+const QUIPS=["Coffee first","Back in 5","Reading the brief","Checking numbers","Ready for work","Stretching"];
+setInterval(()=>{ if(view!=="office") return; // idle wandering
+  agents.forEach(a=>{const p=pos.get(a.id); if(!p||p.mode!=="idle"||Math.random()<0.5) return;
+    p.idleRoom=Math.random()<0.35?"break":agentDept(a); walk(a,spot(p.idleRoom,Math.floor(Math.random()*7)));
+    if(Math.random()<0.25&&p.el){const b=p.el.querySelector(".bubble");b.hidden=false;b.textContent=QUIPS[Math.floor(Math.random()*QUIPS.length)];p.quip=true;setTimeout(()=>{if(p.mode==="idle"){b.hidden=true;}p.quip=false;},2600);}
+  });
+},7000);
+function markSel(){document.querySelectorAll(".room").forEach(r=>r.classList.toggle("sel",selection.kind==="room"&&selection.id===r.dataset.room));document.querySelectorAll(".agent").forEach(e=>e.classList.toggle("sel",selection.kind==="agent"&&selection.id===e.dataset.agent));}
+
+/* ---------- header / kpis ---------- */
+function renderMeta(){$("#goalText").textContent=meta.goal||BIZ.goal;const [lab,cls]=STATUS[meta.status]||STATUS.grey;const p=$("#statusPill");p.className="pill "+cls;p.textContent=lab;$("#statusNote").textContent=meta.note?"· "+meta.note:"";}
+function renderKpis(){$("#kStaff").textContent=agents.length;$("#kBusy").textContent=agents.filter(a=>intent(a).mode==="working").length;$("#kOpen").textContent=tasks.filter(t=>t.status!=="done").length;$("#kDone").textContent=tasks.filter(t=>t.status==="done").length;}
+
+/* ---------- side panel ---------- */
+function statusPill(t){return `<span class="pill ${t.status==="done"?"s-green":t.status==="doing"?"s-amber":"s-grey"}">${t.status==="done"?"Done":t.status==="doing"?"In progress":"To do"}</span>`;}
+function taskActions(t){ if(!canWrite) return ""; const busy=running.has(t.id);
+  return `<div class="row">${t.agentId&&sample&&t.status!=="done"?`<button type="button" class="primary small" data-run="${esc(t.id)}" ${busy?"disabled":""}>${busy?"Working…":t.output?"Redo it":"Send them to do it"}</button>`:""}
+  ${busy?`<button type="button" class="small" data-stop="${esc(t.id)}">Stop</button>`:""}
+  ${t.status!=="done"?`<button type="button" class="small" data-st="done" data-id="${esc(t.id)}">Mark done</button>`:`<button type="button" class="small" data-st="todo" data-id="${esc(t.id)}">Reopen</button>`}
+  <button type="button" class="ghost small" data-del="${esc(t.id)}">Delete</button></div>`;}
+function workHTML(t,label){
+  const a=agentById(t.agentId); const fb=t.feedback||[]; const hist=t.history||[];
+  return `<details ${t.status!=="done"?"open":""}><summary>${esc(label)}${t.outputAt?" · "+esc(fmtTime(Date.parse(t.outputAt))):""}${fb.length?" · "+fb.length+" comment"+(fb.length>1?"s":""):""}</summary><div class="output">${esc(t.output)}</div>
+  ${fb.length?`<div class="fb">${fb.map(f=>`<div><span>${esc(fmtTime(Date.parse(f.at)))}</span>${esc(f.text)}</div>`).join("")}</div>`:""}
+  ${hist.length?`<details><summary>Earlier versions (${hist.length})</summary>${hist.slice().reverse().map(h=>`<div class="output" style="margin-top:6px">${esc(h.output)}</div>`).join("")}</details>`:""}
+  ${needsReview(t)?`<div class="tag" style="color:var(--rv-ink);background:var(--rv-bg);padding:4px 8px;border-radius:8px;margin-top:6px">Waiting for your review at the top of the page</div>`:""}</details>`;
+}
+function miniTask(t){const a=agentById(t.agentId); const live=running.get(t.id);
+  return `<div class="mini-task"><div class="row" style="justify-content:space-between"><span class="t">${esc(t.title)}</span>${statusPill(t)}</div>
+  <div class="tag">${a?avDot(a)+esc(a.name):"Unassigned"} · ${esc(roomById(taskRoom(t))?.name||"")}${t.due?" · due "+esc(fmtDate(t.due)):""}</div>
+  ${live?`<div class="output live" data-live="${esc(t.id)}">${esc(live.text||"Starting…")}</div>`:t.output?workHTML(t,"Their work"):""}
+  ${taskActions(t)}</div>`;}
+function feedItems(){
+  const ev=[];
+  agents.forEach(a=>{if(a.createdAt>1e12) ev.push([a.createdAt,`${a.name} joined as ${a.role}.`]);});
+  tasks.forEach(t=>{const a=agentById(t.agentId);const n=a?firstName(a.name):"Someone";
+    if(t.createdAt>1e12) ev.push([t.createdAt,`New task in ${roomById(taskRoom(t))?.name||"the office"}: ${t.title}`]);
+    if(t.outputAt) ev.push([Date.parse(t.outputAt),`${n} handed in work on "${shorten(t.title)}".`]);
+    if(t.doneAt) ev.push([Date.parse(t.doneAt),`"${shorten(t.title)}" marked done.`]);});
+  reports.forEach(r=>ev.push([r.createdAt,"Board meeting held. Minutes filed."]));
+  return ev.filter(e=>e[0]>0).sort((a,b)=>b[0]-a[0]).slice(0,14);
+}
+const deferred=new Set();
+function typingIn(sel){const ae=document.activeElement; return !!(ae&&ae.closest&&ae.closest(sel)&&ae.closest("form")&&/^(TEXTAREA|INPUT|SELECT)$/.test(ae.tagName)&&(ae.value||"").length>0);}
+document.addEventListener("focusout",()=>setTimeout(()=>{ if(deferred.has("side")&&!typingIn("#side")){deferred.delete("side");renderSide();} if(deferred.has("board")&&!typingIn("#board")){deferred.delete("board");renderBoard();} },150));
+function renderSide(){
+  if(typingIn("#side")){deferred.add("side");return;}
+  const s=$("#side");
+  if(selection.kind==="agent"){const a=agentById(selection.id); if(!a){selection={kind:"office"};return renderSide();}
+    const it=intent(a); const mine=tasks.filter(t=>t.agentId===a.id).sort((x,y)=>(x.status==="done")-(y.status==="done"));
+    s.innerHTML=`<div class="panel-head"><span class="tag">STAFF FILE</span><button type="button" class="ghost small" data-back>Back to office</button></div>
+    <div class="portrait">${figHTML(a)}<div class="meta"><h2>${esc(a.name)}</h2><div class="designation">${esc(a.role)}</div><div class="tag">Desk: ${esc(roomById(agentDept(a))?.name||"")} · ${it.mode==="working"?"Working in "+esc(roomById(it.room)?.name||""):it.mode==="meeting"?"In the boardroom":"Free for work"}</div></div></div>
+    ${canWrite?`<form class="add" data-quick="${esc(a.id)}"><label class="f" for="q_${esc(a.id)}">Give ${esc(firstName(a.name))} a task<input id="q_${esc(a.id)}" maxlength="200" required placeholder="e.g. Draft a follow-up for the spa owner"></label>
+      <div class="row"><select aria-label="Room" id="qr_${esc(a.id)}">${WORK.map(r=>`<option value="${r.id}" ${r.id===agentDept(a)?"selected":""}>${esc(r.name)}</option>`).join("")}</select><button class="primary small" type="submit">Assign</button>${sample?`<button class="small" type="submit" data-andrun="1">Assign and start</button>`:""}</div></form>`:""}
+    <h3>Tasks (${mine.length})</h3><div class="mini">${mine.map(miniTask).join("")||'<div class="empty">No tasks yet.</div>'}</div>
+    <details><summary>${esc(firstName(a.name))}'s settings: rules, autopilot, routines, profile</summary><div style="display:grid;gap:12px;margin-top:10px">
+    ${a.mind?`<details><summary>How ${esc(firstName(a.name))} works</summary><div class="output">${esc(a.mind)}</div></details>`:""}
+    <h3>Standing rules (${(a.rules||[]).length})</h3>
+    <div class="rules">${(a.rules||[]).map((r,ix)=>`<div class="rule"><span>${esc(r.text)}<br><span class="tag">${esc(fmtDate(r.at))}</span></span>${canWrite?`<button type="button" class="ghost small" data-rule-del="${esc(a.id)}" data-ix="${ix}">Remove</button>`:""}</div>`).join("")||`<span class="tag">None yet. Tick "Make this a standing rule" when you comment on ${esc(firstName(a.name))}'s work, or add one here.</span>`}</div>
+    ${canWrite?`<form class="add" data-addrule="${esc(a.id)}"><label class="f" for="nr_${esc(a.id)}">New standing rule<input id="nr_${esc(a.id)}" name="text" maxlength="400" required placeholder="e.g. Always give prices in AED and end with one clear next step"></label><div class="row"><button class="small primary" type="submit">Add rule</button></div></form>`:""}
+    ${canWrite?`<div class="switchrow"><span><b>Autopilot</b><br><span class="tag">${a.auto?"Works through queued tasks and routines on their own":"Waits for you to send them to work"}</span></span><button type="button" class="toggle" role="switch" aria-checked="${!!a.auto}" aria-label="Autopilot for ${esc(a.name)}" data-auto="${esc(a.id)}"></button></div>`:""}
+    ${canWrite?`<details><summary>Edit profile</summary><form class="add" data-profile="${esc(a.id)}">
+      <label class="f" for="pn_${esc(a.id)}">Name<input id="pn_${esc(a.id)}" name="name" maxlength="40" required value="${esc(a.name)}"></label>
+      <label class="f" for="pd_${esc(a.id)}">Job designation<input id="pd_${esc(a.id)}" name="role" maxlength="80" required value="${esc(a.role)}"></label>
+      <label class="f" for="pr_${esc(a.id)}">Desk<select id="pr_${esc(a.id)}" name="dept">${WORK.map(r=>`<option value="${r.id}" ${r.id===agentDept(a)?"selected":""}>${esc(r.name)}</option>`).join("")}</select></label>
+      <label class="f" for="pm_${esc(a.id)}">How they think and work<textarea id="pm_${esc(a.id)}" name="mind" maxlength="2000">${esc(a.mind||"")}</textarea></label>
+      <div class="row"><button class="primary small" type="submit">Save profile</button></div></form></details>`:""}
+    <h3>Routines (${routines.filter(r=>r.agentId===a.id).length})</h3>
+    <div class="mini">${routines.filter(r=>r.agentId===a.id).map(r=>`<div class="routine"><span><b>${esc(r.title)}</b><br><span class="tag">${esc(cadenceText(r))} · ${r.lastRunAt?"last run "+esc(fmtTime(r.lastRunAt)):"not run yet"}${isDue(r)?" · due now":""}</span></span>${canWrite?`<span class="row">${sample?`<button type="button" class="small" data-rnow="${esc(r.id)}">Run now</button>`:""}<button type="button" class="ghost small" data-rdel="${esc(r.id)}">Remove</button></span>`:""}</div>`).join("")||'<div class="tag">No routines. Add a recurring job below and it runs automatically.</div>'}</div>
+    ${canWrite?`<form class="add" data-routine="${esc(a.id)}"><label class="f" for="rt_${esc(a.id)}">New routine<input id="rt_${esc(a.id)}" name="title" maxlength="160" required placeholder="e.g. Weekly pipeline report"></label>
+      <div class="row"><select name="cadence" aria-label="How often"><option value="daily">Every day</option><option value="weekly" selected>Every week</option><option value="monthly">Every month</option></select>
+      <select name="day" aria-label="Day of week">${DAYS.map((d,i)=>`<option value="${i}" ${i===1?"selected":""}>${d}</option>`).join("")}</select>
+      <button class="primary small" type="submit">Add routine</button></div>
+      <input name="brief" maxlength="1000" placeholder="Brief (optional): what the output should cover" aria-label="Routine brief"></form>`:""}
+    </div></details>
+    ${canWrite?`<button type="button" class="ghost small" data-fire="${esc(a.id)}">Let ${esc(firstName(a.name))} go</button>`:""}`;
+  } else if(selection.kind==="room"){const r=roomById(selection.id); if(!r){selection={kind:"office"};return renderSide();}
+    if(r.id==="board"){ s.innerHTML=`<div class="panel-head"><span class="tag">ROOM</span><button type="button" class="ghost small" data-back>Back to office</button></div><h2>${esc(r.name)}</h2><p class="tag">${esc(r.about)}</p>${canWrite?`<button class="dark" type="button" data-meeting>Call a board meeting</button>`:""}<div class="tag">${reports.length} meeting${reports.length===1?"":"s"} held. Minutes are below the task board.</div>`; markSel(); return; }
+    const here=agents.filter(a=>pos.get(a.id)?.room===r.id); const rt=tasks.filter(t=>taskRoom(t)===r.id&&t.status!=="done");
+    s.innerHTML=`<div class="panel-head"><span class="tag">ROOM</span><button type="button" class="ghost small" data-back>Back to office</button></div>
+    <h2>${esc(r.name)}</h2><p class="tag" style="margin:0">${esc(r.about)}</p>
+    <div class="row">${here.map(a=>`<button type="button" class="small" data-pick="${esc(a.id)}">${avDot(a)}${esc(firstName(a.name))}</button>`).join("")||'<span class="tag">Nobody in the room right now.</span>'}</div>
+    <h3>Open work here (${rt.length})</h3><div class="mini">${rt.map(miniTask).join("")||'<div class="empty">No open tasks in this room.</div>'}</div>
+    ${canWrite&&r.id!=="break"?`<button type="button" data-newin="${r.id}">New task in ${esc(r.name)}</button>`:""}`;
+  } else {
+    const fi=feedItems(); const lr=reports.slice().sort((a,b)=>b.createdAt-a.createdAt)[0];
+    s.innerHTML=`<div class="panel-head"><h2>Office today</h2><span class="tag">${esc(fmtDate(todayISO()))}</span></div>
+    ${agents.length?"":`<div class="empty">The office is empty. <button type="button" class="primary small" data-hire>Hire your first agent</button></div>`}
+    ${lr?`<details><summary>Latest board meeting · ${esc(fmtTime(lr.createdAt))}</summary><div class="output">${esc(lr.body)}</div></details>`:""}
+    <h3>Who's doing what</h3><div class="mini">${agents.map(a=>{const it=intent(a);return `<button type="button" class="ghost" style="text-align:left;display:flex;gap:8px;align-items:center;padding:4px 0;color:var(--ink)" data-pick="${esc(a.id)}">${avDot(a)}<span><b>${esc(a.name)}</b>${a.auto?' <span class="auto-dot" title="Autopilot"></span>':""} <span class="designation" style="font-size:12px">${esc(a.role)}</span><br><span class="tag">${it.mode==="working"?"Working: "+esc(it.say||""):it.mode==="meeting"?"In the boardroom":"Free · "+tasks.filter(t=>t.agentId===a.id&&t.status==="todo").length+" queued"}</span></span></button>`;}).join("")}</div>
+    <h3>Automations</h3><div class="mini">${routines.length?routines.slice().sort((x,y)=>isDue(y)-isDue(x)).slice(0,8).map(r=>{const a=agentById(r.agentId);return `<div class="tag">${avDot(a)}${esc(a?firstName(a.name):"Unassigned")}: ${esc(r.title)} · ${esc(cadenceText(r))}${isDue(r)?" · <b>due</b>":""}</div>`;}).join(""):'<span class="tag">No routines yet. Open an agent\'s staff file to add one.</span>'}
+      <span class="tag">${agents.filter(a=>a.auto).length} of ${agents.length} on autopilot${autoBusy?" · working now":""}</span></div>
+    <h3>Activity</h3><div class="feed">${fi.map(e=>`<div><time>${esc(fmtTime(e[0]))}</time><span>${esc(e[1])}</span></div>`).join("")||'<span class="tag">Nothing yet today. Send an agent to work and it shows up here.</span>'}</div>`;
+  }
+  markSel();
+}
+function select(sel){selection=sel;renderSide();if(innerWidth<960&&sel.kind!=="office") $("#side").scrollIntoView({behavior:"smooth",block:"start"});}
+
+/* ---------- task board ---------- */
+function renderChips(){$("#roomChips").innerHTML=[{id:"all",name:"All rooms"},...WORK].map(r=>`<button type="button" data-chip="${r.id}" aria-pressed="${roomFilter===r.id}">${esc(r.name)}</button>`).join("");}
+function renderBoard(){
+  if(typingIn("#board")){deferred.add("board");return;}
+  const pri={high:0,normal:1,low:2};
+  const list=tasks.filter(t=>roomFilter==="all"||taskRoom(t)===roomFilter).sort((a,b)=>(pri[a.priority]??1)-(pri[b.priority]??1)||String(a.due||"9").localeCompare(String(b.due||"9")));
+  const today=todayISO();
+  const col=(st,label)=>{const L=list.filter(t=>t.status===st);return `<div class="col"><h3><span>${label}</span><span class="tag">${L.length}</span></h3>${L.map(t=>{const a=agentById(t.agentId);const late=t.due&&t.status!=="done"&&t.due<today;
+    return `<div class="card p-${esc(t.priority||"normal")}"><div class="t">${esc(t.title)}</div>
+    <div class="m">${avDot(a)}<select data-assign="${esc(t.id)}" ${canWrite?"":"disabled"} aria-label="Assign agent"><option value="">Unassigned</option>${agents.map(x=>`<option value="${esc(x.id)}" ${x.id===t.agentId?"selected":""}>${esc(x.name)}</option>`).join("")}</select>
+    <span>${esc(roomById(taskRoom(t))?.name||"")}</span>${t.due?`<span class="${late?"s-red":""}">${late?"Overdue · ":"Due "}${esc(fmtDate(t.due))}</span>`:""}</div>
+    ${running.get(t.id)?`<div class="output live">${esc((running.get(t.id).text||"").slice(-400)||"Walking over…")}</div>`:t.output?workHTML(t,"Work from "+(t.outputBy||a?.name||"agent")):""}
+    ${t.notes?`<details><summary>Brief</summary><div class="output">${esc(t.notes)}</div></details>`:""}
+    ${taskActions(t).replace('class="row"','class="row"')}${canWrite&&t.status==="todo"?"":""}</div>`;}).join("")||'<div class="tag" style="padding:6px">Nothing here.</div>'}</div>`;};
+  $("#board").innerHTML=col("todo","To do")+col("doing","In progress")+col("done","Done");
+}
+function fillSelects(){
+  const ta=$("#tAgent"),cur=ta.value; ta.innerHTML='<option value="">Unassigned</option>'+agents.map(a=>`<option value="${esc(a.id)}">${esc(a.name)}</option>`).join(""); if([...ta.options].some(o=>o.value===cur)) ta.value=cur;
+  const opts=WORK.map(r=>`<option value="${r.id}">${esc(r.name)}</option>`).join(""); for(const id of ["#tRoom","#hRoom"]){const s=$(id),c=s.value;s.innerHTML=opts;if(c)s.value=c;}
+}
+function renderReports(){const el=$("#reports"); if(!reports.length){el.innerHTML=`<div class="empty">No meetings yet. Call a board meeting: the team gathers in the boardroom and files a status report against the goal.</div>`;return;}
+  el.innerHTML=reports.slice().sort((a,b)=>b.createdAt-a.createdAt).slice(0,12).map((r,i)=>`<details ${i===0?"open":""}><summary>${esc(fmtTime(r.createdAt))} · ${esc(r.title||"Board meeting")}</summary><div class="output">${esc(r.body)}</div></details>`).join("");}
+function renderAll(){renderMeta();renderKpis();renderAgentsOnFloor();renderSide();renderBoard();fillSelects();renderOfficeReview();}
+
+/* ---------- hiring ---------- */
+function renderCands(){
+  const have=new Set(agents.map(a=>a.name.toLowerCase()));
+  $("#cands").innerHTML=BIZ.candidates.map((c,i)=>`<div class="cand"><div class="portrait">${figHTML({name:c.name,id:"cand"+i,shirt:c.shirt})}<div class="meta"><h3>${esc(c.name)}</h3><div class="tag">${esc(c.role)}</div><div class="tag">Works in ${esc(roomById(c.dept)?.name||"")}</div></div></div>
+    <p>${esc(c.pitch)}</p><div class="skills">${c.skills.map(s=>`<span>${esc(s)}</span>`).join("")}</div>
+    ${have.has(c.name.toLowerCase())?'<span class="tag">Already on your team</span>':`<button type="button" class="primary small" data-hirec="${i}" ${canWrite?"":"disabled"}>Hire ${esc(firstName(c.name))}</button>`}</div>`).join("");
+}
+async function hire(data){ if(!db) return toast("Hiring isn't available on this view.");
+  try{ const ref=await db.collection(P()+"agents").add({...data,createdAt:Date.now()}); toast(`${data.name} is walking in. Welcome to ${BIZ.name}.`); return ref; }catch(e){toast("Couldn't hire: "+(e?.message||e?.code||"error"));}}
+
+/* ---------- Claude work ---------- */
+function context(){
+  const lines=tasks.map(t=>`- [${t.status}] ${t.title} | ${agentById(t.agentId)?.name||"unassigned"} | ${roomById(taskRoom(t))?.name} | ${t.priority||"normal"}${t.due?" | due "+t.due:""}`).join("\n");
+  return `Business: ${BIZ.name} (${BIZ.kind}), owned by Sahill Chandan, Dubai. Money in AED. Dates like "7 November 2026".
+About: ${BIZ.about}
+Goal: ${meta.goal||BIZ.goal}
+Status: ${(STATUS[meta.status]||STATUS.grey)[0]}${meta.note?" ("+meta.note+")":""}
+Today: ${fmtDate(todayISO())}
+Staff: ${agents.map(a=>a.name+" ("+a.role+", "+(roomById(agentDept(a))?.name||"")+")").join("; ")||"none"}
+Tasks:
+${lines||"(none)"}`;}
+function refreshLive(id){const r=running.get(id);document.querySelectorAll(`[data-live="${CSS.escape(id)}"]`).forEach(n=>n.textContent=r?.text||"Starting…");}
+async function runTask(id,ov){
+  const t0=tasks.find(x=>x.id===id); const t=t0?{...t0,...(ov||{})}:null; const a=agentById(t?.agentId);
+  if(!t||!a||!sample||running.has(id)) return;
+  const room=taskRoom(t); const ctl=new AbortController(); const pre=P(); const bname=BIZ.name;
+  running.set(id,{ctl,text:""}); running.set("agent:"+a.id,{room,say:shorten(t.title)});
+  if(t.status==="todo"&&db) db.doc(pre+"tasks/"+id).update({status:"doing"}).catch(()=>{});
+  renderAll(); toast(`${firstName(a.name)} is heading to ${roomById(room)?.name}.`);
+  const prompt=`You are ${a.name}, an AI employee of ${BIZ.name}, working in the ${roomById(room)?.name}. Your role: ${a.role}.
+How you work: ${a.mind||"(as your role suggests)"}
+
+${context()}
+
+Your task: ${t.title}
+${t.notes?"Brief from Sahill: "+t.notes:""}
+${(a.rules||[]).length?"Standing rules from Sahill, always follow:\n- "+a.rules.map(r=>r.text).join("\n- "):""}
+${t.output?"Your previous attempt:\n"+t.output.slice(0,4000):""}
+${(t.feedback||[]).length?"Sahill's comments on your work, newest last. Fix every point and do it the way he asks:\n- "+t.feedback.map(f=>f.text).join("\n- "):""}
+
+Do the task now and hand back finished work, not a plan to do it: messages ready to send, lists, scripts, calculations, structured drafts. You cannot browse, contact anyone or spend money; where facts are missing, say exactly what Sahill should send you. Plain, direct language; AED. Start with a one-line summary in your own voice, then the work, then "Next step:" and one line.`;
+  try{
+    const r=await sample(prompt,{signal:ctl.signal,modelTier:"default",cache:false,onText:({text})=>{const s=running.get(id);if(!s)return;s.text=text;refreshLive(id);}});
+    running.delete(id); running.delete("agent:"+a.id);
+    await db.doc(pre+"tasks/"+id).update({output:r.text,outputBy:a.name,outputAt:new Date().toISOString(),status:"doing",...(t.output?{history:[...(t.history||[]),{output:t.output,at:t.outputAt||""}].slice(-3)}:{})});
+    toast(`${firstName(a.name)} (${bname}) finished. Please review it.`);
+  }catch(e){running.delete(id);running.delete("agent:"+a.id);
+    if(e?.code==="aborted"||ctl.signal.aborted) toast("Stopped.");
+    else if(e?.code==="not_granted") banner("Claude access wasn't allowed on this page, so agents can't do work here. Allow it from the page's Permissions menu.");
+    else if(e?.code==="rate_limited") toast("Claude is busy or you've hit a usage limit. Try again shortly.");
+    else toast(`${firstName(a.name)} couldn't finish: ${e?.message||"unknown error"}`);}
+  renderAll();
+}
+async function boardMeeting(){
+  if(!sample) return toast("Claude isn't available on this view.");
+  if(meeting) return; meeting=true; const pre=P(), meta0={...meta}; $("#callMeeting").disabled=true; $("#callMeeting").textContent="Meeting in progress…";
+  renderAgentsOnFloor(); select({kind:"room",id:"board"}); toast("Everyone to the boardroom.");
+  const work=tasks.filter(t=>t.output).slice(-8).map(t=>`### ${t.title} (${t.outputBy||agentById(t.agentId)?.name||""})\n${t.output.slice(0,1200)}`).join("\n\n");
+  const prompt=`You chair the weekly board meeting of ${BIZ.name} for Sahill. Write the minutes as a status report.
+${context()}
+
+Recent work handed in:
+${work||"(none yet)"}
+
+Format, plain text:
+Status: Red / Amber / Green / Unknown, and the one-line reason.
+Progress against the goal: 2-3 lines with numbers where known.
+Round the table: one line per staff member on what they did and what they're on next.
+Overdue or stuck: bullets.
+Decisions: the next 3 actions, each with its owner.
+Ask of Sahill: one decision or input needed.
+Be direct and take a position. Never invent figures.`;
+  try{
+    const r=await sample(prompt,{modelTier:"default",cache:false});
+    await db.collection(pre+"reports").add({title:"Board meeting",body:r.text,createdAt:Date.now()});
+    const m=r.text.match(/Status:\s*(Red|Amber|Green|Unknown)/i);
+    if(m&&meta.status!=="parked"){const s=m[1].toLowerCase()==="unknown"?"grey":m[1].toLowerCase(); await db.doc(pre+"meta/business").set({...meta0,status:s,updatedAt:Date.now()});}
+    toast("Meeting over. Minutes filed.");
+  }catch(e){ if(e?.code==="not_granted") banner("Claude access wasn't allowed on this page, so meetings can't run here."); else toast("The meeting broke up early: "+(e?.message||"error")); }
+  meeting=false; $("#callMeeting").disabled=false; $("#callMeeting").textContent="Call a board meeting"; renderAll();
+}
+
+/* ---------- automation ---------- */
+function cadenceText(r){return r.cadence==="daily"?"Every day":r.cadence==="monthly"?"Every month":"Every "+DAYS[+r.day||0];}
+function isDue(r,now=new Date()){
+  if(!agentById(r.agentId)) return false;
+  const last=r.lastRunAt?new Date(r.lastRunAt):null; const sameDay=last&&last.toDateString()===now.toDateString();
+  if(r.cadence==="daily") return !sameDay;
+  if(r.cadence==="monthly") return !last||last.getMonth()!==now.getMonth()||last.getFullYear()!==now.getFullYear();
+  const age=last?(now-last)/864e5:99; return (now.getDay()===(+r.day||0)&&!sameDay)||age>=7;
+}
+async function runRoutine(r){
+  const a=agentById(r.agentId); if(!a||!db) return;
+  const stamp=fmtDate(todayISO());
+  await db.doc(P()+"routines/"+r.id).update({lastRunAt:new Date().toISOString()});
+  const ref=db.collection(P()+"tasks").doc();
+  await ref.set({title:`${r.title} · ${stamp}`,agentId:a.id,dept:agentDept(a),due:todayISO(),priority:"normal",notes:(r.brief||"")+(r.brief?"\n":"")+"Recurring routine ("+cadenceText(r)+").",status:"doing",routineId:r.id,createdAt:Date.now()});
+  await new Promise(res=>setTimeout(res,400));
+  if(sample) await runTask(ref.id);
+}
+async function autopilot(){
+  if(view!=="office"||autoBusy||!db||!sample||!canWrite||meeting) return;
+  const due=routines.find(r=>isDue(r)&&agentById(r.agentId)?.auto);
+  const next=!due&&tasks.filter(t=>t.status==="todo"&&agentById(t.agentId)?.auto&&!running.has(t.id)&&!running.has("agent:"+t.agentId))
+    .sort((a,b)=>({high:0,normal:1,low:2}[a.priority]??1)-({high:0,normal:1,low:2}[b.priority]??1))[0];
+  if(!due&&!next) return;
+  autoBusy=true; renderSide();
+  try{ if(due) await runRoutine(due); else await runTask(next.id); }catch(e){ toast("Autopilot paused: "+(e?.message||"error")); }
+  autoBusy=false; renderAll();
+}
+setInterval(autopilot,20000); setTimeout(autopilot,6000);
+
+/* ---------- chat: office manager (office view) or chief of staff (HQ) ---------- */
+const workOf=slug=>bizOf(slug).rooms.filter(r=>r.id!=="break"&&r.id!=="board");
+const deptIn=(slug,a)=>a.dept||bizOf(slug).agentDept[a.id]||workOf(slug)[0].id;
+const normBiz=q=>{const s=String(q||"").toLowerCase().trim(); if(!s) return null; return SLUGS.find(x=>x===s)||BIZES.find(b=>b.name.toLowerCase().includes(s)||s.includes(b.name.toLowerCase().split(" ")[0].toLowerCase()))?.slug||null;};
+const findAgentIn=(slug,q)=>{ if(!q) return null; const L=ALL[slug].agents; const s=String(q).toLowerCase().trim(); return L.find(a=>a.id===q)||L.find(a=>a.name.toLowerCase()===s)||L.find(a=>a.name.toLowerCase().split(/\s+/)[0]===s.split(/\s+/)[0])||L.find(a=>a.role.toLowerCase().includes(s)); };
+const findRoomIn=(slug,q)=>{ if(!q) return null; const s=String(q).toLowerCase(); const W=workOf(slug); return W.find(r=>r.id===s)||W.find(r=>r.name.toLowerCase().includes(s)||s.includes(r.name.toLowerCase())); };
+function stateOf(slug,full){
+  const d=ALL[slug], b=bizOf(slug), nameOf=id=>d.agents.find(a=>a.id===id)?.name||"unassigned";
+  const open=d.tasks.filter(t=>t.status!=="done");
+  return `== ${b.name} [business id: ${slug}] (${b.kind})
+GOAL: ${d.meta.goal||b.goal} | STATUS: ${(STATUS[d.meta.status]||STATUS.grey)[0]}${d.meta.note?" ("+d.meta.note+")":""}
+${full?"ABOUT: "+b.about+"\n":""}ROOMS: ${workOf(slug).map(r=>r.id+"="+r.name).join("; ")}
+STAFF: ${d.agents.map(a=>`[${a.id}] ${a.name}, ${a.role}, desk ${deptIn(slug,a)}${a.auto?", autopilot":""}${(a.rules||[]).length?", rules: "+a.rules.map(r=>r.text).join("; "):""}`).join(" | ")||"none"}
+OPEN TASKS: ${open.slice(0,full?60:15).map(t=>`[${t.id}] ${t.title} (${t.status}, ${nameOf(t.agentId)}${t.due?", due "+t.due:""}${t.priority==="high"?", high":""}${t.output?", work handed in":""}${(t.feedback||[]).length?", "+t.feedback.length+" comments":""})`).join(" | ")||"none"}
+${full?"ROUTINES: "+(d.routines.map(r=>`${nameOf(r.agentId)}: ${r.title} (${cadenceText(r)})`).join(" | ")||"none")+"\n":""}MEMORY: ${d.memory.slice(-(full?40:6)).map(m=>m.text).join(" / ")||"none"}`;
+}
+const RULES=()=>{
+  const head=`Owner: Sahill Chandan, Dubai. Money in AED. Dates like "7 November 2026". Today: ${fmtDate(todayISO())} (${todayISO()}).`;
+  if(view==="office") return `You are the office manager of ${BIZ.name}'s virtual office inside Sahill's HQ. You run a team of AI agents. When Sahill asks for something, act with your tools: create or update tasks and assign them to the right agent (pick by role and desk), set start=true when he wants it done now, hire agents with a person's name and a job designation, add routines for recurring work, update the goal or status, and call remember for every new fact, number, decision, preference or contact he tells you (one short sentence each). Never invent figures. Agents cannot contact people or spend money. After acting, reply in 1-4 short plain sentences saying what you did and who is on it; ask one question only if something essential is missing. When he comments on or corrects an agent's work, use give_feedback (redo=true if it should be fixed now; make_rule=true if it's how they should always work). Use tools rather than describing what you would do. The business id for every tool is "${cur}".
+${head}
+${stateOf(cur,true)}`;
+  return `You are Sahill's Chief of Staff in Sahill's HQ, overseeing all five businesses and their AI teams. Priority rule: cash already owed first (Botany rents and cheques), then revenue (Yontro, Aura), then growth assets (Founder Tales), then long-term bets (Barter). When Sahill tells you something or asks for something, act with your tools on the right business id: create or update tasks for the right agent (start=true if he wants it now), give feedback on agents' work (redo and/or make it a standing rule), hire, add routines, set status, and call remember for every fact, number or decision (business "hq" for things that are about Sahill or all businesses). If he asks what to focus on, answer from the data below and take a position. Never invent figures. Reply in short plain sentences, naming the business and agent for each action.
+${head}
+HQ MEMORY: ${HQD.memory.slice(-30).map(m=>m.text).join(" / ")||"none"}
+${SLUGS.map(x=>stateOf(x,false)).join("\n")}`;
+};
+let actLog=[], startQueue=[];
+const BIZP={type:"string",description:"business id: yontro, botany, foundertales, aura or barter"};
+function slugFor(i){ const s=normBiz(i.business)||(view==="office"?cur:null); if(!s) throw new Error("Say which business: yontro, botany, foundertales, aura or barter"); return s; }
+const pathOf=slug=>"biz/"+slug+"/";
+const chatTools=[
+ {name:"create_task",description:"Create a task in a business and assign it to an agent. Returns the task id. start=true sends the agent to do it now.",
+  inputSchema:{type:"object",properties:{business:BIZP,title:{type:"string"},agent:{type:"string",description:"agent id or name"},room:{type:"string",description:"room id"},due:{type:"string",description:"YYYY-MM-DD"},priority:{type:"string",enum:["high","normal","low"]},notes:{type:"string",description:"brief for the agent"},start:{type:"boolean"}},required:["title"]},
+  execute:async i=>{const slug=slugFor(i); const a=findAgentIn(slug,i.agent); const room=findRoomIn(slug,i.room)?.id||(a?deptIn(slug,a):workOf(slug)[0].id); const ref=db.collection(pathOf(slug)+"tasks").doc();
+   await ref.set({title:String(i.title).slice(0,200),agentId:a?.id||"",dept:room,due:/^\d{4}-\d{2}-\d{2}$/.test(i.due||"")?i.due:"",priority:["high","normal","low"].includes(i.priority)?i.priority:"normal",notes:String(i.notes||"").slice(0,3000),status:"todo",createdAt:Date.now()});
+   if(i.start&&a) startQueue.push({slug,id:ref.id}); actLog.push(`${bizOf(slug).name} · Task: ${i.title} → ${a?.name||"unassigned"}${i.start&&a?" (starting)":""}`); return {id:ref.id,assignedTo:a?.name||null};}},
+ {name:"update_task",description:"Change a task: status (todo, doing, done), agent, due date, priority, or start=true to send the agent to work on it now.",
+  inputSchema:{type:"object",properties:{business:BIZP,task_id:{type:"string"},status:{type:"string",enum:["todo","doing","done"]},agent:{type:"string"},due:{type:"string"},priority:{type:"string",enum:["high","normal","low"]},start:{type:"boolean"}},required:["task_id"]},
+  execute:async i=>{const slug=slugFor(i); const t=ALL[slug].tasks.find(x=>x.id===i.task_id); if(!t) throw new Error("No task with that id in "+slug); const u={}; if(i.status) u.status=i.status; if(i.status==="done") u.doneAt=new Date().toISOString();
+   if(i.agent){const a=findAgentIn(slug,i.agent); if(!a) throw new Error("No agent called "+i.agent); u.agentId=a.id;} if(i.due) u.due=i.due; if(i.priority) u.priority=i.priority;
+   if(Object.keys(u).length) await db.doc(pathOf(slug)+"tasks/"+t.id).update(u); if(i.start) startQueue.push({slug,id:t.id}); actLog.push(`${bizOf(slug).name} · Updated: ${t.title}${i.status?" → "+i.status:""}${i.start?" (starting)":""}`); return "ok";}},
+ {name:"hire_agent",description:"Hire a new AI agent in a business: a person's name, a job designation, a room id for their desk, and instructions on how they work.",
+  inputSchema:{type:"object",properties:{business:BIZP,name:{type:"string"},designation:{type:"string"},room:{type:"string"},instructions:{type:"string"},autopilot:{type:"boolean"}},required:["name","designation"]},
+  execute:async i=>{const slug=slugFor(i); const ref=await db.collection(pathOf(slug)+"agents").add({name:String(i.name).slice(0,40),role:String(i.designation).slice(0,80),dept:findRoomIn(slug,i.room)?.id||workOf(slug)[0].id,mind:String(i.instructions||"").slice(0,2000),auto:!!i.autopilot,createdAt:Date.now()});
+   actLog.push(`${bizOf(slug).name} · Hired: ${i.name}, ${i.designation}`); return {id:ref.id};}},
+ {name:"update_agent",description:"Change an agent's name, designation, desk room, instructions or autopilot (true = works through their queue automatically).",
+  inputSchema:{type:"object",properties:{business:BIZP,agent:{type:"string"},name:{type:"string"},designation:{type:"string"},room:{type:"string"},instructions:{type:"string"},autopilot:{type:"boolean"}},required:["agent"]},
+  execute:async i=>{const slug=slugFor(i); const a=findAgentIn(slug,i.agent); if(!a) throw new Error("No agent called "+i.agent); const u={}; if(i.name) u.name=String(i.name); if(i.designation) u.role=String(i.designation); if(i.room&&findRoomIn(slug,i.room)) u.dept=findRoomIn(slug,i.room).id; if(i.instructions) u.mind=String(i.instructions); if(typeof i.autopilot==="boolean") u.auto=i.autopilot;
+   await db.doc(pathOf(slug)+"agents/"+a.id).update(u); actLog.push(`${bizOf(slug).name} · Updated ${a.name}${typeof i.autopilot==="boolean"?" · autopilot "+(i.autopilot?"on":"off"):""}`); return "ok";}},
+ {name:"add_routine",description:"Add a recurring job for an agent. cadence daily, weekly or monthly; day 0-6 (0 = Sunday) for weekly.",
+  inputSchema:{type:"object",properties:{business:BIZP,agent:{type:"string"},title:{type:"string"},cadence:{type:"string",enum:["daily","weekly","monthly"]},day:{type:"number"},brief:{type:"string"}},required:["agent","title","cadence"]},
+  execute:async i=>{const slug=slugFor(i); const a=findAgentIn(slug,i.agent); if(!a) throw new Error("No agent called "+i.agent); await db.collection(pathOf(slug)+"routines").add({agentId:a.id,title:String(i.title).slice(0,160),cadence:["daily","weekly","monthly"].includes(i.cadence)?i.cadence:"weekly",day:Math.max(0,Math.min(6,Number(i.day)||1)),brief:String(i.brief||"").slice(0,1000),createdAt:Date.now()});
+   actLog.push(`${bizOf(slug).name} · Routine: ${a.name} · ${i.title}`); return "ok";}},
+ {name:"set_status",description:"Update a business's goal and/or status (red, amber, green, grey, parked) with a short reason.",
+  inputSchema:{type:"object",properties:{business:BIZP,status:{type:"string",enum:["red","amber","green","grey","parked"]},note:{type:"string"},goal:{type:"string"}}},
+  execute:async i=>{const slug=slugFor(i); const m={...ALL[slug].meta}; if(i.status) m.status=i.status; if(i.note!==undefined) m.note=String(i.note); if(i.goal) m.goal=String(i.goal); await db.doc(pathOf(slug)+"meta/business").set({goal:m.goal,status:m.status,note:m.note||"",updatedAt:Date.now()}); actLog.push(`${bizOf(slug).name} · Status: ${(STATUS[m.status]||STATUS.grey)[0]}`); return "ok";}},
+ {name:"give_feedback",description:"Comment on an agent's work on a task. redo=true sends it back to be redone following the comment now; make_rule=true also saves the comment as a standing rule the agent follows on every future job.",
+  inputSchema:{type:"object",properties:{business:BIZP,task_id:{type:"string"},comment:{type:"string"},redo:{type:"boolean"},make_rule:{type:"boolean"}},required:["task_id","comment"]},
+  execute:async i=>{const slug=slugFor(i); const t=ALL[slug].tasks.find(x=>x.id===i.task_id); if(!t) throw new Error("No task with that id in "+slug); const at=new Date().toISOString(); const fb=[...(t.feedback||[]),{text:String(i.comment).slice(0,2000),at}];
+   await db.doc(pathOf(slug)+"tasks/"+t.id).update({feedback:fb}); const a=ALL[slug].agents.find(x=>x.id===t.agentId);
+   if(i.make_rule&&a) await db.doc(pathOf(slug)+"agents/"+a.id).update({rules:[...(a.rules||[]),{text:String(i.comment).slice(0,400),at}]});
+   if(i.redo&&a) startQueue.push({slug,id:t.id,ov:{feedback:fb}});
+   actLog.push(`${bizOf(slug).name} · Feedback to ${a?.name||"agent"} on "${t.title}"${i.redo?" (redoing)":""}${i.make_rule?" · new standing rule":""}`); return "ok";}},
+ {name:"add_rule",description:"Add a standing rule an agent must follow on every future job (how to do their work).",
+  inputSchema:{type:"object",properties:{business:BIZP,agent:{type:"string"},rule:{type:"string"}},required:["agent","rule"]},
+  execute:async i=>{const slug=slugFor(i); const a=findAgentIn(slug,i.agent); if(!a) throw new Error("No agent called "+i.agent); await db.doc(pathOf(slug)+"agents/"+a.id).update({rules:[...(a.rules||[]),{text:String(i.rule).slice(0,400),at:new Date().toISOString()}]}); actLog.push(`${bizOf(slug).name} · Rule for ${a.name}: ${i.rule}`); return "ok";}},
+ {name:"remember",description:"Save one fact, number, decision, contact or preference Sahill told you, as one short sentence. business = a business id, or \"hq\" for things about Sahill or all businesses.",
+  inputSchema:{type:"object",properties:{business:{type:"string"},fact:{type:"string"}},required:["fact"]},
+  execute:async i=>{const isHq=String(i.business||"").toLowerCase()==="hq"; const slug=isHq?null:(normBiz(i.business)||(view==="office"?cur:null)); const path=slug?pathOf(slug):"hq/main/";
+   await db.collection(path+"memory").add({text:String(i.fact).slice(0,600),createdAt:Date.now(),source:view==="hq"?"hq-chat":"chat"}); actLog.push(`${slug?bizOf(slug).name:"HQ"} · Remembered: ${i.fact}`); return "saved";}},
+];
+function renderChat(){ renderHQChat();
+  const el=$("#msgs"); const atBottom=el.scrollHeight-el.scrollTop-el.clientHeight<60;
+  el.innerHTML=chat.length?chat.map(m=>`<div class="msg ${m.role==="user"?"user":"assistant"}">${esc(m.text)}${m.actions?.length?`<div class="acts">${m.actions.map(x=>`<span>✓ ${esc(x)}</span>`).join("")}</div>`:""}<span class="when">${esc(fmtTime(m.createdAt))}</span></div>`).join("")
+    :`<div class="msg assistant">${view==="hq"?"Hi Sahill. I'm your Chief of Staff across all five businesses. Tell me what's happening or what you need, and I'll put the right agent on it and remember it.":"Hi Sahill. I run the "+esc(BIZ.name)+" office. Tell me what you need: I'll assign it to the right person, start the work, and remember anything you tell me."}</div>`;
+  if(pending) el.insertAdjacentHTML("beforeend",`<div class="msg assistant" id="pendingMsg"><span class="ptext">${esc(pending.text||"")}</span><span class="dots"> Working</span></div>`);
+  if(atBottom||pending) el.scrollTop=el.scrollHeight;
+  $("#memCount").textContent=memory.length;
+  $("#memlist").innerHTML=memory.length?memory.slice().sort((a,b)=>b.createdAt-a.createdAt).map(m=>`<div class="mem"><span>${esc(m.text)}<br><span class="tag">${esc(fmtTime(m.createdAt))}</span></span>${canWrite?`<button type="button" class="ghost small" data-mdel="${esc(m.id)}">Forget</button>`:""}</div>`).join(""):'<div class="empty">Nothing saved yet. Facts, numbers and decisions you mention in chat are kept here and synced to your GM Board.</div>';
+  const sug=view==="hq"?HQ_SUG:(BIZ.suggestions||[]); $("#suggest").innerHTML=chat.length>2?"":sug.map(x=>`<button type="button" data-sug="${esc(x)}">${esc(x)}</button>`).join("");
+}
+let pending=null;
+async function sendChat(text){
+  if(!db||!canWrite) return toast("Chat isn't available on this view.");
+  if(!sample) return toast("Claude isn't available on this view.");
+  if(pending) return;
+  text=text.trim(); if(!text) return;
+  $("#chatIn").value=""; pending={text:""}; actLog=[]; startQueue=[];
+  $("#sendChat").disabled=true; $("#stopChat").hidden=false; $("#chatState").textContent="The office manager is on it…";
+  try{ await db.collection(CP()+"chat").add({role:"user",text,createdAt:Date.now()}); }catch(e){}
+  renderChat();
+  const turns=chat.slice(-16).map(m=>({role:m.role==="user"?"user":"assistant",content:m.text})).filter(m=>m.content);
+  if(!turns.length||turns[turns.length-1].role!=="user"||turns[turns.length-1].content!==text) turns.push({role:"user",content:text});
+  chatCtl=new AbortController();
+  let reply="";
+  try{
+    const r=await sample([{role:"user",content:RULES()},...turns],{tools:chatTools,signal:chatCtl.signal,modelTier:"default",onText:({text:t})=>{pending.text=t;const n=document.querySelector("#pendingMsg .ptext");if(n){n.textContent=t;$("#msgs").scrollTop=$("#msgs").scrollHeight;}}});
+    reply=r.text.trim();
+  }catch(e){
+    reply=e?.code==="cancelled"||e?.code==="aborted"?"Stopped.":e?.code==="not_granted"?"Claude access isn't allowed on this page yet. Allow it from the page's Permissions menu.":e?.code==="tools_unavailable"?"Office actions aren't available on this device's Claude access, so I can only answer, not act.":e?.code==="rate_limited"?"I'm at a usage limit. Try again in a few minutes.":"Something went wrong: "+(e?.message||"unknown error");
+    if(e?.text) reply=e.text+"\n\n"+reply;
+  }
+  pending=null;
+  try{ await db.collection(CP()+"chat").add({role:"assistant",text:reply||"Done.",actions:actLog.slice(0,20),createdAt:Date.now()}); }catch(e){}
+  $("#sendChat").disabled=false; $("#stopChat").hidden=true; $("#chatState").textContent="Everything you say here is saved to this office's memory.";
+  renderChat();
+  const q=startQueue.slice(); startQueue=[];
+  if(q.length){ const first=q[0].slug; if(view!=="office"||cur!==first){ toast(`Taking you to ${bizOf(first).name} to watch the work.`); location.hash=first; await new Promise(r=>setTimeout(r,1200)); }
+    for(const it of q.filter(x=>x.slug===first)){ await new Promise(r=>setTimeout(r,500)); runTask(it.id,it.ov); }
+    const rest=q.filter(x=>x.slug!==first); if(rest.length) toast(`${rest.length} more task${rest.length>1?"s":""} queued in other offices. Autopilot or the daily run picks them up.`); }
+}
+function openChat(){chatHeader();$("#chatDrawer").hidden=false;$("#openChat").hidden=true;renderChat();$("#chatIn").focus();const el=$("#msgs");el.scrollTop=el.scrollHeight;}
+function closeChat(){$("#chatDrawer").hidden=true;$("#openChat").hidden=false;}
+$("#openChat").onclick=openChat; $("#closeChat").onclick=closeChat;
+$("#stopChat").onclick=()=>chatCtl?.abort();
+$("#chatForm").onsubmit=e=>{e.preventDefault();sendChat($("#chatIn").value);};
+$("#chatIn").addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();sendChat($("#chatIn").value);}});
+$("#chatDrawer").addEventListener("click",async e=>{const b=e.target.closest("button"); if(!b) return;
+  if(b.dataset.ctab){document.querySelectorAll("[data-ctab]").forEach(x=>x.setAttribute("aria-selected",String(x===b)));const mem=b.dataset.ctab==="memory";$("#msgs").hidden=mem;$("#memlist").hidden=!mem;$("#chatForm").hidden=mem;}
+  if(b.dataset.sug) sendChat(b.dataset.sug);
+  if(b.dataset.mdel&&db){ if(b.dataset.confirm){await db.doc(CP()+"memory/"+b.dataset.mdel).delete();toast("Forgotten.");} else {b.dataset.confirm="1";b.textContent="Confirm";} }
+});
+
+/* ---------- events ---------- */
+document.addEventListener("click",async e=>{
+  const b=e.target.closest("button,[data-room],[data-agent]"); if(!b) return;
+  const d=b.dataset;
+  if(d.agent&&b.classList.contains("agent")) return select({kind:"agent",id:d.agent});
+  if(d.room&&b.classList.contains("room")) return select({kind:"room",id:d.room});
+  if(d.back!==undefined) return select({kind:"office"});
+  if(d.pick) return select({kind:"agent",id:d.pick});
+  if(d.hire!==undefined) return openHire();
+  if(d.meeting!==undefined) return boardMeeting();
+  if(d.chip){roomFilter=d.chip;renderChips();renderBoard();return;}
+  if(d.newin){openTaskForm(d.newin);return;}
+  if(d.hirec){const c=BIZ.candidates[+d.hirec]; await hire({name:c.name,role:c.role,dept:c.dept,mind:c.mind,shirt:c.shirt||""}); renderCands(); return;}
+  if(!db) return;
+  try{
+    if(d.auto){const a=agentById(d.auto); await db.doc(P()+"agents/"+d.auto).update({auto:!a?.auto}); toast(a?.auto?`${firstName(a.name)} is off autopilot.`:`${firstName(a?.name||"Agent")} is on autopilot and will work through their queue.`); setTimeout(autopilot,800);}
+    else if(d.rnow){const r=routines.find(x=>x.id===d.rnow); if(r) runRoutine(r);}
+    else if(d.ruleDel){const a=agentById(d.ruleDel); const r=[...(a?.rules||[])]; r.splice(+d.ix,1); await db.doc(P()+"agents/"+d.ruleDel).update({rules:r}); toast("Rule removed.");}
+    else if(d.rdel){ if(d.confirm){await db.doc(P()+"routines/"+d.rdel).delete();toast("Routine removed.");} else {d.confirm="1";b.textContent="Confirm remove";setTimeout(()=>{if(b.isConnected){delete b.dataset.confirm;b.textContent="Remove";}},4000);} }
+    else if(d.run) runTask(d.run);
+    else if(d.stop) running.get(d.stop)?.ctl.abort();
+    else if(d.st) await db.doc(P()+"tasks/"+d.id).update({status:d.st,...(d.st==="done"?{doneAt:new Date().toISOString()}:{})});
+    else if(d.del){ if(d.confirm){await db.doc(P()+"tasks/"+d.del).delete();toast("Task deleted.");} else {d.confirm="1";b.textContent="Confirm delete";setTimeout(()=>{if(b.isConnected){delete b.dataset.confirm;b.textContent="Delete";}},4000);} }
+    else if(d.fire){ if(d.confirm){const a=agentById(d.fire); await db.doc(P()+"agents/"+d.fire).delete(); toast(`${a?.name||"Agent"} has left. Their tasks are unassigned.`); select({kind:"office"});} else {d.confirm="1";b.textContent="Confirm: let them go";setTimeout(()=>{if(b.isConnected){delete b.dataset.confirm;b.textContent="Let go";}},4000);} }
+  }catch(err){toast("Couldn't save: "+(err?.message||err?.code||"error"));}
+});
+document.addEventListener("keydown",e=>{ if(e.key==="Escape"&&!$("#chatDrawer").hidden){closeChat();return;} if((e.key==="Enter"||e.key===" ")&&e.target.matches(".room,.agent")){e.preventDefault();e.target.click();} if(e.key==="Escape"&&!$("#hireModal").hidden) closeHire(); });
+document.addEventListener("change",async e=>{const s=e.target.closest("select[data-assign]"); if(!s||!db) return;
+  try{await db.doc(P()+"tasks/"+s.dataset.assign).update({agentId:s.value}); toast(s.value?`Assigned to ${agentById(s.value)?.name}.`:"Unassigned.");}catch(err){toast("Couldn't save: "+(err?.message||"error"));}});
+document.addEventListener("submit",async e=>{
+  const rv=e.target.closest("form[data-review]"), ar=e.target.closest("form[data-addrule]");
+  if(rv||ar){ e.preventDefault(); if(!db) return; const fd=new FormData(rv||ar); const text=String(fd.get("text")||"").trim();
+    try{
+      if(ar){ if(!text) return; const a=agentById(ar.dataset.addrule); await db.doc(P()+"agents/"+a.id).update({rules:[...(a.rules||[]),{text,at:new Date().toISOString()}]}); ar.reset(); toast(`New rule for ${firstName(a.name)}.`); return; }
+      const t=tasks.find(x=>x.id===rv.dataset.review); if(!t) return; const a=agentById(t.agentId); const act=e.submitter?.value||"note";
+      if(!text&&act==="note") return toast("Write a comment first.");
+      const fb=text?[...(t.feedback||[]),{text,at:new Date().toISOString()}]:(t.feedback||[]);
+      await db.doc(P()+"tasks/"+t.id).update({feedback:fb});
+      if(text&&fd.get("rule")&&a) await db.doc(P()+"agents/"+a.id).update({rules:[...(a.rules||[]),{text,at:new Date().toISOString()}]});
+      if(act==="redo"&&a){ toast(`Sent back to ${firstName(a.name)} with your comments.`); runTask(t.id,{feedback:fb}); }
+      else toast(fd.get("rule")?"Comment saved and added as a standing rule.":"Comment saved.");
+    }catch(err){toast("Couldn't save: "+(err?.message||"error"));}
+    return; }
+  const pf=e.target.closest("form[data-profile]"), rf=e.target.closest("form[data-routine]");
+  if(pf||rf){e.preventDefault(); if(!db) return; const fd=new FormData(pf||rf);
+    try{ if(pf){await db.doc(P()+"agents/"+pf.dataset.profile).update({name:String(fd.get("name")).trim(),role:String(fd.get("role")).trim(),dept:fd.get("dept"),mind:String(fd.get("mind")).trim()});toast("Profile saved.");}
+      else {await db.collection(P()+"routines").add({agentId:rf.dataset.routine,title:String(fd.get("title")).trim(),cadence:fd.get("cadence"),day:+fd.get("day"),brief:String(fd.get("brief")||"").trim(),createdAt:Date.now()});rf.reset();toast("Routine added. It runs when due, on autopilot or from the daily run.");}
+    }catch(err){toast("Couldn't save: "+(err?.message||"error"));} return;}
+});
+document.addEventListener("submit",async e=>{const f=e.target.closest("form[data-quick]"); if(!f) return; e.preventDefault(); if(!db) return;
+  const id=f.dataset.quick; const title=f.querySelector("input").value.trim(); if(!title) return; const andRun=e.submitter?.dataset.andrun;
+  try{const ref=db.collection(P()+"tasks").doc(); await ref.set({title,agentId:id,dept:f.querySelector("select").value,due:"",priority:"normal",notes:"",status:andRun?"doing":"todo",createdAt:Date.now()}); f.reset(); toast("Assigned.");
+    if(andRun) setTimeout(()=>runTask(ref.id),300);}catch(err){toast("Couldn't assign: "+(err?.message||"error"));}});
+function openTaskForm(room){const f=$("#taskForm");f.hidden=false;fillSelects();if(room)$("#tRoom").value=room;f.scrollIntoView({behavior:"smooth",block:"center"});$("#tTitle").focus({preventScroll:true});}
+$("#newTaskBtn").onclick=()=>openTaskForm();
+$("#cancelTask").onclick=()=>{$("#taskForm").hidden=true;};
+$("#tAgent").onchange=()=>{const a=agentById($("#tAgent").value); if(a) $("#tRoom").value=agentDept(a);};
+$("#taskForm").onsubmit=async e=>{e.preventDefault(); if(!db) return toast("Saving isn't available on this view.");
+  const title=$("#tTitle").value.trim(); if(!title) return;
+  try{await db.collection(P()+"tasks").add({title,agentId:$("#tAgent").value||"",dept:$("#tRoom").value,due:$("#tDue").value||"",priority:$("#tPri").value,notes:$("#tNotes").value.trim(),status:"todo",createdAt:Date.now()});
+    ["#tTitle","#tDue","#tNotes"].forEach(s=>$(s).value="");$("#tPri").value="normal";$("#taskForm").hidden=true;toast("Task pinned to the board.");}catch(err){toast("Couldn't add: "+(err?.message||"error"));}};
+function openHire(){renderCands();fillSelects();$("#hireModal").hidden=false;$("#closeHire").focus();}
+function closeHire(){$("#hireModal").hidden=true;$("#openHire").focus();}
+$("#openHire").onclick=openHire; $("#closeHire").onclick=closeHire;
+$("#hireModal").addEventListener("click",e=>{if(e.target.id==="hireModal") closeHire();});
+$("#customHire").onsubmit=async e=>{e.preventDefault();const name=$("#hName").value.trim(),role=$("#hRole").value.trim(); if(!name||!role) return;
+  await hire({name,role,dept:$("#hRoom").value,mind:$("#hMind").value.trim()}); e.target.reset(); renderCands();};
+$("#callMeeting").onclick=boardMeeting;
+$("#editStatus").onclick=()=>{const f=$("#statusForm");f.hidden=!f.hidden;$("#sGoal").value=meta.goal||BIZ.goal;$("#sStatus").value=meta.status||"grey";$("#sNote").value=meta.note||"";if(!f.hidden)f.scrollIntoView({behavior:"smooth",block:"center"});};
+$("#cancelStatus").onclick=()=>{$("#statusForm").hidden=true;};
+$("#statusForm").onsubmit=async e=>{e.preventDefault(); if(!db) return;
+  try{await db.doc(P()+"meta/business").set({goal:$("#sGoal").value.trim()||BIZ.goal,status:$("#sStatus").value,note:$("#sNote").value.trim(),updatedAt:Date.now()});$("#statusForm").hidden=true;toast("Goal and status saved.");}catch(err){toast("Couldn't save: "+(err?.message||"error"));}};
+let rz; new ResizeObserver(()=>{clearTimeout(rz);rz=setTimeout(()=>{if(view!=="office")return;const n=$("#floor").clientWidth<620; if(n!==narrow) buildFloor();},120);}).observe($("#floor"));
+
+/* ---------- views ---------- */
+const HQ_SUG=["What should I focus on today?","Botany: a tenant paid AED 30,000 today","Ask Omar and Fatima for a status update now"];
+function applyAccent(c){const r=document.documentElement.style;r.setProperty("--acc-l",c.accent);r.setProperty("--acc-d",c.dark);r.setProperty("--acc-ink",c.ink);}
+function chatHeader(){ if(view==="hq"){$("#chatTag").textContent="SAHILL'S HQ · CHIEF OF STAFF";$("#chatH").textContent="Talk to your Chief of Staff";$("#chatIn").placeholder="e.g. Botany: unit 1204 bounced a AED 25,000 cheque. Get Daniel on it.";$("#openChat").lastChild.textContent="Chief of Staff";}
+  else {$("#chatTag").textContent=BIZ.name.toUpperCase()+" · OFFICE MANAGER";$("#chatH").textContent="Tell the office what to do";$("#chatIn").placeholder="e.g. Ask "+(agents[0]?firstName(agents[0].name):"the team")+" to start on the top task now";$("#openChat").lastChild.textContent="Office chat";} }
+function syncGlobals(){ if(view==="office"){const d=ALL[cur];agents=d.agents;tasks=d.tasks;routines=d.routines;reports=d.reports;meta=d.meta;chat=d.chat;memory=d.memory;} else {chat=HQD.chat;memory=HQD.memory;} }
+function renderNav(){ $("#bizbar").innerHTML=`<a href="#hq" style="--c:var(--ink)" ${view==="hq"?'aria-current="page"':""}><span class="d" aria-hidden="true"></span>Sahill's HQ</a><span class="sep" aria-hidden="true"></span>`+BIZES.map(b=>`<a href="#${b.slug}" style="--c:${b.accent}" ${view==="office"&&cur===b.slug?'aria-current="page"':""}><span class="d" aria-hidden="true"></span>${esc(b.name)}</a>`).join("")+`<a href="#review" class="rvnav" id="rvNav" hidden>Please review <b id="rvNavN">0</b></a>`; updateBadge(); }
+function enterOffice(slug){
+  view="office"; cur=slug; BIZ=bizOf(slug); ROOMS=BIZ.rooms; WORK=ROOMS.filter(r=>r.id!=="break"&&r.id!=="board"); applyAccent(BIZ);
+  for(const [,p] of pos) p.el?.remove(); pos.clear(); selection={kind:"office"}; roomFilter="all"; meeting=false; $("#callMeeting").disabled=false; $("#callMeeting").textContent="Call a board meeting";
+  syncGlobals();
+  $("#bizInitial").textContent=BIZ.initial; $("#bizKind").textContent=BIZ.kind.toUpperCase(); $("#bizName").textContent=BIZ.name; $("#hireBiz").textContent=BIZ.name;
+  ["#taskForm","#statusForm"].forEach(x=>$(x).hidden=true); $("#hireModal").hidden=true;
+  $("#hqView").hidden=true; $("#officeView").hidden=false; renderNav(); chatHeader();
+  renderChips(); buildFloor(); renderAll(); renderReports(); if(!$("#chatDrawer").hidden) renderChat();
+  updateBadge(); window.scrollTo(0,0);
+}
+function showHQ(){
+  view="hq"; cur=null; applyAccent(HQ); for(const [,p] of pos) p.el?.remove(); pos.clear(); syncGlobals();
+  $("#officeView").hidden=true; $("#hqView").hidden=false; $("#hireModal").hidden=true; renderNav(); chatHeader(); renderHQ(); if(!$("#chatDrawer").hidden) renderChat();
+  updateBadge(); window.scrollTo(0,0);
+}
+function route(){ const h=location.hash.slice(1); if(SLUGS.includes(h)) enterOffice(h); else { showHQ(); if(h==="review") setTimeout(()=>$("#reviewPanel").scrollIntoView({behavior:"smooth",block:"start"}),60); } }
+window.addEventListener("hashchange",route);
+function busyIn(slug,a){ return !!running.get("agent:"+a.id) || ALL[slug].tasks.some(t=>t.agentId===a.id&&t.status==="doing"); }
+/* ---------- review queue, pings ---------- */
+function needsReview(t){ if(!t||!t.output||t.status==="done"||running.has(t.id)) return false; const fb=t.feedback||[]; const last=fb.length?Date.parse(fb[fb.length-1].at)||0:0; return !(last>(Date.parse(t.outputAt||0)||0)); }
+function reviewQueue(slug){ const q=[]; (slug?[slug]:SLUGS).forEach(sl=>ALL[sl].tasks.forEach(t=>{ if(needsReview(t)) q.push({slug:sl,t}); })); return q.sort((a,b)=>(Date.parse(b.t.outputAt||0)||0)-(Date.parse(a.t.outputAt||0)||0)); }
+function reviewCard(slug,t){
+  const b=bizOf(slug), a=ALL[slug].agents.find(x=>x.id===t.agentId); const fb=t.feedback||[]; const key=slug+"_"+t.id;
+  return `<article class="rcard" style="--c:${b.accent}">
+    <div class="rhead"><span class="btag" style="--c:${b.accent}">${esc(b.name)}</span>${a?avDot(a)+"<b>"+esc(a.name)+"</b>":"<b>"+esc(t.outputBy||"Agent")+"</b>"} finished${t.outputAt?" · "+esc(fmtTime(Date.parse(t.outputAt))):""}${(t.history||[]).length?" · version "+((t.history||[]).length+1):""}</div>
+    <div class="rtitle">${esc(t.title)}</div>
+    <div class="rprev">${esc(String(t.output).slice(0,420))}</div>
+    <details><summary>Read the full work</summary><div class="output">${esc(t.output)}</div>${fb.length?`<div class="fb">${fb.map(f=>`<div><span>${esc(fmtTime(Date.parse(f.at)))}</span>${esc(f.text)}</div>`).join("")}</div>`:""}</details>
+    ${canWrite?`<form data-rv2="1" data-slug="${esc(slug)}" data-id="${esc(t.id)}">
+      <label class="f" for="rv2_${esc(key)}" style="position:absolute;left:-9999px">Comment</label>
+      <textarea id="rv2_${esc(key)}" name="text" maxlength="2000" placeholder="Not right? Say what to change${a?" and "+esc(firstName(a.name))+" redoes it":""}"></textarea>
+      ${a?`<label class="chk"><input type="checkbox" name="rule"> ${esc(firstName(a.name))} should always work this way</label>`:""}
+      <div class="row"><button class="ok small" type="submit" value="approve">Approve</button>${a?`<button class="primary small" type="submit" value="redo">Send back to redo</button>`:""}</div>
+    </form>`:""}
+  </article>`;
+}
+const rvDeferred=new Set();
+function renderReviewInto(listSel,countSel,slug){ if(typingIn(listSel)){rvDeferred.add(listSel);return;} const q=reviewQueue(slug); $(countSel).textContent=q.length;
+  $(listSel).innerHTML=q.length?q.map(x=>reviewCard(x.slug,x.t)).join(""):`<div class="allclear">All caught up. Nothing waiting for you.</div>`; return q.length; }
+function renderOfficeReview(){ if(view!=="office") return; const n=renderReviewInto("#officeReviewList","#orvCount",cur); if(n!==undefined) $("#officeReview").hidden=!n; }
+document.addEventListener("focusout",()=>setTimeout(()=>{ for(const sel of [...rvDeferred]){ if(!typingIn(sel)){ rvDeferred.delete(sel); sel==="#reviewList"?renderHQ():renderOfficeReview(); } } },150));
+function updateBadge(){ const n=reviewQueue().length; const nav=$("#rvNav"); if(nav){nav.hidden=!n; $("#rvNavN").textContent=n;} document.title=(n?`(${n}) `:"")+(view==="office"&&BIZ?BIZ.name+" · ":"")+"Sahill's HQ"; }
+let seenRv=null, rvReady=false;
+function checkPings(){
+  updateBadge(); if(!rvReady) return;
+  const q=reviewQueue(); const keys=new Set(q.map(x=>x.slug+"/"+x.t.id+"/"+x.t.outputAt));
+  if(seenRv===null){seenRv=keys;return;}
+  const fresh=q.filter(x=>!seenRv.has(x.slug+"/"+x.t.id+"/"+x.t.outputAt)); seenRv=keys;
+  if(fresh.length) showPing(fresh[0],fresh.length);
+}
+function showPing(x,n){
+  document.querySelectorAll(".rvping").forEach(e=>e.remove());
+  const a=ALL[x.slug].agents.find(y=>y.id===x.t.agentId); const el=document.createElement("div"); el.className="rvping"; el.setAttribute("role","alert");
+  el.innerHTML=`<span>Please review: ${esc(a?firstName(a.name):"An agent")} (${esc(bizOf(x.slug).name)}) finished “${esc(shorten(x.t.title))}”${n>1?` and ${n-1} more`:""}</span><button type="button" data-goreview>Review now</button><button type="button" class="x" aria-label="Dismiss">×</button>`;
+  document.body.appendChild(el); el.querySelector("[data-goreview]").onclick=()=>{el.remove(); if(location.hash==="#review") route(); else location.hash="review";}; el.querySelector(".x").onclick=()=>el.remove();
+  setTimeout(()=>el.remove(),20000);
+}
+document.addEventListener("submit",async e=>{
+  const f=e.target.closest("form[data-rv2]"); if(!f) return; e.preventDefault(); if(!db) return;
+  const slug=f.dataset.slug, id=f.dataset.id, D=ALL[slug], t=D.tasks.find(x=>x.id===id); if(!t) return; const a=D.agents.find(x=>x.id===t.agentId);
+  const fd=new FormData(f); const text=String(fd.get("text")||"").trim(); const act=e.submitter?.value||"approve"; const at=new Date().toISOString(); const base="biz/"+slug+"/";
+  if(act==="redo"&&!text) return toast("Write what should change, then send it back.");
+  try{
+    const fb=text?[...(t.feedback||[]),{text,at}]:(t.feedback||[]); const u={}; if(text) u.feedback=fb; if(act==="approve"){u.status="done";u.doneAt=at;}
+    document.activeElement?.blur?.();
+    if(Object.keys(u).length) await db.doc(base+"tasks/"+id).update(u);
+    if(text&&fd.get("rule")&&a) await db.doc(base+"agents/"+a.id).update({rules:[...(a.rules||[]),{text,at}]});
+    if(act==="approve"){ toast("Approved."+(text&&fd.get("rule")?" Rule saved for "+firstName(a.name)+".":"")); return; }
+    if(!sample){ toast("Comment saved. The daily run will redo it."); return; }
+    toast(`Sent back to ${firstName(a.name)}. Watch them redo it.`);
+    if(view!=="office"||cur!==slug){ location.hash=slug; await new Promise(r=>setTimeout(r,1200)); }
+    runTask(id,{feedback:fb});
+  }catch(err){toast("Couldn't save: "+(err?.message||"error"));}
+});
+function renderHQChat(){
+  if(view!=="hq") return; const L=HQD.chat.slice(-4);
+  $("#hqChatLog").innerHTML=(L.length?L.map(m=>`<div class="msg ${m.role==="user"?"user":"assistant"}">${esc(m.text)}${m.actions?.length?`<div class="acts">${m.actions.map(x=>`<span>✓ ${esc(x)}</span>`).join("")}</div>`:""}</div>`).join(""):`<div class="msg assistant">Tell me what's happening or what you need, in plain words. I'll give it to the right person in the right business and remember it.</div>`)+(pending?`<div class="msg assistant">Working on it…</div>`:"");
+  const el=$("#hqChatLog"); el.scrollTop=el.scrollHeight;
+  $("#hqSuggest").innerHTML=L.length>2?"":HQ_SUG.map(x=>`<button type="button" data-hqsug="${esc(x)}">${esc(x)}</button>`).join("");
+  $("#hqTellBtn").disabled=!!pending;
+}
+$("#hqTell").onsubmit=e=>{e.preventDefault();const v=$("#hqTellIn").value.trim(); if(!v) return; $("#hqTellIn").value=""; sendChat(v);};
+$("#hqTellIn").addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();$("#hqTell").requestSubmit();}});
+$("#hqSuggest").addEventListener("click",e=>{const b=e.target.closest("[data-hqsug]"); if(b) sendChat(b.dataset.hqsug);});
+function renderHQ(){
+  if(view!=="hq") return;
+  const today=todayISO(); let staff=0,busy=0,late=0;
+  $("#hqDate").textContent=fmtDate(today).toUpperCase();
+  renderReviewInto("#reviewList","#rvCount",null);
+  $("#bizRows").innerHTML=BIZES.map(b=>{const d=ALL[b.slug]; const o=d.tasks.filter(t=>t.status!=="done"); const lt=o.filter(t=>t.due&&t.due<today); const rv=reviewQueue(b.slug).length; const bz=d.agents.filter(a=>busyIn(b.slug,a));
+    staff+=d.agents.length; busy+=bz.length; late+=lt.length; const [lab,cls]=STATUS[d.meta.status]||STATUS.grey;
+    return `<a class="bizrow" href="#${b.slug}" style="--c:${b.accent};--ci:${b.ink}"><span class="sq" aria-hidden="true">${esc(b.initial)}</span>
+      <span style="min-width:0"><span class="nm">${esc(b.name)} <span class="pill ${cls}">${lab}</span></span><span class="sub">${bz.length?esc(bz.map(a=>firstName(a.name)).join(", "))+" working now":d.agents.length+" staff, nobody working right now"}</span></span>
+      <span class="chipset">${rv?`<span class="chip rv">${rv} to review</span>`:""}${lt.length?`<span class="chip late">${lt.length} overdue</span>`:""}<span class="chip">${o.length} open</span></span></a>`;}).join("");
+  const n=reviewQueue().length, red=BIZES.filter(b=>ALL[b.slug].meta.status==="red").map(b=>b.name);
+  $("#hqLine").innerHTML=`${n?`<b style="color:var(--rv-ink)">${n} job${n>1?"s":""} waiting for your review</b> · `:""}${busy} of ${staff} agents working${late?` · <b style="color:var(--red)">${late} overdue</b>`:""}${red.length?` · Red: ${esc(red.join(", "))}`:""}`;
+  const br=HQD.briefs.slice().sort((x,y)=>y.createdAt-x.createdAt);
+  $("#briefs").innerHTML=br.length?`<div class="tag">${esc(fmtTime(br[0].createdAt))}</div><div class="output">${esc(br[0].body)}</div>${br.length>1?`<details><summary>Earlier briefs (${br.length-1})</summary>${br.slice(1,8).map(r=>`<details><summary>${esc(fmtTime(r.createdAt))}</summary><div class="output">${esc(r.body)}</div></details>`).join("")}</details>`:""}`:'<div class="empty">No brief yet. One arrives every morning at 8:23, or tap Write a fresh brief.</div>';
+  renderHQChat();
+}
+async function morningBrief(){
+  if(!sample) return toast("Claude isn't available on this view.");
+  const btn=$("#briefBtn"); btn.disabled=true; btn.textContent="Writing your brief…";
+  const prompt=`You are Sahill's Chief of Staff. Write his brief for ${fmtDate(todayISO())} across all five businesses. Priority rule: cash already owed first (Botany), then revenue (Yontro, Aura), then growth (Founder Tales), then long-term bets (Barter).
+HQ memory: ${HQD.memory.slice(-20).map(m=>m.text).join(" / ")||"none"}
+${SLUGS.map(x=>stateOf(x,false)).join("\n")}
+
+Format, plain text: one line verdict. Then "Top 3 today" (each: business, action, who). Then one line per business: status and the single next move. Then "Overdue" if any. Then one question for Sahill. Direct, take a position, never invent figures.`;
+  try{ const r=await sample(prompt,{modelTier:"default",cache:false}); await db.collection("hq/main/briefs").add({title:"Morning brief",body:r.text,createdAt:Date.now()}); toast("Brief ready."); }
+  catch(e){ toast(e?.code==="not_granted"?"Allow Claude on this page from its Permissions menu.":"Couldn't write the brief: "+(e?.message||"error")); }
+  btn.disabled=false; btn.textContent="Write a fresh brief";
+}
+$("#briefBtn").onclick=morningBrief; $("#cosBtn").onclick=()=>openChat();
+
+/* ---------- boot ---------- */
+renderNav(); route();
+(async()=>{
+  const timer=setTimeout(()=>{ if(!db){ $("#hqBanner").textContent="Couldn't reach your saved data. Open this page signed in to claude.ai."; $("#hqBanner").hidden=false; banner("Couldn't reach your saved data. Open this page signed in to claude.ai."); } },10000);
+  const C=window.claude;
+  const [d,s2,u]=await Promise.all([C?.use?.("db"),C?.use?.("sample"),C?.use?.("user")].map(p=>Promise.resolve(p).catch(()=>null)));
+  sample=s2||null;
+  if(u){ try{ if(await u.can("data.write")===false) canWrite=false; }catch{} }
+  if(!d) return;
+  db=d; clearTimeout(timer);
+  if(!canWrite){ banner("You're visiting. Only Sahill and editors can hire, assign or send agents to work."); ["#openHire","#callMeeting","#newTaskBtn","#editStatus","#openChat","#briefBtn","#cosBtn"].forEach(x=>$(x).hidden=true); }
+  else if(!sample) banner("Claude isn't available on this view, so agents can't do work here. You can still hire and assign.");
+  const onErr=e=>banner("Couldn't load saved data ("+(e?.code||"error")+").");
+  const docs=q=>q.docs.map(x=>({id:x.id,...x.data()}));
+  setTimeout(()=>{rvReady=true;checkPings();},5000);
+  const touch=(slug,what)=>{ setTimeout(checkPings,0); if(view==="office"&&cur===slug){ syncGlobals(); if(what==="chat"||what==="memory"){ $("#memCount").textContent=memory.length; if(!$("#chatDrawer").hidden) renderChat(); } else if(what==="reports"){renderReports();renderSide();} else if(what==="routines"){renderSide();} else if(what==="meta"){renderMeta();} else {renderAll(); if(what==="agents"&&!$("#hireModal").hidden) renderCands();} } else if(view==="hq") renderHQ(); };
+  for(const slug of SLUGS){ const p="biz/"+slug+"/", D=ALL[slug];
+    db.collection(p+"agents").onSnapshot(q=>{D.agents=docs(q).sort((a,b)=>(a.createdAt||0)-(b.createdAt||0));touch(slug,"agents");},onErr);
+    db.collection(p+"tasks").onSnapshot(q=>{D.tasks=docs(q);touch(slug,"tasks");},onErr);
+    db.collection(p+"routines").onSnapshot(q=>{D.routines=docs(q);touch(slug,"routines");},onErr);
+    db.collection(p+"reports").onSnapshot(q=>{D.reports=docs(q);touch(slug,"reports");},onErr);
+    db.collection(p+"memory").onSnapshot(q=>{D.memory=docs(q).sort((a,b)=>(a.createdAt||0)-(b.createdAt||0));touch(slug,"memory");},onErr);
+    db.collection(p+"chat").orderBy("createdAt","desc").limit(80).onSnapshot(q=>{D.chat=docs(q).sort((a,b)=>(a.createdAt||0)-(b.createdAt||0));touch(slug,"chat");},onErr);
+    db.doc(p+"meta/business").onSnapshot(x=>{if(x.exists) D.meta={...D.meta,...x.data()};touch(slug,"meta");},onErr);
+  }
+  db.collection("hq/main/chat").orderBy("createdAt","desc").limit(80).onSnapshot(q=>{HQD.chat=docs(q).sort((a,b)=>(a.createdAt||0)-(b.createdAt||0));if(view==="hq"){syncGlobals();if(!$("#chatDrawer").hidden)renderChat();}},onErr);
+  db.collection("hq/main/memory").onSnapshot(q=>{HQD.memory=docs(q).sort((a,b)=>(a.createdAt||0)-(b.createdAt||0));if(view==="hq"){syncGlobals();$("#memCount").textContent=memory.length;if(!$("#chatDrawer").hidden)renderChat();}},onErr);
+  db.collection("hq/main/briefs").onSnapshot(q=>{HQD.briefs=docs(q);renderHQ();},onErr);
+})();
+</script>
