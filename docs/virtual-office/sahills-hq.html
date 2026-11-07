@@ -707,7 +707,7 @@ ${(a.rules||[]).length?"Standing rules from Sahill, always follow:\n- "+a.rules.
 ${t.output?"Your previous attempt:\n"+t.output.slice(0,4000):""}
 ${(t.feedback||[]).length?"Sahill's comments on your work, newest last. Fix every point and do it the way he asks:\n- "+t.feedback.map(f=>f.text).join("\n- "):""}
 
-Do the task now and hand back finished work, not a plan to do it: messages ready to send, lists, scripts, calculations, structured drafts. You cannot browse, contact anyone or spend money; where facts are missing, say exactly what Sahill should send you. Plain, direct language; AED. Start with a one-line summary in your own voice, then the work, then "Next step:" and one line.`;
+Do the task now and hand back finished work, not a plan to do it: messages ready to send, lists, scripts, calculations, structured drafts. You cannot browse, contact anyone or spend money; where facts are missing, say exactly what Sahill should send you. Plain, direct language; AED. Start with one short line to Sahill as your boss saying what you need from him (or "Nothing needed, ready to approve"), then the work, then "Next step:" and one line.`;
   try{
     const r=await sample(prompt,{signal:ctl.signal,modelTier:"default",cache:false,onText:({text})=>{const s=running.get(id);if(!s)return;s.text=text;refreshLive(id);}});
     running.delete(id); running.delete("agent:"+a.id);
@@ -1112,7 +1112,7 @@ How to respond:
 - If he asks to remove or replace staff, or to clear tasks in this business, do it with remove_agent and delete_tasks (you may remove yourself last if he asks), then confirm in one line what was removed.
 - If he asks a question, answer it directly. If you truly need something from him to do the job, ask one clear question.
 - You cannot contact anyone, browse or spend money. Never invent figures.
-Reply like a colleague in a chat: short, first person, no headings. Finished work goes into update_work, not into your chat reply.`;
+Talk like an employee texting the boss on WhatsApp: 1 to 3 short lines, first person, no headings, no pleasantries. Lead with what you need from him (a decision, a number, an approval), then what you did. Finished work goes into update_work, not into your chat reply.`;
 }
 function dmTools(slug,a,log,created){
   const base="biz/"+slug+"/";

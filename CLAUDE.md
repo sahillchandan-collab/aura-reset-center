@@ -12,6 +12,8 @@ Tabs: Overview (priorities, this week, business status table, people) · Yontro 
 Database: business data under `biz/<id>/` (agents, tasks, routines, reports, memory, chat, dm, meta/business); HQ-wide under `hq/main/` (chat, memory, briefs, meta/sync). Read/update with ArtifactData when Sahill gives updates. The old per-business office artifacts now just point to Sahill's HQ.
 Scheduled task "Sahill's HQ daily automation" (Mon–Sat 8:23 Dubai) syncs new memory to `memory/<id>.md` (+ `memory/hq.md`) and the board, runs due routines and autopilot tasks, and writes a morning brief. Read `memory/` before advising on a business.
 
+**Agents text Sahill:** scheduled task "Sahill's HQ team check-in" (10:07, 14:07, 18:07 Mon–Sat) posts one brief boss-style ask per agent who needs something into their HQ chat (`biz/<id>/dm`) and pushes the top 3 to his phone. When Sahill writes in this chat as "Name: answer" (or clearly answers an agent), post his words to that agent's dm as role "sahill", act as that agent (do the work, update tasks/rules/memory in the HQ db), post the agent's reply (1–3 short lines, WhatsApp style, ask first), and give him the same brief reply here.
+
 Priority rule: cash already owed first (Botany rents and cheques), then revenue (Yontro sales, Aura sales), then growth assets (Founder Tales), then long-term bets (publication, founders network, Barter).
 
 ## Businesses
