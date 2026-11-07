@@ -305,6 +305,10 @@ button.ok{background:var(--green);border-color:var(--green);color:#fff}
 .filechip svg,.attbtn svg{width:16px;height:16px;flex:none}
 .attbtn{display:inline-flex;align-items:center;gap:6px}
 #dmDrawer.drop{outline:3px dashed var(--accent);outline-offset:-10px}
+.spk{display:flex;align-items:center;gap:4px;font-size:11.5px;font-weight:700;color:var(--muted);margin-bottom:3px}
+.spk .av{width:14px;height:14px}
+.msg.sys{font-style:italic}
+.dmwith{display:flex;gap:4px;align-items:center;margin-top:2px}
 .bizbar{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin;align-items:center}
 .bizbar a{flex:none;display:inline-flex;align-items:center;gap:7px;text-decoration:none;color:var(--ink);font-weight:600;font-size:13.5px;padding:6px 13px;border:1.5px solid var(--line);border-radius:999px;background:var(--surface)}
 .bizbar a:hover{border-color:var(--ink)}
@@ -1145,7 +1149,7 @@ const rvDeferred=new Set();
 const dmBusy=new Map(); let dmOpen=null, dmCtl=null;
 function threadOf(slug,agentId){
   const d=ALL[slug]; const msgs=d.dm.filter(m=>m.agentId===agentId).map(m=>({...m}));
-  const workIds=new Set(msgs.filter(m=>m.kind==="work").map(m=>m.taskId));
+  const workIds=new Set(d.dm.filter(m=>m.kind==="work").map(m=>m.taskId));
   d.tasks.filter(t=>t.agentId===agentId&&t.output&&!workIds.has(t.id)).forEach(t=>msgs.push({id:"v_"+t.id,agentId,role:"agent",kind:"work",taskId:t.id,title:t.title,text:t.output,createdAt:Date.parse(t.outputAt||0)||t.createdAt||0,virtual:true}));
   return msgs.sort((a,b)=>(a.createdAt||0)-(b.createdAt||0));
 }
@@ -1160,7 +1164,7 @@ function reviewQueue(slug){ return inbox(slug); }
 function inboxCard(x){
   const b=bizOf(x.slug), a=x.a, ow=openWorkIn(x.slug,x.th); const key=x.slug+"_"+a.id;
   return `<article class="rcard" style="--c:${b.accent}">
-    <div class="rhead"><span class="btag" style="--c:${b.accent}">${esc(b.name)}</span>${avDot(a)}<b>${esc(a.name)}</b><span>${esc(a.role)}</span><span>· ${esc(fmtTime(x.m.createdAt))}</span></div>
+    <div class="rhead"><span class="btag" style="--c:${b.accent}">${esc(b.name)}</span>${(()=>{const sp=x.m.speakerId&&x.m.speakerId!==a.id?ALL[x.slug].agents.find(y=>y.id===x.m.speakerId):null; return sp?`${avDot(sp)}<b>${esc(sp.name)}</b><span>${esc(sp.role)} · in ${esc(firstName(a.name))}'s chat</span>`:`${avDot(a)}<b>${esc(a.name)}</b><span>${esc(a.role)}</span>`;})()}<span>· ${esc(fmtTime(x.m.createdAt))}</span></div>
     ${ow?`<div class="rtitle">${esc(ow.t.title)}</div><div class="rprev">${esc(String(ow.w.text).slice(0,380))}</div>`:""}
     ${x.m.kind!=="work"?`<div class="lastmsg">${esc(String(x.m.text).slice(0,500))}</div>`:""}
     ${canWrite?`<form data-dmq="1" data-slug="${esc(x.slug)}" data-ag="${esc(a.id)}">
@@ -1179,21 +1183,24 @@ function openDM(slug,agentId){ dmOpen={slug,agentId}; $("#dmDrawer").hidden=fals
 function closeDM(){ dmOpen=null; $("#dmDrawer").hidden=true; }
 function renderDM(){
   if(!dmOpen) return; const {slug,agentId}=dmOpen; const a=ALL[slug].agents.find(x=>x.id===agentId); if(!a){closeDM();return;}
-  const b=bizOf(slug); $("#dmWho").innerHTML=`${figHTML(a)}<div style="min-width:0"><h2 id="dmName" style="font-size:18px">${esc(a.name)}</h2><div class="tag">${esc(a.role)} · ${esc(b.name)}</div></div>`;
-  const th=threadOf(slug,agentId); const busy=dmBusy.get(slug+"/"+agentId); const el=$("#dmMsgs");
+  const b=bizOf(slug); const th=threadOf(slug,agentId); const AG=id=>ALL[slug].agents.find(x=>x.id===id);
+  const parts=[...new Set(th.filter(m=>m.speakerId&&m.speakerId!==agentId).map(m=>m.speakerId))].map(AG).filter(Boolean);
+  $("#dmWho").innerHTML=`${figHTML(a)}<div style="min-width:0"><h2 id="dmName" style="font-size:18px">${esc(a.name)}</h2><div class="tag">${esc(a.role)} · ${esc(b.name)}</div>${parts.length?`<div class="dmwith tag">with ${parts.map(x=>avDot(x)+esc(firstName(x.name))).join(", ")}</div>`:""}</div>`;
+  const spkHTML=m=>{ if(!m.speakerId||m.speakerId===agentId) return ""; const x=AG(m.speakerId); return `<div class="spk">${x?avDot(x)+esc(x.name)+" · "+esc(x.role):"Colleague"}</div>`; }; const busy=dmBusy.get(slug+"/"+agentId); const el=$("#dmMsgs");
   el.innerHTML=(th.length?"":`<div class="msg assistant">Hi Sahill, it's ${esc(firstName(a.name))}. Tell me what you need, ask me anything about my work, or give me a new job.</div>`)+th.slice(-60).map(m=>{
+    if(m.kind==="join") return `<div class="msg sys">${esc(m.text)}</div>`;
     if(m.kind==="work"){const t=ALL[slug].tasks.find(x=>x.id===m.taskId); const done=t&&t.status==="done";
-      return `<div class="msg assistant work"><div class="wt">Work handed in · ${esc(m.title||t?.title||"Task")}</div>${esc(m.text)}<span class="when">${esc(fmtTime(m.createdAt))}</span>${t&&!done&&canWrite?`<div class="row"><button class="ok small" type="button" data-dmapprove="${esc(slug)}|${esc(t.id)}|${esc(agentId)}">Approve</button><span class="tag">or reply below with changes</span></div>`:done?`<div class="tag" style="margin-top:6px">Approved</div>`:""}</div>`;}
-    return `<div class="msg ${m.role==="sahill"?"user":"assistant"}">${esc(m.text)}${m.attachments?.length?`<div class="atts">${attHTML(m.attachments)}</div>`:""}${m.actions?.length?`<div class="acts">${m.actions.map(x=>`<span>✓ ${esc(x)}</span>`).join("")}</div>`:""}<span class="when">${esc(fmtTime(m.createdAt))}</span></div>`;}).join("")
-    +(busy?`<div class="msg assistant">${esc(busy.text||"")}<span class="dots">${busy.text?"":"Typing"}</span></div>`:"");
+      return `<div class="msg assistant work">${spkHTML(m)}<div class="wt">Work handed in · ${esc(m.title||t?.title||"Task")}</div>${esc(m.text)}<span class="when">${esc(fmtTime(m.createdAt))}</span>${t&&!done&&canWrite?`<div class="row"><button class="ok small" type="button" data-dmapprove="${esc(slug)}|${esc(t.id)}|${esc(agentId)}">Approve</button><span class="tag">or reply below with changes</span></div>`:done?`<div class="tag" style="margin-top:6px">Approved</div>`:""}</div>`;}
+    return `<div class="msg ${m.role==="sahill"?"user":"assistant"}">${m.role==="agent"?spkHTML(m):""}${esc(m.text)}${m.attachments?.length?`<div class="atts">${attHTML(m.attachments)}</div>`:""}${m.actions?.length?`<div class="acts">${m.actions.map(x=>`<span>✓ ${esc(x)}</span>`).join("")}</div>`:""}<span class="when">${esc(fmtTime(m.createdAt))}</span></div>`;}).join("")
+    +(busy?`<div class="msg assistant">${busy.who&&busy.who!==agentId?spkHTML({speakerId:busy.who}):""}${esc(busy.text||"")}<span class="dots">${busy.text?"":"Typing"}</span></div>`:"");
   el.scrollTop=el.scrollHeight;
-  $("#dmSend").disabled=!!busy; $("#dmStop").hidden=!busy; $("#dmState").textContent=busy?`${firstName(a.name)} is working on it…`:"Everything here is saved and remembered.";
+  $("#dmSend").disabled=!!busy; $("#dmStop").hidden=!busy; $("#dmState").textContent=busy?`${firstName((AG(busy.who)||a).name)} is working on it…`:"Everything here is saved and remembered.";
   const ow=openWorkIn(slug,th);
   $("#dmSuggest").innerHTML=busy?"":(ow?["Looks good, approve it","Make it shorter","Explain your reasoning"]:["What are you working on?","What do you need from me?"]).map(x=>`<button type="button" data-dmsug="${esc(x)}">${esc(x)}</button>`).join("");
 }
-function dmRules(slug,a,focus){
+function dmRules(slug,a,focus,intro){
   const b=bizOf(slug), d=ALL[slug]; const mine=d.tasks.filter(t=>t.agentId===a.id);
-  return `You are ${a.name}, ${a.role} at ${b.name}, an AI employee in Sahill's HQ. You are in a one-to-one chat with Sahill Chandan, your boss. Dubai; money in AED; dates like "7 November 2026". Today: ${fmtDate(todayISO())} (${todayISO()}).
+  return `You are ${a.name}, ${a.role} at ${b.name}, an AI employee in Sahill's HQ. ${intro?`${intro.by.name} (${intro.by.role}) just brought you into their chat with Sahill Chandan, your boss, to handle something in your area. Introduce yourself in a few words, take the job and do it.`:"You are in a chat with Sahill Chandan, your boss."} Dubai; money in AED; dates like "7 November 2026". Today: ${fmtDate(todayISO())} (${todayISO()}).
 How you work: ${a.mind||"as your role suggests"}
 ${(a.rules||[]).length?"Standing rules from Sahill (always follow):\n- "+a.rules.map(r=>r.text).join("\n- "):""}
 
@@ -1210,18 +1217,20 @@ How to respond:
 - If he approves or says it's fine, call mark_done.
 - If he asks to remove or replace staff, or to clear tasks in this business, do it with remove_agent and delete_tasks (you may remove yourself last if he asks), then confirm in one line what was removed.
 - If he asks a question, answer it directly. If you truly need something from him to do the job, ask one clear question.
+- If a request is outside your role, don't do it badly yourself: call bring_in_colleague with the best-fitting colleague from STAFF, a clear handoff and a task_title. Tell Sahill in one line who you brought in and why. If nobody fits, say which role he should hire.
+- Colleagues can be in this chat. Their messages appear as [Name, Role]: …; Sahill's start with "Sahill:". Speak only as yourself.
 - Sahill can send you files. Images are shown to you and text files (CSV, TXT, MD, JSON) are pasted into his message: use them. You cannot open PDFs or videos: say what you'll use them for and ask for the key details you need from them.
 - You cannot contact anyone, browse or spend money. Never invent figures.
 Talk like an employee texting the boss on WhatsApp: 1 to 3 short lines, first person, no headings, no pleasantries. Lead with what you need from him (a decision, a number, an approval), then what you did. Finished work goes into update_work, not into your chat reply.`;
 }
-function dmTools(slug,a,log,created){
-  const base="biz/"+slug+"/";
+function dmTools(slug,a,log,created,threadId,handoffs){
+  const base="biz/"+slug+"/"; threadId=threadId||a.id; const spk=threadId!==a.id?{speakerId:a.id}:{};
   const taskById=id=>ALL[slug].tasks.find(x=>x.id===id)||created[id];
   return [
    {name:"update_work",description:"Save a new full version of your work on a task. It appears in the chat as work handed in for Sahill to review.",inputSchema:{type:"object",properties:{task_id:{type:"string"},work:{type:"string"}},required:["task_id","work"]},
     execute:async i=>{const t=taskById(String(i.task_id)); if(!t) throw new Error("No task with that id"); const at=new Date().toISOString(); const work=String(i.work);
       await db.doc(base+"tasks/"+t.id).update({output:work,outputBy:a.name,outputAt:at,status:"doing",...(t.output?{history:[...(t.history||[]),{output:t.output,at:t.outputAt||""}].slice(-3)}:{})});
-      await db.collection(base+"dm").add({agentId:a.id,role:"agent",kind:"work",taskId:t.id,title:t.title,text:work,createdAt:Date.now()}); log.push(`New version: ${t.title}`); return "saved";}},
+      await db.collection(base+"dm").add({agentId:threadId,...spk,role:"agent",kind:"work",taskId:t.id,title:t.title,text:work,createdAt:Date.now()}); log.push(`New version: ${t.title}`); return "saved";}},
    {name:"new_task",description:"Create a new task assigned to you. Returns its id.",inputSchema:{type:"object",properties:{title:{type:"string"},notes:{type:"string"},due:{type:"string",description:"YYYY-MM-DD"},priority:{type:"string",enum:["high","normal","low"]}},required:["title"]},
     execute:async i=>{const ref=db.collection(base+"tasks").doc(); const t={title:String(i.title).slice(0,200),agentId:a.id,dept:deptIn(slug,a),due:/^\d{4}-\d{2}-\d{2}$/.test(i.due||"")?i.due:"",priority:["high","normal","low"].includes(i.priority)?i.priority:"normal",notes:String(i.notes||"").slice(0,3000),status:"doing",createdAt:Date.now()};
       await ref.set(t); created[ref.id]={id:ref.id,...t}; log.push(`New task: ${t.title}`); return {id:ref.id};}},
@@ -1229,6 +1238,8 @@ function dmTools(slug,a,log,created){
     execute:async i=>{const t=taskById(String(i.task_id)); if(!t) throw new Error("No task with that id"); await db.doc(base+"tasks/"+t.id).update({status:"done",doneAt:new Date().toISOString()}); log.push(`Approved: ${t.title}`); return "done";}},
    {name:"add_rule",description:"Save a standing rule you must follow on every future job.",inputSchema:{type:"object",properties:{rule:{type:"string"}},required:["rule"]},
     execute:async i=>{const cur=ALL[slug].agents.find(x=>x.id===a.id)||a; await db.doc(base+"agents/"+a.id).update({rules:[...(cur.rules||[]),{text:String(i.rule).slice(0,400),at:new Date().toISOString()}]}); log.push(`New rule: ${i.rule}`); return "saved";}},
+   ...(handoffs?[{name:"bring_in_colleague",description:"Bring a colleague from this business into this chat to take a job outside your role. They join right after your reply, introduce themselves and do the job here.",inputSchema:{type:"object",properties:{agent:{type:"string",description:"colleague's name or role"},handoff:{type:"string",description:"what they need to do, with the context they need"},task_title:{type:"string",description:"short title for the job"}},required:["agent","handoff"]},
+    execute:async i=>{const col=findAgentIn(slug,i.agent); if(!col) throw new Error("No colleague called "+i.agent+". Staff: "+ALL[slug].agents.map(x=>x.name+" ("+x.role+")").join(", ")); if(col.id===a.id) throw new Error("That's you"); handoffs.push({col,handoff:String(i.handoff),task_title:String(i.task_title||"")}); log.push(`Brought in ${col.name} (${col.role})`); return `${col.name} will join this chat right after your reply.`;}}]:[]),
    {name:"remove_agent",description:"Remove (fire) an agent in this business when Sahill asks. Their open tasks become unassigned.",inputSchema:{type:"object",properties:{agent:{type:"string"}},required:["agent"]},
     execute:async i=>removeAgentIn(slug,i.agent,log)},
    {name:"delete_tasks",description:"Permanently delete tasks in this business when Sahill asks to clear them: task_ids, or a scope (all_open, done, all), optionally one agent's.",inputSchema:{type:"object",properties:DEL_SCHEMA},
@@ -1261,19 +1272,51 @@ async function sendDM(slug,agentId,text,files){
   try{ await db.collection(base+"dm").add({agentId,role:"sahill",kind:"msg",text,taskId:focusT?.id||"",...(attachments.length?{attachments}:{}),createdAt:Date.now()});
     if(focusT) await db.doc(base+"tasks/"+focusT.id).update({feedback:[...(focusT.feedback||[]),{text,at}]}); }catch(e){ return toast("Couldn't send: "+(e?.message||"error")); }
   if(!sample){ toast(`Sent. ${firstName(a.name)} will reply in the next daily run.`); return; }
-  const turns=th.slice(-18).map(m=>m.kind==="work"?{role:"assistant",content:`[Work handed in on task "${m.title||""}" (${m.taskId})]\n${String(m.text).slice(0,2500)}`}:{role:m.role==="sahill"?"user":"assistant",content:String(m.text)+(m.attachments?.length?` [attached: ${m.attachments.map(x=>x.name).join(", ")}]`:"")}).filter(m=>m.content);
-  turns.push({role:"user",content:text+(notes.length?"\n\n"+notes.join("\n\n"):"")});
-  SFX.play("send"); const busy={text:""}; dmBusy.set(key,busy); running.set("agent:"+agentId,{room:focusT?(focusT.dept||deptIn(slug,a)):deptIn(slug,a),say:"Working on your message"});
+  const low=text.toLowerCase(); const nameHit=x=>new RegExp("(^|\\W)"+firstName(x.name).toLowerCase().replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+"(\\W|$)").test(low);
+  const parts=[...new Set(th.filter(m=>m.speakerId&&m.speakerId!==agentId).map(m=>m.speakerId))].map(id=>D.agents.find(x=>x.id===id)).filter(Boolean);
+  const named=parts.find(nameHit); let sp=(named&&!nameHit(a))?named:a;
+  SFX.play("send"); const busy={text:"",who:sp.id}; dmBusy.set(key,busy);
   if(view==="office"&&cur===slug) renderAgentsOnFloor(); renderDM(); updateBadge();
-  const log=[], created={}; dmCtl=new AbortController(); let reply="";
+  dmCtl=new AbortController();
+  const userText="Sahill: "+text+(notes.length?"\n\n"+notes.join("\n\n"):"");
+  let res=await replyAs(slug,agentId,sp,th,userText,imgs,focusT,null,busy);
+  const post=async(who,r)=>{ try{ await db.collection(base+"dm").add({agentId,...(who.id!==agentId?{speakerId:who.id}:{}),role:"agent",kind:"msg",text:r.reply||"Done.",actions:r.log.slice(0,12),createdAt:Date.now()+1}); }catch(_){} };
+  await post(sp,res);
+  let hist=[...th,{role:"sahill",text,createdAt:Date.now()},{role:"agent",speakerId:sp.id===agentId?undefined:sp.id,text:res.reply,createdAt:Date.now()+1}];
+  let guard=0, queue=[...res.handoffs];
+  while(queue.length&&guard<3&&!dmCtl.signal.aborted){ guard++; const h=queue.shift(); const col=h.col;
+    try{ await db.collection(base+"dm").add({agentId,role:"agent",kind:"join",speakerId:col.id,text:`${col.name} (${col.role}) joined the chat`,createdAt:Date.now()+2}); }catch(_){}
+    SFX.play("hire");
+    let task=null; if(h.task_title){ try{ const ref=db.collection(base+"tasks").doc(); task={title:h.task_title.slice(0,200),agentId:col.id,dept:deptIn(slug,col),due:"",priority:"normal",notes:h.handoff.slice(0,3000),status:"doing",createdAt:Date.now()}; await ref.set(task); task={id:ref.id,...task}; }catch(_){task=null;} }
+    busy.text=""; busy.who=col.id; renderDM();
+    const brief=`[${sp.name}, ${sp.role}]: ${h.handoff}${task?`\n(Your new task id: ${task.id}, "${task.title}". Do the work now and save it with update_work on that id.)`:""}`;
+    const r2=await replyAs(slug,agentId,col,hist,brief,null,task,{by:sp},busy,task?{[task.id]:task}:null);
+    await post(col,r2); hist=[...hist,{role:"agent",speakerId:col.id,text:r2.reply,createdAt:Date.now()}]; queue.push(...r2.handoffs); sp=col;
+  }
+  dmBusy.delete(key); SFX.play("msg");
+  if(!(dmOpen&&dmOpen.slug===slug&&dmOpen.agentId===agentId)) showPingMsg(slug,a,res.reply);
+  if(view==="office"&&cur===slug) renderAll(); renderDM(); updateBadge();
+}
+async function replyAs(slug,threadId,sp,th,userText,imgs,focusT,intro,busy,seed){
+  const AG=id=>ALL[slug].agents.find(x=>x.id===id);
+  const turns=th.slice(-20).map(m=>{
+    if(m.role==="sahill") return {role:"user",content:"Sahill: "+String(m.text||"")+(m.attachments?.length?` [attached: ${m.attachments.map(x=>x.name).join(", ")}]`:"")};
+    const who=m.speakerId||threadId; const w=AG(who);
+    if(m.kind==="join") return {role:"user",content:`[${w?w.name:"A colleague"} joined the chat]`};
+    const body=m.kind==="work"?`[Work handed in on task "${m.title||""}" (${m.taskId})]\n${String(m.text||"").slice(0,2500)}`:String(m.text||"");
+    return who===sp.id?{role:"assistant",content:body}:{role:"user",content:`[${w?w.name+", "+w.role:"Colleague"}]: ${body}`};
+  }).filter(m=>m.content);
+  turns.push({role:"user",content:userText});
+  const log=[],created={...(seed||{})},handoffs=[];
+  running.set("agent:"+sp.id,{room:focusT?(focusT.dept||deptIn(slug,sp)):deptIn(slug,sp),say:intro?"Joining a chat":"Working on your message"});
+  if(view==="office"&&cur===slug) renderAgentsOnFloor();
+  let reply="";
   try{
-    const r=await sample([{role:"user",content:dmRules(slug,a,focusT)},...turns],{tools:dmTools(slug,a,log,created),signal:dmCtl.signal,modelTier:"default",...(imgs.length?{images:imgs}:{}),onText:({text:t})=>{busy.text=t; if(dmOpen&&dmOpen.slug===slug&&dmOpen.agentId===agentId) renderDM();}});
+    const r=await sample([{role:"user",content:dmRules(slug,sp,focusT,intro)},...turns],{tools:dmTools(slug,sp,log,created,threadId,handoffs),signal:dmCtl.signal,modelTier:"default",...(imgs&&imgs.length?{images:imgs}:{}),onText:({text:t})=>{busy.text=t; busy.who=sp.id; if(dmOpen&&dmOpen.slug===slug&&dmOpen.agentId===threadId) renderDM();}});
     reply=r.text.trim();
   }catch(e){ reply=e?.code==="cancelled"||e?.code==="aborted"?"(stopped)":e?.code==="not_granted"?"I can't reply until Claude is allowed on this page (Permissions menu).":e?.code==="rate_limited"?"I'm at a usage limit right now. Try me again in a few minutes.":"Sorry, something went wrong: "+(e?.message||"unknown error"); if(e?.text) reply=e.text+"\n\n"+reply; }
-  dmBusy.delete(key); running.delete("agent:"+agentId); SFX.play("msg");
-  try{ await db.collection(base+"dm").add({agentId,role:"agent",kind:"msg",text:reply||"Done.",actions:log.slice(0,12),createdAt:Date.now()+1}); }catch(_){}
-  if(!(dmOpen&&dmOpen.slug===slug&&dmOpen.agentId===agentId)) showPingMsg(slug,a,reply);
-  if(view==="office"&&cur===slug) renderAll(); renderDM(); updateBadge();
+  running.delete("agent:"+sp.id);
+  return {reply,log,handoffs};
 }
 function fmtSize(n){n=+n||0;return n>1048576?(n/1048576).toFixed(1)+" MB":Math.max(1,Math.round(n/1024))+" KB";}
 function textType(f){const n=f.name.toLowerCase(); if(n.endsWith(".csv")) return "text/csv"; if(n.endsWith(".md")) return "text/markdown"; if(n.endsWith(".json")) return "application/json"; if(n.endsWith(".txt")) return "text/plain"; return null;}
