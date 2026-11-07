@@ -94,7 +94,7 @@ function renderToday(){ const t=dxb(), y=addDays(t,-1), d=dayStats(viewRep,t), f
   const done=items.filter(x=>x.includes('item done')).length; $("#ckCount").textContent=`${done} of ${items.length} done`;
   $("#checklist").innerHTML=items.join("");
   $("#quick").innerHTML=[["ft-trial",ICON.play,"Trial reel"],["ft-idea",ICON.idea,"FT idea"],["yontro",ICON.cam,"Yontro video"],["shoot",ICON.cal,"Shoot"],["followers",ICON.team,"Followers"],["client",ICON.lead,"Client"]].map(([k,i,l])=>`<button type="button" ${k==="shoot"?"data-newshoot":k==="followers"?"data-followers":k==="client"?"data-newclient":`data-newvid="${k}"`}>${i}${l}</button>`).join("");
-  renderWell(); renderDayReport(); }
+  renderWell(); renderDayReport(); renderPeriodCard(); }
 function renderMorning(){ const el=$("#morningCard"); const y=addDays(dxb(),-1); const rep=(DR[viewRep]||[]).find(r=>r.date===y)||(DR[viewRep]||[]).slice().sort((a,b)=>b.date.localeCompare(a.date))[0];
   const ys=dayStats(viewRep,y); const mm=viewRep===me?(well.morning||MOTIV[dayNo()%MOTIV.length]):"";
   el.innerHTML=`<div class="coach"><div class="av" aria-hidden="true">J</div><div style="flex:1;min-width:0"><h2>Morning brief</h2><div class="tag">${MGR}, Head of Production</div></div></div>
@@ -157,7 +157,7 @@ function renderTeam(){ if(!isOwner) return; const t=dxb();
   const reps=[...new Set([...videos,...shoots,...kpis,...tlog].map(x=>x.repId).filter(Boolean))];
   $("#attTable").innerHTML=`<thead><tr><th>Person</th><th>Status</th><th>In</th><th>Out</th><th>Worked</th><th>Breaks</th><th>Score today</th><th>Week</th></tr></thead><tbody>${reps.map(r=>{ const st=shiftState(r,t), d=dayStats(r,t), w=weekScore(r,weekStart(t)); const s=st.brk?"On break":st.on?"On shift":st.outAt?"Done":"Not in";
     return `<tr><td><b>${esc(names[r]||"Videographer")}</b></td><td>${s}</td><td>${st.inAt?hm(st.inAt):"–"}${d.late?" (late)":""}</td><td>${st.outAt?hm(st.outAt):"–"}</td><td>${st.inAt?dur(st.worked):"–"}</td><td>${st.inAt?dur(st.breakMs):"–"}</td><td>${d.score}</td><td>${w.score}</td></tr>`; }).join("")||`<tr><td colspan="8">Nobody has punched in yet.</td></tr>`}</tbody>`;
-  renderTeamReports();
+  renderTeamReports(); renderTeamPeriods();
   const K=kpis.slice().sort((a,b)=>(b.createdAt||0)-(a.createdAt||0)).slice(0,8);
   $("#teamCheckins").innerHTML=K.map(k=>`<div class="item"><span class="ic">${ICON.coach}</span><div style="min-width:0"><div class="t">${esc(names[k.repId]||"")} · ${esc(fmtD(k.date))}</div><div class="s">${k.trials??"–"} trials · ${k.live??"–"} live · ${k.yontro??"–"} Yontro · ${k.edits??"–"} edits${k.blockers?" · blocker: "+esc(k.blockers):""}</div>${k.feedback?`<div style="font-size:13px;margin-top:4px">${MGR1}: ${esc(k.feedback)}</div>`:""}</div><span></span></div>`).join("")||`<div class="empty">No check-ins yet.</div>`;
   if(!$("#goalCard").contains(document.activeElement)) $("#goalCard").innerHTML=`<div class="head"><h2>Targets</h2><span class="tag">Used for the daily checklist and score</span></div>

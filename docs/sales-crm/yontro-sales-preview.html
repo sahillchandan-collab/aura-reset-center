@@ -197,6 +197,7 @@ th{font-size:11.5px;color:var(--muted);font-family:var(--mono);font-weight:500}
     <div class="card"><div class="head"><h2>Log it</h2><span class="tag">Tap after every call, meeting or deal</span></div><div class="quick" id="quick"></div></div>
     <div class="card" id="checkinCard"></div>
     <div class="card" id="reportCard" hidden></div>
+    <div class="card" id="periodCard" hidden></div>
     <div class="card" id="wellCard" hidden></div>
     <div class="card"><div class="head"><h2>Due today</h2><span class="tag" id="dueCount"></span></div><div class="list" id="due"></div></div>
   </section>
@@ -230,6 +231,7 @@ th{font-size:11.5px;color:var(--muted);font-family:var(--mono);font-weight:500}
     <div class="head"><h1>Sales team</h1><span class="tag">Only you see this</span></div>
     <div class="card"><div class="head"><h2>Attendance today</h2></div><div class="scroll"><table id="attTable"></table></div></div>
     <div class="card"><div class="head"><h2>Hamza's daily reports</h2><span class="tag">Written when each rep punches out · backstop 20:47</span></div><div class="list" id="teamDayReports"></div></div>
+    <div class="card"><div class="head"><h2>Weekly and monthly reports</h2><span class="tag">Rated out of 10</span></div><div id="teamPeriods" style="display:grid;gap:10px"></div></div>
     <div class="card"><div class="head"><h2>Hamza's reports</h2><button class="btn sm dark" type="button" id="makeReport">Ask Hamza for a report</button></div><div class="list" id="reportList"></div></div>
     <div class="card"><div class="head"><h2>This week</h2><span class="tag">Targets per day: 100 contacts · 4 booked · 2 held</span></div><div class="scroll"><table id="teamTable"></table></div></div>
     <div class="card"><div class="head"><h2>Latest check-ins</h2></div><div class="list" id="teamCheckins"></div></div>
@@ -433,7 +435,7 @@ function renderToday(){
   $("#checkinCard").innerHTML=ci?`<div class="head"><h2>Check-in done</h2><span class="tag">${ci.calls??"–"} contacts · ${ci.booked??"–"} booked · ${ci.held??"–"} held</span></div>${ci.feedback?`<div style="font-size:14px">${esc(ci.feedback)}</div>`:""}`
     :`<div class="coach"><div class="av" aria-hidden="true">H</div><div style="flex:1"><h2>Daily check-in with Hamza</h2><div class="tag">5 quick questions. Takes 2 minutes.</div></div><button class="btn or" type="button" data-go="checkin">Start</button></div>`;
   const due=mine(acts).filter(a=>["followup","todo","reminder","meeting"].includes(a.type)&&!a.done&&a.date&&a.date<=t).sort((x,y)=>(x.date+(x.time||"")).localeCompare(y.date+(y.time||"")));
-  renderWell(); renderDayReport();
+  renderWell(); renderDayReport(); renderPeriodCard();
   $("#dueCount").textContent=due.length?`${due.length} to do`:"";
   $("#due").innerHTML=due.length?due.map(itemHTML).join(""):`<div class="empty">Nothing due. Log your calls as you go.</div>`;
 }
@@ -462,7 +464,7 @@ function renderCal(){
   $("#dayList").innerHTML=L.length?L.map(itemHTML).join(""):`<div class="empty">Nothing on this day.</div>`;
 }
 function renderTeam(){
-  if(!isOwner) return; renderTeamReports(); const t=dxb(), ws=weekStart(t);
+  if(!isOwner) return; renderTeamReports(); renderTeamPeriods(); const t=dxb(), ws=weekStart(t);
   const reps=[...new Set([...leads,...acts,...kpis].map(x=>x.repId).filter(Boolean))];
   $("#teamTable").innerHTML=`<thead><tr><th>Rep</th><th>Today contacts</th><th>Week contacts</th><th>Booked</th><th>Held</th><th>Contracts</th><th>Value</th><th>Check-in</th></tr></thead><tbody>${reps.map(r=>{const d=repStats(r,t,t),w=repStats(r,ws,t); const ci=kpis.filter(k=>k.repId===r).sort((a,b)=>b.date.localeCompare(a.date))[0];
     return `<tr><td><b>${esc(names[r]||"Rep")}</b></td><td>${d.calls} / ${TARGET.calls}</td><td>${w.calls}</td><td>${w.booked}</td><td>${w.held}</td><td>${w.contracts}</td><td>${aed(w.value)}</td><td>${ci?(ci.date===t?"Today":esc(fmtD(ci.date))):"Never"}</td></tr>`;}).join("")||`<tr><td colspan="8">No reps active yet. Share the CRM with Usama.</td></tr>`}</tbody>`;
@@ -935,7 +937,7 @@ function paperStatus(uid,it){ const seal=sealFor(uid,it);
   if(seal) return {label:seal.by&&seal.by!=="Sahill"?"Signed by Hamza for Sahill":"Signed and stamped",cls:"st-won"};
   return ({draft:{label:"Draft",cls:""},changes:{label:"Changes asked",cls:"st-proposal"},pending:{label:"With Sahill",cls:"st-meeting"},hamza:{label:"Hamza signed · Sahill to confirm",cls:"st-proposal"}})[it.status]||{label:it.status||"Draft",cls:""}; }
 function officialCopy(it,seal){ return {kind:it.kind,title:it.title,client:it.client||"",repId:it.repId||"",...(it.kind==="letter"?{letter:it.letter}:{f:it.f}),seal,approvedAt:Date.now()}; }
-function subApprovals(uid){ subDayReports(uid); if(!uid||apSubs[uid]||!db) return; apSubs[uid]=1;
+function subApprovals(uid){ subDayReports(uid); subPeriod(uid); if(!uid||apSubs[uid]||!db) return; apSubs[uid]=1;
   db.collection(`approvals/${uid}/items`).onSnapshot(q=>{ AP[uid]=q.docs.map(x=>({id:x.id,...x.data()})); paperRefresh(); },()=>{});
   db.collection(`official/${uid}/items`).onSnapshot(q=>{ OF[uid]=q.docs.map(x=>({id:x.id,...x.data()})); paperRefresh(); },()=>{}); }
 function ownerSubs(){ if(!isOwner||!db) return; [me,...leads.map(x=>x.repId),...acts.map(x=>x.repId),...kpis.map(x=>x.repId),...tlog.map(x=>x.repId),...queue.map(x=>x.repId)].filter(Boolean).forEach(subApprovals); }
@@ -1321,7 +1323,7 @@ function renderDayReport(){ const el=$("#reportCard"); if(!el) return; const L=(
 function renderTeamReports(){ const el=$("#teamDayReports"); if(!el||!isOwner) return; const all=[]; for(const u in DR) DR[u].forEach(d=>all.push(d)); all.sort((a,b)=>b.date.localeCompare(a.date)||(b.createdAt||0)-(a.createdAt||0));
   el.innerHTML=all.length?all.slice(0,20).map(d=>`<button type="button" class="item" style="text-align:left;width:100%;cursor:pointer" data-dropen="${esc(d.repId)}|${esc(d.date)}"><span class="ic">${ICON.coach}</span><div style="min-width:0"><div class="t">${esc(names[d.repId]||"Rep")} · ${esc(fmtD(d.date))}</div><div class="s">${esc(d.stats?.contacts??0)}/${TARGET.calls} contacts · ${esc(d.stats?.booked??0)} booked · ${esc(d.stats?.held??0)} held · ${esc(d.verdict||"")}</div></div><span class="stage">Open</span></button>`).join(""):`<div class="empty">Hamza writes a report on each rep when they punch out. If they forget, it's written at 20:47.</div>`; }
 async function dayReportAfterPunchOut(){ if(!me||viewRep!==me||drBusy) return; drBusy=true; toast("Hamza is writing your report on today…");
-  try{ const d=await makeDayReport(me,dxb()); document.querySelectorAll(".toast").forEach(t=>t.remove()); openDayReport(d); }catch(e){ toast("Hamza couldn't write the report: "+(e?.message||e?.code||"error")); } drBusy=false; }
+  try{ const d=await makeDayReport(me,dxb()); document.querySelectorAll(".toast").forEach(t=>t.remove()); openDayReport(d); }catch(e){ toast("Hamza couldn't write the report: "+(e?.message||e?.code||"error")); } drBusy=false; periodAfterPunchOut().catch(()=>{}); }
 async function dayReportCatchUp(){ if(!me||isOwner||drBusy) return; const mine=DR[me]; if(mine===undefined) return; const t=dxb();
   for(let i=1;i<=3;i++){ const d=addDays(t,-i); if(tlog.some(e=>e.repId===me&&e.date===d&&e.kind==="punch_in")&&!mine.some(x=>x.date===d)){ drBusy=true; try{ await makeDayReport(me,d,{by:"hamza-catchup"}); }catch(_){} drBusy=false; } } }
 document.addEventListener("click",async e=>{ const b=e.target.closest("[data-dropen],[data-drdl],[data-drredo],[data-drmake]"); if(!b) return; const d=b.dataset;
@@ -1331,6 +1333,125 @@ document.addEventListener("click",async e=>{ const b=e.target.closest("[data-dro
   if(d.drredo){ const [u,dt]=d.drredo.split("|"); b.disabled=true; b.textContent="Hamza is rewriting…"; try{ const r=await makeDayReport(u,dt,{by:"hamza"}); openDayReport(r); }catch(err){ toast("Couldn't rewrite it."); b.disabled=false; } return; }
   if(d.drmake!==undefined){ dayReportAfterPunchOut(); return; }
 });
+
+/* ---------- weekly & monthly reports (shared) ---------- */
+const PR={}, prSubs={}; let prBusy=false;
+const monthEndOf=ym=>{ const d=new Date(ym+"-01T12:00:00"); d.setMonth(d.getMonth()+1); d.setDate(0); return dxb(d); };
+const prevMonth=ym=>{ const d=new Date(ym+"-01T12:00:00"); d.setMonth(d.getMonth()-1); return dxb(d).slice(0,7); };
+function periodRange(kind,key){ return kind==="week"?{start:key,end:addDays(key,5)}:{start:key+"-01",end:monthEndOf(key)}; }
+function periodLabel(kind,key){ return kind==="week"?`Week of ${fmtShort(key)}`:new Date(key+"-01T12:00:00").toLocaleDateString("en-GB",{month:"long",year:"numeric"}); }
+function workedDays(rep,start,end){ const out=[]; for(let d=start; d<=end; d=addDays(d,1)) if(tlog.some(e=>e.repId===rep&&e.date===d&&e.kind==="punch_in")) out.push(d); return out; }
+function attendance(rep,days){ let mins=0,brk=0,late=0,starts=[]; days.forEach(d=>{ const st=shiftState(rep,d); mins+=Math.max(0,st.worked)/60000; brk+=st.breakMs/60000; if(st.inAt){ const t=new Date(st.inAt).toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit",hour12:false,timeZone:"Asia/Dubai"}); starts.push(t); if(t>"10:15") late++; } });
+  const avgStart=starts.length?(()=>{ const m=Math.round(starts.reduce((a,t)=>a+(+t.slice(0,2))*60+(+t.slice(3)),0)/starts.length); return String(Math.floor(m/60)).padStart(2,"0")+":"+String(m%60).padStart(2,"0"); })():"–";
+  return {days:days.length,hours:Math.round(mins/6)/10,avgHours:days.length?Math.round(mins/days.length/6)/10:0,avgBreakMin:days.length?Math.round(brk/days.length):0,late,avgStart}; }
+function subPeriod(uid){ if(!uid||prSubs[uid]||!db) return; prSubs[uid]=1;
+  db.collection(`periodreports/${uid}/items`).onSnapshot(q=>{ const first=PR[uid]===undefined; PR[uid]=q.docs.map(x=>({id:x.id,...x.data()})); if(first&&uid===me) setTimeout(()=>periodCatchUp().catch(()=>{}),6000); renderPeriodCard(); if(tab==="team") renderTeamPeriods(); },()=>{}); }
+async function makePeriodReport(rep,kind,key,opts={}){
+  const {start,end}=periodRange(kind,key); const to=end>dxb()?dxb():end; const m=periodMetrics(rep,start,to); const s10=periodScore(m,kind); const name=names[rep]||PR_ROLE; const label=periodLabel(kind,key); let r=null;
+  if(sample){ try{ r=await sample.json(`You are ${PR_MGR}, writing the ${kind==="week"?"weekly":"month-end"} performance report on ${name} (${PR_ROLE} at Yontro, Dubai) for both ${name.split(" ")[0]} and Sahill (the owner). Period: ${label} (${start} to ${to}).
+TARGETS: ${PR_TARGETS}
+RATING (already calculated from the numbers, do not change it): ${s10} / 10. ${PR_SCORING}
+ALL METRICS FOR THE PERIOD (the only facts you may use): ${JSON.stringify(m)}
+Write like a fair, direct manager reviewing a ${kind}: specific, numbers-based, warm but honest. Cover every important metric, trends across the period, the best and worst days, and how the rating was earned. Never invent numbers or events; if something wasn't logged, say so.
+Return JSON only: {"verdict":"one line, max 18 words","highlights":["3-5 bullets on what went well"],"improve":["3-5 bullets on what needs to be addressed, each with the concrete fix"],"trend":"one or two sentences on how the ${kind} developed","focus":["exactly 3 priorities for next ${kind}"],"note":"one encouraging line to ${name.split(" ")[0]}"}`,{modelTier:"default",cache:false}); }catch(_){ r=null; } }
+  if(!r||!r.verdict) r={verdict:s10>=7?"A solid "+kind+".":"Below target this "+kind+".",highlights:[],improve:[],trend:"",focus:[],note:""};
+  const Lst=a=>(a||[]).filter(Boolean).map(x=>`- ${String(x).replace(/\n/g," ")}`).join("\n");
+  const body=`# ${kind==="week"?"Weekly":"Monthly"} report · ${name} · ${label}
+
+**Rating: ${s10} / 10** · ${r.verdict}
+
+${metricsMD(m,kind)}
+
+## Highlights
+${Lst(r.highlights)||"- [add: nothing logged]"}
+
+## What to improve
+${Lst(r.improve)||"- [add]"}
+${r.trend?`\n## How the ${kind} went\n${r.trend}\n`:""}
+## Focus for next ${kind}
+${Lst(r.focus)}
+
+${r.note?`*${String(r.note).replace(/\*/g,"")}*`:""}`;
+  const doc={repId:rep,kind,key,start,end:to,label,score10:s10,verdict:String(r.verdict||""),body,by:opts.by||PR_BY,createdAt:Date.now()};
+  await db.doc(`periodreports/${rep}/items/${kind}_${key}`).set(doc); return doc; }
+function openPeriod(d){ $("#sheet").classList.remove("wide");
+  $("#sheet").innerHTML=`<div class="head"><h2 id="sheetTitle">${esc(d.kind==="week"?"Weekly":"Monthly")} report · ${esc(d.label||d.key)}</h2><button class="btn ghost sm" type="button" data-close>Close</button></div>
+  <div class="tag">${esc(names[d.repId]||"")} · ${esc(d.score10)} / 10 · shared with ${esc((names[d.repId]||"them").split(" ")[0])} and Sahill</div>${paperHTML({type:d.kind==="week"?"Weekly report":"Monthly report",body:d.body})}
+  <div class="btnrow">${downloads?`<button class="btn or" type="button" data-prdl="${esc(d.repId)}|${esc(d.id||d.kind+"_"+d.key)}">Download</button>`:""}${isOwner||d.repId===me?`<button class="btn" type="button" data-prredo="${esc(d.repId)}|${esc(d.kind)}|${esc(d.key)}">Rewrite with latest numbers</button>`:""}</div>`;
+  $("#sheetBg").hidden=false; }
+function prRow(d,showName){ return `<button type="button" class="item" style="text-align:left;width:100%;cursor:pointer" data-propen="${esc(d.repId)}|${esc(d.id)}"><span class="ic"><b style="font-family:var(--display);font-size:13px">${esc(d.score10)}</b></span><div style="min-width:0"><div class="t">${showName?esc(names[d.repId]||"")+" · ":""}${esc(d.kind==="week"?"Week":"Month")} · ${esc(d.label||d.key)}</div><div class="s">${esc(d.verdict||"")}</div></div><span class="stage ${d.score10>=7?"st-won":d.score10>=5?"st-proposal":"st-lost"}">${esc(d.score10)}/10</span></button>`; }
+function renderPeriodCard(){ const el=$("#periodCard"); if(!el) return; const L=(PR[viewRep]||[]).slice().sort((a,b)=>(b.end||"").localeCompare(a.end||"")||(b.kind==="month")-(a.kind==="month"));
+  if(!L.length){ el.hidden=true; return; } el.hidden=false; const w=L.find(x=>x.kind==="week"), mo=L.find(x=>x.kind==="month");
+  el.innerHTML=`<div class="head"><h2>Weekly and monthly reports</h2><span class="tag">From ${esc(PR_MGR.split(" ")[0])}</span></div><div class="list">${[mo,w].filter(Boolean).map(d=>prRow(d)).join("")}</div>${L.length>2?`<details><summary class="tag">Earlier reports</summary><div class="list" style="margin-top:6px">${L.filter(x=>x!==w&&x!==mo).slice(0,20).map(d=>prRow(d)).join("")}</div></details>`:""}`; }
+function renderTeamPeriods(){ const el=$("#teamPeriods"); if(!el||!isOwner) return; const all=[]; for(const u in PR) PR[u].forEach(d=>all.push(d)); all.sort((a,b)=>(b.end||"").localeCompare(a.end||"")||(b.createdAt||0)-(a.createdAt||0));
+  const ws=weekStart(dxb()), ym=dxb().slice(0,7); const who=viewRep!==me?viewRep:([...new Set(tlog.map(e=>e.repId))].find(r=>r&&r!==me)||viewRep);
+  el.innerHTML=`<div class="btnrow"><button class="btn sm" type="button" data-prmake="${esc(who)}|week|${esc(addDays(ws,-7))}">Last week's report</button><button class="btn sm" type="button" data-prmake="${esc(who)}|week|${esc(ws)}">This week so far</button><button class="btn sm" type="button" data-prmake="${esc(who)}|month|${esc(prevMonth(ym))}">Last month's report</button><button class="btn sm" type="button" data-prmake="${esc(who)}|month|${esc(ym)}">This month so far</button></div><div class="tag">For ${esc(names[who]||"the person selected at the top")}${who===me?" (pick a person under Viewing at the top)":""}.</div>
+  <div class="list">${all.slice(0,24).map(d=>prRow(d,true)).join("")||`<div class="empty">Weekly reports are written when they punch out on Saturday, month-end reports on the last working day. Missed ones are written the next time they open the app, or at 21:17.</div>`}</div>`; }
+async function periodAfterPunchOut(){ if(!me||viewRep!==me) return; const t=dxb(), dow=new Date(t+"T12:00:00").getDay(); const ym=t.slice(0,7);
+  const lastWorkday=addDays(t,1).slice(0,7)!==ym||(dow===6&&addDays(t,2).slice(0,7)!==ym);
+  try{ if(dow===6){ await makePeriodReport(me,"week",weekStart(t)); toast("Your weekly report is ready."); }
+    if(lastWorkday){ await makePeriodReport(me,"month",ym); toast("Your month-end report is ready."); } }catch(_){} }
+async function periodCatchUp(){ if(!me||isOwner||prBusy) return; const L=PR[me]; if(L===undefined) return; prBusy=true;
+  try{ const lw=addDays(weekStart(dxb()),-7); if(!L.some(x=>x.kind==="week"&&x.key===lw)&&workedDays(me,lw,addDays(lw,5)).length) await makePeriodReport(me,"week",lw,{by:PR_BY+"-catchup"});
+    const lm=prevMonth(dxb().slice(0,7)); const r=periodRange("month",lm); if(!L.some(x=>x.kind==="month"&&x.key===lm)&&workedDays(me,r.start,r.end).length) await makePeriodReport(me,"month",lm,{by:PR_BY+"-catchup"}); }catch(_){} prBusy=false; }
+document.addEventListener("click",async e=>{ const b=e.target.closest("[data-propen],[data-prdl],[data-prredo],[data-prmake]"); if(!b) return; const d=b.dataset;
+  const find=k=>{ const [u,id]=k.split("|"); return (PR[u]||[]).find(x=>x.id===id); };
+  if(d.propen){ const r=find(d.propen); if(r) openPeriod(r); return; }
+  if(d.prdl){ const r=find(d.prdl); if(!r||!downloads) return; try{ await downloads.save({filename:`Yontro ${r.kind==="week"?"weekly":"monthly"} report - ${names[r.repId]||""} - ${r.key}.html`,data:new Blob([brandedFile({title:r.label||r.key,type:r.kind==="week"?"Weekly report":"Monthly report",body:r.body})],{type:"text/html"})}); }catch(_){} return; }
+  if(d.prredo||d.prmake){ const parts=(d.prredo||d.prmake).split("|"); const [u,kind,key]=parts; if(!u) return toast("Pick a person first."); const old=b.textContent; b.disabled=true; b.textContent=`${PR_MGR.split(" ")[0]} is writing…`;
+    try{ const r=await makePeriodReport(u,kind,key); openPeriod({...r,id:kind+"_"+key}); }catch(err){ toast("Couldn't write it: "+(err?.message||err?.code||"error")); } b.disabled=false; b.textContent=old; return; }
+});
+/* ---------- period metrics (sales) ---------- */
+const PR_MGR="Hamza Qureshi, Sales Lead", PR_ROLE="Sales Agent", PR_BY="hamza";
+const PR_TARGETS=`per working day: ${TARGET.calls} contacts, ${TARGET.booked} meetings booked, ${TARGET.held} meetings held; 1 contract a week; punch in by 10:15; daily check-in with Hamza. Packages Launch 5,000 / Growth 7,500 / Scale 10,000 AED a month.`;
+const PR_SCORING="Weights: contacts 25%, meetings booked 20%, meetings held 20%, contracts 20% (1 a week), discipline 15% (on-time starts and check-ins).";
+function periodMetrics(rep,start,end){ const days=workedDays(rep,start,end); const att=attendance(rep,days); const s=repStats(rep,start,end); const n=Math.max(1,days.length);
+  const A=acts.filter(a=>a.repId===rep&&a.date>=start&&a.date<=end);
+  const fuDue=A.filter(a=>a.type==="followup").length, fuDone=A.filter(a=>a.type==="followup"&&a.done).length;
+  const outc={}; A.filter(a=>a.type==="call").forEach(a=>{ outc[a.outcome||"Logged"]=(outc[a.outcome||"Logged"]||0)+1; });
+  const per=days.map(d=>({date:d,...repStats(rep,d,d)})); const best=per.slice().sort((a,b)=>b.calls-a.calls)[0], worst=per.slice().sort((a,b)=>a.calls-b.calls)[0];
+  const L=leads.filter(l=>l.repId===rep); const pipe={}; L.forEach(l=>{ pipe[l.stage||"New"]=(pipe[l.stage||"New"]||0)+1; });
+  const newLeads=L.filter(l=>dxb(new Date(l.createdAt||0))>=start&&dxb(new Date(l.createdAt||0))<=end).length;
+  const cons=A.filter(a=>a.type==="contract").map(a=>({business:a.business,package:a.package,months:a.months,amount:a.amount}));
+  const pkgMix={}; cons.forEach(c=>{ pkgMix[c.package||"?"]=(pkgMix[c.package||"?"]||0)+1; });
+  const ci=kpis.filter(k=>k.repId===rep&&k.date>=start&&k.date<=end).length;
+  const ags=(typeof apItems==="function"?apItems(rep):[]).filter(x=>x.kind==="agreement"&&dxb(new Date(x.createdAt||0))>=start&&dxb(new Date(x.createdAt||0))<=end);
+  const weeksN=Math.max(1,Math.round(n/6));
+  return {start,end,attendance:att,contacts:s.calls,contactsTarget:TARGET.calls*days.length,booked:s.booked,bookedTarget:TARGET.booked*days.length,held:s.held,heldTarget:TARGET.held*days.length,
+    contracts:s.contracts,contractsTarget:weeksN,contractValue:s.value,contractList:cons,packageMix:pkgMix,followupsDue:fuDue,followupsDone:fuDone,callOutcomes:outc,
+    contactToBooked:s.calls?Math.round(s.booked/s.calls*1000)/10:0,bookedToHeld:s.booked?Math.round(s.held/s.booked*100):0,heldToWon:s.held?Math.round(s.contracts/s.held*100):0,
+    avgContactsPerDay:Math.round(s.calls/n),bestDay:best?{date:best.date,contacts:best.calls,booked:best.booked}:null,worstDay:worst?{date:worst.date,contacts:worst.calls}:null,
+    newLeads,pipelineNow:pipe,checkins:ci,agreementsMade:ags.length,agreementsSigned:ags.filter(x=>x.status==="signed"||x.status==="hamza").length}; }
+function periodScore(m){ const r=(a,b)=>b?Math.min(1,a/b):0; const d=Math.max(1,m.attendance.days);
+  const disc=((d-m.attendance.late)/d+Math.min(1,m.checkins/d))/2;
+  const v=0.25*r(m.contacts,m.contactsTarget)+0.2*r(m.booked,m.bookedTarget)+0.2*r(m.held,m.heldTarget)+0.2*r(m.contracts,m.contractsTarget)+0.15*(m.attendance.days?disc:0);
+  return Math.round(v*100)/10; }
+function metricsMD(m){ const pct=(a,b)=>b?Math.round(a/b*100)+"%":"–"; const a=m.attendance;
+  return `## Activity against target
+| | Target | Actual | Hit |
+|---|---|---|---|
+| Contacts (calls, visits, WhatsApps) | ${m.contactsTarget} | ${m.contacts} | ${pct(m.contacts,m.contactsTarget)} |
+| Meetings booked | ${m.bookedTarget} | ${m.booked} | ${pct(m.booked,m.bookedTarget)} |
+| Meetings held | ${m.heldTarget} | ${m.held} | ${pct(m.held,m.heldTarget)} |
+| Contracts signed | ${m.contractsTarget} | ${m.contracts} · ${aed(m.contractValue)} | ${pct(m.contracts,m.contractsTarget)} |
+| Follow-ups done | ${m.followupsDue} due | ${m.followupsDone} | ${pct(m.followupsDone,m.followupsDue)} |
+
+## Conversion
+| Contact → meeting booked | Booked → held | Held → won | Contacts a day |
+|---|---|---|---|
+| ${m.contactToBooked}% | ${m.bookedToHeld}% | ${m.heldToWon}% | ${m.avgContactsPerDay} |
+
+## Attendance and discipline
+| Days worked | Average start | Late starts | Hours worked | Hours a day | Break a day | Check-ins |
+|---|---|---|---|---|---|---|
+| ${a.days} | ${a.avgStart} | ${a.late} | ${a.hours} | ${a.avgHours} | ${a.avgBreakMin} min | ${m.checkins} of ${a.days} |
+
+## Pipeline
+| New leads | ${Object.keys(m.pipelineNow).map(k=>esc(k)).join(" | ")} |
+|---|${Object.keys(m.pipelineNow).map(()=>"---").join("|")}|
+| ${m.newLeads} | ${Object.values(m.pipelineNow).join(" | ")} |
+
+${m.bestDay?`Best day: **${fmtD(m.bestDay.date)}** with ${m.bestDay.contacts} contacts and ${m.bestDay.booked} booked. Slowest: ${fmtD(m.worstDay.date)} (${m.worstDay.contacts} contacts).`:""}${m.agreementsMade?` Service agreements: ${m.agreementsMade} made, ${m.agreementsSigned} signed by Sahill.`:""}`; }
 
 /* ---------- events ---------- */
 document.addEventListener("click",async e=>{

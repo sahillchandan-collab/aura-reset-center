@@ -20,6 +20,7 @@ assets=sc("const LOGO_SVG=","function agreementHTML(")
 agreement=sc("function agreementHTML(","/* ---------- papers:")
 papers=sc("/* ---------- papers:","/* ---------- first-use tour")
 tour=sc("/* ---------- first-use tour","/* ---------- Hamza's end-of-day")
+period=sc("/* ---------- weekly & monthly reports (shared)","/* ---------- period metrics (sales)")
 # --- adapt papers/wellbeing to John ---
 def rp(s,a,b,cnt=1):
     assert s.count(a)==cnt,(s.count(a),a[:70]); return s.replace(a,b)
@@ -78,6 +79,7 @@ views='''<main class="wrap" id="app">
     <div class="card"><div class="head"><h2>Today's checklist</h2><span class="tag" id="ckCount"></span></div><div class="list" id="checklist"></div></div>
     <div class="card"><div class="head"><h2>Quick add</h2></div><div class="quick" id="quick"></div></div>
     <div class="card" id="reportCard" hidden></div>
+    <div class="card" id="periodCard" hidden></div>
     <div class="card" id="wellCard" hidden></div>
   </section>
   <section id="v-content" class="view" hidden style="display:grid;gap:14px">
@@ -112,6 +114,7 @@ views='''<main class="wrap" id="app">
     <div class="head"><h1>Studio team</h1><span class="tag">Only you see this</span></div>
     <div class="card"><div class="head"><h2>Today</h2></div><div class="scroll"><table id="attTable"></table></div></div>
     <div class="card"><div class="head"><h2>John's daily reports</h2><span class="tag">Written at punch-out · backstop 20:53</span></div><div class="list" id="teamDayReports"></div></div>
+    <div class="card"><div class="head"><h2>Weekly and monthly reports</h2><span class="tag">Rated out of 10</span></div><div id="teamPeriods" style="display:grid;gap:10px"></div></div>
     <div class="card"><div class="head"><h2>Latest check-ins</h2></div><div class="list" id="teamCheckins"></div></div>
     <div class="card" id="goalCard"></div>
     <div class="card"><div class="head"><h2>John's playbook</h2><span class="tag">What John knows about Founder Tales, Yontro and clients</span></div><textarea id="playbook" style="min-height:200px" aria-label="Playbook"></textarea><div><button class="btn or" type="button" id="savePlaybook">Save playbook</button></div></div>
@@ -134,7 +137,7 @@ views='''<main class="wrap" id="app">
 <div class="med" id="med" hidden role="dialog" aria-modal="true" aria-label="Ten minutes of silence"><div><div class="tag">10 MINUTES OF SILENCE</div><div class="breath" aria-hidden="true"><span id="breathTxt">Breathe in</span></div><div class="medtime" id="medTime">10:00</div><p id="medHint"></p><div class="btnrow" style="justify-content:center"><button class="btn sm" type="button" id="medPause">Pause</button><button class="btn sm" type="button" id="medEnd">End</button></div></div></div>
 <nav class="tabs" aria-label="Sections"><div class="in" id="tabs"></div></nav>
 <div class="sheet-bg" id="sheetBg" hidden><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle" id="sheet"></div></div>'''
-js=icon+extra_icons+helpers+"const PKG={Launch:5000,Growth:7500,Scale:10000};\nconst TARGET={calls:100,booked:4,held:2};\n"+clock+docs+assets+agreement+papers+tour+open(SD+"src/sreport.js").read()+open(SD+"src/studio.js").read()
+js=icon+extra_icons+helpers+"const PKG={Launch:5000,Growth:7500,Scale:10000};\nconst TARGET={calls:100,booked:4,held:2};\n"+clock+docs+assets+agreement+papers+tour+period+open(SD+"src/sreport.js").read()+open(SD+"src/studio.js").read()+open(SD+"src/speriod.js").read()
 html="<title>yontro.ae · Studio</title>\n"+"\n".join(fonts)+"\n<style>\n"+css+studio_css+"\n</style>\n"+header+"\n"+views+"\n<script>\n"+js+"\n</script>\n"
 open("/home/user/aura-reset-center/docs/studio-crm/yontro-studio.html","w").write(html)
 print(len(html))
