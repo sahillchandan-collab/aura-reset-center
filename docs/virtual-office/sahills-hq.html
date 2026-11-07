@@ -309,6 +309,32 @@ button.ok{background:var(--green);border-color:var(--green);color:#fff}
 .spk .av{width:14px;height:14px}
 .msg.sys{font-style:italic}
 .dmwith{display:flex;gap:4px;align-items:center;margin-top:2px}
+.doccard{display:grid;gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-top:4px}
+.doccard .dt{display:flex;gap:8px;align-items:center;font-family:var(--display);font-weight:700;font-size:15px;color:var(--ink)}
+.doccard .dt svg{width:18px;height:18px;flex:none;color:var(--accent)}
+.doccard .ds{font-size:13.5px;color:var(--ink)}
+.dstat{font-family:var(--mono);font-size:10.5px;padding:1px 8px;border-radius:99px;white-space:nowrap}
+.dstat.wait{background:var(--rv);color:#1d1400}.dstat.ok{background:var(--green);color:#fff}.dstat.draft{background:var(--soft);color:var(--muted)}
+.more{margin-top:6px;padding-top:6px;border-top:1px dashed var(--line);font-size:13.5px;white-space:pre-wrap}
+button.link{border:0;background:transparent;padding:0;color:var(--muted);font-size:12px;font-weight:600;text-decoration:underline;cursor:pointer}
+.docmodal{position:fixed;inset:0;z-index:50;background:rgba(10,9,7,.6);display:grid;place-items:start center;overflow:auto;padding:max(16px,env(safe-area-inset-top,0px)) max(12px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(12px,env(safe-area-inset-left,0px))}
+.docwrap{width:100%;max-width:820px;display:grid;gap:10px}
+.docbar{position:sticky;top:0;z-index:2;display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap;background:var(--ink);color:var(--bg);border-radius:14px;padding:10px 12px}
+.docbar .row button{border-color:var(--bg)}
+.paper{background:#fffdf8;color:#1d1b18;border-radius:6px;box-shadow:0 20px 50px rgba(0,0,0,.35);padding:clamp(22px,5vw,56px);font-size:15px;line-height:1.65}
+.paper .meta{display:flex;gap:10px;flex-wrap:wrap;align-items:center;font-family:var(--mono);font-size:11.5px;color:#6b665e;border-bottom:2px solid #1d1b18;padding-bottom:10px;margin-bottom:18px}
+.paper h1{font-size:30px;margin:0 0 12px;line-height:1.15}.paper h2{font-size:20px;margin:22px 0 8px}.paper h3{font-size:16px;margin:16px 0 6px}
+.paper p{margin:0 0 10px}.paper ul,.paper ol{margin:0 0 12px;padding-left:22px}.paper li{margin:3px 0}
+.paper table{border-collapse:collapse;width:100%;margin:8px 0 14px;font-size:14px;display:block;overflow-x:auto}
+.paper th,.paper td{border:1px solid #d9d4c9;padding:6px 9px;text-align:left;vertical-align:top}.paper th{background:#f2efe8}
+.paper code{font-family:var(--mono);font-size:13px;background:#f2efe8;padding:1px 4px;border-radius:4px}
+.paper pre{background:#f2efe8;padding:10px;border-radius:6px;overflow-x:auto;font-size:13px}
+.paper hr{border:0;border-top:1px solid #d9d4c9;margin:18px 0}
+.paper .approved{display:inline-block;border:3px solid #2f7d4a;color:#2f7d4a;font-family:var(--display);font-weight:800;letter-spacing:.08em;padding:4px 12px;border-radius:6px;transform:rotate(-6deg);margin-bottom:10px}
+.docfoot{background:var(--surface);border-radius:14px;padding:12px;display:grid;gap:8px}
+.doclist{display:grid;gap:8px}
+.docrow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--surface)}
+.docrow .t{font-weight:600;overflow-wrap:anywhere}
 .bizbar{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin;align-items:center}
 .bizbar a{flex:none;display:inline-flex;align-items:center;gap:7px;text-decoration:none;color:var(--ink);font-weight:600;font-size:13.5px;padding:6px 13px;border:1.5px solid var(--line);border-radius:999px;background:var(--surface)}
 .bizbar a:hover{border-color:var(--ink)}
@@ -433,6 +459,10 @@ button.ok{background:var(--green);border-color:var(--green);color:#fff}
     <div class="board" id="board"></div>
   </section>
 
+  <section class="panel" aria-labelledby="docsH">
+    <div class="panel-head"><h2 id="docsH">Documents</h2><span class="tag">Everything your team has produced. Open to read, approve or ask for changes</span></div>
+    <div class="doclist" id="docList"></div>
+  </section>
   <section class="panel" aria-labelledby="minH">
     <div class="panel-head"><h2 id="minH">Board meeting minutes</h2><span class="tag">Status reports from the boardroom</span></div>
     <form id="statusForm" class="add" hidden>
@@ -464,6 +494,11 @@ button.ok{background:var(--green);border-color:var(--green);color:#fff}
   </form>
 </aside>
 
+<div class="docmodal" id="docModal" hidden role="dialog" aria-modal="true" aria-labelledby="docTitle"><div class="docwrap">
+  <div class="docbar"><span id="docBarInfo" style="font-weight:700"></span><span class="row"><button type="button" class="small" id="docCopy">Copy text</button><button type="button" class="small" id="docClose">Close</button></span></div>
+  <article class="paper" id="docPaper"></article>
+  <div class="docfoot" id="docFoot"></div>
+</div></div>
 <aside class="drawer" id="dmDrawer" hidden aria-labelledby="dmName" style="grid-template-rows:auto 1fr auto">
   <header><div class="dmwho" id="dmWho"></div><button type="button" id="closeDM">Close</button></header>
   <div class="msgs" id="dmMsgs" aria-live="polite"></div>
@@ -627,12 +662,58 @@ function taskActions(t){ if(!canWrite) return ""; const busy=running.has(t.id);
   ${busy?`<button type="button" class="small" data-stop="${esc(t.id)}">Stop</button>`:""}
   ${t.status!=="done"?`<button type="button" class="small" data-st="done" data-id="${esc(t.id)}">Mark done</button>`:`<button type="button" class="small" data-st="todo" data-id="${esc(t.id)}">Reopen</button>`}
   <button type="button" class="ghost small" data-del="${esc(t.id)}">Delete</button></div>`;}
+const DOC_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h6"/></svg>';
+function splitDoc(text){ let s=String(text||""); let sum=""; const m=s.match(/^\s*SUMMARY:\s*(.+)\n/i); if(m){ sum=m[1].trim(); s=s.slice(m[0].length).replace(/^\s*-{3,}\s*\n/,""); } return {summary:sum,body:s.trim()}; }
+function docSummary(t){ if(t.summary) return t.summary; const d=splitDoc(t.output); if(d.summary) return d.summary; const line=d.body.split("\n").map(x=>x.replace(/^#+\s*|^[-*]\s*|\*\*/g,"").trim()).find(x=>x&&!/^summary/i.test(x))||""; return line.slice(0,180)+(line.length>180?"…":""); }
+function docBody(text){ return splitDoc(text).body; }
+function inlineMD(x){ return x.replace(/`([^`]+)`/g,"<code>$1</code>").replace(/\*\*([^*]+)\*\*/g,"<b>$1</b>").replace(/(^|[^*])\*([^*\n]+)\*/g,"$1<i>$2</i>").replace(/\[([^\]]+)\]\((https?:[^)\s]+)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>'); }
+function md(src){
+  const L=esc(String(src||"")).split("\n"); let out=[], i=0;
+  while(i<L.length){ const l=L[i];
+    if(/^```/.test(l)){ const buf=[]; i++; while(i<L.length&&!/^```/.test(L[i])) buf.push(L[i++]); i++; out.push(`<pre>${buf.join("\n")}</pre>`); continue; }
+    if(/^\s*\|.*\|\s*$/.test(l)){ const rows=[]; while(i<L.length&&/^\s*\|.*\|\s*$/.test(L[i])) rows.push(L[i++]); const cells=r=>r.trim().replace(/^\||\|$/g,"").split("|").map(c=>c.trim());
+      const body=rows.filter(r=>!/^\s*\|[\s:|-]+\|\s*$/.test(r)); const head=cells(body[0]||""); out.push(`<table><thead><tr>${head.map(c=>`<th>${inlineMD(c)}</th>`).join("")}</tr></thead><tbody>${body.slice(1).map(r=>`<tr>${cells(r).map(c=>`<td>${inlineMD(c)}</td>`).join("")}</tr>`).join("")}</tbody></table>`); continue; }
+    let m;
+    if((m=l.match(/^(#{1,3})\s+(.*)/))){ out.push(`<h${m[1].length}>${inlineMD(m[2])}</h${m[1].length}>`); i++; continue; }
+    if(/^\s*(-{3,}|\*{3,})\s*$/.test(l)){ out.push("<hr>"); i++; continue; }
+    if(/^\s*[-*•]\s+/.test(l)){ const it=[]; while(i<L.length&&/^\s*[-*•]\s+/.test(L[i])) it.push(L[i++].replace(/^\s*[-*•]\s+/,"")); out.push(`<ul>${it.map(x=>`<li>${inlineMD(x)}</li>`).join("")}</ul>`); continue; }
+    if(/^\s*\d+[.)]\s+/.test(l)){ const it=[]; while(i<L.length&&/^\s*\d+[.)]\s+/.test(L[i])) it.push(L[i++].replace(/^\s*\d+[.)]\s+/,"")); out.push(`<ol>${it.map(x=>`<li>${inlineMD(x)}</li>`).join("")}</ol>`); continue; }
+    if(!l.trim()){ i++; continue; }
+    const para=[]; while(i<L.length&&L[i].trim()&&!/^(#{1,3}\s|```|\s*[-*•]\s+|\s*\d+[.)]\s+|\s*\|)/.test(L[i])) para.push(L[i++]); out.push(`<p>${inlineMD(para.join("<br>"))}</p>`);
+  }
+  return out.join("");
+}
+function docStatus(t){ return t.status==="done"?["Approved","ok"]:needsReview(t)?["Waiting for your approval","wait"]:["In progress","draft"]; }
+function docCard(slug,t,threadId){ const [st,cls]=docStatus(t); const ver=(t.history||[]).length+1;
+  return `<div class="doccard"><div class="dt">${DOC_SVG}<span>${esc(t.title)}</span></div><div class="ds">${esc(docSummary(t))}</div>
+  <div class="row"><span class="dstat ${cls}">${st}</span><span class="tag">v${ver}</span><button type="button" class="small primary" data-opendoc="${esc(slug)}|${esc(t.id)}|${esc(threadId||"")}">Open document</button>${t.status!=="done"&&canWrite?`<button type="button" class="small ok" data-dmapprove="${esc(slug)}|${esc(t.id)}|${esc(threadId||"team")}">Approve</button>`:""}</div></div>`; }
+let docOpen=null;
+function threadForTask(slug,taskId){ const w=[...ALL[slug].dm].reverse().find(m=>m.kind==="work"&&m.taskId===taskId); return w?w.agentId:"team"; }
+function openDoc(slug,taskId,threadId,ver){ docOpen={slug,taskId,threadId:threadId||threadForTask(slug,taskId),ver:ver||0}; $("#docModal").hidden=false; renderDoc(); $("#docClose").focus(); }
+function closeDoc(){ docOpen=null; $("#docModal").hidden=true; }
+function renderDoc(){
+  if(!docOpen) return; const {slug,taskId,ver}=docOpen; const t=ALL[slug].tasks.find(x=>x.id===taskId); if(!t){closeDoc();return;}
+  const hist=t.history||[]; const versions=[...hist.map(h=>({output:h.output,at:h.at})),{output:t.output,at:t.outputAt}]; const vi=ver?Math.min(ver,versions.length)-1:versions.length-1; const v=versions[vi];
+  const a=ALL[slug].agents.find(x=>x.id===t.agentId); const b=bizOf(slug); const [st,cls]=docStatus(t);
+  $("#docBarInfo").textContent=`${b.name} · ${t.title}`;
+  $("#docPaper").innerHTML=`${t.status==="done"&&vi===versions.length-1?`<div class="approved">APPROVED</div>`:""}<div class="meta"><span>${esc(b.name.toUpperCase())}</span><span>${a?avDot(a)+esc(a.name)+" · "+esc(a.role):esc(t.outputBy||"")}</span><span>Version ${vi+1} of ${versions.length}</span><span>${esc(v.at?fmtTime(Date.parse(v.at)):"")}</span><span class="dstat ${cls}">${st}</span></div>${/^\s*#\s/.test(docBody(v.output))?"":`<h1 id="docTitle">${esc(t.title)}</h1>`}${md(docBody(v.output)).replace("<h1>",'<h1 id="docTitle">')}`;
+  const fb=t.feedback||[];
+  $("#docFoot").innerHTML=`${versions.length>1?`<div class="row"><span class="tag">Versions:</span>${versions.map((_,i)=>`<button type="button" class="small ${i===vi?"dark":""}" data-docver="${i+1}">v${i+1}</button>`).join("")}</div>`:""}
+  ${fb.length?`<details><summary>Your comments (${fb.length})</summary><div class="fb">${fb.map(f=>`<div><span>${esc(fmtTime(Date.parse(f.at)))}</span>${esc(f.text)}</div>`).join("")}</div></details>`:""}
+  ${canWrite&&t.status!=="done"?`<form id="docChanges" class="add" style="background:transparent;padding:0"><label class="f" for="docChangesIn">Not final? Say what to change and ${esc(a?firstName(a.name):"the team")} redoes it</label><textarea id="docChangesIn" maxlength="3000" placeholder="e.g. Shorter intro, add prices in AED, make the table per flat"></textarea>
+   <div class="row"><button class="ok" type="button" data-dmapprove="${esc(slug)}|${esc(t.id)}|${esc(docOpen.threadId)}">Approve as final</button><button class="primary" type="submit">Request changes</button></div></form>`:t.status==="done"?`<div class="tag">Approved${t.doneAt?" on "+esc(fmtDate(t.doneAt)):""}.</div>`:""}`;
+}
+$("#docClose").onclick=closeDoc; $("#docModal").addEventListener("click",e=>{ if(e.target.id==="docModal") closeDoc(); const vb=e.target.closest("[data-docver]"); if(vb&&docOpen){ docOpen.ver=+vb.dataset.docver; renderDoc(); } });
+$("#docCopy").onclick=async()=>{ const t=docOpen&&ALL[docOpen.slug].tasks.find(x=>x.id===docOpen.taskId); if(!t) return; try{ await navigator.clipboard.writeText(docBody(t.output)); toast("Copied."); }catch(_){ const r=document.createRange(); r.selectNodeContents($("#docPaper")); const sel=getSelection(); sel.removeAllRanges(); sel.addRange(r); toast("Selected. Press Copy."); } };
+document.addEventListener("submit",e=>{ const f=e.target.closest("#docChanges"); if(!f||!docOpen) return; e.preventDefault(); const v=$("#docChangesIn").value.trim(); if(!v) return toast("Say what to change.");
+  const {slug,taskId,threadId}=docOpen; const t=ALL[slug].tasks.find(x=>x.id===taskId); closeDoc(); openDM(slug,threadId); sendDM(slug,threadId,`Changes to "${t?.title||"the document"}": ${v}`); });
+document.addEventListener("click",e=>{ const b=e.target.closest("[data-opendoc]"); if(!b) return; const [sl,tid,th]=b.dataset.opendoc.split("|"); openDoc(sl,tid,th||null); });
+function renderDocs(){ if(view!=="office") return; const L=tasks.filter(t=>t.output).sort((x,y)=>(Date.parse(y.outputAt||0)||0)-(Date.parse(x.outputAt||0)||0));
+  $("#docList").innerHTML=L.length?L.map(t=>{const a=agentById(t.agentId); const [st,cls]=docStatus(t); return `<div class="docrow"><div style="min-width:0"><div class="t">${esc(t.title)}</div><div class="tag">${a?avDot(a)+esc(a.name)+" · "+esc(a.role):esc(t.outputBy||"")} · v${(t.history||[]).length+1} · ${esc(t.outputAt?fmtTime(Date.parse(t.outputAt)):"")}</div><div class="ds" style="font-size:13px;margin-top:3px">${esc(docSummary(t))}</div></div><div class="row" style="justify-content:flex-end"><span class="dstat ${cls}">${st}</span><button type="button" class="small primary" data-opendoc="${esc(cur)}|${esc(t.id)}|">Open</button></div></div>`;}).join(""):'<div class="empty">No documents yet. When your team finishes work, it appears here for your approval.</div>'; }
 function workHTML(t,label){
   const a=agentById(t.agentId); const fb=t.feedback||[]; const hist=t.history||[];
-  return `<details ${t.status!=="done"?"open":""}><summary>${esc(label)}${t.outputAt?" · "+esc(fmtTime(Date.parse(t.outputAt))):""}${fb.length?" · "+fb.length+" comment"+(fb.length>1?"s":""):""}</summary><div class="output">${esc(t.output)}</div>
-  ${fb.length?`<div class="fb">${fb.map(f=>`<div><span>${esc(fmtTime(Date.parse(f.at)))}</span>${esc(f.text)}</div>`).join("")}</div>`:""}
-  ${hist.length?`<details><summary>Earlier versions (${hist.length})</summary>${hist.slice().reverse().map(h=>`<div class="output" style="margin-top:6px">${esc(h.output)}</div>`).join("")}</details>`:""}
-  ${needsReview(t)?`<div class="tag" style="color:var(--rv-ink);background:var(--rv-bg);padding:4px 8px;border-radius:8px;margin-top:6px">Waiting on you: reply in ${esc(firstName(a?.name||"the agent"))}'s chat</div>`:""}</details>`;
+  return `<div>${docCard(cur,t,null)}
+  ${needsReview(t)?`<div class="tag" style="color:var(--rv-ink);background:var(--rv-bg);padding:4px 8px;border-radius:8px;margin-top:6px">Waiting on you: open the document to approve</div>`:""}</div>`;
 }
 function miniTask(t){const a=agentById(t.agentId); const live=running.get(t.id);
   return `<div class="mini-task"><div class="row" style="justify-content:space-between"><span class="t">${esc(t.title)}</span>${statusPill(t)}</div>
@@ -728,7 +809,7 @@ function fillSelects(){
 }
 function renderReports(){const el=$("#reports"); if(!reports.length){el.innerHTML=`<div class="empty">No meetings yet. Call a board meeting: the team gathers in the boardroom and files a status report against the goal.</div>`;return;}
   el.innerHTML=reports.slice().sort((a,b)=>b.createdAt-a.createdAt).slice(0,12).map((r,i)=>`<details ${i===0?"open":""}><summary>${esc(fmtTime(r.createdAt))} · ${esc(r.title||"Board meeting")}</summary><div class="output">${esc(r.body)}</div></details>`).join("");}
-function renderAll(){renderMeta();renderKpis();renderAgentsOnFloor();renderSide();renderBoard();fillSelects();renderOfficeReview();}
+function renderAll(){renderMeta();renderKpis();renderAgentsOnFloor();renderSide();renderBoard();fillSelects();renderOfficeReview();renderDocs();}
 
 /* ---------- hiring ---------- */
 function renderCands(){
@@ -770,12 +851,13 @@ ${(a.rules||[]).length?"Standing rules from Sahill, always follow:\n- "+a.rules.
 ${t.output?"Your previous attempt:\n"+t.output.slice(0,4000):""}
 ${(t.feedback||[]).length?"Sahill's comments on your work, newest last. Fix every point and do it the way he asks:\n- "+t.feedback.map(f=>f.text).join("\n- "):""}
 
-Do the task now and hand back finished work, not a plan to do it: messages ready to send, lists, scripts, calculations, structured drafts. You cannot browse, contact anyone or spend money; where facts are missing, say exactly what Sahill should send you. Plain, direct language; AED. Start with one short line to Sahill as your boss saying what you need from him (or "Nothing needed, ready to approve"), then the work, then "Next step:" and one line.`;
+Do the task now and hand back finished work, not a plan to do it: messages ready to send, lists, scripts, calculations, structured drafts. You cannot browse, contact anyone or spend money; where facts are missing, say exactly what Sahill should send you. Plain, direct language; AED. Format exactly: first line "SUMMARY: <one short sentence to Sahill: what this is and what you need from him, or 'Ready for your approval'>", then the finished document in Markdown: "# <title>", short "##" sections, bullets, tables where useful, ending with "## Next step".`;
   try{
     const r=await sample(prompt,{signal:ctl.signal,modelTier:"default",cache:false,onText:({text})=>{const s=running.get(id);if(!s)return;s.text=text;refreshLive(id);}});
     running.delete(id); running.delete("agent:"+a.id);
-    await db.doc(pre+"tasks/"+id).update({output:r.text,outputBy:a.name,outputAt:new Date().toISOString(),status:"doing",...(t.output?{history:[...(t.history||[]),{output:t.output,at:t.outputAt||""}].slice(-3)}:{})});
-    SFX.play("work"); try{ await db.collection(pre+"dm").add({agentId:"team",speakerId:a.id,role:"agent",kind:"work",taskId:id,title:t.title,text:r.text,createdAt:Date.now()}); }catch(_){}
+    const sd=splitDoc(r.text);
+    await db.doc(pre+"tasks/"+id).update({output:sd.body||r.text,summary:sd.summary.slice(0,240),outputBy:a.name,outputAt:new Date().toISOString(),status:"doing",...(t.output?{history:[...(t.history||[]),{output:t.output,at:t.outputAt||""}].slice(-3)}:{})});
+    SFX.play("work"); try{ await db.collection(pre+"dm").add({agentId:"team",speakerId:a.id,role:"agent",kind:"work",taskId:id,title:t.title,text:sd.body||r.text,createdAt:Date.now()}); }catch(_){}
     toast(`${firstName(a.name)} (${bname}) finished. Please review it.`);
   }catch(e){running.delete(id);running.delete("agent:"+a.id);
     if(e?.code==="aborted"||ctl.signal.aborted) toast("Stopped.");
@@ -861,10 +943,10 @@ ${full?"ROUTINES: "+(d.routines.map(r=>`${nameOf(r.agentId)}: ${r.title} (${cade
 }
 const RULES=()=>{
   const head=`Owner: Sahill Chandan, Dubai. Money in AED. Dates like "7 November 2026". Today: ${fmtDate(todayISO())} (${todayISO()}).`;
-  if(view==="office") return `You are the office manager of ${BIZ.name}'s virtual office inside Sahill's HQ. You run a team of AI agents and can hire, remove agents (remove_agent) and clear tasks (delete_tasks) when Sahill asks. When Sahill asks for something, act with your tools: create or update tasks and assign them to the right agent (pick by role and desk), set start=true when he wants it done now, hire agents with a person's name and a job designation, add routines for recurring work, update the goal or status, and call remember for every new fact, number, decision, preference or contact he tells you (one short sentence each). Never invent figures. Agents cannot contact people or spend money. After acting, reply in 1-4 short plain sentences saying what you did and who is on it; ask one question only if something essential is missing. When he comments on or corrects an agent's work, use give_feedback (redo=true if it should be fixed now; make_rule=true if it's how they should always work). Use tools rather than describing what you would do. The business id for every tool is "${cur}".
+  if(view==="office") return `You are the office manager of ${BIZ.name}'s virtual office inside Sahill's HQ. You run a team of AI agents and can hire, remove agents (remove_agent) and clear tasks (delete_tasks) when Sahill asks. When Sahill asks for something, act with your tools: create or update tasks and assign them to the right agent (pick by role and desk), set start=true when he wants it done now, hire agents with a person's name and a job designation, add routines for recurring work, update the goal or status, and call remember for every new fact, number, decision, preference or contact he tells you (one short sentence each). Never invent figures. Agents cannot contact people or spend money. After acting, reply in 1-2 short sentences (about 30 words) saying what you did and who is on it; ask one question only if something essential is missing. When he comments on or corrects an agent's work, use give_feedback (redo=true if it should be fixed now; make_rule=true if it's how they should always work). Use tools rather than describing what you would do. The business id for every tool is "${cur}".
 ${head}
 ${stateOf(cur,true)}`;
-  return `You are Sahill's Chief of Staff in Sahill's HQ, overseeing all five businesses and their AI teams. You can hire, remove agents (remove_agent) and clear tasks (delete_tasks) in any business when Sahill asks. Priority rule: cash already owed first (Botany rents and cheques), then revenue (Yontro, Aura), then growth assets (Founder Tales), then long-term bets (Barter). When Sahill tells you something or asks for something, act with your tools on the right business id: create or update tasks for the right agent (start=true if he wants it now), give feedback on agents' work (redo and/or make it a standing rule), hire, add routines, set status, and call remember for every fact, number or decision (business "hq" for things that are about Sahill or all businesses). If he asks what to focus on, answer from the data below and take a position. Never invent figures. Reply in short plain sentences, naming the business and agent for each action.
+  return `You are Sahill's Chief of Staff in Sahill's HQ, overseeing all five businesses and their AI teams. You can hire, remove agents (remove_agent) and clear tasks (delete_tasks) in any business when Sahill asks. Priority rule: cash already owed first (Botany rents and cheques), then revenue (Yontro, Aura), then growth assets (Founder Tales), then long-term bets (Barter). When Sahill tells you something or asks for something, act with your tools on the right business id: create or update tasks for the right agent (start=true if he wants it now), give feedback on agents' work (redo and/or make it a standing rule), hire, add routines, set status, and call remember for every fact, number or decision (business "hq" for things that are about Sahill or all businesses). If he asks what to focus on, answer from the data below and take a position. Never invent figures. Reply in at most 3 short sentences, naming the business and agent for each action.
 ${head}
 HQ MEMORY: ${HQD.memory.slice(-30).map(m=>m.text).join(" / ")||"none"}
 ${SLUGS.map(x=>stateOf(x,false)).join("\n")}`;
@@ -1014,7 +1096,7 @@ document.addEventListener("click",async e=>{
     else if(d.fire){ if(d.confirm){const a=agentById(d.fire); await db.doc(P()+"agents/"+d.fire).delete(); toast(`${a?.name||"Agent"} has left. Their tasks are unassigned.`); select({kind:"office"});} else {d.confirm="1";b.textContent="Confirm: let them go";setTimeout(()=>{if(b.isConnected){delete b.dataset.confirm;b.textContent="Let go";}},4000);} }
   }catch(err){toast("Couldn't save: "+(err?.message||err?.code||"error"));}
 });
-document.addEventListener("keydown",e=>{ if(e.key==="Escape"&&!$("#dmDrawer").hidden){closeDM();return;} if(e.key==="Escape"&&!$("#chatDrawer").hidden){closeChat();return;} if((e.key==="Enter"||e.key===" ")&&e.target.matches(".room,.agent")){e.preventDefault();e.target.click();} if(e.key==="Escape"&&!$("#hireModal").hidden) closeHire(); });
+document.addEventListener("keydown",e=>{ if(e.key==="Escape"&&!$("#docModal").hidden){closeDoc();return;} if(e.key==="Escape"&&!$("#dmDrawer").hidden){closeDM();return;} if(e.key==="Escape"&&!$("#chatDrawer").hidden){closeChat();return;} if((e.key==="Enter"||e.key===" ")&&e.target.matches(".room,.agent")){e.preventDefault();e.target.click();} if(e.key==="Escape"&&!$("#hireModal").hidden) closeHire(); });
 document.addEventListener("change",async e=>{const s=e.target.closest("select[data-assign]"); if(!s||!db) return;
   try{await db.doc(P()+"tasks/"+s.dataset.assign).update({agentId:s.value}); toast(s.value?`Assigned to ${agentById(s.value)?.name}.`:"Unassigned.");}catch(err){toast("Couldn't save: "+(err?.message||"error"));}});
 document.addEventListener("submit",async e=>{
@@ -1167,7 +1249,7 @@ function inboxCard(x){
   const b=bizOf(x.slug), a=x.a, ow=openWorkIn(x.slug,x.th); const key=x.slug+"_"+a.id;
   return `<article class="rcard" style="--c:${b.accent}">
     <div class="rhead"><span class="btag" style="--c:${b.accent}">${esc(b.name)}</span>${(()=>{const sp=x.m.speakerId&&x.m.speakerId!==a.id?ALL[x.slug].agents.find(y=>y.id===x.m.speakerId):null; return sp?`${avDot(sp)}<b>${esc(sp.name)}</b><span>${esc(sp.role)} · ${a.team?"team chat":"in "+esc(firstName(a.name))+"'s chat"}</span>`:`${avDot(a)}<b>${esc(a.name)}</b><span>${esc(a.role)}</span>`;})()}<span>· ${esc(fmtTime(x.m.createdAt))}</span></div>
-    ${ow?`<div class="rtitle">${esc(ow.t.title)}</div><div class="rprev">${esc(String(ow.w.text).slice(0,380))}</div>`:""}
+    ${ow?docCard(x.slug,ow.t,a.id):""}
     ${x.m.kind!=="work"?`<div class="lastmsg">${esc(String(x.m.text).slice(0,500))}</div>`:""}
     ${canWrite?`<form data-dmq="1" data-slug="${esc(x.slug)}" data-ag="${esc(a.id)}">
       <label class="f" for="q2_${esc(key)}" style="position:absolute;left:-9999px">Reply to ${esc(a.name)}</label>
@@ -1181,6 +1263,20 @@ function renderReviewInto(listSel,countSel,slug){ if(typingIn(listSel)){rvDeferr
   $(listSel).innerHTML=q.length?q.map(inboxCard).join(""):`<div class="allclear">All caught up. Nobody is waiting on you.</div>`; return q.length; }
 function renderOfficeReview(){ if(view!=="office") return; const n=renderReviewInto("#officeReviewList","#orvCount",cur); if(n!==undefined) $("#officeReview").hidden=!n; }
 document.addEventListener("focusout",()=>setTimeout(()=>{ for(const sel of [...rvDeferred]){ if(!typingIn(sel)){ rvDeferred.delete(sel); sel==="#reviewList"?renderHQ():renderOfficeReview(); } } },150));
+const elabBusy=new Set();
+async function elaborate(slug,msgId){
+  if(!sample||!db||elabBusy.has(msgId)) return; const D=ALL[slug]; const m=D.dm.find(x=>x.id===msgId); if(!m) return;
+  const sp=D.agents.find(x=>x.id===(m.speakerId||m.agentId)); const th=threadOf(slug,m.agentId); const i=th.findIndex(x=>x.id===msgId); const ctx=th.slice(Math.max(0,i-8),i+1);
+  elabBusy.add(msgId); renderDM();
+  try{ const r=await sample(`You are ${sp?sp.name+", "+sp.role:"an employee"} at ${bizOf(slug).name}. Sahill, your boss, tapped "Elaborate" on your short chat message. Explain it fully: the reasoning, numbers, steps, options and risks. Plain text, short paragraphs or simple dashes, under 220 words. Never invent figures.
+CONVERSATION:
+${ctx.map(x=>(x.role==="sahill"?"Sahill":(D.agents.find(y=>y.id===(x.speakerId||x.agentId))?.name||"Agent"))+": "+String(x.text).slice(0,800)).join("\n")}
+YOUR MESSAGE TO EXPAND: ${m.text}`,{modelTier:"default",cache:false});
+    await db.doc("biz/"+slug+"/dm/"+msgId).update({more:r.text.trim()}); }
+  catch(e){ toast("Couldn't elaborate: "+(e?.message||e?.code||"error")); }
+  elabBusy.delete(msgId); renderDM();
+}
+document.addEventListener("click",e=>{ const b=e.target.closest("[data-elab]"); if(!b) return; const [sl,id]=b.dataset.elab.split("|"); elaborate(sl,id); });
 function openDM(slug,agentId){ dmOpen={slug,agentId}; $("#dmDrawer").hidden=false; renderDM(); $("#dmIn").focus(); }
 function closeDM(){ dmOpen=null; $("#dmDrawer").hidden=true; }
 function renderDM(){
@@ -1192,8 +1288,9 @@ function renderDM(){
   el.innerHTML=(th.length?"":isTeam?`<div class="msg sys">This is the ${esc(b.name)} team chat. Tell the team what you need: whoever is responsible replies, and others add a point only if it helps.</div>`:`<div class="msg assistant">Hi Sahill, it's ${esc(firstName(a.name))}. Tell me what you need, ask me anything about my work, or give me a new job.</div>`)+th.slice(-60).map(m=>{
     if(m.kind==="join") return `<div class="msg sys">${esc(m.text)}</div>`;
     if(m.kind==="work"){const t=ALL[slug].tasks.find(x=>x.id===m.taskId); const done=t&&t.status==="done";
-      return `<div class="msg assistant work">${spkHTML(m)}<div class="wt">Work handed in · ${esc(m.title||t?.title||"Task")}</div>${esc(m.text)}<span class="when">${esc(fmtTime(m.createdAt))}</span>${t&&!done&&canWrite?`<div class="row"><button class="ok small" type="button" data-dmapprove="${esc(slug)}|${esc(t.id)}|${esc(agentId)}">Approve</button><span class="tag">or reply below with changes</span></div>`:done?`<div class="tag" style="margin-top:6px">Approved</div>`:""}</div>`;}
-    return `<div class="msg ${m.role==="sahill"?"user":"assistant"}">${m.role==="agent"?spkHTML(m):""}${esc(m.text)}${m.attachments?.length?`<div class="atts">${attHTML(m.attachments)}</div>`:""}${m.actions?.length?`<div class="acts">${m.actions.map(x=>`<span>✓ ${esc(x)}</span>`).join("")}</div>`:""}<span class="when">${esc(fmtTime(m.createdAt))}</span></div>`;}).join("")
+      if(!t) return `<div class="msg assistant work">${spkHTML(m)}<div class="wt">Document · ${esc(m.title||"Task")}</div>${esc(docSummary({output:m.text}))}<span class="when">${esc(fmtTime(m.createdAt))}</span></div>`;
+      return `<div class="msg assistant work">${spkHTML(m)}<div class="wt">Finished document</div>${docCard(slug,t,agentId)}<span class="when">${esc(fmtTime(m.createdAt))}</span></div>`;}
+    return `<div class="msg ${m.role==="sahill"?"user":"assistant"}">${m.role==="agent"?spkHTML(m):""}${esc(m.text)}${m.more?`<div class="more">${esc(m.more)}</div>`:""}${m.attachments?.length?`<div class="atts">${attHTML(m.attachments)}</div>`:""}${m.actions?.length?`<details class="acts"><summary>${m.actions.length} action${m.actions.length>1?"s":""}</summary>${m.actions.map(x=>`<span>✓ ${esc(x)}</span>`).join("")}</details>`:""}<span class="when">${esc(fmtTime(m.createdAt))}${m.role==="agent"&&!m.more&&m.id&&!String(m.id).startsWith("v_")&&sample?` · <button type="button" class="link" data-elab="${esc(slug)}|${esc(m.id)}">${elabBusy.has(m.id)?"Elaborating…":"Elaborate"}</button>`:""}</span></div>`;}).join("")
     +(busy?`<div class="msg assistant">${busy.who&&busy.who!==agentId?spkHTML({speakerId:busy.who}):""}${esc(busy.text||"")}<span class="dots">${busy.text?"":"Typing"}</span></div>`:"");
   el.scrollTop=el.scrollHeight;
   $("#dmSend").disabled=!!busy; $("#dmStop").hidden=!busy; $("#dmState").textContent=busy?`${busy.who&&AG(busy.who)?firstName(AG(busy.who).name)+" is typing…":"Finding who's responsible…"}`:"Everything here is saved and remembered.";
@@ -1223,15 +1320,15 @@ How to respond:
 - Colleagues can be in this chat. Their messages appear as [Name, Role]: …; Sahill's start with "Sahill:". Speak only as yourself.
 - Sahill can send you files. Images are shown to you and text files (CSV, TXT, MD, JSON) are pasted into his message: use them. You cannot open PDFs or videos: say what you'll use them for and ask for the key details you need from them.
 - You cannot contact anyone, browse or spend money. Never invent figures.
-Talk like an employee texting the boss on WhatsApp: 1 to 3 short lines, first person, no headings, no pleasantries. Lead with what you need from him (a decision, a number, an approval), then what you did. Finished work goes into update_work, not into your chat reply.`;
+Chat replies must be SHORT: at most 2 sentences and about 30 words, like a quick WhatsApp to your boss. No lists, no headings, no pleasantries. Lead with what you need from him (a decision, a number, an approval), else what you did. He can tap "Elaborate" for detail, so don't explain unless asked. Any finished work goes into update_work as a proper document, never into the chat reply.`;
 }
 function dmTools(slug,a,log,created,threadId,handoffs){
   const base="biz/"+slug+"/"; threadId=threadId||a.id; const spk=threadId!==a.id?{speakerId:a.id}:{};
   const taskById=id=>ALL[slug].tasks.find(x=>x.id===id)||created[id];
   return [
-   {name:"update_work",description:"Save a new full version of your work on a task. It appears in the chat as work handed in for Sahill to review.",inputSchema:{type:"object",properties:{task_id:{type:"string"},work:{type:"string"}},required:["task_id","work"]},
-    execute:async i=>{const t=taskById(String(i.task_id)); if(!t) throw new Error("No task with that id"); const at=new Date().toISOString(); const work=String(i.work);
-      await db.doc(base+"tasks/"+t.id).update({output:work,outputBy:a.name,outputAt:at,status:"doing",...(t.output?{history:[...(t.history||[]),{output:t.output,at:t.outputAt||""}].slice(-3)}:{})});
+   {name:"update_work",description:"Save a new full version of your work on a task as a finished document for Sahill's approval. work = the complete document in Markdown ('# Title', '##' sections, bullets, tables where useful, ending with '## Next step'). summary = one short sentence on what it is and what you need from him.",inputSchema:{type:"object",properties:{task_id:{type:"string"},work:{type:"string"},summary:{type:"string"}},required:["task_id","work","summary"]},
+    execute:async i=>{const t=taskById(String(i.task_id)); if(!t) throw new Error("No task with that id"); const at=new Date().toISOString(); const work=String(i.work); const summary=String(i.summary||"").slice(0,240);
+      await db.doc(base+"tasks/"+t.id).update({output:work,summary,outputBy:a.name,outputAt:at,status:"doing",...(t.output?{history:[...(t.history||[]),{output:t.output,at:t.outputAt||""}].slice(-3)}:{})});
       await db.collection(base+"dm").add({agentId:threadId,...spk,role:"agent",kind:"work",taskId:t.id,title:t.title,text:work,createdAt:Date.now()}); log.push(`New version: ${t.title}`); return "saved";}},
    {name:"new_task",description:"Create a new task assigned to you. Returns its id.",inputSchema:{type:"object",properties:{title:{type:"string"},notes:{type:"string"},due:{type:"string",description:"YYYY-MM-DD"},priority:{type:"string",enum:["high","normal","low"]}},required:["title"]},
     execute:async i=>{const ref=db.collection(base+"tasks").doc(); const t={title:String(i.title).slice(0,200),agentId:a.id,dept:deptIn(slug,a),due:/^\d{4}-\d{2}-\d{2}$/.test(i.due||"")?i.due:"",priority:["high","normal","low"].includes(i.priority)?i.priority:"normal",notes:String(i.notes||"").slice(0,3000),status:"doing",createdAt:Date.now()};
@@ -1513,7 +1610,7 @@ renderNav(); route();
   const onErr=e=>banner("Couldn't load saved data ("+(e?.code||"error")+").");
   const docs=q=>q.docs.map(x=>({id:x.id,...x.data()}));
   setTimeout(()=>{rvReady=true;checkPings();},5000);
-  const touch=(slug,what)=>{ setTimeout(checkPings,0); if(view==="office"&&cur===slug){ syncGlobals(); if(what==="chat"||what==="memory"){ $("#memCount").textContent=memory.length; if(!$("#chatDrawer").hidden) renderChat(); } else if(what==="reports"){renderReports();renderSide();} else if(what==="routines"){renderSide();} else if(what==="meta"){renderMeta();} else {renderAll(); if(what==="agents"&&!$("#hireModal").hidden) renderCands();} } else if(view==="hq") renderHQ(); };
+  const touch=(slug,what)=>{ setTimeout(checkPings,0); if(docOpen&&docOpen.slug===slug&&what==="tasks"&&!typingIn("#docFoot")) renderDoc(); if(view==="office"&&cur===slug){ syncGlobals(); if(what==="chat"||what==="memory"){ $("#memCount").textContent=memory.length; if(!$("#chatDrawer").hidden) renderChat(); } else if(what==="reports"){renderReports();renderSide();} else if(what==="routines"){renderSide();} else if(what==="meta"){renderMeta();} else {renderAll(); if(what==="agents"&&!$("#hireModal").hidden) renderCands();} } else if(view==="hq") renderHQ(); };
   for(const slug of SLUGS){ const p="biz/"+slug+"/", D=ALL[slug];
     db.collection(p+"agents").onSnapshot(q=>{D.agents=docs(q).sort((a,b)=>(a.createdAt||0)-(b.createdAt||0));touch(slug,"agents");},onErr);
     db.collection(p+"tasks").onSnapshot(q=>{D.tasks=docs(q);touch(slug,"tasks");},onErr);
