@@ -245,6 +245,19 @@ button.ok{background:var(--green);border-color:var(--green);color:#fff}
 .chip{font-size:12px;font-weight:700;padding:3px 9px;border-radius:99px;background:var(--soft);white-space:nowrap}
 .chip.rv{background:var(--rv);color:#1d1400}.chip.late{background:var(--red);color:#fff}
 @media (max-width:560px){.bizrow{grid-template-columns:auto minmax(0,1fr)}.chipset{grid-column:1/-1;justify-content:flex-start}}
+.msg.work{border:1.5px solid var(--rv);background:var(--rv-bg);max-width:96%}
+.msg.work .wt{font-family:var(--display);font-weight:700;font-size:14px;margin-bottom:4px;color:var(--rv-ink)}
+.msg.work .row{margin-top:8px}
+.msg.sys{align-self:center;background:transparent;color:var(--muted);font-size:12px;padding:2px}
+.dmwho{display:flex;gap:10px;align-items:center;min-width:0}
+.dmwho .fig{width:38px;aspect-ratio:1/1.25;position:relative;flex:none}
+.dmwho .fig .torso,.dmwho .fig .head,.dmwho .fig .hair{position:absolute}
+.dmwho .fig .torso{left:8%;right:8%;bottom:0;height:52%;background:var(--shirt);border-radius:45% 45% 25% 25%}
+.dmwho .fig .head{left:22%;right:22%;top:0;aspect-ratio:1;background:var(--skin);border-radius:50%}
+.dmwho .fig .hair{left:18%;right:18%;top:-6%;height:36%;background:var(--hair);border-radius:50% 50% 30% 30%}
+.typing{align-self:flex-start;font-size:12.5px;color:var(--muted)}
+.rcard .lastmsg{font-size:14px;white-space:pre-wrap;overflow-wrap:anywhere}
+.teamrow{display:flex;gap:6px;flex-wrap:wrap}
 .bizbar{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin;align-items:center}
 .bizbar a{flex:none;display:inline-flex;align-items:center;gap:7px;text-decoration:none;color:var(--ink);font-weight:600;font-size:13.5px;padding:6px 13px;border:1.5px solid var(--line);border-radius:999px;background:var(--surface)}
 .bizbar a:hover{border-color:var(--ink)}
@@ -294,7 +307,7 @@ button.ok{background:var(--green);border-color:var(--green);color:#fff}
     </header>
     <div id="hqBanner" class="notice" hidden></div>
     <section class="reviewpanel" id="reviewPanel" aria-labelledby="rvH">
-      <div class="panel-head"><h2 id="rvH"><span class="bell" aria-hidden="true"></span>Please review <span class="count-badge" id="rvCount">0</span></h2><span class="tag">Work your agents finished. Approve it, or say what to change and send it back.</span></div>
+      <div class="panel-head"><h2 id="rvH"><span class="bell" aria-hidden="true"></span>Waiting on you <span class="count-badge" id="rvCount">0</span></h2><span class="tag">Agents who finished work or replied to you. Approve, or just reply like a chat.</span></div>
       <div class="rlist" id="reviewList"></div>
     </section>
     <section class="panel" aria-labelledby="tellH">
@@ -302,6 +315,10 @@ button.ok{background:var(--green);border-color:var(--green);color:#fff}
       <div class="hqlog" id="hqChatLog"></div>
       <form class="tell" id="hqTell"><label class="f" for="hqTellIn" style="position:absolute;left:-9999px">Message</label><textarea id="hqTellIn" maxlength="4000" placeholder="e.g. Botany: unit 1204 bounced a AED 25,000 cheque. Get Daniel on it now."></textarea><button class="primary" type="submit" id="hqTellBtn">Send</button></form>
       <div class="suggest" id="hqSuggest"></div>
+    </section>
+    <section class="panel" aria-labelledby="teamH">
+      <div class="panel-head"><h2 id="teamH">Message anyone</h2><span class="tag">Each agent has their own chat with you</span></div>
+      <div class="list" id="teamList"></div>
     </section>
     <section class="panel" aria-labelledby="bizH">
       <div class="panel-head"><h2 id="bizH">Your businesses</h2><span class="tag">Tap one to walk into its office</span></div>
@@ -331,7 +348,7 @@ button.ok{background:var(--green);border-color:var(--green);color:#fff}
   </header>
 
   <section class="reviewpanel" id="officeReview" hidden aria-labelledby="orvH">
-    <div class="panel-head"><h2 id="orvH"><span class="bell" aria-hidden="true"></span>Please review <span class="count-badge" id="orvCount">0</span></h2><span class="tag">Finished work in this office</span></div>
+    <div class="panel-head"><h2 id="orvH"><span class="bell" aria-hidden="true"></span>Waiting on you <span class="count-badge" id="orvCount">0</span></h2><span class="tag">Your team in this office</span></div>
     <div class="rlist" id="officeReviewList"></div>
   </section>
   <div class="toolbar">
@@ -395,6 +412,17 @@ button.ok{background:var(--green);border-color:var(--green);color:#fff}
   </form>
 </aside>
 
+<aside class="drawer" id="dmDrawer" hidden aria-labelledby="dmName" style="grid-template-rows:auto 1fr auto">
+  <header><div class="dmwho" id="dmWho"></div><button type="button" id="closeDM">Close</button></header>
+  <div class="msgs" id="dmMsgs" aria-live="polite"></div>
+  <form class="composer" id="dmForm">
+    <div class="suggest" id="dmSuggest"></div>
+    <label class="f" for="dmIn" style="position:absolute;left:-9999px">Message</label>
+    <textarea id="dmIn" maxlength="4000" placeholder="Reply: change something, ask why, or give a new job"></textarea>
+    <div class="row" style="justify-content:space-between"><span class="tag" id="dmState"></span><span class="row"><button type="button" id="dmStop" hidden>Stop</button><button class="primary" type="submit" id="dmSend">Send</button></span></div>
+  </form>
+</aside>
+
 <div class="modal" id="hireModal" hidden role="dialog" aria-modal="true" aria-labelledby="hireH">
   <div class="sheet">
     <div class="panel-head"><div><div class="tag">HIRING BOARD</div><h2 id="hireH">Who should join <span id="hireBiz"></span>?</h2></div><button type="button" id="closeHire">Close</button></div>
@@ -418,7 +446,7 @@ const HQ = {name:"Sahill's HQ",accent:"#2F4B7C",ink:"#ffffff",dark:"#8FB0E8"};
 let BIZ = BIZES[0], view="hq", cur=null;
 const SLUGS=BIZES.map(b=>b.slug); const bizOf=s=>BIZES.find(b=>b.slug===s);
 const P=()=>"biz/"+cur+"/"; const CP=()=>view==="hq"?"hq/main/":P();
-const ALL={}; SLUGS.forEach(s=>ALL[s]={agents:[],tasks:[],routines:[],reports:[],memory:[],chat:[],meta:{goal:bizOf(s).goal,status:bizOf(s).status,note:bizOf(s).note}});
+const ALL={}; SLUGS.forEach(s=>ALL[s]={agents:[],tasks:[],routines:[],reports:[],memory:[],chat:[],dm:[],meta:{goal:bizOf(s).goal,status:bizOf(s).status,note:bizOf(s).note}});
 const HQD={chat:[],memory:[],briefs:[]};
 const $ = s => document.querySelector(s);
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
@@ -541,7 +569,7 @@ function workHTML(t,label){
   return `<details ${t.status!=="done"?"open":""}><summary>${esc(label)}${t.outputAt?" · "+esc(fmtTime(Date.parse(t.outputAt))):""}${fb.length?" · "+fb.length+" comment"+(fb.length>1?"s":""):""}</summary><div class="output">${esc(t.output)}</div>
   ${fb.length?`<div class="fb">${fb.map(f=>`<div><span>${esc(fmtTime(Date.parse(f.at)))}</span>${esc(f.text)}</div>`).join("")}</div>`:""}
   ${hist.length?`<details><summary>Earlier versions (${hist.length})</summary>${hist.slice().reverse().map(h=>`<div class="output" style="margin-top:6px">${esc(h.output)}</div>`).join("")}</details>`:""}
-  ${needsReview(t)?`<div class="tag" style="color:var(--rv-ink);background:var(--rv-bg);padding:4px 8px;border-radius:8px;margin-top:6px">Waiting for your review at the top of the page</div>`:""}</details>`;
+  ${needsReview(t)?`<div class="tag" style="color:var(--rv-ink);background:var(--rv-bg);padding:4px 8px;border-radius:8px;margin-top:6px">Waiting on you: reply in ${esc(firstName(a?.name||"the agent"))}'s chat</div>`:""}</details>`;
 }
 function miniTask(t){const a=agentById(t.agentId); const live=running.get(t.id);
   return `<div class="mini-task"><div class="row" style="justify-content:space-between"><span class="t">${esc(t.title)}</span>${statusPill(t)}</div>
@@ -567,6 +595,7 @@ function renderSide(){
   if(selection.kind==="agent"){const a=agentById(selection.id); if(!a){selection={kind:"office"};return renderSide();}
     const it=intent(a); const mine=tasks.filter(t=>t.agentId===a.id).sort((x,y)=>(x.status==="done")-(y.status==="done"));
     s.innerHTML=`<div class="panel-head"><span class="tag">STAFF FILE</span><button type="button" class="ghost small" data-back>Back to office</button></div>
+    <button type="button" class="primary" data-dm="${esc(a.id)}">Message ${esc(firstName(a.name))}</button>
     <div class="portrait">${figHTML(a)}<div class="meta"><h2>${esc(a.name)}</h2><div class="designation">${esc(a.role)}</div><div class="tag">Desk: ${esc(roomById(agentDept(a))?.name||"")} · ${it.mode==="working"?"Working in "+esc(roomById(it.room)?.name||""):it.mode==="meeting"?"In the boardroom":"Free for work"}</div></div></div>
     ${canWrite?`<form class="add" data-quick="${esc(a.id)}"><label class="f" for="q_${esc(a.id)}">Give ${esc(firstName(a.name))} a task<input id="q_${esc(a.id)}" maxlength="200" required placeholder="e.g. Draft a follow-up for the spa owner"></label>
       <div class="row"><select aria-label="Room" id="qr_${esc(a.id)}">${WORK.map(r=>`<option value="${r.id}" ${r.id===agentDept(a)?"selected":""}>${esc(r.name)}</option>`).join("")}</select><button class="primary small" type="submit">Assign</button>${sample?`<button class="small" type="submit" data-andrun="1">Assign and start</button>`:""}</div></form>`:""}
@@ -683,6 +712,7 @@ Do the task now and hand back finished work, not a plan to do it: messages ready
     const r=await sample(prompt,{signal:ctl.signal,modelTier:"default",cache:false,onText:({text})=>{const s=running.get(id);if(!s)return;s.text=text;refreshLive(id);}});
     running.delete(id); running.delete("agent:"+a.id);
     await db.doc(pre+"tasks/"+id).update({output:r.text,outputBy:a.name,outputAt:new Date().toISOString(),status:"doing",...(t.output?{history:[...(t.history||[]),{output:t.output,at:t.outputAt||""}].slice(-3)}:{})});
+    try{ await db.collection(pre+"dm").add({agentId:a.id,role:"agent",kind:"work",taskId:id,title:t.title,text:r.text,createdAt:Date.now()}); }catch(_){}
     toast(`${firstName(a.name)} (${bname}) finished. Please review it.`);
   }catch(e){running.delete(id);running.delete("agent:"+a.id);
     if(e?.code==="aborted"||ctl.signal.aborted) toast("Stopped.");
@@ -899,7 +929,7 @@ document.addEventListener("click",async e=>{
     else if(d.fire){ if(d.confirm){const a=agentById(d.fire); await db.doc(P()+"agents/"+d.fire).delete(); toast(`${a?.name||"Agent"} has left. Their tasks are unassigned.`); select({kind:"office"});} else {d.confirm="1";b.textContent="Confirm: let them go";setTimeout(()=>{if(b.isConnected){delete b.dataset.confirm;b.textContent="Let go";}},4000);} }
   }catch(err){toast("Couldn't save: "+(err?.message||err?.code||"error"));}
 });
-document.addEventListener("keydown",e=>{ if(e.key==="Escape"&&!$("#chatDrawer").hidden){closeChat();return;} if((e.key==="Enter"||e.key===" ")&&e.target.matches(".room,.agent")){e.preventDefault();e.target.click();} if(e.key==="Escape"&&!$("#hireModal").hidden) closeHire(); });
+document.addEventListener("keydown",e=>{ if(e.key==="Escape"&&!$("#dmDrawer").hidden){closeDM();return;} if(e.key==="Escape"&&!$("#chatDrawer").hidden){closeChat();return;} if((e.key==="Enter"||e.key===" ")&&e.target.matches(".room,.agent")){e.preventDefault();e.target.click();} if(e.key==="Escape"&&!$("#hireModal").hidden) closeHire(); });
 document.addEventListener("change",async e=>{const s=e.target.closest("select[data-assign]"); if(!s||!db) return;
   try{await db.doc(P()+"tasks/"+s.dataset.assign).update({agentId:s.value}); toast(s.value?`Assigned to ${agentById(s.value)?.name}.`:"Unassigned.");}catch(err){toast("Couldn't save: "+(err?.message||"error"));}});
 document.addEventListener("submit",async e=>{
@@ -953,7 +983,7 @@ function applyAccent(c){const r=document.documentElement.style;r.setProperty("--
 function chatHeader(){ if(view==="hq"){$("#chatTag").textContent="SAHILL'S HQ · CHIEF OF STAFF";$("#chatH").textContent="Talk to your Chief of Staff";$("#chatIn").placeholder="e.g. Botany: unit 1204 bounced a AED 25,000 cheque. Get Daniel on it.";$("#openChat").lastChild.textContent="Chief of Staff";}
   else {$("#chatTag").textContent=BIZ.name.toUpperCase()+" · OFFICE MANAGER";$("#chatH").textContent="Tell the office what to do";$("#chatIn").placeholder="e.g. Ask "+(agents[0]?firstName(agents[0].name):"the team")+" to start on the top task now";$("#openChat").lastChild.textContent="Office chat";} }
 function syncGlobals(){ if(view==="office"){const d=ALL[cur];agents=d.agents;tasks=d.tasks;routines=d.routines;reports=d.reports;meta=d.meta;chat=d.chat;memory=d.memory;} else {chat=HQD.chat;memory=HQD.memory;} }
-function renderNav(){ $("#bizbar").innerHTML=`<a href="#hq" style="--c:var(--ink)" ${view==="hq"?'aria-current="page"':""}><span class="d" aria-hidden="true"></span>Sahill's HQ</a><span class="sep" aria-hidden="true"></span>`+BIZES.map(b=>`<a href="#${b.slug}" style="--c:${b.accent}" ${view==="office"&&cur===b.slug?'aria-current="page"':""}><span class="d" aria-hidden="true"></span>${esc(b.name)}</a>`).join("")+`<a href="#review" class="rvnav" id="rvNav" hidden>Please review <b id="rvNavN">0</b></a>`; updateBadge(); }
+function renderNav(){ $("#bizbar").innerHTML=`<a href="#hq" style="--c:var(--ink)" ${view==="hq"?'aria-current="page"':""}><span class="d" aria-hidden="true"></span>Sahill's HQ</a><span class="sep" aria-hidden="true"></span>`+BIZES.map(b=>`<a href="#${b.slug}" style="--c:${b.accent}" ${view==="office"&&cur===b.slug?'aria-current="page"':""}><span class="d" aria-hidden="true"></span>${esc(b.name)}</a>`).join("")+`<a href="#review" class="rvnav" id="rvNav" hidden>Waiting on you <b id="rvNavN">0</b></a>`; updateBadge(); }
 function enterOffice(slug){
   view="office"; cur=slug; BIZ=bizOf(slug); ROOMS=BIZ.rooms; WORK=ROOMS.filter(r=>r.id!=="break"&&r.id!=="board"); applyAccent(BIZ);
   for(const [,p] of pos) p.el?.remove(); pos.clear(); selection={kind:"office"}; roomFilter="all"; meeting=false; $("#callMeeting").disabled=false; $("#callMeeting").textContent="Call a board meeting";
@@ -974,7 +1004,6 @@ window.addEventListener("hashchange",route);
 function busyIn(slug,a){ return !!running.get("agent:"+a.id) || ALL[slug].tasks.some(t=>t.agentId===a.id&&t.status==="doing"); }
 /* ---------- review queue, pings ---------- */
 function needsReview(t){ if(!t||!t.output||t.status==="done"||running.has(t.id)) return false; const fb=t.feedback||[]; const last=fb.length?Date.parse(fb[fb.length-1].at)||0:0; return !(last>(Date.parse(t.outputAt||0)||0)); }
-function reviewQueue(slug){ const q=[]; (slug?[slug]:SLUGS).forEach(sl=>ALL[sl].tasks.forEach(t=>{ if(needsReview(t)) q.push({slug:sl,t}); })); return q.sort((a,b)=>(Date.parse(b.t.outputAt||0)||0)-(Date.parse(a.t.outputAt||0)||0)); }
 function reviewCard(slug,t){
   const b=bizOf(slug), a=ALL[slug].agents.find(x=>x.id===t.agentId); const fb=t.feedback||[]; const key=slug+"_"+t.id;
   return `<article class="rcard" style="--c:${b.accent}">
@@ -991,26 +1020,152 @@ function reviewCard(slug,t){
   </article>`;
 }
 const rvDeferred=new Set();
-function renderReviewInto(listSel,countSel,slug){ if(typingIn(listSel)){rvDeferred.add(listSel);return;} const q=reviewQueue(slug); $(countSel).textContent=q.length;
-  $(listSel).innerHTML=q.length?q.map(x=>reviewCard(x.slug,x.t)).join(""):`<div class="allclear">All caught up. Nothing waiting for you.</div>`; return q.length; }
+/* ---------- one-to-one agent conversations ---------- */
+const dmBusy=new Map(); let dmOpen=null, dmCtl=null;
+function threadOf(slug,agentId){
+  const d=ALL[slug]; const msgs=d.dm.filter(m=>m.agentId===agentId).map(m=>({...m}));
+  const workIds=new Set(msgs.filter(m=>m.kind==="work").map(m=>m.taskId));
+  d.tasks.filter(t=>t.agentId===agentId&&t.output&&!workIds.has(t.id)).forEach(t=>msgs.push({id:"v_"+t.id,agentId,role:"agent",kind:"work",taskId:t.id,title:t.title,text:t.output,createdAt:Date.parse(t.outputAt||0)||t.createdAt||0,virtual:true}));
+  return msgs.sort((a,b)=>(a.createdAt||0)-(b.createdAt||0));
+}
+function openWorkIn(slug,th){ // work handed in since Sahill last spoke, still not approved
+  const lastS=[...th].reverse().find(m=>m.role==="sahill"); const after=th.filter(m=>m.kind==="work"&&(!lastS||(m.createdAt||0)>(lastS.createdAt||0)));
+  const w=after[after.length-1]; if(!w) return null; const t=ALL[slug].tasks.find(x=>x.id===w.taskId); return t&&t.status!=="done"?{w,t}:null;
+}
+function awaiting(slug,a){ if(dmBusy.has(slug+"/"+a.id)) return null; const th=threadOf(slug,a.id); const last=th[th.length-1]; if(!last||last.role!=="agent") return null;
+  if(last.kind==="work"){const t=ALL[slug].tasks.find(x=>x.id===last.taskId); if(!t||t.status==="done") return null;} return {last,th}; }
+function inbox(slug){ const out=[]; (slug?[slug]:SLUGS).forEach(sl=>ALL[sl].agents.forEach(a=>{const r=awaiting(sl,a); if(r) out.push({slug:sl,a,m:r.last,th:r.th});})); return out.sort((x,y)=>(y.m.createdAt||0)-(x.m.createdAt||0)); }
+function reviewQueue(slug){ return inbox(slug); }
+function inboxCard(x){
+  const b=bizOf(x.slug), a=x.a, ow=openWorkIn(x.slug,x.th); const key=x.slug+"_"+a.id;
+  return `<article class="rcard" style="--c:${b.accent}">
+    <div class="rhead"><span class="btag" style="--c:${b.accent}">${esc(b.name)}</span>${avDot(a)}<b>${esc(a.name)}</b><span>${esc(a.role)}</span><span>· ${esc(fmtTime(x.m.createdAt))}</span></div>
+    ${ow?`<div class="rtitle">${esc(ow.t.title)}</div><div class="rprev">${esc(String(ow.w.text).slice(0,380))}</div>`:""}
+    ${x.m.kind!=="work"?`<div class="lastmsg">${esc(String(x.m.text).slice(0,500))}</div>`:""}
+    ${canWrite?`<form data-dmq="1" data-slug="${esc(x.slug)}" data-ag="${esc(a.id)}">
+      <label class="f" for="q2_${esc(key)}" style="position:absolute;left:-9999px">Reply to ${esc(a.name)}</label>
+      <textarea id="q2_${esc(key)}" name="text" maxlength="4000" placeholder="Reply to ${esc(firstName(a.name))}: change something, ask why, or give a new job"></textarea>
+      <div class="row"><button class="primary small" type="submit">Send</button>${ow?`<button class="ok small" type="button" data-dmapprove="${esc(x.slug)}|${esc(ow.t.id)}|${esc(a.id)}">Approve</button>`:""}<button class="small" type="button" data-dmopen="${esc(x.slug)}|${esc(a.id)}">Open conversation</button></div>
+    </form>`:""}
+  </article>`;
+}
+
+function renderReviewInto(listSel,countSel,slug){ if(typingIn(listSel)){rvDeferred.add(listSel);return;} const q=inbox(slug); $(countSel).textContent=q.length;
+  $(listSel).innerHTML=q.length?q.map(inboxCard).join(""):`<div class="allclear">All caught up. Nobody is waiting on you.</div>`; return q.length; }
 function renderOfficeReview(){ if(view!=="office") return; const n=renderReviewInto("#officeReviewList","#orvCount",cur); if(n!==undefined) $("#officeReview").hidden=!n; }
 document.addEventListener("focusout",()=>setTimeout(()=>{ for(const sel of [...rvDeferred]){ if(!typingIn(sel)){ rvDeferred.delete(sel); sel==="#reviewList"?renderHQ():renderOfficeReview(); } } },150));
-function updateBadge(){ const n=reviewQueue().length; const nav=$("#rvNav"); if(nav){nav.hidden=!n; $("#rvNavN").textContent=n;} document.title=(n?`(${n}) `:"")+(view==="office"&&BIZ?BIZ.name+" · ":"")+"Sahill's HQ"; }
+function openDM(slug,agentId){ dmOpen={slug,agentId}; $("#dmDrawer").hidden=false; renderDM(); $("#dmIn").focus(); }
+function closeDM(){ dmOpen=null; $("#dmDrawer").hidden=true; }
+function renderDM(){
+  if(!dmOpen) return; const {slug,agentId}=dmOpen; const a=ALL[slug].agents.find(x=>x.id===agentId); if(!a){closeDM();return;}
+  const b=bizOf(slug); $("#dmWho").innerHTML=`${figHTML(a)}<div style="min-width:0"><h2 id="dmName" style="font-size:18px">${esc(a.name)}</h2><div class="tag">${esc(a.role)} · ${esc(b.name)}</div></div>`;
+  const th=threadOf(slug,agentId); const busy=dmBusy.get(slug+"/"+agentId); const el=$("#dmMsgs");
+  el.innerHTML=(th.length?"":`<div class="msg assistant">Hi Sahill, it's ${esc(firstName(a.name))}. Tell me what you need, ask me anything about my work, or give me a new job.</div>`)+th.slice(-60).map(m=>{
+    if(m.kind==="work"){const t=ALL[slug].tasks.find(x=>x.id===m.taskId); const done=t&&t.status==="done";
+      return `<div class="msg assistant work"><div class="wt">Work handed in · ${esc(m.title||t?.title||"Task")}</div>${esc(m.text)}<span class="when">${esc(fmtTime(m.createdAt))}</span>${t&&!done&&canWrite?`<div class="row"><button class="ok small" type="button" data-dmapprove="${esc(slug)}|${esc(t.id)}|${esc(agentId)}">Approve</button><span class="tag">or reply below with changes</span></div>`:done?`<div class="tag" style="margin-top:6px">Approved</div>`:""}</div>`;}
+    return `<div class="msg ${m.role==="sahill"?"user":"assistant"}">${esc(m.text)}${m.actions?.length?`<div class="acts">${m.actions.map(x=>`<span>✓ ${esc(x)}</span>`).join("")}</div>`:""}<span class="when">${esc(fmtTime(m.createdAt))}</span></div>`;}).join("")
+    +(busy?`<div class="msg assistant">${esc(busy.text||"")}<span class="dots">${busy.text?"":"Typing"}</span></div>`:"");
+  el.scrollTop=el.scrollHeight;
+  $("#dmSend").disabled=!!busy; $("#dmStop").hidden=!busy; $("#dmState").textContent=busy?`${firstName(a.name)} is working on it…`:"Everything here is saved and remembered.";
+  const ow=openWorkIn(slug,th);
+  $("#dmSuggest").innerHTML=busy?"":(ow?["Looks good, approve it","Make it shorter","Explain your reasoning"]:["What are you working on?","What do you need from me?"]).map(x=>`<button type="button" data-dmsug="${esc(x)}">${esc(x)}</button>`).join("");
+}
+function dmRules(slug,a,focus){
+  const b=bizOf(slug), d=ALL[slug]; const mine=d.tasks.filter(t=>t.agentId===a.id);
+  return `You are ${a.name}, ${a.role} at ${b.name}, an AI employee in Sahill's HQ. You are in a one-to-one chat with Sahill Chandan, your boss. Dubai; money in AED; dates like "7 November 2026". Today: ${fmtDate(todayISO())} (${todayISO()}).
+How you work: ${a.mind||"as your role suggests"}
+${(a.rules||[]).length?"Standing rules from Sahill (always follow):\n- "+a.rules.map(r=>r.text).join("\n- "):""}
+
+${stateOf(slug,true)}
+
+YOUR TASKS: ${mine.map(t=>`[${t.id}] ${t.title} (${t.status}${t.due?", due "+t.due:""})`).join(" | ")||"none"}
+${focus?`TASK IN FOCUS [${focus.id}] "${focus.title}". Your latest work on it:\n${String(focus.output||"(none yet)").slice(0,5000)}`:""}
+
+How to respond:
+- If Sahill asks for changes to work, redo the whole piece and save the new version with update_work (task_id), then tell him in one or two sentences what you changed.
+- If he gives you a new job, create it with new_task, then do it now unless he says later, and save the result with update_work on the new task id.
+- If he says to always or never do something, call add_rule as well as doing it.
+- Facts, numbers, names or decisions he tells you: call remember.
+- If he approves or says it's fine, call mark_done.
+- If he asks a question, answer it directly. If you truly need something from him to do the job, ask one clear question.
+- You cannot contact anyone, browse or spend money. Never invent figures.
+Reply like a colleague in a chat: short, first person, no headings. Finished work goes into update_work, not into your chat reply.`;
+}
+function dmTools(slug,a,log,created){
+  const base="biz/"+slug+"/";
+  const taskById=id=>ALL[slug].tasks.find(x=>x.id===id)||created[id];
+  return [
+   {name:"update_work",description:"Save a new full version of your work on a task. It appears in the chat as work handed in for Sahill to review.",inputSchema:{type:"object",properties:{task_id:{type:"string"},work:{type:"string"}},required:["task_id","work"]},
+    execute:async i=>{const t=taskById(String(i.task_id)); if(!t) throw new Error("No task with that id"); const at=new Date().toISOString(); const work=String(i.work);
+      await db.doc(base+"tasks/"+t.id).update({output:work,outputBy:a.name,outputAt:at,status:"doing",...(t.output?{history:[...(t.history||[]),{output:t.output,at:t.outputAt||""}].slice(-3)}:{})});
+      await db.collection(base+"dm").add({agentId:a.id,role:"agent",kind:"work",taskId:t.id,title:t.title,text:work,createdAt:Date.now()}); log.push(`New version: ${t.title}`); return "saved";}},
+   {name:"new_task",description:"Create a new task assigned to you. Returns its id.",inputSchema:{type:"object",properties:{title:{type:"string"},notes:{type:"string"},due:{type:"string",description:"YYYY-MM-DD"},priority:{type:"string",enum:["high","normal","low"]}},required:["title"]},
+    execute:async i=>{const ref=db.collection(base+"tasks").doc(); const t={title:String(i.title).slice(0,200),agentId:a.id,dept:deptIn(slug,a),due:/^\d{4}-\d{2}-\d{2}$/.test(i.due||"")?i.due:"",priority:["high","normal","low"].includes(i.priority)?i.priority:"normal",notes:String(i.notes||"").slice(0,3000),status:"doing",createdAt:Date.now()};
+      await ref.set(t); created[ref.id]={id:ref.id,...t}; log.push(`New task: ${t.title}`); return {id:ref.id};}},
+   {name:"mark_done",description:"Mark a task approved and done when Sahill approves it.",inputSchema:{type:"object",properties:{task_id:{type:"string"}},required:["task_id"]},
+    execute:async i=>{const t=taskById(String(i.task_id)); if(!t) throw new Error("No task with that id"); await db.doc(base+"tasks/"+t.id).update({status:"done",doneAt:new Date().toISOString()}); log.push(`Approved: ${t.title}`); return "done";}},
+   {name:"add_rule",description:"Save a standing rule you must follow on every future job.",inputSchema:{type:"object",properties:{rule:{type:"string"}},required:["rule"]},
+    execute:async i=>{const cur=ALL[slug].agents.find(x=>x.id===a.id)||a; await db.doc(base+"agents/"+a.id).update({rules:[...(cur.rules||[]),{text:String(i.rule).slice(0,400),at:new Date().toISOString()}]}); log.push(`New rule: ${i.rule}`); return "saved";}},
+   {name:"remember",description:"Save a fact, number, name or decision Sahill told you to the business memory.",inputSchema:{type:"object",properties:{fact:{type:"string"}},required:["fact"]},
+    execute:async i=>{await db.collection(base+"memory").add({text:String(i.fact).slice(0,600),createdAt:Date.now(),source:"dm:"+a.name}); log.push(`Remembered: ${i.fact}`); return "saved";}},
+  ];
+}
+async function sendDM(slug,agentId,text){
+  text=String(text||"").trim(); if(!text||!db) return; const key=slug+"/"+agentId; if(dmBusy.has(key)) return;
+  const base="biz/"+slug+"/"; const D=ALL[slug]; const a=D.agents.find(x=>x.id===agentId); if(!a) return;
+  const th=threadOf(slug,agentId); const ow=openWorkIn(slug,th); const lastW=[...th].reverse().find(m=>m.kind==="work"); const focusT=ow?ow.t:(lastW?D.tasks.find(t=>t.id===lastW.taskId&&t.status!=="done"):null);
+  const at=new Date().toISOString();
+  try{ await db.collection(base+"dm").add({agentId,role:"sahill",kind:"msg",text,taskId:focusT?.id||"",createdAt:Date.now()});
+    if(focusT) await db.doc(base+"tasks/"+focusT.id).update({feedback:[...(focusT.feedback||[]),{text,at}]}); }catch(e){ return toast("Couldn't send: "+(e?.message||"error")); }
+  if(!sample){ toast(`Sent. ${firstName(a.name)} will reply in the next daily run.`); return; }
+  const turns=th.slice(-18).map(m=>m.kind==="work"?{role:"assistant",content:`[Work handed in on task "${m.title||""}" (${m.taskId})]\n${String(m.text).slice(0,2500)}`}:{role:m.role==="sahill"?"user":"assistant",content:String(m.text)}).filter(m=>m.content);
+  turns.push({role:"user",content:text});
+  const busy={text:""}; dmBusy.set(key,busy); running.set("agent:"+agentId,{room:focusT?(focusT.dept||deptIn(slug,a)):deptIn(slug,a),say:"Working on your message"});
+  if(view==="office"&&cur===slug) renderAgentsOnFloor(); renderDM(); updateBadge();
+  const log=[], created={}; dmCtl=new AbortController(); let reply="";
+  try{
+    const r=await sample([{role:"user",content:dmRules(slug,a,focusT)},...turns],{tools:dmTools(slug,a,log,created),signal:dmCtl.signal,modelTier:"default",onText:({text:t})=>{busy.text=t; if(dmOpen&&dmOpen.slug===slug&&dmOpen.agentId===agentId) renderDM();}});
+    reply=r.text.trim();
+  }catch(e){ reply=e?.code==="cancelled"||e?.code==="aborted"?"(stopped)":e?.code==="not_granted"?"I can't reply until Claude is allowed on this page (Permissions menu).":e?.code==="rate_limited"?"I'm at a usage limit right now. Try me again in a few minutes.":"Sorry, something went wrong: "+(e?.message||"unknown error"); if(e?.text) reply=e.text+"\n\n"+reply; }
+  dmBusy.delete(key); running.delete("agent:"+agentId);
+  try{ await db.collection(base+"dm").add({agentId,role:"agent",kind:"msg",text:reply||"Done.",actions:log.slice(0,12),createdAt:Date.now()+1}); }catch(_){}
+  if(!(dmOpen&&dmOpen.slug===slug&&dmOpen.agentId===agentId)) showPingMsg(slug,a,reply);
+  if(view==="office"&&cur===slug) renderAll(); renderDM(); updateBadge();
+}
+$("#closeDM").onclick=closeDM; $("#dmStop").onclick=()=>dmCtl?.abort();
+$("#dmForm").onsubmit=e=>{e.preventDefault(); if(!dmOpen) return; const v=$("#dmIn").value; $("#dmIn").value=""; sendDM(dmOpen.slug,dmOpen.agentId,v);};
+$("#dmIn").addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();$("#dmForm").requestSubmit();}});
+$("#dmSuggest").addEventListener("click",e=>{const b=e.target.closest("[data-dmsug]"); if(b&&dmOpen) sendDM(dmOpen.slug,dmOpen.agentId,b.dataset.dmsug);});
+document.addEventListener("submit",e=>{const f=e.target.closest("form[data-dmq]"); if(!f) return; e.preventDefault(); const v=f.querySelector("textarea").value.trim(); if(!v) return toast("Write a reply first.");
+  f.querySelector("textarea").value=""; document.activeElement?.blur?.(); openDM(f.dataset.slug,f.dataset.ag); sendDM(f.dataset.slug,f.dataset.ag,v);});
+document.addEventListener("click",async e=>{const b=e.target.closest("[data-dmapprove],[data-dmopen],[data-dm]"); if(!b) return;
+  if(b.dataset.dm){ openDM(cur,b.dataset.dm); return; }
+  if(b.dataset.dmopen){ const [sl,ag]=b.dataset.dmopen.split("|"); openDM(sl,ag); return; }
+  const [sl,tid,ag]=b.dataset.dmapprove.split("|"); if(!db) return;
+  try{ await db.doc("biz/"+sl+"/tasks/"+tid).update({status:"done",doneAt:new Date().toISOString()}); await db.collection("biz/"+sl+"/dm").add({agentId:ag,role:"sahill",kind:"msg",text:"Approved.",taskId:tid,createdAt:Date.now()}); toast("Approved."); }
+  catch(err){ toast("Couldn't approve: "+(err?.message||"error")); }});
+function updateBadge(){ const n=inbox().length; const nav=$("#rvNav"); if(nav){nav.hidden=!n; $("#rvNavN").textContent=n;} document.title=(n?`(${n}) `:"")+(view==="office"&&BIZ?BIZ.name+" · ":"")+"Sahill's HQ"; }
 let seenRv=null, rvReady=false;
+const pingKey=x=>x.slug+"/"+x.a.id+"/"+(x.m.id||x.m.createdAt);
 function checkPings(){
   updateBadge(); if(!rvReady) return;
-  const q=reviewQueue(); const keys=new Set(q.map(x=>x.slug+"/"+x.t.id+"/"+x.t.outputAt));
+  const q=inbox(); const keys=new Set(q.map(pingKey));
   if(seenRv===null){seenRv=keys;return;}
-  const fresh=q.filter(x=>!seenRv.has(x.slug+"/"+x.t.id+"/"+x.t.outputAt)); seenRv=keys;
+  const fresh=q.filter(x=>!seenRv.has(pingKey(x))&&!(dmOpen&&dmOpen.slug===x.slug&&dmOpen.agentId===x.a.id)); seenRv=keys;
   if(fresh.length) showPing(fresh[0],fresh.length);
 }
-function showPing(x,n){
+function pingBox(html,onOpen){
   document.querySelectorAll(".rvping").forEach(e=>e.remove());
-  const a=ALL[x.slug].agents.find(y=>y.id===x.t.agentId); const el=document.createElement("div"); el.className="rvping"; el.setAttribute("role","alert");
-  el.innerHTML=`<span>Please review: ${esc(a?firstName(a.name):"An agent")} (${esc(bizOf(x.slug).name)}) finished “${esc(shorten(x.t.title))}”${n>1?` and ${n-1} more`:""}</span><button type="button" data-goreview>Review now</button><button type="button" class="x" aria-label="Dismiss">×</button>`;
-  document.body.appendChild(el); el.querySelector("[data-goreview]").onclick=()=>{el.remove(); if(location.hash==="#review") route(); else location.hash="review";}; el.querySelector(".x").onclick=()=>el.remove();
+  const el=document.createElement("div"); el.className="rvping"; el.setAttribute("role","alert");
+  el.innerHTML=`<span>${html}</span><button type="button" data-goreview>Open</button><button type="button" class="x" aria-label="Dismiss">×</button>`;
+  document.body.appendChild(el); el.querySelector("[data-goreview]").onclick=()=>{el.remove();onOpen();}; el.querySelector(".x").onclick=()=>el.remove();
   setTimeout(()=>el.remove(),20000);
 }
+function showPing(x,n){
+  const who=`${esc(firstName(x.a.name))} (${esc(bizOf(x.slug).name)})`;
+  pingBox(x.m.kind==="work"?`Please review: ${who} finished “${esc(shorten(x.m.title||"a task"))}”${n>1?` and ${n-1} more`:""}`:`${who}: ${esc(shorten(x.m.text))}`,()=>openDM(x.slug,x.a.id));
+}
+function showPingMsg(slug,a,text){ pingBox(`${esc(firstName(a.name))} (${esc(bizOf(slug).name)}) replied: ${esc(shorten(text))}`,()=>openDM(slug,a.id)); }
 document.addEventListener("submit",async e=>{
   const f=e.target.closest("form[data-rv2]"); if(!f) return; e.preventDefault(); if(!db) return;
   const slug=f.dataset.slug, id=f.dataset.id, D=ALL[slug], t=D.tasks.find(x=>x.id===id); if(!t) return; const a=D.agents.find(x=>x.id===t.agentId);
@@ -1043,13 +1198,14 @@ function renderHQ(){
   const today=todayISO(); let staff=0,busy=0,late=0;
   $("#hqDate").textContent=fmtDate(today).toUpperCase();
   renderReviewInto("#reviewList","#rvCount",null);
-  $("#bizRows").innerHTML=BIZES.map(b=>{const d=ALL[b.slug]; const o=d.tasks.filter(t=>t.status!=="done"); const lt=o.filter(t=>t.due&&t.due<today); const rv=reviewQueue(b.slug).length; const bz=d.agents.filter(a=>busyIn(b.slug,a));
+  $("#bizRows").innerHTML=BIZES.map(b=>{const d=ALL[b.slug]; const o=d.tasks.filter(t=>t.status!=="done"); const lt=o.filter(t=>t.due&&t.due<today); const rv=inbox(b.slug).length; const bz=d.agents.filter(a=>busyIn(b.slug,a));
     staff+=d.agents.length; busy+=bz.length; late+=lt.length; const [lab,cls]=STATUS[d.meta.status]||STATUS.grey;
     return `<a class="bizrow" href="#${b.slug}" style="--c:${b.accent};--ci:${b.ink}"><span class="sq" aria-hidden="true">${esc(b.initial)}</span>
       <span style="min-width:0"><span class="nm">${esc(b.name)} <span class="pill ${cls}">${lab}</span></span><span class="sub">${bz.length?esc(bz.map(a=>firstName(a.name)).join(", "))+" working now":d.agents.length+" staff, nobody working right now"}</span></span>
-      <span class="chipset">${rv?`<span class="chip rv">${rv} to review</span>`:""}${lt.length?`<span class="chip late">${lt.length} overdue</span>`:""}<span class="chip">${o.length} open</span></span></a>`;}).join("");
-  const n=reviewQueue().length, red=BIZES.filter(b=>ALL[b.slug].meta.status==="red").map(b=>b.name);
-  $("#hqLine").innerHTML=`${n?`<b style="color:var(--rv-ink)">${n} job${n>1?"s":""} waiting for your review</b> · `:""}${busy} of ${staff} agents working${late?` · <b style="color:var(--red)">${late} overdue</b>`:""}${red.length?` · Red: ${esc(red.join(", "))}`:""}`;
+      <span class="chipset">${rv?`<span class="chip rv">${rv} waiting on you</span>`:""}${lt.length?`<span class="chip late">${lt.length} overdue</span>`:""}<span class="chip">${o.length} open</span></span></a>`;}).join("");
+  $("#teamList").innerHTML=BIZES.map(b=>{const L=ALL[b.slug].agents; return L.length?`<div class="teamrow" style="align-items:center"><span class="btag" style="--c:${b.accent};min-width:150px">${esc(b.name)}</span>${L.map(a=>`<button type="button" class="small" data-dmopen="${esc(b.slug)}|${esc(a.id)}">${avDot(a)}${esc(a.name)} <span class="tag">${esc(a.role)}</span></button>`).join("")}</div>`:"";}).join("")||'<div class="empty">No agents yet. Walk into an office and hire one.</div>';
+  const n=inbox().length, red=BIZES.filter(b=>ALL[b.slug].meta.status==="red").map(b=>b.name);
+  $("#hqLine").innerHTML=`${n?`<b style="color:var(--rv-ink)">${n} agent${n>1?"s":""} waiting on you</b> · `:""}${busy} of ${staff} agents working${late?` · <b style="color:var(--red)">${late} overdue</b>`:""}${red.length?` · Red: ${esc(red.join(", "))}`:""}`;
   const br=HQD.briefs.slice().sort((x,y)=>y.createdAt-x.createdAt);
   $("#briefs").innerHTML=br.length?`<div class="tag">${esc(fmtTime(br[0].createdAt))}</div><div class="output">${esc(br[0].body)}</div>${br.length>1?`<details><summary>Earlier briefs (${br.length-1})</summary>${br.slice(1,8).map(r=>`<details><summary>${esc(fmtTime(r.createdAt))}</summary><div class="output">${esc(r.body)}</div></details>`).join("")}</details>`:""}`:'<div class="empty">No brief yet. One arrives every morning at 8:23, or tap Write a fresh brief.</div>';
   renderHQChat();
@@ -1089,6 +1245,7 @@ renderNav(); route();
     db.collection(p+"tasks").onSnapshot(q=>{D.tasks=docs(q);touch(slug,"tasks");},onErr);
     db.collection(p+"routines").onSnapshot(q=>{D.routines=docs(q);touch(slug,"routines");},onErr);
     db.collection(p+"reports").onSnapshot(q=>{D.reports=docs(q);touch(slug,"reports");},onErr);
+    db.collection(p+"dm").orderBy("createdAt","desc").limit(400).onSnapshot(q=>{D.dm=docs(q).sort((a,b)=>(a.createdAt||0)-(b.createdAt||0));touch(slug,"dm");if(dmOpen&&dmOpen.slug===slug)renderDM();},onErr);
     db.collection(p+"memory").onSnapshot(q=>{D.memory=docs(q).sort((a,b)=>(a.createdAt||0)-(b.createdAt||0));touch(slug,"memory");},onErr);
     db.collection(p+"chat").orderBy("createdAt","desc").limit(80).onSnapshot(q=>{D.chat=docs(q).sort((a,b)=>(a.createdAt||0)-(b.createdAt||0));touch(slug,"chat");},onErr);
     db.doc(p+"meta/business").onSnapshot(x=>{if(x.exists) D.meta={...D.meta,...x.data()};touch(slug,"meta");},onErr);
