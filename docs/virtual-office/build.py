@@ -64,11 +64,19 @@ SUG={"yontro":["What's everyone working on?","Usama booked 3 meetings today, log
  "foundertales":["Give me today's 3 video ideas","We hit 1,200 followers, remember it","Have Amara draft the rate card now"],
  "aura":["Here are last month's numbers…","Build the corporate package now","Hire someone for Google reviews"],
  "barter":["What should we test first?","Have Elena write the one-page concept","Park Barter until January"]}
+URLS={"yontro":"https://claude.ai/artifact/BZkCuuorCAcAcdW6wp1CpQ","botany":"https://claude.ai/artifact/8ATGVeTUoXWPHMPs3qnrTV","foundertales":"https://claude.ai/artifact/ELkMsdmN5i1bK8Ww5KYYAP","aura":"https://claude.ai/artifact/NaBwQQT97G4oCYs8AgjSkm","barter":"https://claude.ai/artifact/96R4KfGX5nb8REZyTnN2jo"}
+def bizbar(cur):
+  out=[]
+  for x in B:
+    here=x['slug']==cur
+    out.append(f'<a href="{URLS[x["slug"]]}" style="--c:{x["accent"]}"'+(' aria-current="page"' if here else ' target="_blank" rel="noopener"')+f'><span class="d" aria-hidden="true"></span>{x["name"]}</a>')
+  out.append('<span class="sep" aria-hidden="true"></span><a class="board" href="https://claude.ai/artifact/UxrehG1pVv7qZTC85E1Q4y" target="_blank" rel="noopener">GM Board</a>')
+  return "".join(out)
 for b in B:
   biz={k:b[k] for k in ["name","kind","goal","status","note","about","rooms","agentDept","candidates"]}; biz["corridorY"]=50; biz["suggestions"]=SUG[b["slug"]]
   s=(t.replace('__TITLE__',b['title']).replace('__NAME__',b['name']).replace('__KIND__',b['kind'].upper()).replace('__INITIAL__',b['initial'])
       .replace('__ACCENT__',b['accent']).replace('__ACCENT_INK__',b['ink']).replace('__ACCENT_DARK__',b['dark']).replace('__GOAL__',b['goal'])
-      .replace('__BIZJSON__',json.dumps(biz).replace('</','<\\/')))
+      .replace('__BIZBAR__',bizbar(b['slug'])).replace('__BIZJSON__',json.dumps(biz).replace('</','<\\/')))
   assert '__' not in s.split('<script>')[0] and '__BIZJSON__' not in s
   open(f"{b['slug']}.html",'w').write(s)
 print('built')

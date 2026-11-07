@@ -157,6 +157,13 @@ form.add .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1
 .switch{font-size:12.5px;color:var(--muted)}
 .switch a{color:var(--muted)}
 .minutes{display:grid;gap:8px}
+.bizbar{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin;align-items:center}
+.bizbar a{flex:none;display:inline-flex;align-items:center;gap:7px;text-decoration:none;color:var(--ink);font-weight:600;font-size:13.5px;padding:6px 13px;border:1.5px solid var(--line);border-radius:999px;background:var(--surface)}
+.bizbar a:hover{border-color:var(--ink)}
+.bizbar a[aria-current="page"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.bizbar a .d{width:9px;height:9px;border-radius:3px;background:var(--c)}
+.bizbar .sep{flex:none;width:1px;height:22px;background:var(--line);margin:0 4px}
+.bizbar a.board{color:var(--muted);font-weight:500}
 /* office chat */
 .launcher{position:fixed;right:max(16px,calc(env(safe-area-inset-right,0px) + 16px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:25;display:flex;align-items:center;gap:8px;box-shadow:0 6px 20px rgba(0,0,0,.25);padding:11px 18px;font-size:15px}
 .launcher .ping{width:9px;height:9px;border-radius:50%;background:var(--accent-ink);opacity:.8}
@@ -192,6 +199,7 @@ form.add .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1
 </style>
 
 <div class="wrap">
+  <nav class="bizbar" aria-label="Switch business">__BIZBAR__</nav>
   <header class="top">
     <div class="brand">
       <div class="logo" aria-hidden="true">__INITIAL__</div>
