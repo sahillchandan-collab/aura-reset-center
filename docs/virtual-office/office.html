@@ -157,6 +157,28 @@ form.add .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1
 .switch{font-size:12.5px;color:var(--muted)}
 .switch a{color:var(--muted)}
 .minutes{display:grid;gap:8px}
+/* office chat */
+.launcher{position:fixed;right:max(16px,calc(env(safe-area-inset-right,0px) + 16px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:25;display:flex;align-items:center;gap:8px;box-shadow:0 6px 20px rgba(0,0,0,.25);padding:11px 18px;font-size:15px}
+.launcher .ping{width:9px;height:9px;border-radius:50%;background:var(--accent-ink);opacity:.8}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(460px,100%);background:var(--surface);border-left:1px solid var(--line);z-index:35;display:grid;grid-template-rows:auto auto 1fr auto;box-shadow:-10px 0 30px rgba(0,0,0,.18);
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);padding-right:env(safe-area-inset-right,0px)}
+.drawer header{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:14px 16px;border-bottom:1px solid var(--line)}
+.drawer .tabs{display:flex;gap:6px;padding:8px 16px;border-bottom:1px solid var(--line)}
+.drawer .tabs button{font-size:12.5px;padding:4px 12px;border-color:var(--line)}
+.drawer .tabs button[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.msgs{overflow:auto;padding:14px 16px;display:flex;flex-direction:column;gap:10px;min-height:0}
+.msg{max-width:88%;padding:9px 12px;border-radius:14px;font-size:14px;white-space:pre-wrap;overflow-wrap:anywhere}
+.msg.user{align-self:flex-end;background:var(--accent);color:var(--accent-ink);border-bottom-right-radius:4px}
+.msg.assistant{align-self:flex-start;background:var(--soft);border-bottom-left-radius:4px}
+.msg .acts{display:grid;gap:3px;margin-top:6px;padding-top:6px;border-top:1px dashed var(--line);font-family:var(--mono);font-size:11px;color:var(--muted)}
+.msg .when{display:block;font-family:var(--mono);font-size:10.5px;opacity:.7;margin-top:4px}
+.composer{display:grid;gap:6px;padding:10px 16px 14px;border-top:1px solid var(--line)}
+.composer textarea{min-height:52px;max-height:160px}
+.suggest{display:flex;gap:6px;flex-wrap:wrap}
+.suggest button{font-size:12px;font-weight:500;padding:3px 10px;border-color:var(--line)}
+.memlist{overflow:auto;padding:14px 16px;display:grid;gap:8px;align-content:start;min-height:0}
+.mem{display:flex;gap:8px;justify-content:space-between;align-items:flex-start;background:var(--soft);border-radius:10px;padding:8px 10px;font-size:14px}
+.mem span{overflow-wrap:anywhere}
 .auto-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--green);margin-right:3px;vertical-align:1px;box-shadow:0 0 0 2px var(--surface)}
 .switchrow{display:flex;align-items:center;gap:10px;justify-content:space-between;background:var(--soft);border-radius:12px;padding:10px 12px}
 .toggle{position:relative;width:44px;height:24px;border-radius:99px;border:1.5px solid var(--ink);background:var(--surface);padding:0;flex:none}
@@ -235,6 +257,20 @@ form.add .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1
   <nav class="switch" aria-label="More">Part of Sahill's GM Board · <a href="https://claude.ai/artifact/UxrehG1pVv7qZTC85E1Q4y" target="_blank" rel="noopener">Open the board</a></nav>
 </div>
 
+<button type="button" class="primary launcher" id="openChat" aria-controls="chatDrawer"><span class="ping" aria-hidden="true"></span>Office chat</button>
+<aside class="drawer" id="chatDrawer" hidden aria-labelledby="chatH">
+  <header><div><div class="tag">__NAME__ · OFFICE MANAGER</div><h2 id="chatH">Tell the office what to do</h2></div><button type="button" id="closeChat">Close</button></header>
+  <div class="tabs" role="tablist"><button type="button" role="tab" aria-selected="true" data-ctab="chat">Chat</button><button type="button" role="tab" aria-selected="false" data-ctab="memory">Memory (<span id="memCount">0</span>)</button></div>
+  <div class="msgs" id="msgs" aria-live="polite"></div>
+  <div class="memlist" id="memlist" hidden></div>
+  <form class="composer" id="chatForm">
+    <div class="suggest" id="suggest"></div>
+    <label class="f" for="chatIn" style="position:absolute;left:-9999px">Message</label>
+    <textarea id="chatIn" maxlength="4000" placeholder="e.g. Ask Omar to draft follow-ups for the 4 warm prospects and start now"></textarea>
+    <div class="row" style="justify-content:space-between"><span class="tag" id="chatState">Everything you say here is saved to this office's memory.</span><span class="row"><button type="button" id="stopChat" hidden>Stop</button><button class="primary" type="submit" id="sendChat">Send</button></span></div>
+  </form>
+</aside>
+
 <div class="modal" id="hireModal" hidden role="dialog" aria-modal="true" aria-labelledby="hireH">
   <div class="sheet">
     <div class="panel-head"><div><div class="tag">HIRING BOARD</div><h2 id="hireH">Who should join __NAME__?</h2></div><button type="button" id="closeHire">Close</button></div>
@@ -262,7 +298,7 @@ const todayISO = () => new Date().toISOString().slice(0,10);
 const ROOMS = BIZ.rooms; const WORK = ROOMS.filter(r=>r.id!=="break"&&r.id!=="board");
 const roomById = id => ROOMS.find(r=>r.id===id);
 let db=null, sample=null, canWrite=true;
-let routines=[], autoBusy=false; const DAYS=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+let routines=[], autoBusy=false, chat=[], memory=[], chatCtl=null; const DAYS=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 let agents=[], tasks=[], reports=[], meta={goal:BIZ.goal,status:BIZ.status,note:BIZ.note};
 let roomFilter="all", selection={kind:"office"}, meeting=false; const running=new Map(); const pos=new Map();
 
@@ -565,6 +601,104 @@ async function autopilot(){
 }
 setInterval(autopilot,20000); setTimeout(autopilot,6000);
 
+/* ---------- office chat ---------- */
+const findAgent = q => { if(!q) return null; const s=String(q).toLowerCase().trim(); return agents.find(a=>a.id===q)||agents.find(a=>a.name.toLowerCase()===s)||agents.find(a=>a.name.toLowerCase().split(/\s+/)[0]===s.split(/\s+/)[0])||agents.find(a=>a.role.toLowerCase().includes(s)); };
+const findRoom = q => { if(!q) return null; const s=String(q).toLowerCase(); return WORK.find(r=>r.id===s)||WORK.find(r=>r.name.toLowerCase().includes(s)||s.includes(r.name.toLowerCase())); };
+function officeState(){
+  return `OFFICE: ${BIZ.name} (${BIZ.kind}). Owner: Sahill Chandan, Dubai. AED. Dates like "7 November 2026". Today: ${fmtDate(todayISO())} (${todayISO()}).
+ABOUT: ${BIZ.about}
+GOAL: ${meta.goal||BIZ.goal} | STATUS: ${(STATUS[meta.status]||STATUS.grey)[0]}${meta.note?" ("+meta.note+")":""}
+ROOMS: ${WORK.map(r=>r.id+" = "+r.name).join("; ")}
+STAFF: ${agents.map(a=>`[${a.id}] ${a.name}, ${a.role}, desk ${agentDept(a)}${a.auto?", autopilot":""}`).join(" | ")||"none"}
+OPEN TASKS: ${tasks.filter(t=>t.status!=="done").map(t=>`[${t.id}] ${t.title} (${t.status}, ${agentById(t.agentId)?.name||"unassigned"}, ${taskRoom(t)}${t.due?", due "+t.due:""}${t.priority==="high"?", high":""})`).join(" | ")||"none"}
+RECENTLY DONE: ${tasks.filter(t=>t.status==="done").slice(-5).map(t=>t.title).join(" | ")||"none"}
+ROUTINES: ${routines.map(r=>`[${r.id}] ${agentById(r.agentId)?.name||"?"}: ${r.title} (${cadenceText(r)})`).join(" | ")||"none"}
+MEMORY (facts Sahill gave earlier): ${memory.map(m=>"- "+m.text).join("\n")||"none"}`;
+}
+const RULES=()=>`You are the office manager of ${BIZ.name}'s virtual office, working for Sahill. You run a team of AI agents. When Sahill asks for something, act with your tools: create or update tasks and assign them to the right agent (pick by role and desk), set start=true when he wants it done now, hire agents with a person's name and a job designation, add routines for recurring work, update the goal or status, and call remember for every new fact, number, decision, preference or contact he tells you (one short sentence each) so it is kept for later. Never invent figures. Agents cannot contact people or spend money. After acting, reply in 1-4 short plain sentences saying what you did and who is on it; ask one question only if something essential is missing. Use tools rather than describing what you would do.
+
+${officeState()}`;
+let actLog=[], startQueue=[];
+const chatTools=[
+ {name:"create_task",description:"Create a task on the board and assign it. Returns the task id. Set start=true to send the agent to do it right away.",
+  inputSchema:{type:"object",properties:{title:{type:"string"},agent:{type:"string",description:"agent id or name"},room:{type:"string",description:"room id"},due:{type:"string",description:"YYYY-MM-DD"},priority:{type:"string",enum:["high","normal","low"]},notes:{type:"string",description:"brief for the agent"},start:{type:"boolean"}},required:["title"]},
+  execute:async i=>{const a=findAgent(i.agent); const room=findRoom(i.room)?.id||(a?agentDept(a):WORK[0].id); const ref=db.collection("tasks").doc();
+   await ref.set({title:String(i.title).slice(0,200),agentId:a?.id||"",dept:room,due:/^\d{4}-\d{2}-\d{2}$/.test(i.due||"")?i.due:"",priority:["high","normal","low"].includes(i.priority)?i.priority:"normal",notes:String(i.notes||"").slice(0,3000),status:i.start&&a?"doing":"todo",createdAt:Date.now()});
+   if(i.start&&a) startQueue.push(ref.id); actLog.push(`Task: ${i.title} → ${a?.name||"unassigned"}${i.start&&a?" (starting now)":""}`); return {id:ref.id,assignedTo:a?.name||null};}},
+ {name:"update_task",description:"Change a task: status (todo, doing, done), agent, due date, priority, or start=true to send the agent to work on it now.",
+  inputSchema:{type:"object",properties:{task_id:{type:"string"},status:{type:"string",enum:["todo","doing","done"]},agent:{type:"string"},due:{type:"string"},priority:{type:"string",enum:["high","normal","low"]},start:{type:"boolean"}},required:["task_id"]},
+  execute:async i=>{const t=tasks.find(x=>x.id===i.task_id); if(!t) throw new Error("No task with that id"); const u={}; if(i.status) u.status=i.status; if(i.status==="done") u.doneAt=new Date().toISOString();
+   if(i.agent){const a=findAgent(i.agent); if(!a) throw new Error("No agent called "+i.agent); u.agentId=a.id;} if(i.due) u.due=i.due; if(i.priority) u.priority=i.priority;
+   if(Object.keys(u).length) await db.doc("tasks/"+t.id).update(u); if(i.start) startQueue.push(t.id); actLog.push(`Updated: ${t.title}${i.status?" → "+i.status:""}${i.start?" (starting now)":""}`); return "ok";}},
+ {name:"hire_agent",description:"Hire a new AI agent. Give a person's name, a job designation, a room id for their desk, and instructions on how they work.",
+  inputSchema:{type:"object",properties:{name:{type:"string"},designation:{type:"string"},room:{type:"string"},instructions:{type:"string"},autopilot:{type:"boolean"}},required:["name","designation"]},
+  execute:async i=>{const ref=await db.collection("agents").add({name:String(i.name).slice(0,40),role:String(i.designation).slice(0,80),dept:findRoom(i.room)?.id||WORK[0].id,mind:String(i.instructions||"").slice(0,2000),auto:!!i.autopilot,createdAt:Date.now()});
+   actLog.push(`Hired: ${i.name}, ${i.designation}`); return {id:ref.id};}},
+ {name:"update_agent",description:"Change an agent's name, designation, desk room, instructions or autopilot (true = works through their queue automatically).",
+  inputSchema:{type:"object",properties:{agent:{type:"string"},name:{type:"string"},designation:{type:"string"},room:{type:"string"},instructions:{type:"string"},autopilot:{type:"boolean"}},required:["agent"]},
+  execute:async i=>{const a=findAgent(i.agent); if(!a) throw new Error("No agent called "+i.agent); const u={}; if(i.name) u.name=String(i.name); if(i.designation) u.role=String(i.designation); if(i.room&&findRoom(i.room)) u.dept=findRoom(i.room).id; if(i.instructions) u.mind=String(i.instructions); if(typeof i.autopilot==="boolean") u.auto=i.autopilot;
+   await db.doc("agents/"+a.id).update(u); actLog.push(`Updated ${a.name}${typeof i.autopilot==="boolean"?" · autopilot "+(i.autopilot?"on":"off"):""}`); return "ok";}},
+ {name:"add_routine",description:"Add a recurring job for an agent. cadence daily, weekly or monthly; day 0-6 (0 = Sunday) for weekly.",
+  inputSchema:{type:"object",properties:{agent:{type:"string"},title:{type:"string"},cadence:{type:"string",enum:["daily","weekly","monthly"]},day:{type:"number"},brief:{type:"string"}},required:["agent","title","cadence"]},
+  execute:async i=>{const a=findAgent(i.agent); if(!a) throw new Error("No agent called "+i.agent); await db.collection("routines").add({agentId:a.id,title:String(i.title).slice(0,160),cadence:["daily","weekly","monthly"].includes(i.cadence)?i.cadence:"weekly",day:Math.max(0,Math.min(6,Number(i.day)||1)),brief:String(i.brief||"").slice(0,1000),createdAt:Date.now()});
+   actLog.push(`Routine: ${a.name} · ${i.title} (${i.cadence})`); return "ok";}},
+ {name:"set_status",description:"Update the office goal and/or status (red, amber, green, grey, parked) with a short reason.",
+  inputSchema:{type:"object",properties:{status:{type:"string",enum:["red","amber","green","grey","parked"]},note:{type:"string"},goal:{type:"string"}}},
+  execute:async i=>{const m={...meta}; if(i.status) m.status=i.status; if(i.note!==undefined) m.note=String(i.note); if(i.goal) m.goal=String(i.goal); await db.doc("meta/business").set({goal:m.goal,status:m.status,note:m.note||"",updatedAt:Date.now()}); actLog.push(`Status: ${(STATUS[m.status]||STATUS.grey)[0]}${i.goal?" · goal updated":""}`); return "ok";}},
+ {name:"remember",description:"Save one fact, number, decision, contact or preference Sahill told you, as one short sentence, to the office memory.",
+  inputSchema:{type:"object",properties:{fact:{type:"string"}},required:["fact"]},
+  execute:async i=>{await db.collection("memory").add({text:String(i.fact).slice(0,600),createdAt:Date.now(),source:"chat"}); actLog.push(`Remembered: ${i.fact}`); return "saved";}},
+];
+function renderChat(){
+  const el=$("#msgs"); const atBottom=el.scrollHeight-el.scrollTop-el.clientHeight<60;
+  el.innerHTML=chat.length?chat.map(m=>`<div class="msg ${m.role==="user"?"user":"assistant"}">${esc(m.text)}${m.actions?.length?`<div class="acts">${m.actions.map(x=>`<span>✓ ${esc(x)}</span>`).join("")}</div>`:""}<span class="when">${esc(fmtTime(m.createdAt))}</span></div>`).join("")
+    :`<div class="msg assistant">Hi Sahill. I run the ${esc(BIZ.name)} office. Tell me what you need: I'll assign it to the right person, start the work, and remember anything you tell me.</div>`;
+  if(pending) el.insertAdjacentHTML("beforeend",`<div class="msg assistant" id="pendingMsg"><span class="ptext">${esc(pending.text||"")}</span><span class="dots"> Working</span></div>`);
+  if(atBottom||pending) el.scrollTop=el.scrollHeight;
+  $("#memCount").textContent=memory.length;
+  $("#memlist").innerHTML=memory.length?memory.slice().sort((a,b)=>b.createdAt-a.createdAt).map(m=>`<div class="mem"><span>${esc(m.text)}<br><span class="tag">${esc(fmtTime(m.createdAt))}</span></span>${canWrite?`<button type="button" class="ghost small" data-mdel="${esc(m.id)}">Forget</button>`:""}</div>`).join(""):'<div class="empty">Nothing saved yet. Facts, numbers and decisions you mention in chat are kept here and synced to your GM Board.</div>';
+  const sug=BIZ.suggestions||[]; $("#suggest").innerHTML=chat.length>2?"":sug.map(x=>`<button type="button" data-sug="${esc(x)}">${esc(x)}</button>`).join("");
+}
+let pending=null;
+async function sendChat(text){
+  if(!db||!canWrite) return toast("Chat isn't available on this view.");
+  if(!sample) return toast("Claude isn't available on this view.");
+  if(pending) return;
+  text=text.trim(); if(!text) return;
+  $("#chatIn").value=""; pending={text:""}; actLog=[]; startQueue=[];
+  $("#sendChat").disabled=true; $("#stopChat").hidden=false; $("#chatState").textContent="The office manager is on it…";
+  try{ await db.collection("chat").add({role:"user",text,createdAt:Date.now()}); }catch(e){}
+  renderChat();
+  const turns=chat.slice(-16).map(m=>({role:m.role==="user"?"user":"assistant",content:m.text})).filter(m=>m.content);
+  if(!turns.length||turns[turns.length-1].role!=="user"||turns[turns.length-1].content!==text) turns.push({role:"user",content:text});
+  chatCtl=new AbortController();
+  let reply="";
+  try{
+    const r=await sample([{role:"user",content:RULES()},...turns],{tools:chatTools,signal:chatCtl.signal,modelTier:"default",onText:({text:t})=>{pending.text=t;const n=document.querySelector("#pendingMsg .ptext");if(n){n.textContent=t;$("#msgs").scrollTop=$("#msgs").scrollHeight;}}});
+    reply=r.text.trim();
+  }catch(e){
+    reply=e?.code==="cancelled"||e?.code==="aborted"?"Stopped.":e?.code==="not_granted"?"Claude access isn't allowed on this page yet. Allow it from the page's Permissions menu.":e?.code==="tools_unavailable"?"Office actions aren't available on this device's Claude access, so I can only answer, not act.":e?.code==="rate_limited"?"I'm at a usage limit. Try again in a few minutes.":"Something went wrong: "+(e?.message||"unknown error");
+    if(e?.text) reply=e.text+"\n\n"+reply;
+  }
+  pending=null;
+  try{ await db.collection("chat").add({role:"assistant",text:reply||"Done.",actions:actLog.slice(0,20),createdAt:Date.now()}); }catch(e){}
+  $("#sendChat").disabled=false; $("#stopChat").hidden=true; $("#chatState").textContent="Everything you say here is saved to this office's memory.";
+  renderChat();
+  const q=startQueue.slice(); startQueue=[];
+  for(const id of q){ await new Promise(r=>setTimeout(r,500)); runTask(id); }
+}
+function openChat(){$("#chatDrawer").hidden=false;$("#openChat").hidden=true;renderChat();$("#chatIn").focus();const el=$("#msgs");el.scrollTop=el.scrollHeight;}
+function closeChat(){$("#chatDrawer").hidden=true;$("#openChat").hidden=false;}
+$("#openChat").onclick=openChat; $("#closeChat").onclick=closeChat;
+$("#stopChat").onclick=()=>chatCtl?.abort();
+$("#chatForm").onsubmit=e=>{e.preventDefault();sendChat($("#chatIn").value);};
+$("#chatIn").addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();sendChat($("#chatIn").value);}});
+$("#chatDrawer").addEventListener("click",async e=>{const b=e.target.closest("button"); if(!b) return;
+  if(b.dataset.ctab){document.querySelectorAll("[data-ctab]").forEach(x=>x.setAttribute("aria-selected",String(x===b)));const mem=b.dataset.ctab==="memory";$("#msgs").hidden=mem;$("#memlist").hidden=!mem;$("#chatForm").hidden=mem;}
+  if(b.dataset.sug) sendChat(b.dataset.sug);
+  if(b.dataset.mdel&&db){ if(b.dataset.confirm){await db.doc("memory/"+b.dataset.mdel).delete();toast("Forgotten.");} else {b.dataset.confirm="1";b.textContent="Confirm";} }
+});
+
 /* ---------- events ---------- */
 document.addEventListener("click",async e=>{
   const b=e.target.closest("button,[data-room],[data-agent]"); if(!b) return;
@@ -590,7 +724,7 @@ document.addEventListener("click",async e=>{
     else if(d.fire){ if(d.confirm){const a=agentById(d.fire); await db.doc("agents/"+d.fire).delete(); toast(`${a?.name||"Agent"} has left. Their tasks are unassigned.`); select({kind:"office"});} else {d.confirm="1";b.textContent="Confirm: let them go";setTimeout(()=>{if(b.isConnected){delete b.dataset.confirm;b.textContent="Let go";}},4000);} }
   }catch(err){toast("Couldn't save: "+(err?.message||err?.code||"error"));}
 });
-document.addEventListener("keydown",e=>{ if((e.key==="Enter"||e.key===" ")&&e.target.matches(".room,.agent")){e.preventDefault();e.target.click();} if(e.key==="Escape"&&!$("#hireModal").hidden) closeHire(); });
+document.addEventListener("keydown",e=>{ if(e.key==="Escape"&&!$("#chatDrawer").hidden){closeChat();return;} if((e.key==="Enter"||e.key===" ")&&e.target.matches(".room,.agent")){e.preventDefault();e.target.click();} if(e.key==="Escape"&&!$("#hireModal").hidden) closeHire(); });
 document.addEventListener("change",async e=>{const s=e.target.closest("select[data-assign]"); if(!s||!db) return;
   try{await db.doc("tasks/"+s.dataset.assign).update({agentId:s.value}); toast(s.value?`Assigned to ${agentById(s.value)?.name}.`:"Unassigned.");}catch(err){toast("Couldn't save: "+(err?.message||"error"));}});
 document.addEventListener("submit",async e=>{
@@ -635,12 +769,14 @@ renderMeta(); renderChips(); buildFloor(); renderSide(); renderBoard(); renderRe
   if(u){ try{ if(await u.can("data.write")===false) canWrite=false; }catch{} }
   if(!d) return;
   db=d; clearTimeout(timer);
-  if(!canWrite){ banner("You're visiting this office. Only Sahill and editors can hire, assign or send agents to work."); ["#openHire","#callMeeting","#newTaskBtn","#editStatus"].forEach(x=>$(x).hidden=true); }
+  if(!canWrite){ banner("You're visiting this office. Only Sahill and editors can hire, assign or send agents to work."); ["#openHire","#callMeeting","#newTaskBtn","#editStatus","#openChat"].forEach(x=>$(x).hidden=true); }
   else if(!sample) banner("Claude isn't available on this view, so agents can't do work here. You can still hire and assign.");
   const onErr=e=>banner("Couldn't load saved data ("+(e?.code||"error")+").");
   db.collection("agents").onSnapshot(q=>{agents=q.docs.map(x=>({id:x.id,...x.data()})).sort((a,b)=>(a.createdAt||0)-(b.createdAt||0));renderAll();if(!$("#hireModal").hidden)renderCands();},onErr);
   db.collection("tasks").onSnapshot(q=>{tasks=q.docs.map(x=>({id:x.id,...x.data()}));renderAll();},onErr);
   db.collection("routines").onSnapshot(q=>{routines=q.docs.map(x=>({id:x.id,...x.data()}));renderSide();},onErr);
+  db.collection("chat").orderBy("createdAt","desc").limit(80).onSnapshot(q=>{chat=q.docs.map(x=>({id:x.id,...x.data()})).sort((a,b)=>(a.createdAt||0)-(b.createdAt||0));if(!$("#chatDrawer").hidden)renderChat();},onErr);
+  db.collection("memory").onSnapshot(q=>{memory=q.docs.map(x=>({id:x.id,...x.data()}));$("#memCount").textContent=memory.length;if(!$("#chatDrawer").hidden)renderChat();},onErr);
   db.collection("reports").onSnapshot(q=>{reports=q.docs.map(x=>({id:x.id,...x.data()}));renderReports();renderSide();},onErr);
   db.doc("meta/business").onSnapshot(x=>{if(x.exists) meta={...meta,...x.data()};renderMeta();},onErr);
 })();

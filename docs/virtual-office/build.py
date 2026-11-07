@@ -59,8 +59,13 @@ B=[
    C("Ahmed Farouk","Automotive Partnerships Lead","partners","Brings in inspection, finance and transfer partners.",["Inspections","Car finance","RTA"],"Find partners that make swaps safe: valuation, loan settlement, RTA transfer."),
    C("Chloe Durand","Investor Relations Analyst","product","Builds the story and numbers for a future raise.",["Pitch decks","Market sizing","VC lists"],"Only raise on real traction. Size the UAE used-car market honestly.")]),
 ]
+SUG={"yontro":["What's everyone working on?","Usama booked 3 meetings today, log it","Get Omar to write follow-ups for the 4 warm prospects now"],
+ "botany":["Start the rental register now","Tenant in a flat bounced a cheque, what next?","What does Fatima need from me?"],
+ "foundertales":["Give me today's 3 video ideas","We hit 1,200 followers, remember it","Have Amara draft the rate card now"],
+ "aura":["Here are last month's numbers…","Build the corporate package now","Hire someone for Google reviews"],
+ "barter":["What should we test first?","Have Elena write the one-page concept","Park Barter until January"]}
 for b in B:
-  biz={k:b[k] for k in ["name","kind","goal","status","note","about","rooms","agentDept","candidates"]}; biz["corridorY"]=50
+  biz={k:b[k] for k in ["name","kind","goal","status","note","about","rooms","agentDept","candidates"]}; biz["corridorY"]=50; biz["suggestions"]=SUG[b["slug"]]
   s=(t.replace('__TITLE__',b['title']).replace('__NAME__',b['name']).replace('__KIND__',b['kind'].upper()).replace('__INITIAL__',b['initial'])
       .replace('__ACCENT__',b['accent']).replace('__ACCENT_INK__',b['ink']).replace('__ACCENT_DARK__',b['dark']).replace('__GOAL__',b['goal'])
       .replace('__BIZJSON__',json.dumps(biz).replace('</','<\\/')))
