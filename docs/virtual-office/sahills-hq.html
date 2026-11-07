@@ -204,7 +204,7 @@ form.add .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1
 .prio div{display:flex;gap:10px;align-items:baseline;font-size:14px}
 .prio div::before{counter-increment:p;content:counter(p);font-family:var(--display);font-weight:800;font-size:18px;color:var(--muted);min-width:16px}
 .rvbg{}
-:root{--rv:#d98a00;--rv-bg:#fff4dc;--rv-ink:#5a3a00}
+:root{--sky1:#7cc4f2;--sky2:#d7ecf7;--sunc:#ffd75e;--sunx:20%;--suny:8px;--cityc:#5b6b7d;--winc:transparent;--wino:0;--skyink:#13324d;--rv:#d98a00;--rv-bg:#fff4dc;--rv-ink:#5a3a00}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--rv:#f0b43c;--rv-bg:#2e2512;--rv-ink:#ffe2a6}}
 :root[data-theme="dark"]{--rv:#f0b43c;--rv-bg:#2e2512;--rv-ink:#ffe2a6}
 .reviewpanel{background:var(--rv-bg);border:2px solid var(--rv);border-radius:18px;padding:16px;display:grid;gap:12px;min-width:0}
@@ -258,6 +258,40 @@ button.ok{background:var(--green);border-color:var(--green);color:#fff}
 .typing{align-self:flex-start;font-size:12.5px;color:var(--muted)}
 .rcard .lastmsg{font-size:14px;white-space:pre-wrap;overflow-wrap:anywhere}
 .teamrow{display:flex;gap:6px;flex-wrap:wrap}
+.sky{position:relative;height:54px;border-radius:10px 10px 0 0;margin-bottom:8px;overflow:hidden;background:linear-gradient(180deg,var(--sky1),var(--sky2));transition:background 2s}
+.sky .sun{position:absolute;width:22px;height:22px;border-radius:50%;background:var(--sunc);box-shadow:0 0 18px var(--sunc);top:var(--suny);left:var(--sunx);transition:all 2s}
+.sky .city{position:absolute;left:0;right:0;bottom:0;height:40px;background:var(--cityc);clip-path:polygon(0 100%,0 70%,4% 70%,4% 55%,7% 55%,7% 72%,11% 72%,11% 48%,13% 48%,13% 64%,18% 64%,18% 40%,21% 40%,21% 66%,26% 66%,26% 58%,30% 58%,30% 74%,35% 74%,35% 50%,38% 50%,38% 62%,44% 62%,44% 0%,44.6% 0%,45.2% 18%,46% 30%,47% 42%,48% 55%,49% 68%,53% 68%,53% 44%,56% 44%,56% 60%,60% 60%,60% 35%,63% 35%,63% 66%,68% 66%,68% 52%,72% 52%,72% 70%,77% 70%,77% 46%,79% 46%,79% 30%,81% 30%,81% 63%,86% 63%,86% 56%,90% 56%,90% 72%,95% 72%,95% 60%,100% 60%,100% 100%)}
+.sky .win{position:absolute;inset:0;background-image:radial-gradient(var(--winc) 1px,transparent 1.3px);background-size:9px 7px;background-position:2px 30px;clip-path:inherit;opacity:var(--wino);pointer-events:none}
+.sky .clock{position:absolute;right:10px;top:7px;font-family:var(--mono);font-size:11.5px;color:var(--skyink);background:rgba(0,0,0,.18);padding:2px 8px;border-radius:99px}
+.sky .ttl{position:absolute;left:10px;top:7px;font-family:var(--display);font-weight:700;font-size:13px;color:var(--skyink)}
+.floor .tint{position:absolute;inset:0;pointer-events:none;background:rgba(10,20,60,var(--night,0));z-index:4;transition:background 2s}
+.room.live{box-shadow:inset 0 0 0 3px var(--accent),0 0 18px color-mix(in srgb,var(--accent) 45%,transparent)}
+.room .livebadge{position:absolute;left:8px;bottom:6px;font-family:var(--mono);font-size:10px;background:var(--red);color:#fff;padding:1px 7px;border-radius:99px;z-index:2;animation:blink 1.4s ease-in-out infinite}
+@keyframes blink{50%{opacity:.45}}
+.room.live .desk::after{animation:screen 0.9s steps(2) infinite}
+@keyframes screen{50%{background:color-mix(in srgb,var(--screen) 60%,#9fd3ff)}}
+.chair{background:color-mix(in srgb,var(--wall) 70%,transparent);border-radius:50%}
+.shelf{background:repeating-linear-gradient(90deg,#b5483d 0 4px,#3d6fb5 4px 8px,#d9a441 8px 11px,#4a8a52 11px 15px,#7b4fa0 15px 18px);border:2px solid var(--desk);border-radius:2px}
+.board-w{background:#f8f8f4;border:2px solid #9a9a9a;border-radius:2px;overflow:hidden}
+.board-w::after{content:"";position:absolute;left:12%;right:12%;bottom:18%;height:55%;background:linear-gradient(90deg,transparent 0 10%,#e0563b 10% 22%,transparent 22% 34%,#e0563b 34% 46%,transparent 46% 58%,#2f7d4a 58% 70%,transparent 70% 82%,#2f7d4a 82% 94%,transparent 94%);clip-path:polygon(0 100%,0 70%,25% 70%,25% 45%,50% 45%,50% 30%,75% 30%,75% 0,100% 0,100% 100%)}
+.cam{background:radial-gradient(circle at 50% 35%,#222 0 28%,transparent 30%),linear-gradient(#444,#444) 50% 60%/12% 60% no-repeat}
+.light{background:radial-gradient(circle,rgba(255,236,170,.85),rgba(255,236,170,0) 70%);border-radius:50%;animation:glow 3s ease-in-out infinite}
+@keyframes glow{50%{opacity:.6}}
+.lamp{background:radial-gradient(circle,rgba(255,220,140,.35),transparent 70%);border-radius:50%}
+.fridge{background:#dfe5ea;border:2px solid #9aa6b1;border-radius:3px}
+.cooler{background:linear-gradient(#9fd3ff 0 45%,#e9eef2 45%);border-radius:4px 4px 2px 2px;border:1px solid #9aa6b1}
+.steam{background:transparent}
+.steam::before,.steam::after{content:"";position:absolute;left:30%;bottom:0;width:22%;height:60%;border-radius:50%;background:rgba(255,255,255,.55);filter:blur(1px);animation:steam 2.4s ease-in infinite}
+.steam::after{left:52%;animation-delay:1.2s}
+@keyframes steam{0%{transform:translateY(0) scale(.6);opacity:.8}100%{transform:translateY(-120%) scale(1.3);opacity:0}}
+.screenw{background:#20262f;border:2px solid #555;border-radius:2px}
+.screenw::after{content:"";position:absolute;inset:18%;background:linear-gradient(90deg,var(--accent) 0 30%,transparent 30% 40%,#8fb3d9 40% 75%,transparent 75%);opacity:.8}
+.agent .fig::before{content:"";position:absolute;left:12%;right:12%;bottom:-10%;height:14%;border-radius:50%;background:rgba(0,0,0,.18)}
+.confetti{position:fixed;top:-12px;width:8px;height:12px;z-index:60;pointer-events:none;animation:fall 1.6s cubic-bezier(.2,.6,.4,1) forwards}
+@keyframes fall{to{transform:translate(var(--dx),105vh) rotate(var(--rot));opacity:.9}}
+.soundbtn{flex:none;display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;padding:5px 11px;border:1.5px solid var(--line);border-radius:999px;background:var(--surface);color:var(--ink);cursor:pointer}
+.soundbtn svg{width:15px;height:15px}
+@media (prefers-reduced-motion:reduce){.confetti,.steam::before,.steam::after,.light,.livebadge,.room.live .desk::after{animation:none!important}}
 .bizbar{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin;align-items:center}
 .bizbar a{flex:none;display:inline-flex;align-items:center;gap:7px;text-decoration:none;color:var(--ink);font-weight:600;font-size:13.5px;padding:6px 13px;border:1.5px solid var(--line);border-radius:999px;background:var(--surface)}
 .bizbar a:hover{border-color:var(--ink)}
@@ -360,6 +394,7 @@ button.ok{background:var(--green);border-color:var(--green);color:#fff}
 
   <div class="main">
     <div class="floorwrap">
+      <div class="sky" id="sky" aria-hidden="true"><div class="sun"></div><div class="city"></div><div class="city win"></div><span class="ttl" id="skyTitle"></span><span class="clock" id="skyClock"></span></div>
       <div id="floor" class="floor" role="group" aria-label="Office floor plan"></div>
     </div>
     <aside class="panel side" id="side" aria-live="polite"></aside>
@@ -487,9 +522,16 @@ function buildFloor(){
 }
 function furniture(r){
   const F=(c,x,y,w,h)=>`<div class="furn ${c}" style="left:${x}%;top:${y}%;width:${w}%;height:${h}%"></div>`;
-  if(r.id==="board") return F("table",22,38,56,30)+F("plant",4,78,9,14)+F("plant",87,78,9,14);
-  if(r.id==="break") return F("rug",30,34,40,44)+F("sofa",8,72,34,14)+F("coffee",84,24,10,16)+F("plant",86,76,9,14);
-  return F("desk",12,30,22,14)+F("desk",44,30,22,14)+F("desk",12,64,22,14)+F("desk",44,64,22,14)+F("plant",84,72,10,16)+(r.floor==="a"?F("table",74,26,18,22):"");
+  const nm=(r.name+" "+r.id).toLowerCase();
+  if(r.id==="board") return F("lamp",15,20,70,70)+F("table",22,38,56,30)+[[18,44],[18,58],[78,44],[78,58],[34,30],[50,30],[66,30],[34,70],[50,70],[66,70]].map(([x,y])=>F("chair",x,y,5,8)).join("")+F("screenw",36,14,28,10)+F("plant",4,78,9,14)+F("plant",87,78,9,14);
+  if(r.id==="break") return F("rug",30,34,40,44)+F("sofa",8,72,34,14)+F("coffee",84,24,10,16)+F("steam",84,10,10,14)+F("fridge",70,20,9,22)+F("cooler",8,24,7,18)+F("table",42,48,16,16)+F("plant",86,76,9,14);
+  const desks=[[12,32],[44,32],[12,64],[44,64]].map(([x,y])=>F("chair",x+8,y+15,6,9)+F("desk",x,y,22,14)).join("");
+  let extra="";
+  if(/studio|edit|media|video/.test(nm)) extra=F("light",68,14,26,30)+F("cam",76,30,12,22);
+  else if(/legal|research|lab|newsroom|web/.test(nm)) extra=F("shelf",72,16,22,12)+F("lamp",68,40,30,30);
+  else if(/sales|market|corporate|partner|rental/.test(nm)) extra=F("board-w",72,14,22,18);
+  else extra=F("sofa",72,22,22,11)+F("lamp",66,14,34,34);
+  return F("lamp",8,22,60,70)+desks+extra+F("plant",84,72,10,16);
 }
 function spot(roomId,seed){const r=roomById(roomId)||ROOMS[0];const [x,y,w,h]=rect(r);
   const sx=[0.23,0.55,0.23,0.55,0.8,0.4,0.7], sy=[0.55,0.55,0.9,0.9,0.5,0.75,0.8];
@@ -504,7 +546,7 @@ function walk(a,target){
   const pts=[]; const cur={x:p.x,y:p.y};
   if(p.room!==target.room){ if(narrow){pts.push({x:50,y:cur.y},{x:50,y:target.y});} else {pts.push({x:cur.x,y:BIZ.corridorY},{x:target.x,y:BIZ.corridorY});} }
   pts.push(target);
-  const id=(p.mv=(p.mv||0)+1); p.room=target.room; p.el.classList.add("walking");
+  const id=(p.mv=(p.mv||0)+1); p.room=target.room; p.el.classList.add("walking"); let stepT=setInterval(()=>{ if(p.mv!==id||!p.el?.classList.contains("walking")){clearInterval(stepT);return;} if(view==="office") SFX.play("step"); },330);
   let prev=cur;
   const step=()=>{ if(p.mv!==id) return; const n=pts.shift(); if(!n){p.el.classList.remove("walking");return;}
     const d=Math.hypot((n.x-prev.x)*fw/100,(n.y-prev.y)*fh/100); const ms=Math.max(120,d*9);
@@ -525,7 +567,7 @@ function renderAgentsOnFloor(force){
   agents.forEach((a,i)=>{
     let p=pos.get(a.id); const it=intent(a);
     if(!p||!p.el){
-      const el=document.createElement("div"); el.className="agent"; el.dataset.agent=a.id; el.tabIndex=0; el.setAttribute("role","button"); el.setAttribute("aria-label",a.name+", "+a.role);
+      const el=document.createElement("div"); el.className="agent"; el.dataset.agent=a.id; el.tabIndex=0; el.setAttribute("role","button"); el.setAttribute("aria-label",a.name+", "+a.role); el.title=a.name+" · "+a.role;
       el.innerHTML=`<div class="who"><div class="bubble" hidden></div>${figHTML(a)}<span class="name"><span class="auto-dot" hidden></span>${esc(firstName(a.name))}</span></div>`;
       f.appendChild(el);
       const start=spot(it.room||agentDept(a),i%7);
@@ -541,10 +583,11 @@ function renderAgentsOnFloor(force){
     const b=p.el.querySelector(".bubble");
     if(it.say){b.hidden=false;b.innerHTML=esc(it.say)+(running.get("agent:"+a.id)?'<span class="dots"></span>':"");} else if(!p.quip){b.hidden=true;}
   });
+  ROOMS.forEach(r=>{const el=document.querySelector(`.room[data-room="${r.id}"]`); if(el){const live=agents.some(a=>{const it=intent(a);return it.mode==="working"&&it.room===r.id;}); el.classList.toggle("live",live&&r.id!=="break"); let lb=el.querySelector(".livebadge"); if(live&&r.id!=="break"&&!lb){el.insertAdjacentHTML("beforeend",'<span class="livebadge">● working</span>');} else if(!(live&&r.id!=="break")&&lb) lb.remove();}});
   ROOMS.forEach(r=>{const c=document.querySelector(`[data-count="${r.id}"]`); if(!c) return; const n=tasks.filter(t=>t.status!=="done"&&taskRoom(t)===r.id).length; c.hidden=!n||r.id==="break"||r.id==="board"; c.textContent=n;});
   markSel();
 }
-const QUIPS=["Coffee first","Back in 5","Reading the brief","Checking numbers","Ready for work","Stretching"];
+const QUIPS=["Coffee first","Back in 5","Reading the brief","Checking numbers","Ready for work","Stretching","Anyone seen the stapler?","Inbox zero, almost","Need a decision from Sahill","Quick call","Who took my mug?","On it","Lunch soon?","Big week ahead","Updating the tracker"];
 setInterval(()=>{ if(view!=="office") return; // idle wandering
   agents.forEach(a=>{const p=pos.get(a.id); if(!p||p.mode!=="idle"||Math.random()<0.5) return;
     p.idleRoom=Math.random()<0.35?"break":agentDept(a); walk(a,spot(p.idleRoom,Math.floor(Math.random()*7)));
@@ -652,7 +695,7 @@ function renderBoard(){
   const today=todayISO();
   const col=(st,label)=>{const L=list.filter(t=>t.status===st);return `<div class="col"><h3><span>${label}</span><span class="tag">${L.length}</span></h3>${L.map(t=>{const a=agentById(t.agentId);const late=t.due&&t.status!=="done"&&t.due<today;
     return `<div class="card p-${esc(t.priority||"normal")}"><div class="t">${esc(t.title)}</div>
-    <div class="m">${avDot(a)}<select data-assign="${esc(t.id)}" ${canWrite?"":"disabled"} aria-label="Assign agent"><option value="">Unassigned</option>${agents.map(x=>`<option value="${esc(x.id)}" ${x.id===t.agentId?"selected":""}>${esc(x.name)}</option>`).join("")}</select>
+    <div class="m">${avDot(a)}<select data-assign="${esc(t.id)}" ${canWrite?"":"disabled"} aria-label="Assign agent"><option value="">Unassigned</option>${agents.map(x=>`<option value="${esc(x.id)}" ${x.id===t.agentId?"selected":""}>${esc(x.name)} · ${esc(x.role)}</option>`).join("")}</select>
     <span>${esc(roomById(taskRoom(t))?.name||"")}</span>${t.due?`<span class="${late?"s-red":""}">${late?"Overdue · ":"Due "}${esc(fmtDate(t.due))}</span>`:""}</div>
     ${running.get(t.id)?`<div class="output live">${esc((running.get(t.id).text||"").slice(-400)||"Walking over…")}</div>`:t.output?workHTML(t,"Work from "+(t.outputBy||a?.name||"agent")):""}
     ${t.notes?`<details><summary>Brief</summary><div class="output">${esc(t.notes)}</div></details>`:""}
@@ -660,7 +703,7 @@ function renderBoard(){
   $("#board").innerHTML=col("todo","To do")+col("doing","In progress")+col("done","Done");
 }
 function fillSelects(){
-  const ta=$("#tAgent"),cur=ta.value; ta.innerHTML='<option value="">Unassigned</option>'+agents.map(a=>`<option value="${esc(a.id)}">${esc(a.name)}</option>`).join(""); if([...ta.options].some(o=>o.value===cur)) ta.value=cur;
+  const ta=$("#tAgent"),cur=ta.value; ta.innerHTML='<option value="">Unassigned</option>'+agents.map(a=>`<option value="${esc(a.id)}">${esc(a.name)} · ${esc(a.role)}</option>`).join(""); if([...ta.options].some(o=>o.value===cur)) ta.value=cur;
   const opts=WORK.map(r=>`<option value="${r.id}">${esc(r.name)}</option>`).join(""); for(const id of ["#tRoom","#hRoom"]){const s=$(id),c=s.value;s.innerHTML=opts;if(c)s.value=c;}
 }
 function renderReports(){const el=$("#reports"); if(!reports.length){el.innerHTML=`<div class="empty">No meetings yet. Call a board meeting: the team gathers in the boardroom and files a status report against the goal.</div>`;return;}
@@ -675,7 +718,7 @@ function renderCands(){
     ${have.has(c.name.toLowerCase())?'<span class="tag">Already on your team</span>':`<button type="button" class="primary small" data-hirec="${i}" ${canWrite?"":"disabled"}>Hire ${esc(firstName(c.name))}</button>`}</div>`).join("");
 }
 async function hire(data){ if(!db) return toast("Hiring isn't available on this view.");
-  try{ const ref=await db.collection(P()+"agents").add({...data,createdAt:Date.now()}); toast(`${data.name} is walking in. Welcome to ${BIZ.name}.`); return ref; }catch(e){toast("Couldn't hire: "+(e?.message||e?.code||"error"));}}
+  try{ SFX.play("hire"); const ref=await db.collection(P()+"agents").add({...data,createdAt:Date.now()}); toast(`${data.name} is walking in. Welcome to ${BIZ.name}.`); return ref; }catch(e){toast("Couldn't hire: "+(e?.message||e?.code||"error"));}}
 
 /* ---------- Claude work ---------- */
 function context(){
@@ -712,7 +755,7 @@ Do the task now and hand back finished work, not a plan to do it: messages ready
     const r=await sample(prompt,{signal:ctl.signal,modelTier:"default",cache:false,onText:({text})=>{const s=running.get(id);if(!s)return;s.text=text;refreshLive(id);}});
     running.delete(id); running.delete("agent:"+a.id);
     await db.doc(pre+"tasks/"+id).update({output:r.text,outputBy:a.name,outputAt:new Date().toISOString(),status:"doing",...(t.output?{history:[...(t.history||[]),{output:t.output,at:t.outputAt||""}].slice(-3)}:{})});
-    try{ await db.collection(pre+"dm").add({agentId:a.id,role:"agent",kind:"work",taskId:id,title:t.title,text:r.text,createdAt:Date.now()}); }catch(_){}
+    SFX.play("work"); try{ await db.collection(pre+"dm").add({agentId:a.id,role:"agent",kind:"work",taskId:id,title:t.title,text:r.text,createdAt:Date.now()}); }catch(_){}
     toast(`${firstName(a.name)} (${bname}) finished. Please review it.`);
   }catch(e){running.delete(id);running.delete("agent:"+a.id);
     if(e?.code==="aborted"||ctl.signal.aborted) toast("Stopped.");
@@ -723,7 +766,7 @@ Do the task now and hand back finished work, not a plan to do it: messages ready
 }
 async function boardMeeting(){
   if(!sample) return toast("Claude isn't available on this view.");
-  if(meeting) return; meeting=true; const pre=P(), meta0={...meta}; $("#callMeeting").disabled=true; $("#callMeeting").textContent="Meeting in progress…";
+  if(meeting) return; SFX.play("meeting"); meeting=true; const pre=P(), meta0={...meta}; $("#callMeeting").disabled=true; $("#callMeeting").textContent="Meeting in progress…";
   renderAgentsOnFloor(); select({kind:"room",id:"board"}); toast("Everyone to the boardroom.");
   const work=tasks.filter(t=>t.output).slice(-8).map(t=>`### ${t.title} (${t.outputBy||agentById(t.agentId)?.name||""})\n${t.output.slice(0,1200)}`).join("\n\n");
   const prompt=`You chair the weekly board meeting of ${BIZ.name} for Sahill. Write the minutes as a status report.
@@ -806,7 +849,7 @@ ${head}
 HQ MEMORY: ${HQD.memory.slice(-30).map(m=>m.text).join(" / ")||"none"}
 ${SLUGS.map(x=>stateOf(x,false)).join("\n")}`;
 };
-async function removeAgentIn(slug,q,log){
+async function removeAgentIn(slug,q,log){ SFX.play("fire");
   const a=findAgentIn(slug,q); if(!a) throw new Error("No agent called "+q+" in "+slug); const base="biz/"+slug+"/";
   for(const t of ALL[slug].tasks.filter(t=>t.agentId===a.id&&t.status!=="done")) await db.doc(base+"tasks/"+t.id).update({agentId:""});
   for(const r of ALL[slug].routines.filter(r=>r.agentId===a.id)) await db.doc(base+"routines/"+r.id).delete();
@@ -889,7 +932,7 @@ async function sendChat(text){
   if(!sample) return toast("Claude isn't available on this view.");
   if(pending) return;
   text=text.trim(); if(!text) return;
-  $("#chatIn").value=""; pending={text:""}; actLog=[]; startQueue=[];
+  $("#chatIn").value=""; SFX.play("send"); pending={text:""}; actLog=[]; startQueue=[];
   $("#sendChat").disabled=true; $("#stopChat").hidden=false; $("#chatState").textContent="The office manager is on it…";
   try{ await db.collection(CP()+"chat").add({role:"user",text,createdAt:Date.now()}); }catch(e){}
   renderChat();
@@ -904,7 +947,7 @@ async function sendChat(text){
     reply=e?.code==="cancelled"||e?.code==="aborted"?"Stopped.":e?.code==="not_granted"?"Claude access isn't allowed on this page yet. Allow it from the page's Permissions menu.":e?.code==="tools_unavailable"?"Office actions aren't available on this device's Claude access, so I can only answer, not act.":e?.code==="rate_limited"?"I'm at a usage limit. Try again in a few minutes.":"Something went wrong: "+(e?.message||"unknown error");
     if(e?.text) reply=e.text+"\n\n"+reply;
   }
-  pending=null;
+  pending=null; SFX.play("msg");
   try{ await db.collection(CP()+"chat").add({role:"assistant",text:reply||"Done.",actions:actLog.slice(0,20),createdAt:Date.now()}); }catch(e){}
   $("#sendChat").disabled=false; $("#stopChat").hidden=true; $("#chatState").textContent="Everything you say here is saved to this office's memory.";
   renderChat();
@@ -946,7 +989,7 @@ document.addEventListener("click",async e=>{
     else if(d.rdel){ if(d.confirm){await db.doc(P()+"routines/"+d.rdel).delete();toast("Routine removed.");} else {d.confirm="1";b.textContent="Confirm remove";setTimeout(()=>{if(b.isConnected){delete b.dataset.confirm;b.textContent="Remove";}},4000);} }
     else if(d.run) runTask(d.run);
     else if(d.stop) running.get(d.stop)?.ctl.abort();
-    else if(d.st) await db.doc(P()+"tasks/"+d.id).update({status:d.st,...(d.st==="done"?{doneAt:new Date().toISOString()}:{})});
+    else if(d.st){ if(d.st==="done"){SFX.play("approve");confetti();} await db.doc(P()+"tasks/"+d.id).update({status:d.st,...(d.st==="done"?{doneAt:new Date().toISOString()}:{})}); }
     else if(d.del){ if(d.confirm){await db.doc(P()+"tasks/"+d.del).delete();toast("Task deleted.");} else {d.confirm="1";b.textContent="Confirm delete";setTimeout(()=>{if(b.isConnected){delete b.dataset.confirm;b.textContent="Delete";}},4000);} }
     else if(d.fire){ if(d.confirm){const a=agentById(d.fire); await db.doc(P()+"agents/"+d.fire).delete(); toast(`${a?.name||"Agent"} has left. Their tasks are unassigned.`); select({kind:"office"});} else {d.confirm="1";b.textContent="Confirm: let them go";setTimeout(()=>{if(b.isConnected){delete b.dataset.confirm;b.textContent="Let go";}},4000);} }
   }catch(err){toast("Couldn't save: "+(err?.message||err?.code||"error"));}
@@ -999,13 +1042,53 @@ $("#statusForm").onsubmit=async e=>{e.preventDefault(); if(!db) return;
   try{await db.doc(P()+"meta/business").set({goal:$("#sGoal").value.trim()||BIZ.goal,status:$("#sStatus").value,note:$("#sNote").value.trim(),updatedAt:Date.now()});$("#statusForm").hidden=true;toast("Goal and status saved.");}catch(err){toast("Couldn't save: "+(err?.message||"error"));}};
 let rz; new ResizeObserver(()=>{clearTimeout(rz);rz=setTimeout(()=>{if(view!=="office")return;const n=$("#floor").clientWidth<620; if(n!==narrow) buildFloor();},120);}).observe($("#floor"));
 
+/* ---------- sound + delight ---------- */
+const SFX=(()=>{let ctx=null,on=true; try{on=localStorage.getItem("hq-sound")!=="off";}catch(_){}
+  function ac(){ if(!ctx){const C=window.AudioContext||window.webkitAudioContext; if(!C) return null; try{ctx=new C();}catch(_){return null;}} if(ctx.state==="suspended") ctx.resume().catch(()=>{}); return ctx; }
+  function tone(f,d,type="sine",v=.06,w=0,slide){const c=ac(); if(!c||!on) return; const t=c.currentTime+w; const o=c.createOscillator(),g=c.createGain(); o.type=type; o.frequency.setValueAtTime(f,t); if(slide) o.frequency.exponentialRampToValueAtTime(slide,t+d); g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(v,t+0.012); g.gain.exponentialRampToValueAtTime(0.0001,t+d); o.connect(g).connect(c.destination); o.start(t); o.stop(t+d+0.03);}
+  function noise(d,v=.04,w=0,freq=1200){const c=ac(); if(!c||!on) return; const t=c.currentTime+w; const b=c.createBuffer(1,Math.max(1,Math.floor(c.sampleRate*d)),c.sampleRate); const ch=b.getChannelData(0); for(let i=0;i<ch.length;i++) ch[i]=(Math.random()*2-1)*(1-i/ch.length); const src=c.createBufferSource(); src.buffer=b; const bp=c.createBiquadFilter(); bp.type="bandpass"; bp.frequency.value=freq; const g=c.createGain(); g.gain.value=v; src.connect(bp).connect(g).connect(c.destination); src.start(t);}
+  const S={
+    click:()=>tone(720,.045,"triangle",.035),
+    send:()=>{noise(.16,.05,0,2200); tone(480,.12,"sine",.04,0,960);},
+    msg:()=>{tone(660,.09,"triangle",.05); tone(990,.13,"triangle",.045,.08);},
+    ping:()=>{tone(880,.16,"sine",.07); tone(1320,.26,"sine",.06,.13);},
+    approve:()=>[523,659,784,1047].forEach((f,i)=>tone(f,.22,"triangle",.06,i*.08)),
+    hire:()=>{noise(.22,.05,0,380); tone(392,.14,"sine",.05,.12); tone(587,.22,"sine",.05,.24);},
+    fire:()=>tone(420,.3,"sawtooth",.025,0,180),
+    door:()=>{noise(.28,.045,0,300); tone(260,.18,"sine",.03,.04,200);},
+    meeting:()=>[523,659,523].forEach((f,i)=>tone(f,.32,"sine",.05,i*.26)),
+    step:()=>noise(.035,.018,0,520),
+    type:()=>tone(1500+Math.random()*700,.018,"square",.008),
+    work:()=>{tone(330,.08,"triangle",.04); tone(440,.12,"triangle",.04,.07);},
+  };
+  return {play:n=>{try{S[n]&&S[n]();}catch(_){}}, get on(){return on;}, toggle(){on=!on; try{localStorage.setItem("hq-sound",on?"on":"off");}catch(_){} if(on){ac();S.click();} return on;}};
+})();
+function confetti(){ if(matchMedia("(prefers-reduced-motion: reduce)").matches) return; const cols=["#FF5A1F","#2E6B4F","#C8902A","#6E5BA8","#1F5FBF","#2f7d4a","#e84393"];
+  for(let i=0;i<42;i++){const d=document.createElement("div"); d.className="confetti"; d.style.left=(Math.random()*100)+"vw"; d.style.background=cols[i%cols.length]; d.style.setProperty("--dx",(Math.random()*160-80)+"px"); d.style.setProperty("--rot",(Math.random()*720-360)+"deg"); d.style.animationDelay=(Math.random()*.25)+"s"; document.body.appendChild(d); setTimeout(()=>d.remove(),2100);} }
+const SPK_ON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16 9a4 4 0 010 6M18.5 6.5a8 8 0 010 11"/></svg>';
+const SPK_OFF='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M17 9l5 6M22 9l-5 6"/></svg>';
+function soundBtnHTML(){return `<button type="button" class="soundbtn" id="soundBtn" aria-pressed="${SFX.on}">${SFX.on?SPK_ON:SPK_OFF}${SFX.on?"Sound on":"Sound off"}</button>`;}
+document.addEventListener("click",e=>{ const sb=e.target.closest("#soundBtn"); if(sb){ SFX.toggle(); sb.outerHTML=soundBtnHTML(); return; } if(e.target.closest("button,.room,.agent,.bizrow,.bizbar a")) SFX.play("click"); },true);
+setInterval(()=>{ if(view==="office"&&SFX.on&&[...running.keys()].some(k=>k.startsWith("agent:"))&&Math.random()<0.6) SFX.play("type"); },260);
+function updateSky(){
+  const el=$("#sky"); if(!el) return; const now=new Date(); const dh=(now.getUTCHours()+4)%24+now.getUTCMinutes()/60;
+  const day=dh>=6&&dh<18.5, dusk=(dh>=17&&dh<19)||(dh>=5.5&&dh<7);
+  const st=el.style; const pct=day?((dh-6)/12.5):((dh>=18.5?dh-18.5:dh+5.5)/11.5);
+  st.setProperty("--sky1",day?(dusk?"#f2a05a":"#6cb8ee"):"#0d1633"); st.setProperty("--sky2",day?(dusk?"#ffd9a8":"#d7ecf7"):"#2a2f5a");
+  st.setProperty("--sunc",day?"#ffd75e":"#f2f2e6"); st.setProperty("--sunx",(5+pct*85)+"%"); st.setProperty("--suny",(4+Math.abs(pct-.5)*28)+"px");
+  st.setProperty("--cityc",day?"#5b6b7d":"#141a2e"); st.setProperty("--winc",day?"transparent":"#ffd76a"); st.setProperty("--wino",day?"0":".85"); st.setProperty("--skyink",day&&!dusk?"#13324d":"#f4f1ea");
+  $("#skyClock").textContent="Dubai "+now.toLocaleTimeString("en-GB",{timeZone:"Asia/Dubai",hour:"2-digit",minute:"2-digit"});
+  $("#skyTitle").textContent=(BIZ?BIZ.name:"")+" HQ";
+  const f=$("#floor"); if(f){ f.style.setProperty("--night",day?(dusk?.06:0):.16); if(!f.querySelector(".tint")) f.insertAdjacentHTML("beforeend",'<div class="tint"></div>'); }
+}
+setInterval(updateSky,60000);
 /* ---------- views ---------- */
 const HQ_SUG=["What should I focus on today?","Botany: a tenant paid AED 30,000 today","Ask Omar and Fatima for a status update now"];
 function applyAccent(c){const r=document.documentElement.style;r.setProperty("--acc-l",c.accent);r.setProperty("--acc-d",c.dark);r.setProperty("--acc-ink",c.ink);}
 function chatHeader(){ if(view==="hq"){$("#chatTag").textContent="SAHILL'S HQ · CHIEF OF STAFF";$("#chatH").textContent="Talk to your Chief of Staff";$("#chatIn").placeholder="e.g. Botany: unit 1204 bounced a AED 25,000 cheque. Get Daniel on it.";$("#openChat").lastChild.textContent="Chief of Staff";}
   else {$("#chatTag").textContent=BIZ.name.toUpperCase()+" · OFFICE MANAGER";$("#chatH").textContent="Tell the office what to do";$("#chatIn").placeholder="e.g. Ask "+(agents[0]?firstName(agents[0].name):"the team")+" to start on the top task now";$("#openChat").lastChild.textContent="Office chat";} }
 function syncGlobals(){ if(view==="office"){const d=ALL[cur];agents=d.agents;tasks=d.tasks;routines=d.routines;reports=d.reports;meta=d.meta;chat=d.chat;memory=d.memory;} else {chat=HQD.chat;memory=HQD.memory;} }
-function renderNav(){ $("#bizbar").innerHTML=`<a href="#hq" style="--c:var(--ink)" ${view==="hq"?'aria-current="page"':""}><span class="d" aria-hidden="true"></span>Sahill's HQ</a><span class="sep" aria-hidden="true"></span>`+BIZES.map(b=>`<a href="#${b.slug}" style="--c:${b.accent}" ${view==="office"&&cur===b.slug?'aria-current="page"':""}><span class="d" aria-hidden="true"></span>${esc(b.name)}</a>`).join("")+`<a href="#review" class="rvnav" id="rvNav" hidden>Waiting on you <b id="rvNavN">0</b></a>`; updateBadge(); }
+function renderNav(){ $("#bizbar").innerHTML=`<a href="#hq" style="--c:var(--ink)" ${view==="hq"?'aria-current="page"':""}><span class="d" aria-hidden="true"></span>Sahill's HQ</a><span class="sep" aria-hidden="true"></span>`+BIZES.map(b=>`<a href="#${b.slug}" style="--c:${b.accent}" ${view==="office"&&cur===b.slug?'aria-current="page"':""}><span class="d" aria-hidden="true"></span>${esc(b.name)}</a>`).join("")+`<a href="#review" class="rvnav" id="rvNav" hidden>Waiting on you <b id="rvNavN">0</b></a>`+soundBtnHTML(); updateBadge(); }
 function enterOffice(slug){
   view="office"; cur=slug; BIZ=bizOf(slug); ROOMS=BIZ.rooms; WORK=ROOMS.filter(r=>r.id!=="break"&&r.id!=="board"); applyAccent(BIZ);
   for(const [,p] of pos) p.el?.remove(); pos.clear(); selection={kind:"office"}; roomFilter="all"; meeting=false; $("#callMeeting").disabled=false; $("#callMeeting").textContent="Call a board meeting";
@@ -1013,7 +1096,7 @@ function enterOffice(slug){
   $("#bizInitial").textContent=BIZ.initial; $("#bizKind").textContent=BIZ.kind.toUpperCase(); $("#bizName").textContent=BIZ.name; $("#hireBiz").textContent=BIZ.name;
   ["#taskForm","#statusForm"].forEach(x=>$(x).hidden=true); $("#hireModal").hidden=true;
   $("#hqView").hidden=true; $("#officeView").hidden=false; renderNav(); chatHeader();
-  renderChips(); buildFloor(); renderAll(); renderReports(); if(!$("#chatDrawer").hidden) renderChat();
+  SFX.play("door"); renderChips(); buildFloor(); updateSky(); renderAll(); renderReports(); if(!$("#chatDrawer").hidden) renderChat();
   updateBadge(); window.scrollTo(0,0);
 }
 function showHQ(){
@@ -1147,14 +1230,14 @@ async function sendDM(slug,agentId,text){
   if(!sample){ toast(`Sent. ${firstName(a.name)} will reply in the next daily run.`); return; }
   const turns=th.slice(-18).map(m=>m.kind==="work"?{role:"assistant",content:`[Work handed in on task "${m.title||""}" (${m.taskId})]\n${String(m.text).slice(0,2500)}`}:{role:m.role==="sahill"?"user":"assistant",content:String(m.text)}).filter(m=>m.content);
   turns.push({role:"user",content:text});
-  const busy={text:""}; dmBusy.set(key,busy); running.set("agent:"+agentId,{room:focusT?(focusT.dept||deptIn(slug,a)):deptIn(slug,a),say:"Working on your message"});
+  SFX.play("send"); const busy={text:""}; dmBusy.set(key,busy); running.set("agent:"+agentId,{room:focusT?(focusT.dept||deptIn(slug,a)):deptIn(slug,a),say:"Working on your message"});
   if(view==="office"&&cur===slug) renderAgentsOnFloor(); renderDM(); updateBadge();
   const log=[], created={}; dmCtl=new AbortController(); let reply="";
   try{
     const r=await sample([{role:"user",content:dmRules(slug,a,focusT)},...turns],{tools:dmTools(slug,a,log,created),signal:dmCtl.signal,modelTier:"default",onText:({text:t})=>{busy.text=t; if(dmOpen&&dmOpen.slug===slug&&dmOpen.agentId===agentId) renderDM();}});
     reply=r.text.trim();
   }catch(e){ reply=e?.code==="cancelled"||e?.code==="aborted"?"(stopped)":e?.code==="not_granted"?"I can't reply until Claude is allowed on this page (Permissions menu).":e?.code==="rate_limited"?"I'm at a usage limit right now. Try me again in a few minutes.":"Sorry, something went wrong: "+(e?.message||"unknown error"); if(e?.text) reply=e.text+"\n\n"+reply; }
-  dmBusy.delete(key); running.delete("agent:"+agentId);
+  dmBusy.delete(key); running.delete("agent:"+agentId); SFX.play("msg");
   try{ await db.collection(base+"dm").add({agentId,role:"agent",kind:"msg",text:reply||"Done.",actions:log.slice(0,12),createdAt:Date.now()+1}); }catch(_){}
   if(!(dmOpen&&dmOpen.slug===slug&&dmOpen.agentId===agentId)) showPingMsg(slug,a,reply);
   if(view==="office"&&cur===slug) renderAll(); renderDM(); updateBadge();
@@ -1169,6 +1252,7 @@ document.addEventListener("click",async e=>{const b=e.target.closest("[data-dmap
   if(b.dataset.dm){ openDM(cur,b.dataset.dm); return; }
   if(b.dataset.dmopen){ const [sl,ag]=b.dataset.dmopen.split("|"); openDM(sl,ag); return; }
   const [sl,tid,ag]=b.dataset.dmapprove.split("|"); if(!db) return;
+  SFX.play("approve"); confetti();
   try{ await db.doc("biz/"+sl+"/tasks/"+tid).update({status:"done",doneAt:new Date().toISOString()}); await db.collection("biz/"+sl+"/dm").add({agentId:ag,role:"sahill",kind:"msg",text:"Approved.",taskId:tid,createdAt:Date.now()}); toast("Approved."); }
   catch(err){ toast("Couldn't approve: "+(err?.message||"error")); }});
 function updateBadge(){ const n=inbox().length; const nav=$("#rvNav"); if(nav){nav.hidden=!n; $("#rvNavN").textContent=n;} document.title=(n?`(${n}) `:"")+(view==="office"&&BIZ?BIZ.name+" · ":"")+"Sahill's HQ"; }
@@ -1181,7 +1265,7 @@ function checkPings(){
   const fresh=q.filter(x=>!seenRv.has(pingKey(x))&&!(dmOpen&&dmOpen.slug===x.slug&&dmOpen.agentId===x.a.id)); seenRv=keys;
   if(fresh.length) showPing(fresh[0],fresh.length);
 }
-function pingBox(html,onOpen){
+function pingBox(html,onOpen){ SFX.play("ping");
   document.querySelectorAll(".rvping").forEach(e=>e.remove());
   const el=document.createElement("div"); el.className="rvping"; el.setAttribute("role","alert");
   el.innerHTML=`<span>${html}</span><button type="button" data-goreview>Open</button><button type="button" class="x" aria-label="Dismiss">×</button>`;
