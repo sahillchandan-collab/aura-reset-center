@@ -8,6 +8,8 @@ Tabs: Overview (priorities, this week, business status table, people) · Yontro 
 
 **AI managers (scheduled tasks firing into the GM session, Dubai time):** Chief of Staff daily brief 8:47 Mon–Sat + CEO report Sat 17:41 · Yontro AI Sales Manager Mon/Thu 9:13 · Botany AI Property Manager Mon 9:37 · Aura AI GM Assistant Wed 10:11 · Founder Tales AI Growth Manager Thu 10:23 · Barter AI Research Analyst first Sat 11:07. Each run acts only for its business. Never contact people or spend money (Apollo credits only with approval).
 
+**Business consoles (Artifacts with their own database of agents, tasks and reports; Claude runs tasks as the assigned agent):** Yontro HQ https://claude.ai/artifact/BZkCuuorCAcAcdW6wp1CpQ · Botany Properties HQ https://claude.ai/artifact/8ATGVeTUoXWPHMPs3qnrTV · Founder Tales HQ https://claude.ai/artifact/ELkMsdmN5i1bK8Ww5KYYAP · Aura Wellness HQ https://claude.ai/artifact/NaBwQQT97G4oCYs8AgjSkm · Barter HQ https://claude.ai/artifact/96R4KfGX5nb8REZyTnN2jo. Collections: agents, tasks, reports, meta/business. Read or update them with ArtifactData when Sahill gives updates.
+
 Priority rule: cash already owed first (Botany rents and cheques), then revenue (Yontro sales, Aura sales), then growth assets (Founder Tales), then long-term bets (publication, founders network, Barter).
 
 ## Businesses
