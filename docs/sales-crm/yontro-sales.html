@@ -571,8 +571,8 @@ COACH: <as Hamza, max 3 short lines: what the prospect is really feeling, the ps
 async function hamza(text,opts={}){
   if(!sample) return toast("Hamza needs Claude. Allow it from this page's Permissions menu.");
   if(busy) return; text=String(text||"").trim(); if(!text&&!opts.system) return;
-  const rep=viewRep; const now=Date.now(); const coll=mode==="well"?`data/users/${me}/wellchat`:"chats"; if(mode==="well"&&rep!==me) return;
-  if(text&&!opts.hidden) await db.collection(coll).add({repId:rep,mode,session:mode==="roleplay"?session:"",role:"rep",text,createdAt:now});
+  const rep=viewRep; const now=Date.now(); const coll=mode==="well"?`data/users/${me}/well/chat`:"chats"; if(mode==="well"&&rep!==me) return;
+  if(text&&!opts.hidden){ try{ await db.collection(coll).add({repId:rep,mode,session:mode==="roleplay"?session:"",role:"rep",text,createdAt:now}); }catch(e){ toast("Couldn't send: "+(e?.message||e?.code||"error")); return; } }
   busy=true; renderChat(); ctl=new AbortController();
   const hist=(mode==="well"?wchats:chats).filter(c=>c.repId===rep&&c.mode===mode&&(mode!=="roleplay"||c.session===session)).sort((a,b)=>(a.createdAt||0)-(b.createdAt||0)).slice(-24).map(c=>c.kind==="tip"?{role:"user",content:"[Hamza's earlier coaching tip to the rep, not said by the prospect: "+c.text+"]"}:{role:c.role==="rep"?"user":"assistant",content:c.text});
   const msgs=[{role:"user",content:rules()},...hist]; if(text&&!opts.hidden) msgs.push({role:"user",content:text}); if(opts.system) msgs.push({role:"user",content:opts.system});
@@ -1117,8 +1117,8 @@ const dxbDow=()=>new Date(dxb()+"T12:00:00").getDay();
 const lsGet=(k,d)=>{ try{ const v=localStorage.getItem(k); return v==null?d:v; }catch(_){ return d; } };
 const lsSet=(k,v)=>{ try{ localStorage.setItem(k,v); }catch(_){} };
 function subWell(){ if(!me||!db) return; const t=dxb(); if(wellDay===t) return; wellDay=t; try{ wellUnsub&&wellUnsub(); }catch(_){}
-  well={}; wellUnsub=db.doc(`data/users/${me}/well/${t}`).onSnapshot(x=>{ well=x.exists?x.data():{}; renderWell(); maybeMorning(); },()=>{}); }
-async function wellSet(patch){ if(!me||!db) return; well={...well,...patch}; renderWell(); try{ await db.doc(`data/users/${me}/well/${wellDay||dxb()}`).set({...well,updatedAt:Date.now()}); }catch(_){} }
+  well={}; wellUnsub=db.doc(`data/users/${me}/well/days/${t}`).onSnapshot(x=>{ well=x.exists?x.data():{}; renderWell(); maybeMorning(); },()=>{}); }
+async function wellSet(patch){ if(!me||!db) return; well={...well,...patch}; renderWell(); try{ await db.doc(`data/users/${me}/well/days/${wellDay||dxb()}`).set({...well,updatedAt:Date.now()}); }catch(_){} }
 function renderWell(){ const el=$("#wellCard"); if(!el) return; if(!me||viewRep!==me){ el.hidden=true; return; } el.hidden=false;
   const i=dayNo(); const w=+well.water||0; const first=(names[me]||"").split(" ")[0];
   el.innerHTML=`<div class="head"><h2>Look after yourself${first?", "+esc(first):""}</h2><span class="tag">Private to you</span></div>
@@ -1149,7 +1149,7 @@ function weekendKey(){ const dow=dxbDow(), mins=dxbMin(); if(dow===6&&mins>=14*6
 async function weekendCheck(){ if(!me||!wLoaded||viewRep!==me) return; const k=weekendKey(); if(!k||wchats.some(c=>c.kind==="weekend"&&c.wk===k)||lsGet("wkTry","")===k) return; lsSet("wkTry",k);
   const first=(names[me]||"").split(" ")[0]; let text=`Hey${first?" "+first:""}, it's Hamza. Not about work today. How are you really doing? How did this week feel, and are you sleeping okay?`;
   if(sample){ try{ const r=await sample(`You are Hamza Qureshi, a caring manager at Yontro in Dubai. It's the weekend. Write a short, warm personal check-in message to ${first||"your team member"} about their wellbeing and mental health, not work: ask how they're really doing and one gentle question (sleep, stress, family, energy). 2 short sentences, WhatsApp style, no emojis, no work talk, make it clear there's no pressure to reply.`,{modelTier:"quick",cache:false}); if(r.text.trim()) text=r.text.trim(); }catch(_){} }
-  try{ await db.collection(`data/users/${me}/wellchat`).add({repId:me,mode:"well",session:"",role:"hamza",kind:"weekend",wk:k,text,createdAt:Date.now()}); }catch(_){}
+  try{ await db.collection(`data/users/${me}/well/chat`).add({repId:me,mode:"well",session:"",role:"hamza",kind:"weekend",wk:k,text,createdAt:Date.now()}); }catch(_){}
   showNudge(`<b>Hamza checked in on you</b><div>${esc(text.slice(0,140))}${text.length>140?"…":""}</div><div class="btnrow"><button class="btn sm or" type="button" data-hzopen="well">Reply</button><button class="btn sm ghost" type="button" data-nudgelater style="color:inherit">Later</button></div>`); }
 document.addEventListener("click",async e=>{ const b=e.target.closest("[data-water],[data-meditate],[data-nudgelater],[data-hzopen],#hzBtn,#hzClose,#medPause,#medEnd"); if(!b) return; const d=b.dataset;
   if(d.water!==undefined){ if(!me) return; await wellSet({water:Math.min(12,(+well.water||0)+1),lastWater:Date.now()}); hideNudge(); toast((+well.water)>=8?"8 glasses. Great job.":"Nice. "+well.water+" of 8."); return; }
@@ -1246,7 +1246,7 @@ renderTabs(); renderToday();
   db.collection("chats").onSnapshot(q=>{chats=docs(q);if(hzOpen)renderChat();},onErr);
   db.doc("meta/signing").onSnapshot(x=>{ signing={...signing,...(x.exists?x.data():{})}; signingLoaded=true; paperRefresh(); },()=>{ signingLoaded=true; });
   db.collection("queue").onSnapshot(q=>{ queue=docs(q); ownerSubs(); },()=>{});
-  if(me){ subApprovals(me); subWell(); db.collection(`data/users/${me}/wellchat`).onSnapshot(q=>{ wchats=docs(q); wLoaded=true; hzDot(); if(hzOpen&&mode==="well") renderChat(); weekendCheck(); },()=>{}); setTimeout(()=>{ try{ wellTick(); }catch(_){} },4000); }
+  if(me){ subApprovals(me); subWell(); db.collection(`data/users/${me}/well/chat`).onSnapshot(q=>{ wchats=docs(q); wLoaded=true; hzDot(); if(hzOpen&&mode==="well") renderChat(); weekendCheck(); },()=>{}); setTimeout(()=>{ try{ wellTick(); }catch(_){} },4000); }
   db.doc("meta/playbook").onSnapshot(x=>{ playbook=x.exists?(x.data().text||""):""; if(tab==="team") renderTeam(); },onErr);
   refreshNames();
   // reminders due now
