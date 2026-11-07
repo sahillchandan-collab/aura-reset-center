@@ -1,5 +1,5 @@
 import re
-SD="/tmp/claude-0/-home-user-aura-reset-center/8b9d261c-37aa-5eca-9834-fcbc32cd8235/scratchpad/"
+SD="/home/user/aura-reset-center/docs/studio-crm/"
 src=open("/home/user/aura-reset-center/docs/sales-crm/yontro-sales.html").read()
 L=src.split("\n")
 def between(a,b,inclusive_a=True):
@@ -134,7 +134,7 @@ views='''<main class="wrap" id="app">
 <div class="med" id="med" hidden role="dialog" aria-modal="true" aria-label="Ten minutes of silence"><div><div class="tag">10 MINUTES OF SILENCE</div><div class="breath" aria-hidden="true"><span id="breathTxt">Breathe in</span></div><div class="medtime" id="medTime">10:00</div><p id="medHint"></p><div class="btnrow" style="justify-content:center"><button class="btn sm" type="button" id="medPause">Pause</button><button class="btn sm" type="button" id="medEnd">End</button></div></div></div>
 <nav class="tabs" aria-label="Sections"><div class="in" id="tabs"></div></nav>
 <div class="sheet-bg" id="sheetBg" hidden><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle" id="sheet"></div></div>'''
-js=icon+extra_icons+helpers+"const PKG={Launch:5000,Growth:7500,Scale:10000};\nconst TARGET={calls:100,booked:4,held:2};\n"+clock+docs+assets+agreement+papers+tour+open(SD+"studio/sreport.js").read()+open(SD+"studio/studio.js").read()
+js=icon+extra_icons+helpers+"const PKG={Launch:5000,Growth:7500,Scale:10000};\nconst TARGET={calls:100,booked:4,held:2};\n"+clock+docs+assets+agreement+papers+tour+open(SD+"src/sreport.js").read()+open(SD+"src/studio.js").read()
 html="<title>yontro.ae · Studio</title>\n"+"\n".join(fonts)+"\n<style>\n"+css+studio_css+"\n</style>\n"+header+"\n"+views+"\n<script>\n"+js+"\n</script>\n"
 open("/home/user/aura-reset-center/docs/studio-crm/yontro-studio.html","w").write(html)
 print(len(html))
