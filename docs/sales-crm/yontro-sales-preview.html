@@ -196,6 +196,7 @@ th{font-size:11.5px;color:var(--muted);font-family:var(--mono);font-weight:500}
     <div class="kpis" id="kpis"></div>
     <div class="card"><div class="head"><h2>Log it</h2><span class="tag">Tap after every call, meeting or deal</span></div><div class="quick" id="quick"></div></div>
     <div class="card" id="checkinCard"></div>
+    <div class="card" id="reportCard" hidden></div>
     <div class="card" id="wellCard" hidden></div>
     <div class="card"><div class="head"><h2>Due today</h2><span class="tag" id="dueCount"></span></div><div class="list" id="due"></div></div>
   </section>
@@ -228,6 +229,7 @@ th{font-size:11.5px;color:var(--muted);font-family:var(--mono);font-weight:500}
   <section id="v-team" class="view" hidden style="display:grid;gap:14px">
     <div class="head"><h1>Sales team</h1><span class="tag">Only you see this</span></div>
     <div class="card"><div class="head"><h2>Attendance today</h2></div><div class="scroll"><table id="attTable"></table></div></div>
+    <div class="card"><div class="head"><h2>Hamza's daily reports</h2><span class="tag">Written when each rep punches out · backstop 20:47</span></div><div class="list" id="teamDayReports"></div></div>
     <div class="card"><div class="head"><h2>Hamza's reports</h2><button class="btn sm dark" type="button" id="makeReport">Ask Hamza for a report</button></div><div class="list" id="reportList"></div></div>
     <div class="card"><div class="head"><h2>This week</h2><span class="tag">Targets per day: 100 contacts · 4 booked · 2 held</span></div><div class="scroll"><table id="teamTable"></table></div></div>
     <div class="card"><div class="head"><h2>Latest check-ins</h2></div><div class="list" id="teamCheckins"></div></div>
@@ -431,7 +433,7 @@ function renderToday(){
   $("#checkinCard").innerHTML=ci?`<div class="head"><h2>Check-in done</h2><span class="tag">${ci.calls??"–"} contacts · ${ci.booked??"–"} booked · ${ci.held??"–"} held</span></div>${ci.feedback?`<div style="font-size:14px">${esc(ci.feedback)}</div>`:""}`
     :`<div class="coach"><div class="av" aria-hidden="true">H</div><div style="flex:1"><h2>Daily check-in with Hamza</h2><div class="tag">5 quick questions. Takes 2 minutes.</div></div><button class="btn or" type="button" data-go="checkin">Start</button></div>`;
   const due=mine(acts).filter(a=>["followup","todo","reminder","meeting"].includes(a.type)&&!a.done&&a.date&&a.date<=t).sort((x,y)=>(x.date+(x.time||"")).localeCompare(y.date+(y.time||"")));
-  renderWell();
+  renderWell(); renderDayReport();
   $("#dueCount").textContent=due.length?`${due.length} to do`:"";
   $("#due").innerHTML=due.length?due.map(itemHTML).join(""):`<div class="empty">Nothing due. Log your calls as you go.</div>`;
 }
@@ -460,7 +462,7 @@ function renderCal(){
   $("#dayList").innerHTML=L.length?L.map(itemHTML).join(""):`<div class="empty">Nothing on this day.</div>`;
 }
 function renderTeam(){
-  if(!isOwner) return; const t=dxb(), ws=weekStart(t);
+  if(!isOwner) return; renderTeamReports(); const t=dxb(), ws=weekStart(t);
   const reps=[...new Set([...leads,...acts,...kpis].map(x=>x.repId).filter(Boolean))];
   $("#teamTable").innerHTML=`<thead><tr><th>Rep</th><th>Today contacts</th><th>Week contacts</th><th>Booked</th><th>Held</th><th>Contracts</th><th>Value</th><th>Check-in</th></tr></thead><tbody>${reps.map(r=>{const d=repStats(r,t,t),w=repStats(r,ws,t); const ci=kpis.filter(k=>k.repId===r).sort((a,b)=>b.date.localeCompare(a.date))[0];
     return `<tr><td><b>${esc(names[r]||"Rep")}</b></td><td>${d.calls} / ${TARGET.calls}</td><td>${w.calls}</td><td>${w.booked}</td><td>${w.held}</td><td>${w.contracts}</td><td>${aed(w.value)}</td><td>${ci?(ci.date===t?"Today":esc(fmtD(ci.date))):"Never"}</td></tr>`;}).join("")||`<tr><td colspan="8">No reps active yet. Share the CRM with Usama.</td></tr>`}</tbody>`;
@@ -933,7 +935,7 @@ function paperStatus(uid,it){ const seal=sealFor(uid,it);
   if(seal) return {label:seal.by&&seal.by!=="Sahill"?"Signed by Hamza for Sahill":"Signed and stamped",cls:"st-won"};
   return ({draft:{label:"Draft",cls:""},changes:{label:"Changes asked",cls:"st-proposal"},pending:{label:"With Sahill",cls:"st-meeting"},hamza:{label:"Hamza signed · Sahill to confirm",cls:"st-proposal"}})[it.status]||{label:it.status||"Draft",cls:""}; }
 function officialCopy(it,seal){ return {kind:it.kind,title:it.title,client:it.client||"",repId:it.repId||"",...(it.kind==="letter"?{letter:it.letter}:{f:it.f}),seal,approvedAt:Date.now()}; }
-function subApprovals(uid){ if(!uid||apSubs[uid]||!db) return; apSubs[uid]=1;
+function subApprovals(uid){ subDayReports(uid); if(!uid||apSubs[uid]||!db) return; apSubs[uid]=1;
   db.collection(`approvals/${uid}/items`).onSnapshot(q=>{ AP[uid]=q.docs.map(x=>({id:x.id,...x.data()})); paperRefresh(); },()=>{});
   db.collection(`official/${uid}/items`).onSnapshot(q=>{ OF[uid]=q.docs.map(x=>({id:x.id,...x.data()})); paperRefresh(); },()=>{}); }
 function ownerSubs(){ if(!isOwner||!db) return; [me,...leads.map(x=>x.repId),...acts.map(x=>x.repId),...kpis.map(x=>x.repId),...tlog.map(x=>x.repId),...queue.map(x=>x.repId)].filter(Boolean).forEach(subApprovals); }
@@ -1244,6 +1246,92 @@ document.addEventListener("change",e=>{ if(e.target.id==="tourDont") tourDont=e.
 document.addEventListener("keydown",e=>{ if(!tourOn) return; if(e.key==="Escape"){ e.stopImmediatePropagation(); tourEnd(); } if(e.key==="ArrowRight") tourStep(1); if(e.key==="ArrowLeft") tourStep(-1); },true);
 addEventListener("resize",()=>{ if(tourOn) tourPlace(tourTarget(TOUR[tourI])); });
 
+/* ---------- Hamza's end-of-day report ---------- */
+const DR={}, drSubs={}; let drBusy=false;
+function subDayReports(uid){ if(!uid||drSubs[uid]||!db) return; drSubs[uid]=1;
+  db.collection(`dayreports/${uid}/days`).onSnapshot(q=>{ const first=DR[uid]===undefined; DR[uid]=q.docs.map(x=>({id:x.id,...x.data()})); if(first&&uid===me) setTimeout(()=>dayReportCatchUp().catch(()=>{}),3000); if(tab==="today") renderDayReport(); if(tab==="team") renderTeamReports(); },()=>{}); }
+function dayStats(rep,date){ const k=repStats(rep,date,date), st=shiftState(rep,date);
+  const A=acts.filter(a=>a.repId===rep);
+  const fuDue=A.filter(a=>a.type==="followup"&&a.date===date).length, fuDone=A.filter(a=>a.type==="followup"&&a.date===date&&a.done).length;
+  const overdue=A.filter(a=>["followup","todo","reminder","meeting"].includes(a.type)&&!a.done&&a.date&&a.date<date).length;
+  const outc={}; A.filter(a=>a.type==="call"&&a.date===date).forEach(a=>{ outc[a.outcome||"Logged"]=(outc[a.outcome||"Logged"]||0)+1; });
+  const mtgs=A.filter(a=>a.type==="meeting"&&a.startAt&&dxb(new Date(a.startAt))===date).map(a=>({business:a.business,minutes:Math.round(((a.endAt||Date.now())-a.startAt)/60000),notes:(a.notesSummary||a.liveNotes||"").slice(0,300)}));
+  const con=A.filter(a=>a.type==="contract"&&a.date===date).map(a=>({business:a.business,package:a.package,months:a.months,amount:a.amount}));
+  const ci=kpis.find(x=>x.repId===rep&&x.date===date);
+  const pipe={}; leads.filter(l=>l.repId===rep).forEach(l=>{ pipe[l.stage||"New"]=(pipe[l.stage||"New"]||0)+1; });
+  return {date,contacts:k.calls,booked:k.booked,held:k.held,contracts:k.contracts,value:k.value,fuDue,fuDone,overdue,outcomes:outc,meetings:mtgs,contractList:con,
+    punchIn:st.inAt?hm(st.inAt):null,punchOut:st.outAt?hm(st.outAt):null,worked:st.inAt?dur(st.worked):null,workedMin:st.inAt?Math.round(st.worked/60000):0,breaks:st.inAt?dur(st.breakMs):null,breakMin:Math.round(st.breakMs/60000),meetingTime:dur(st.meetMs),startPlace:st.firstIn?.place||"",
+    checkin:ci?{blockers:ci.blockers||"",feedback:ci.feedback||""}:null,pipeline:pipe}; }
+function scoreMD(s){ const mark=(v,t)=>v>=t?"✓ On target":v>=t*0.6?"▲ Close":"✗ Below";
+  return `| | Target | Today | |
+|---|---|---|---|
+| Contacts (calls, visits, WhatsApps) | ${TARGET.calls} | ${s.contacts} | ${mark(s.contacts,TARGET.calls)} |
+| Meetings booked | ${TARGET.booked} | ${s.booked} | ${mark(s.booked,TARGET.booked)} |
+| Meetings held | ${TARGET.held} | ${s.held} | ${mark(s.held,TARGET.held)} |
+| Follow-ups done | ${s.fuDue} due | ${s.fuDone} | ${s.fuDue?mark(s.fuDone,s.fuDue):"–"} |
+| Contracts signed | – | ${s.contracts}${s.value?" · "+aed(s.value):""} | ${s.contracts?"✓ Closed":"–"} |
+| Hours worked | – | ${s.worked||"No punch-in"}${s.punchIn?` (${s.punchIn}–${s.punchOut||"no punch-out"})`:""} | ${s.breaks?"Breaks "+s.breaks:""} |
+| Overdue items | 0 | ${s.overdue} | ${s.overdue?"✗ Clear them":"✓"} |`; }
+function reportMD(name,s,r){ const L=a=>(a||[]).filter(Boolean).map(x=>`- ${String(x).replace(/\n/g," ")}`).join("\n");
+  return `# Daily report · ${name} · ${fmtLong(s.date)}
+
+**Hamza's verdict:** ${r.verdict||""}
+
+${scoreMD(s)}
+
+## What went well
+${L(r.well)||"- [add: nothing logged today]"}
+
+## What needs fixing
+${L(r.fix)}
+
+## Tomorrow's focus
+${L(r.tomorrow)}
+
+${r.note?`*${String(r.note).replace(/\*/g,"")}*`:""}`; }
+function ruleReport(s){ const well=[],fix=[],tom=[];
+  if(s.contacts>=TARGET.calls) well.push(`Hit the contact target: ${s.contacts}.`); else fix.push(`${s.contacts} of ${TARGET.calls} contacts. ${TARGET.calls-s.contacts} short.`);
+  if(s.booked>=TARGET.booked) well.push(`${s.booked} meetings booked.`); else fix.push(`${s.booked} of ${TARGET.booked} meetings booked.`);
+  if(s.held>=TARGET.held) well.push(`${s.held} meetings held.`); else fix.push(`${s.held} of ${TARGET.held} meetings held.`);
+  if(s.contracts) well.push(`Closed ${s.contracts} contract${s.contracts>1?"s":""}.`);
+  if(s.overdue) fix.push(`${s.overdue} overdue items. Clear them first thing.`);
+  tom.push("Block 10:00–12:00 for calls only.","Clear overdue follow-ups before lunch.","Book at least one meeting before 13:00.");
+  return {verdict:s.contacts>=TARGET.calls&&s.booked>=TARGET.booked?"Strong day.":"Below target today. Fixable tomorrow.",well,fix,tomorrow:tom,note:""}; }
+async function makeDayReport(rep,date,opts={}){
+  const s=dayStats(rep,date); const name=names[rep]||"Sales rep"; let r=null;
+  if(sample){ try{ r=await sample.json(`You are Hamza Qureshi, Sales Lead at Yontro (social media marketing agency, Dubai), writing the end-of-day performance report on ${name} for both ${name.split(" ")[0]} and Sahill (the owner). Targets per day: ${TARGET.calls} contacts, ${TARGET.booked} meetings booked, ${TARGET.held} held. Packages Launch 5,000 / Growth 7,500 / Scale 10,000 AED a month.
+TODAY'S DATA (the only facts you may use): ${JSON.stringify(s)}
+Write like a fair, direct sales manager: specific, numbers-based, warm but honest. Name real things from the data (businesses, outcomes, meeting notes, attendance). Never invent numbers or events. If something wasn't logged, say so plainly. Each bullet one short sentence.
+Return JSON only: {"verdict":"one line, max 15 words","well":["2-4 bullets on what was done well"],"fix":["2-4 bullets on what needs to be addressed, each with the concrete fix"],"tomorrow":["exactly 3 specific actions for tomorrow"],"note":"one encouraging line to ${name.split(" ")[0]}"}`,{modelTier:"default",cache:false}); }catch(_){ r=null; } }
+  if(!r||!r.verdict) r=ruleReport(s);
+  const body=reportMD(name,s,r);
+  const doc={repId:rep,date,verdict:String(r.verdict||""),body,stats:{contacts:s.contacts,booked:s.booked,held:s.held,contracts:s.contracts,value:s.value,worked:s.worked||"",overdue:s.overdue},by:opts.by||"hamza",createdAt:Date.now()};
+  await db.doc(`dayreports/${rep}/days/${date}`).set(doc); return doc; }
+function openDayReport(d){ $("#sheet").classList.remove("wide");
+  $("#sheet").innerHTML=`<div class="head"><h2 id="sheetTitle">Hamza's report · ${esc(fmtD(d.date))}</h2><button class="btn ghost sm" type="button" data-close>Close</button></div>
+  <div class="tag">${esc(names[d.repId]||"")} · shared with ${esc((names[d.repId]||"the rep").split(" ")[0])} and Sahill</div>${paperHTML({type:"Daily report",body:d.body})}
+  <div class="btnrow">${downloads?`<button class="btn or" type="button" data-drdl="${esc(d.repId)}|${esc(d.date)}">Download</button>`:""}${d.repId===me||isOwner?`<button class="btn" type="button" data-drredo="${esc(d.repId)}|${esc(d.date)}">Ask Hamza to rewrite it</button>`:""}</div>`;
+  $("#sheetBg").hidden=false; }
+function renderDayReport(){ const el=$("#reportCard"); if(!el) return; const L=(DR[viewRep]||[]).slice().sort((a,b)=>b.date.localeCompare(a.date)); const last=L[0];
+  const st=viewRep?shiftState(viewRep,dxb()):null;
+  if(!last&&!(st&&st.outAt)){ el.hidden=true; return; } el.hidden=false;
+  el.innerHTML=last?`<div class="coach"><div class="av" aria-hidden="true">H</div><div style="flex:1;min-width:0"><h2>Hamza's report · ${esc(last.date===dxb()?"today":fmtD(last.date))}</h2><div class="tag">${esc(last.stats?.contacts??0)} contacts · ${esc(last.stats?.booked??0)} booked · ${esc(last.stats?.held??0)} held</div></div></div>
+    <div style="font-size:14.5px">${esc(last.verdict||"")}</div><div class="btnrow"><button class="btn or sm" type="button" data-dropen="${esc(last.repId)}|${esc(last.date)}">Read the report</button>${L.length>1?`<details><summary class="tag">Earlier reports</summary><div class="list" style="margin-top:6px">${L.slice(1,15).map(d=>`<button type="button" class="item" style="text-align:left;width:100%;cursor:pointer" data-dropen="${esc(d.repId)}|${esc(d.date)}"><span class="ic">${ICON.coach}</span><div style="min-width:0"><div class="t">${esc(fmtD(d.date))}</div><div class="s">${esc(d.verdict||"")}</div></div><span></span></button>`).join("")}</div></details>`:""}</div>`
+   :`<div class="coach"><div class="av" aria-hidden="true">H</div><div style="flex:1"><h2>Your day is done</h2><div class="tag">Hamza writes your report when you punch out.</div></div>${viewRep===me?`<button class="btn or sm" type="button" data-drmake>Get it now</button>`:""}</div>`; }
+function renderTeamReports(){ const el=$("#teamDayReports"); if(!el||!isOwner) return; const all=[]; for(const u in DR) DR[u].forEach(d=>all.push(d)); all.sort((a,b)=>b.date.localeCompare(a.date)||(b.createdAt||0)-(a.createdAt||0));
+  el.innerHTML=all.length?all.slice(0,20).map(d=>`<button type="button" class="item" style="text-align:left;width:100%;cursor:pointer" data-dropen="${esc(d.repId)}|${esc(d.date)}"><span class="ic">${ICON.coach}</span><div style="min-width:0"><div class="t">${esc(names[d.repId]||"Rep")} · ${esc(fmtD(d.date))}</div><div class="s">${esc(d.stats?.contacts??0)}/${TARGET.calls} contacts · ${esc(d.stats?.booked??0)} booked · ${esc(d.stats?.held??0)} held · ${esc(d.verdict||"")}</div></div><span class="stage">Open</span></button>`).join(""):`<div class="empty">Hamza writes a report on each rep when they punch out. If they forget, it's written at 20:47.</div>`; }
+async function dayReportAfterPunchOut(){ if(!me||viewRep!==me||drBusy) return; drBusy=true; toast("Hamza is writing your report on today…");
+  try{ const d=await makeDayReport(me,dxb()); document.querySelectorAll(".toast").forEach(t=>t.remove()); openDayReport(d); }catch(e){ toast("Hamza couldn't write the report: "+(e?.message||e?.code||"error")); } drBusy=false; }
+async function dayReportCatchUp(){ if(!me||isOwner||drBusy) return; const mine=DR[me]; if(mine===undefined) return; const t=dxb();
+  for(let i=1;i<=3;i++){ const d=addDays(t,-i); if(tlog.some(e=>e.repId===me&&e.date===d&&e.kind==="punch_in")&&!mine.some(x=>x.date===d)){ drBusy=true; try{ await makeDayReport(me,d,{by:"hamza-catchup"}); }catch(_){} drBusy=false; } } }
+document.addEventListener("click",async e=>{ const b=e.target.closest("[data-dropen],[data-drdl],[data-drredo],[data-drmake]"); if(!b) return; const d=b.dataset;
+  const find=k=>{ const [u,dt]=k.split("|"); return (DR[u]||[]).find(x=>x.date===dt); };
+  if(d.dropen){ const r=find(d.dropen); if(r) openDayReport(r); return; }
+  if(d.drdl){ const r=find(d.drdl); if(!r||!downloads) return; try{ await downloads.save({filename:`Yontro daily report - ${names[r.repId]||"rep"} - ${r.date}.html`,data:new Blob([brandedFile({title:"Daily report "+r.date,type:"Daily report",body:r.body})],{type:"text/html"})}); }catch(_){} return; }
+  if(d.drredo){ const [u,dt]=d.drredo.split("|"); b.disabled=true; b.textContent="Hamza is rewriting…"; try{ const r=await makeDayReport(u,dt,{by:"hamza"}); openDayReport(r); }catch(err){ toast("Couldn't rewrite it."); b.disabled=false; } return; }
+  if(d.drmake!==undefined){ dayReportAfterPunchOut(); return; }
+});
+
 /* ---------- events ---------- */
 document.addEventListener("click",async e=>{
   const b=e.target.closest("button,[data-lead]"); if(!b) return; const d=b.dataset;
@@ -1286,7 +1374,7 @@ $("#sheetBg").addEventListener("click",e=>{ if(e.target.id==="sheetBg") closeShe
 document.addEventListener("keydown",e=>{ if(e.key==="Escape"&&!$("#kiosk").hidden) closeKiosk(); if(e.key==="Escape"&&!$("#sheetBg").hidden) closeSheet(); });
 document.addEventListener("submit",async e=>{
   if(e.target.id==="punchForm"){ e.preventDefault(); await logEvent("punch_in",{place:$("#pPlace").value.trim()}); toast("Punched in. Have a great day."); closeSheet(); return; }
-  if(e.target.id==="punchOutForm"){ e.preventDefault(); const st=shiftState(viewRep,dxb()); if(st.brk) await logEvent("break_end"); if(st.live){ await db.doc("activities/"+st.live.id).update({endAt:Date.now(),done:true}); await logEvent("meeting_out",{activityId:st.live.id,business:st.live.business||""}); } await logEvent("punch_out",{place:$("#poPlace").value.trim()}); toast(`Punched out. You worked ${dur(shiftState(viewRep,dxb()).worked)}.`); closeSheet(); return; }
+  if(e.target.id==="punchOutForm"){ e.preventDefault(); const st=shiftState(viewRep,dxb()); if(st.brk) await logEvent("break_end"); if(st.live){ await db.doc("activities/"+st.live.id).update({endAt:Date.now(),done:true}); await logEvent("meeting_out",{activityId:st.live.id,business:st.live.business||""}); } await logEvent("punch_out",{place:$("#poPlace").value.trim()}); toast(`Punched out. You worked ${dur(shiftState(viewRep,dxb()).worked)}.`); closeSheet(); setTimeout(()=>dayReportAfterPunchOut(),600); return; }
   if(e.target.id==="meetInForm"){ e.preventDefault(); const id=e.target.dataset.id; const a=acts.find(x=>x.id===id); const place=$("#miPlace").value.trim(), map=$("#miMap").value.trim(); const at=Date.now(); await db.doc("activities/"+id).update({startAt:at,startPlace:place,startMap:/^https?:\/\//.test(map)?map:"",updatedAt:at}); await logEvent("meeting_in",{activityId:id,business:a?.business||"",place,map}); toast("Checked in. Take notes as you go."); closeSheet(); tab="today"; renderAll(); setTimeout(()=>$("#liveNotes")?.focus(),300); return; }
 });
 document.addEventListener("submit",e=>{ if(e.target.id==="sheetForm"){ e.preventDefault(); saveSheet(e.target); } if(e.target.id==="chatForm"){ e.preventDefault(); if(mode==="roleplay"&&!session) return toast("Pick a prospect first."); const v=$("#chatIn").value; $("#chatIn").value=""; hamza(v); } });
