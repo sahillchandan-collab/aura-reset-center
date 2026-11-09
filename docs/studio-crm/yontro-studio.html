@@ -590,7 +590,7 @@ let prT=null;
 function paperRefresh(){ clearTimeout(prT); prT=setTimeout(()=>{ renderTabs(); if(tab==="papers"&&!document.activeElement?.closest?.("#v-papers form")) renderPapers(); autoPromote(); },150); }
 async function queueSet(uid,it,status){ try{ await db.doc(`queue/${uid}_${it.id}`).set({repId:uid,id:it.id,kind:it.kind,status,at:Date.now()}); }catch(_){} }
 function paperRow(uid,it,showRep){ const st=paperStatus(uid,it); const no=it.kind==="letter"?it.letter?.ref:it.f?.no;
-  return `<button type="button" class="item" style="text-align:left;width:100%;cursor:pointer" data-openpaper="${esc(it.id)}" data-puid="${esc(uid)}"><span class="ic">${it.kind==="letter"?ICON.letter:ICON.contract}</span><div style="min-width:0"><div class="t">${esc(it.title)}</div><div class="s">${showRep?esc(names[uid]||"Rep")+" · ":""}${esc(no||"")} · ${esc(new Date(it.updatedAt||it.createdAt||Date.now()).toLocaleDateString("en-GB",{day:"numeric",month:"short"}))}</div></div><span class="stage ${st.cls}">${esc(st.label)}</span></button>`; }
+  return `<button type="button" class="item" style="text-align:left;width:100%;cursor:pointer" data-openpaper="${esc(it.id)}" data-puid="${esc(uid)}"><span class="ic">${it.kind==="letter"?ICON.letter:ICON.contract}</span><div style="min-width:0"><div class="t">${esc(it.title)}</div><div class="s">${showRep?esc(names[uid]||"Unnamed")+" · ":""}${esc(no||"")} · ${esc(new Date(it.updatedAt||it.createdAt||Date.now()).toLocaleDateString("en-GB",{day:"numeric",month:"short"}))}</div></div><span class="stage ${st.cls}">${esc(st.label)}</span></button>`; }
 function renderPapers(){
   const uid=viewRep; if(!uid) return;
   $("#paperQuick").innerHTML=`<button type="button" data-newletter>${ICON.letter}Ask John for a letter</button>`;
@@ -1183,9 +1183,9 @@ function renderScore(){ const t=dxb(), ws=weekStart(t); const W=weekScore(viewRe
   <div class="kpis">${tile(W.trials,"Trial reels this week",`target ${goals.trials*6}`)}${tile(W.live,"Posted live",`target ${goals.live*6}`)}${tile(W.yontro,"Yontro videos",`target ${goals.yontro*6}`)}${tile((W.gained>=0?"+":"")+W.gained,"Followers gained")}</div>
   <div class="kpis">${tile(avgW!=null?avgW+"%":null,"Avg watch-through","live videos, 30 days")}${tile(hit!=null?hit+"%":null,"Trial → live rate","30 days")}${tile(otr!=null?otr+"%":null,"Client edits on time","30 days")}${tile(fpa!=null?fpa+"%":null,"Approved first time","30 days")}</div>`; }
 function renderTeam(){ if(!isOwner) return; const t=dxb();
-  const reps=[...new Set([...videos,...shoots,...kpis,...tlog].map(x=>x.repId).filter(Boolean))];
-  $("#attTable").innerHTML=`<thead><tr><th>Person</th><th>Status</th><th>In</th><th>Out</th><th>Worked</th><th>Breaks</th><th>Score today</th><th>Week</th></tr></thead><tbody>${reps.map(r=>{ const st=shiftState(r,t), d=dayStats(r,t), w=weekScore(r,weekStart(t)); const s=st.brk?"On break":st.on?"On shift":st.outAt?"Done":"Not in";
-    return `<tr><td><b>${esc(names[r]||"Videographer")}</b></td><td>${s}</td><td>${st.inAt?hm(st.inAt):"–"}${d.late?" (late)":""}</td><td>${st.outAt?hm(st.outAt):"–"}</td><td>${st.inAt?dur(st.worked):"–"}</td><td>${st.inAt?dur(st.breakMs):"–"}</td><td>${d.score}</td><td>${w.score}</td></tr>`; }).join("")||`<tr><td colspan="8">Nobody has punched in yet.</td></tr>`}</tbody>`;
+  const reps=[...new Set([...videos,...shoots,...kpis,...tlog].map(x=>x.repId).filter(Boolean))].filter(r=>r!==me);
+  $("#attTable").innerHTML=`<thead><tr><th>Name</th><th>Status</th><th>In</th><th>Out</th><th>Worked</th><th>Breaks</th><th>Score today</th><th>Week</th></tr></thead><tbody>${reps.map(r=>{ const st=shiftState(r,t), d=dayStats(r,t), w=weekScore(r,weekStart(t)); const s=st.brk?"On break":st.on?"On shift":st.outAt?"Done":"Not in";
+    return `<tr><td>${nameCell(r)}</td><td>${s}</td><td>${st.inAt?hm(st.inAt):"–"}${d.late?" (late)":""}</td><td>${st.outAt?hm(st.outAt):"–"}</td><td>${st.inAt?dur(st.worked):"–"}</td><td>${st.inAt?dur(st.breakMs):"–"}</td><td>${d.score}</td><td>${w.score}</td></tr>`; }).join("")||`<tr><td colspan="8">Nobody has punched in yet.</td></tr>`}</tbody>`;
   renderTeamReports(); renderTeamPeriods();
   const K=kpis.slice().sort((a,b)=>(b.createdAt||0)-(a.createdAt||0)).slice(0,8);
   $("#teamCheckins").innerHTML=K.map(k=>`<div class="item"><span class="ic">${ICON.coach}</span><div style="min-width:0"><div class="t">${esc(names[k.repId]||"")} · ${esc(fmtD(k.date))}</div><div class="s">${k.trials??"–"} trials · ${k.live??"–"} live · ${k.yontro??"–"} Yontro · ${k.edits??"–"} edits${k.blockers?" · blocker: "+esc(k.blockers):""}</div>${k.feedback?`<div style="font-size:13px;margin-top:4px">${MGR1}: ${esc(k.feedback)}</div>`:""}</div><span></span></div>`).join("")||`<div class="empty">No check-ins yet.</div>`;
@@ -1298,6 +1298,22 @@ function renderChat(){
   $("#chat").innerHTML=(L.length?L:[{role:"hamza",text:empty}]).map(m=>`<div class="msg ${m.role==="rep"?"rep":"hamza"}">${esc(m.text)}${m.kind==="paper"&&m.paperId?`<button class="btn sm or" type="button" style="display:block;margin-top:6px" data-openpaper="${esc(m.paperId)}" data-puid="${esc(m.repId)}">Open it</button>`:""}${m.createdAt?`<span class="w">${new Date(m.createdAt).toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit",timeZone:"Asia/Dubai"})}</span>`:""}</div>`).join("")+(busy?`<div class="msg hamza"><span class="dots-anim">${MGR1} is typing</span></div>`:"");
   const c=$("#chat"); c.scrollTop=c.scrollHeight; $("#chatSend").disabled=busy||!sample; $("#chatIn").placeholder=mode==="checkin"?"Type your answer…":`Message ${MGR1}…`; }
 
+/* ---------- staff names ---------- */
+const staffNames={}; let askedName=false;
+function subStaff(){ db.collection("staff").onSnapshot(q=>{ q.docs.forEach(d=>{ const n=(d.data().name||"").trim(); if(n){ staffNames[d.id]=n; names[d.id]=n; } }); renderAll(); ensureMyName(); },()=>{}); }
+async function ensureMyName(){ if(!me||staffNames[me]||askedName) return; askedName=true;
+  let n=""; try{ n=((await user?.me?.())?.name||"").trim(); }catch(_){} if(isOwner) n="Sahill Chandan";
+  if(n){ try{ await db.doc("staff/"+me).set({name:n,at:Date.now()}); }catch(_){} return; }
+  setTimeout(()=>{ if(!$("#sheetBg").hidden||staffNames[me]) return; nameSheet(me,""); },1500); }
+function nameSheet(uid,cur){ $("#sheet").classList.remove("wide");
+  $("#sheet").innerHTML=`<div class="head"><h2 id="sheetTitle">${uid===me?"What's your name?":"Rename"}</h2><button class="btn ghost sm" type="button" data-close>Close</button></div>
+  <form id="nameForm" data-uid="${esc(uid)}" style="display:grid;gap:10px"><label class="f" for="nmIn">${uid===me?"Shown on your reports and to your manager":"Name shown on attendance and reports"}<input id="nmIn" required value="${esc(cur||"")}" placeholder="e.g. Usama Rehman"></label><button class="btn or" type="submit">Save</button></form>`;
+  $("#sheetBg").hidden=false; setTimeout(()=>$("#nmIn")?.focus(),50); }
+document.addEventListener("submit",async e=>{ if(e.target.id!=="nameForm") return; e.preventDefault(); const uid=e.target.dataset.uid, n=$("#nmIn").value.trim(); if(!n) return;
+  try{ await db.doc("staff/"+uid).set({name:n,at:Date.now()}); staffNames[uid]=n; names[uid]=n; toast("Saved."); closeSheet(); renderAll(); }catch(err){ toast("Couldn't save: "+(err?.code||"error")); } });
+document.addEventListener("click",e=>{ const b=e.target.closest("[data-rename]"); if(!b) return; nameSheet(b.dataset.rename,staffNames[b.dataset.rename]||names[b.dataset.rename]||""); });
+const nameCell=r=>`<b>${esc(names[r]||"Unnamed")}</b>${r===me?" (you)":""}${isOwner?` <button type="button" class="btn ghost sm" data-rename="${esc(r)}" aria-label="Rename" style="padding:0 6px">✎</button>`:""}`;
+
 /* ---------- events ---------- */
 document.addEventListener("click",async e=>{
   const b=e.target.closest("button,[data-vid],[data-shoot],[data-client]"); if(!b) return; const d=b.dataset;
@@ -1387,7 +1403,7 @@ renderTabs(); renderToday();
   if(!sample){ $("#banner").textContent=`${MGR1} needs Claude access on this page. Everything else works.`; $("#banner").hidden=false; }
   if(isOwner) tab="team";
   const docs=q=>q.docs.map(x=>({id:x.id,...x.data()}));
-  const refreshNames=async()=>{ try{ const ids=[...new Set([me,...videos.map(x=>x.repId),...shoots.map(x=>x.repId),...kpis.map(x=>x.repId),...tlog.map(x=>x.repId)].filter(Boolean))]; if(user?.profiles&&ids.length){ const ps=await user.profiles(ids); ids.forEach(i=>{ if(ps?.[i]?.name) names[i]=ps[i].name; }); } }catch(_){} renderAll(); };
+  const refreshNames=async()=>{ try{ const ids=[...new Set([me,...videos.map(x=>x.repId),...shoots.map(x=>x.repId),...kpis.map(x=>x.repId),...tlog.map(x=>x.repId)].filter(Boolean))]; if(user?.profiles&&ids.length){ const ps=await user.profiles(ids); ids.forEach(i=>{ if(ps?.[i]?.name&&!staffNames[i]) names[i]=ps[i].name; }); } }catch(_){} renderAll(); };
   const onErr=e=>{ $("#banner").textContent="Couldn't load ("+(e?.code||"error")+")."; $("#banner").hidden=false; };
   db.collection("videos").onSnapshot(q=>{ videos=docs(q); if(!$("#sheetBg").hidden&&document.activeElement?.closest?.("#sheet")) { renderTabs(); return; } renderAll(); },onErr);
   db.collection("shoots").onSnapshot(q=>{ shoots=docs(q); renderAll(); },onErr);
@@ -1402,7 +1418,7 @@ renderTabs(); renderToday();
   db.doc("meta/signing").onSnapshot(x=>{ signing={...signing,...(x.exists?x.data():{})}; signingLoaded=true; paperRefresh(); },()=>{ signingLoaded=true; });
   db.collection("queue").onSnapshot(q=>{ queue=docs(q); ownerSubs(); },()=>{});
   if(me){ subApprovals(me); subWell(); db.collection(`data/users/${me}/well/chat`).onSnapshot(q=>{ wchats=docs(q); wLoaded=true; hzDot(); if(hzOpen&&mode==="well") renderChat(); weekendCheck(); },()=>{}); setTimeout(()=>{ try{ wellTick(); }catch(_){} },4000); }
-  refreshNames(); setTimeout(()=>{ tourAuto().catch(()=>{}); },2500);
+  refreshNames(); subStaff(); setTimeout(()=>{ tourAuto().catch(()=>{}); },2500);
 })();
 /* ---------- period metrics (studio) ---------- */
 const PR_MGR="John Smith, Head of Production", PR_ROLE="Videographer", PR_BY="john";

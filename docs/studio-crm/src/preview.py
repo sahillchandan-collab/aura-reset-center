@@ -31,7 +31,7 @@ const DEMO_CLAUDE=(()=>{ const real=window.claude;
   const doc=p=>(chk(p,false),{id:p.split("/").pop(),onSnapshot:f=>{L.push({p,f});setTimeout(()=>f(S[p]?{exists:true,data:()=>S[p]}:{exists:false}),20);return()=>{}},get:async()=>S[p]?{exists:true,data:()=>S[p]}:{exists:false},set:async d=>{S[p]=cl(d);fire()},update:async d=>{if(!S[p])throw new Error("not found");S[p]={...S[p],...cl(d)};fire()},["del"+"ete"]:async()=>{Reflect.deleteProperty(S,p);fire()}});
   const col=p=>(chk(p,true),{orderBy:()=>col(p),limit:()=>col(p),where:()=>col(p),onSnapshot:f=>{L.push({p,f,c:1});setTimeout(()=>f({docs:colDocs(p)}),20);return()=>{}},add:async d=>{const id="d"+Date.now().toString(36)+(++n);S[p+"/"+id]=cl(d);fire();return{id}},doc:id=>doc(p+"/"+id)});
   const owner=DEMO_AS==="owner"; const meId=owner?"u0":"u1";
-  const user={id:async()=>meId,isOwner:async()=>owner,canEdit:async()=>owner,profiles:async()=>({u1:{name:"Azeem Shafi"},u0:{name:"Sahill Chandan"}})};
+  const user={me:async()=>({name:owner?"Sahill Chandan":"Azeem Shafi"}),id:async()=>meId,isOwner:async()=>owner,canEdit:async()=>owner,profiles:async()=>({u1:{name:"Azeem Shafi"},u0:{name:"Sahill Chandan"}})};
   return {use:async nm=>nm==="db"?{collection:col,doc}:nm==="user"?user:(real?.use?real.use(nm):null)};
 })();
 (()=>{ const d=document.createElement("div"); d.className="demobar";

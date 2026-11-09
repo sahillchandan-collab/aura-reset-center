@@ -345,7 +345,7 @@ function stageCls(s){return s==="Won"?"st-won":s==="Lost"?"st-lost":/Meeting/.te
 /* ---------- render ---------- */
 function renderWho(){
   if(isOwner){ const reps=[...new Set([...leads,...acts,...kpis].map(x=>x.repId).filter(Boolean))];
-    $("#who").innerHTML=reps.length?`Viewing <select id="repPick" aria-label="Which rep">${reps.map(r=>`<option value="${esc(r)}" ${r===viewRep?"selected":""}>${esc(names[r]||"Rep")}${r===me?" (you)":""}</option>`).join("")}</select>`:`<span>Owner view</span>`;
+    $("#who").innerHTML=reps.length?`Viewing <select id="repPick" aria-label="Which rep">${reps.map(r=>`<option value="${esc(r)}" ${r===viewRep?"selected":""}>${esc(names[r]||"Unnamed")}${r===me?" (you)":""}</option>`).join("")}</select>`:`<span>Owner view</span>`;
   } else $("#who").textContent=names[me]?names[me]:"";
 }
 function renderTabs(){
@@ -460,16 +460,16 @@ function renderCal(){
 }
 function renderTeam(){
   if(!isOwner) return; renderTeamReports(); renderTeamPeriods(); const t=dxb(), ws=weekStart(t);
-  const reps=[...new Set([...leads,...acts,...kpis].map(x=>x.repId).filter(Boolean))];
-  $("#teamTable").innerHTML=`<thead><tr><th>Rep</th><th>Today contacts</th><th>Week contacts</th><th>Booked</th><th>Held</th><th>Contracts</th><th>Value</th><th>Check-in</th></tr></thead><tbody>${reps.map(r=>{const d=repStats(r,t,t),w=repStats(r,ws,t); const ci=kpis.filter(k=>k.repId===r).sort((a,b)=>b.date.localeCompare(a.date))[0];
-    return `<tr><td><b>${esc(names[r]||"Rep")}</b></td><td>${d.calls} / ${TARGET.calls}</td><td>${w.calls}</td><td>${w.booked}</td><td>${w.held}</td><td>${w.contracts}</td><td>${aed(w.value)}</td><td>${ci?(ci.date===t?"Today":esc(fmtD(ci.date))):"Never"}</td></tr>`;}).join("")||`<tr><td colspan="8">No reps active yet. Share the CRM with Usama.</td></tr>`}</tbody>`;
+  const reps=[...new Set([...leads,...acts,...kpis].map(x=>x.repId).filter(Boolean))].filter(r=>r!==me);
+  $("#teamTable").innerHTML=`<thead><tr><th>Name</th><th>Today contacts</th><th>Week contacts</th><th>Booked</th><th>Held</th><th>Contracts</th><th>Value</th><th>Check-in</th></tr></thead><tbody>${reps.map(r=>{const d=repStats(r,t,t),w=repStats(r,ws,t); const ci=kpis.filter(k=>k.repId===r).sort((a,b)=>b.date.localeCompare(a.date))[0];
+    return `<tr><td>${nameCell(r)}</td><td>${d.calls} / ${TARGET.calls}</td><td>${w.calls}</td><td>${w.booked}</td><td>${w.held}</td><td>${w.contracts}</td><td>${aed(w.value)}</td><td>${ci?(ci.date===t?"Today":esc(fmtD(ci.date))):"Never"}</td></tr>`;}).join("")||`<tr><td colspan="8">No reps active yet. Share the CRM with Usama.</td></tr>`}</tbody>`;
   const K=kpis.slice().sort((a,b)=>(b.createdAt||0)-(a.createdAt||0)).slice(0,10);
-  $("#teamCheckins").innerHTML=K.length?K.map(k=>`<div class="item"><span class="ic">${ICON.coach}</span><div style="min-width:0"><div class="t">${esc(names[k.repId]||"Rep")} · ${esc(fmtD(k.date))}</div><div class="s">${k.calls??"–"} contacts · ${k.booked??"–"} booked · ${k.held??"–"} held · ${k.contracts??0} contracts${k.blockers?" · blocker: "+esc(k.blockers):""}</div>${k.feedback?`<div style="font-size:13px;margin-top:4px">Hamza: ${esc(k.feedback)}</div>`:""}</div><span></span></div>`).join(""):`<div class="empty">No check-ins yet.</div>`;
+  $("#teamCheckins").innerHTML=K.length?K.map(k=>`<div class="item"><span class="ic">${ICON.coach}</span><div style="min-width:0"><div class="t">${esc(names[k.repId]||"Unnamed")} · ${esc(fmtD(k.date))}</div><div class="s">${k.calls??"–"} contacts · ${k.booked??"–"} booked · ${k.held??"–"} held · ${k.contracts??0} contracts${k.blockers?" · blocker: "+esc(k.blockers):""}</div>${k.feedback?`<div style="font-size:13px;margin-top:4px">Hamza: ${esc(k.feedback)}</div>`:""}</div><span></span></div>`).join(""):`<div class="empty">No check-ins yet.</div>`;
   if(document.activeElement!==$("#playbook")) $("#playbook").value=playbook||PRODUCT;
   if(document.activeElement!==$("#trnIn")) $("#trnIn").value=company.trn||"";
-  const repsA=[...new Set([...reps,...tlog.map(x=>x.repId)])];
-  $("#attTable").innerHTML=`<thead><tr><th>Rep</th><th>Status</th><th>In</th><th>Started at</th><th>Out</th><th>Worked</th><th>Breaks</th><th>Meetings</th></tr></thead><tbody>${repsA.map(r=>{const st=shiftState(r,t); const s=st.live?"In meeting":st.brk?"On break":st.on?"On shift":st.outAt?"Done":"Not in";
-    return `<tr><td><b>${esc(names[r]||"Rep")}</b></td><td>${s}</td><td>${st.inAt?hm(st.inAt):"–"}</td><td>${esc(st.firstIn?.place||"–")}</td><td>${st.outAt?hm(st.outAt):"–"}</td><td>${st.inAt?dur(st.worked):"–"}</td><td>${st.inAt?dur(st.breakMs):"–"}</td><td>${dur(st.meetMs)}</td></tr>`;}).join("")||`<tr><td colspan="8">Nobody has punched in yet.</td></tr>`}</tbody>`;
+  const repsA=[...new Set([...reps,...tlog.map(x=>x.repId)])].filter(r=>r&&r!==me);
+  $("#attTable").innerHTML=`<thead><tr><th>Name</th><th>Status</th><th>In</th><th>Started at</th><th>Out</th><th>Worked</th><th>Breaks</th><th>Meetings</th></tr></thead><tbody>${repsA.map(r=>{const st=shiftState(r,t); const s=st.live?"In meeting":st.brk?"On break":st.on?"On shift":st.outAt?"Done":"Not in";
+    return `<tr><td>${nameCell(r)}</td><td>${s}</td><td>${st.inAt?hm(st.inAt):"–"}</td><td>${esc(st.firstIn?.place||"–")}</td><td>${st.outAt?hm(st.outAt):"–"}</td><td>${st.inAt?dur(st.worked):"–"}</td><td>${st.inAt?dur(st.breakMs):"–"}</td><td>${dur(st.meetMs)}</td></tr>`;}).join("")||`<tr><td colspan="8">Nobody has punched in yet.</td></tr>`}</tbody>`;
   $("#reportList").innerHTML=reports.length?reports.slice().sort((a,b)=>b.createdAt-a.createdAt).slice(0,8).map((r,i)=>`<details ${i===0?"open":""}><summary>${esc(new Date(r.createdAt).toLocaleString("en-GB",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit",timeZone:"Asia/Dubai"}))} · ${esc(r.title||"Report")}</summary><div style="white-space:pre-wrap;font-size:14px;margin-top:6px">${esc(r.body)}</div></details>`).join(""):'<div class="empty">No reports yet. Tap Ask Hamza for a report.</div>';
 
 }
@@ -945,7 +945,7 @@ let prT=null;
 function paperRefresh(){ clearTimeout(prT); prT=setTimeout(()=>{ renderTabs(); if(tab==="papers"&&!document.activeElement?.closest?.("#v-papers form")) renderPapers(); autoPromote(); },150); }
 async function queueSet(uid,it,status){ try{ await db.doc(`queue/${uid}_${it.id}`).set({repId:uid,id:it.id,kind:it.kind,status,at:Date.now()}); }catch(_){} }
 function paperRow(uid,it,showRep){ const st=paperStatus(uid,it); const no=it.kind==="letter"?it.letter?.ref:it.f?.no;
-  return `<button type="button" class="item" style="text-align:left;width:100%;cursor:pointer" data-openpaper="${esc(it.id)}" data-puid="${esc(uid)}"><span class="ic">${it.kind==="letter"?ICON.letter:ICON.contract}</span><div style="min-width:0"><div class="t">${esc(it.title)}</div><div class="s">${showRep?esc(names[uid]||"Rep")+" · ":""}${esc(no||"")} · ${esc(new Date(it.updatedAt||it.createdAt||Date.now()).toLocaleDateString("en-GB",{day:"numeric",month:"short"}))}</div></div><span class="stage ${st.cls}">${esc(st.label)}</span></button>`; }
+  return `<button type="button" class="item" style="text-align:left;width:100%;cursor:pointer" data-openpaper="${esc(it.id)}" data-puid="${esc(uid)}"><span class="ic">${it.kind==="letter"?ICON.letter:ICON.contract}</span><div style="min-width:0"><div class="t">${esc(it.title)}</div><div class="s">${showRep?esc(names[uid]||"Unnamed")+" · ":""}${esc(no||"")} · ${esc(new Date(it.updatedAt||it.createdAt||Date.now()).toLocaleDateString("en-GB",{day:"numeric",month:"short"}))}</div></div><span class="stage ${st.cls}">${esc(st.label)}</span></button>`; }
 function renderPapers(){
   const uid=viewRep; if(!uid) return;
   $("#paperQuick").innerHTML=`<button type="button" data-newag>${ICON.contract}Service agreement</button><button type="button" data-newletter>${ICON.letter}Ask Hamza for a letter</button>`;
@@ -1316,7 +1316,7 @@ function renderDayReport(){ const el=$("#reportCard"); if(!el) return; const L=(
     <div style="font-size:14.5px">${esc(last.verdict||"")}</div><div class="btnrow"><button class="btn or sm" type="button" data-dropen="${esc(last.repId)}|${esc(last.date)}">Read the report</button>${L.length>1?`<details><summary class="tag">Earlier reports</summary><div class="list" style="margin-top:6px">${L.slice(1,15).map(d=>`<button type="button" class="item" style="text-align:left;width:100%;cursor:pointer" data-dropen="${esc(d.repId)}|${esc(d.date)}"><span class="ic">${ICON.coach}</span><div style="min-width:0"><div class="t">${esc(fmtD(d.date))}</div><div class="s">${esc(d.verdict||"")}</div></div><span></span></button>`).join("")}</div></details>`:""}</div>`
    :`<div class="coach"><div class="av" aria-hidden="true">H</div><div style="flex:1"><h2>Your day is done</h2><div class="tag">Hamza writes your report when you punch out.</div></div>${viewRep===me?`<button class="btn or sm" type="button" data-drmake>Get it now</button>`:""}</div>`; }
 function renderTeamReports(){ const el=$("#teamDayReports"); if(!el||!isOwner) return; const all=[]; for(const u in DR) DR[u].forEach(d=>all.push(d)); all.sort((a,b)=>b.date.localeCompare(a.date)||(b.createdAt||0)-(a.createdAt||0));
-  el.innerHTML=all.length?all.slice(0,20).map(d=>`<button type="button" class="item" style="text-align:left;width:100%;cursor:pointer" data-dropen="${esc(d.repId)}|${esc(d.date)}"><span class="ic">${ICON.coach}</span><div style="min-width:0"><div class="t">${esc(names[d.repId]||"Rep")} · ${esc(fmtD(d.date))}</div><div class="s">${esc(d.stats?.contacts??0)}/${TARGET.calls} contacts · ${esc(d.stats?.booked??0)} booked · ${esc(d.stats?.held??0)} held · ${esc(d.verdict||"")}</div></div><span class="stage">Open</span></button>`).join(""):`<div class="empty">Hamza writes a report on each rep when they punch out. If they forget, it's written at 20:47.</div>`; }
+  el.innerHTML=all.length?all.slice(0,20).map(d=>`<button type="button" class="item" style="text-align:left;width:100%;cursor:pointer" data-dropen="${esc(d.repId)}|${esc(d.date)}"><span class="ic">${ICON.coach}</span><div style="min-width:0"><div class="t">${esc(names[d.repId]||"Unnamed")} · ${esc(fmtD(d.date))}</div><div class="s">${esc(d.stats?.contacts??0)}/${TARGET.calls} contacts · ${esc(d.stats?.booked??0)} booked · ${esc(d.stats?.held??0)} held · ${esc(d.verdict||"")}</div></div><span class="stage">Open</span></button>`).join(""):`<div class="empty">Hamza writes a report on each rep when they punch out. If they forget, it's written at 20:47.</div>`; }
 async function dayReportAfterPunchOut(){ if(!me||viewRep!==me||drBusy) return; drBusy=true; toast("Hamza is writing your report on today…");
   try{ const d=await makeDayReport(me,dxb()); document.querySelectorAll(".toast").forEach(t=>t.remove()); openDayReport(d); }catch(e){ toast("Hamza couldn't write the report: "+(e?.message||e?.code||"error")); } drBusy=false; periodAfterPunchOut().catch(()=>{}); }
 async function dayReportCatchUp(){ if(!me||isOwner||drBusy) return; const mine=DR[me]; if(mine===undefined) return; const t=dxb();
@@ -1448,6 +1448,22 @@ function metricsMD(m){ const pct=(a,b)=>b?Math.round(a/b*100)+"%":"–"; const a
 
 ${m.bestDay?`Best day: **${fmtD(m.bestDay.date)}** with ${m.bestDay.contacts} contacts and ${m.bestDay.booked} booked. Slowest: ${fmtD(m.worstDay.date)} (${m.worstDay.contacts} contacts).`:""}${m.agreementsMade?` Service agreements: ${m.agreementsMade} made, ${m.agreementsSigned} signed by Sahill.`:""}`; }
 
+/* ---------- staff names ---------- */
+const staffNames={}; let askedName=false;
+function subStaff(){ db.collection("staff").onSnapshot(q=>{ q.docs.forEach(d=>{ const n=(d.data().name||"").trim(); if(n){ staffNames[d.id]=n; names[d.id]=n; } }); renderAll(); ensureMyName(); },()=>{}); }
+async function ensureMyName(){ if(!me||staffNames[me]||askedName) return; askedName=true;
+  let n=""; try{ n=((await user?.me?.())?.name||"").trim(); }catch(_){} if(isOwner) n="Sahill Chandan";
+  if(n){ try{ await db.doc("staff/"+me).set({name:n,at:Date.now()}); }catch(_){} return; }
+  setTimeout(()=>{ if(!$("#sheetBg").hidden||staffNames[me]) return; nameSheet(me,""); },1500); }
+function nameSheet(uid,cur){ $("#sheet").classList.remove("wide");
+  $("#sheet").innerHTML=`<div class="head"><h2 id="sheetTitle">${uid===me?"What's your name?":"Rename"}</h2><button class="btn ghost sm" type="button" data-close>Close</button></div>
+  <form id="nameForm" data-uid="${esc(uid)}" style="display:grid;gap:10px"><label class="f" for="nmIn">${uid===me?"Shown on your reports and to your manager":"Name shown on attendance and reports"}<input id="nmIn" required value="${esc(cur||"")}" placeholder="e.g. Usama Rehman"></label><button class="btn or" type="submit">Save</button></form>`;
+  $("#sheetBg").hidden=false; setTimeout(()=>$("#nmIn")?.focus(),50); }
+document.addEventListener("submit",async e=>{ if(e.target.id!=="nameForm") return; e.preventDefault(); const uid=e.target.dataset.uid, n=$("#nmIn").value.trim(); if(!n) return;
+  try{ await db.doc("staff/"+uid).set({name:n,at:Date.now()}); staffNames[uid]=n; names[uid]=n; toast("Saved."); closeSheet(); renderAll(); }catch(err){ toast("Couldn't save: "+(err?.code||"error")); } });
+document.addEventListener("click",e=>{ const b=e.target.closest("[data-rename]"); if(!b) return; nameSheet(b.dataset.rename,staffNames[b.dataset.rename]||names[b.dataset.rename]||""); });
+const nameCell=r=>`<b>${esc(names[r]||"Unnamed")}</b>${r===me?" (you)":""}${isOwner?` <button type="button" class="btn ghost sm" data-rename="${esc(r)}" aria-label="Rename" style="padding:0 6px">✎</button>`:""}`;
+
 /* ---------- events ---------- */
 document.addEventListener("click",async e=>{
   const b=e.target.closest("button,[data-lead]"); if(!b) return; const d=b.dataset;
@@ -1510,7 +1526,7 @@ renderTabs(); renderToday();
   if(!sample){ $("#banner").textContent="Hamza needs Claude access on this page. Everything else works."; $("#banner").hidden=false; }
   if(isOwner) tab="team";
   const docs=q=>q.docs.map(x=>({id:x.id,...x.data()}));
-  const refreshNames=async()=>{ try{ const ids=[...new Set([me,...leads.map(x=>x.repId),...acts.map(x=>x.repId),...kpis.map(x=>x.repId)].filter(Boolean))]; if(user?.profiles&&ids.length){ const ps=await user.profiles(ids); ids.forEach(i=>{ if(ps?.[i]?.name) names[i]=ps[i].name; }); } }catch(_){} renderAll(); };
+  const refreshNames=async()=>{ try{ const ids=[...new Set([me,...leads.map(x=>x.repId),...acts.map(x=>x.repId),...kpis.map(x=>x.repId)].filter(Boolean))]; if(user?.profiles&&ids.length){ const ps=await user.profiles(ids); ids.forEach(i=>{ if(ps?.[i]?.name&&!staffNames[i]) names[i]=ps[i].name; }); } }catch(_){} renderAll(); };
   const onErr=e=>{ $("#banner").textContent="Couldn't load ("+(e?.code||"error")+")."; $("#banner").hidden=false; };
   db.collection("leads").onSnapshot(q=>{leads=docs(q);renderAll();},onErr);
   db.collection("activities").onSnapshot(q=>{acts=docs(q);renderAll();},onErr);
@@ -1525,7 +1541,7 @@ renderTabs(); renderToday();
   db.collection("queue").onSnapshot(q=>{ queue=docs(q); ownerSubs(); },()=>{});
   if(me){ subApprovals(me); subWell(); db.collection(`data/users/${me}/well/chat`).onSnapshot(q=>{ wchats=docs(q); wLoaded=true; hzDot(); if(hzOpen&&mode==="well") renderChat(); weekendCheck(); },()=>{}); setTimeout(()=>{ try{ wellTick(); }catch(_){} },4000); }
   db.doc("meta/playbook").onSnapshot(x=>{ playbook=x.exists?(x.data().text||""):""; if(tab==="team") renderTeam(); },onErr);
-  refreshNames();
+  refreshNames(); subStaff();
   setTimeout(()=>{ tourAuto().catch(()=>{}); },2500);
   // reminders due now
   setTimeout(()=>{ const t=dxb(); const due=acts.filter(a=>a.repId===viewRep&&!a.done&&a.type==="reminder"&&a.date<=t); if(due.length){ $("#banner").textContent=`Reminder: ${due.map(a=>a.text).slice(0,3).join(" · ")}`; $("#banner").hidden=false; } },2500);
