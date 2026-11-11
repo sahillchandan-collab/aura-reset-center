@@ -46,7 +46,7 @@ ${studioContext().split("\n").filter(l=>/^TOP|^CLIENT|^UPCOMING/.test(l)).join("
 Write like a fair, direct creative manager: specific, numbers-based, warm but honest. Name real videos, hooks, clients and numbers from the data. Never invent numbers. If something wasn't logged, say so plainly. Each bullet one short sentence.
 Return JSON only: {"verdict":"one line, max 15 words","well":["2-4 bullets"],"fix":["2-4 bullets, each with the concrete fix"],"tomorrow":["exactly 3 specific actions"],"note":"one encouraging line to ${name.split(" ")[0]}"}`,{modelTier:"default",cache:false}); }catch(_){ r=null; } }
   if(!r||!r.verdict) r=ruleReport(s);
-  const doc={repId:rep,date,verdict:String(r.verdict||""),body:reportMD(name,s,r),stats:{score:s.score,trials:s.trials,live:s.live,yontro:s.yontro,editsMet:s.editsMet,editsMissed:s.editsMissed,followers:s.followers,gained:s.gained,worked:s.worked||""},by:opts.by||"john",createdAt:Date.now()};
+  const doc={repId:rep,date,verdict:String(r.verdict||""),body:reportMD(name,s,r),stats:{score:s.score,trials:s.trials,live:s.live,yontro:s.yontro,editsMet:s.editsMet,editsMissed:s.editsMissed,followers:s.followers,gained:s.gained,worked:s.worked||""},by:opts.by||(sample?"john":"john-rules"),createdAt:Date.now()};
   await db.doc(`dayreports/${rep}/days/${date}`).set(doc); return doc; }
 function openDayReport(d){ openS(`<div class="head"><h2 id="sheetTitle">${MGR1}'s report · ${esc(fmtD(d.date))}</h2><button class="btn ghost sm" type="button" data-close>Close</button></div>
   <div class="tag">${esc(names[d.repId]||"")} · shared with ${esc((names[d.repId]||"him").split(" ")[0])} and Sahill</div>${paperHTML({type:"Daily report",body:d.body})}
