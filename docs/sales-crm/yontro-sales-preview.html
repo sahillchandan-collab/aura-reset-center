@@ -1469,6 +1469,16 @@ document.addEventListener("submit",async e=>{ if(e.target.id!=="nameForm") retur
 document.addEventListener("click",e=>{ const b=e.target.closest("[data-rename]"); if(!b) return; nameSheet(b.dataset.rename,staffNames[b.dataset.rename]||names[b.dataset.rename]||""); });
 const nameCell=r=>`<b>${esc(names[r]||"Unnamed")}</b>${r===me?" (you)":""}${isOwner?` <button type="button" class="btn ghost sm" data-rename="${esc(r)}" aria-label="Rename" style="padding:0 6px">✎</button>`:""}`;
 
+
+/* ---------- allow-Claude button ---------- */
+function aiBanner(who){ const b=$("#banner"); b.innerHTML=`${esc(who)} needs your OK to use Claude on this page (one time). <button class="btn sm or" type="button" id="allowAI" style="margin-left:6px">Allow ${esc(who)}</button>`; b.hidden=false; }
+document.addEventListener("click",async e=>{ if(e.target.id!=="allowAI") return; const b=e.target; b.disabled=true;
+  try{ const P=await window.claude?.use?.("permissions"); if(!P){ toast("Use the page's ⋯ menu → Permissions → turn on Claude, then refresh."); b.disabled=false; return; }
+    const r=await P.request(["sample"]); const st=(r&&(r.sample||r["sample"]))||"";
+    if(st==="granted"){ toast("Allowed. Reloading…"); setTimeout(()=>location.reload(),600); return; }
+    if(st==="denied"){ try{ await P.manage(); }catch(_){ toast("Open the page's ⋯ menu → Permissions and turn on Claude."); } setTimeout(()=>location.reload(),400); return; }
+    toast("Open the page's ⋯ menu → Permissions and turn on Claude, then refresh."); }catch(_){ toast("Open the page's ⋯ menu → Permissions and turn on Claude, then refresh."); }
+  b.disabled=false; });
 /* ---------- events ---------- */
 document.addEventListener("click",async e=>{
   const b=e.target.closest("button,[data-lead]"); if(!b) return; const d=b.dataset;
@@ -1579,7 +1589,7 @@ renderTabs(); renderToday();
   user=u; sample=s||null; downloads=await C?.use?.("downloads")?.catch?.(()=>null)||null; if(!d){ return; } db=d; clearTimeout(timer);
   try{ me=await user?.id?.(); }catch(_){ me=null; } isOwner=!!(await user?.isOwner?.().catch(()=>false));
   viewRep=me; if(!me){ $("#banner").textContent="Sign in to claude.ai to get your own sales login."; $("#banner").hidden=false; }
-  if(!sample){ $("#banner").textContent="Hamza needs Claude access on this page. Everything else works."; $("#banner").hidden=false; }
+  if(!sample) aiBanner("Hamza");
   if(isOwner) tab="team";
   const docs=q=>q.docs.map(x=>({id:x.id,...x.data()}));
   const refreshNames=async()=>{ try{ const ids=[...new Set([me,...leads.map(x=>x.repId),...acts.map(x=>x.repId),...kpis.map(x=>x.repId)].filter(Boolean))]; if(user?.profiles&&ids.length){ const ps=await user.profiles(ids); ids.forEach(i=>{ if(ps?.[i]?.name&&!staffNames[i]) names[i]=ps[i].name; }); } }catch(_){} renderAll(); };
