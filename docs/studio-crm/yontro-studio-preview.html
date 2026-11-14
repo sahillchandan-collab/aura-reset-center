@@ -813,7 +813,7 @@ document.addEventListener("click",async e=>{ const b=e.target.closest("[data-wat
   if(d.meditate!==undefined){ startMed(); return; }
   if(d.nudgelater!==undefined){ waterSnooze=Date.now()+20*60000; hideNudge(); return; }
   if(d.hzopen){ hideNudge(); openHz(d.hzopen); return; }
-  if(b.id==="hzBtn"){ hzOpen?closeHz():openHz(); return; }
+  if(b.id==="hzBtn"){ if(hzOpen) closeHz(); else { const seen=+lsGet("hzSeen",0); const lw=Math.max(0,...wchats.filter(c=>c.role==="hamza").map(c=>c.createdAt||0)); const la=Math.max(0,...chats.filter(c=>c.role==="hamza"&&c.repId===me&&c.mode==="ask").map(c=>c.createdAt||0)); openHz(la>seen&&la>=lw?"ask":lw>seen?"well":undefined); } return; }
   if(b.id==="hzClose"){ closeHz(); return; }
   if(b.id==="medPause"){ const m=$("#med"); if(m.classList.contains("paused")){ medEndAt=Date.now()+medLeft; m.classList.remove("paused"); b.textContent="Pause"; } else { medLeft=medEndAt-Date.now(); m.classList.add("paused"); b.textContent="Resume"; } return; }
   if(b.id==="medEnd"){ endMed(); return; }
@@ -826,7 +826,7 @@ let hzOpen=false;
 function syncModeBtns(){ document.querySelectorAll("[data-mode]").forEach(x=>x.setAttribute("aria-pressed",String(x.dataset.mode===mode))); }
 function openHz(m){ hzOpen=true; if(m){ mode=m; if(m==="roleplay"&&!session){ const last=chats.filter(c=>c.repId===viewRep&&c.mode==="roleplay").sort((a,b)=>(b.createdAt||0)-(a.createdAt||0))[0]; session=last?.session||""; } } $("#hz").hidden=false; $("#hzBtn").setAttribute("aria-expanded","true"); syncModeBtns(); lsSet("hzSeen",String(Date.now())); hzDot(); renderChat(); if(matchMedia("(min-width:700px)").matches) setTimeout(()=>$("#chatIn")?.focus(),60); }
 function closeHz(){ hzOpen=false; $("#hz").hidden=true; $("#hzBtn").setAttribute("aria-expanded","false"); }
-function hzDot(){ const seen=+lsGet("hzSeen",0); const last=Math.max(0,...wchats.filter(c=>c.role==="hamza").map(c=>c.createdAt||0)); const on=!hzOpen&&last>seen; $("#hzDot").hidden=!on; $("#hzLbl").hidden=!on; }
+function hzDot(){ const seen=+lsGet("hzSeen",0); const last=Math.max(0,...wchats.filter(c=>c.role==="hamza").map(c=>c.createdAt||0),...chats.filter(c=>c.role==="hamza"&&c.repId===me&&c.mode==="ask").map(c=>c.createdAt||0)); const on=!hzOpen&&last>seen; $("#hzDot").hidden=!on; $("#hzLbl").hidden=!on; }
 
 /* ---------- first-use tour ---------- */
 const TOUR=[
@@ -1463,7 +1463,7 @@ renderTabs(); renderToday();
   db.collection("followers").onSnapshot(q=>{ followers=docs(q); renderAll(); },onErr);
   db.collection("kpi").onSnapshot(q=>{ kpis=docs(q); refreshNames(); },onErr);
   db.collection("timelog").onSnapshot(q=>{ tlog=docs(q); renderAll(); },onErr);
-  db.collection("chats").onSnapshot(q=>{ chats=docs(q); if(hzOpen) renderChat(); },onErr);
+  db.collection("chats").onSnapshot(q=>{ chats=docs(q); if(hzOpen) renderChat(); hzDot(); },onErr);
   db.doc("meta/playbook").onSnapshot(x=>{ playbook=x.exists?(x.data().text||""):""; if(tab==="team") renderTeam(); },()=>{});
   db.doc("meta/goals").onSnapshot(x=>{ if(x.exists) goals={...goals,...x.data()}; renderAll(); },()=>{});
   db.doc("meta/company").onSnapshot(x=>{ company=x.exists?{trn:"",...x.data()}:{trn:""}; },()=>{});

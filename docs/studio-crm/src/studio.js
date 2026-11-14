@@ -393,7 +393,7 @@ renderTabs(); renderToday();
   db.collection("followers").onSnapshot(q=>{ followers=docs(q); renderAll(); },onErr);
   db.collection("kpi").onSnapshot(q=>{ kpis=docs(q); refreshNames(); },onErr);
   db.collection("timelog").onSnapshot(q=>{ tlog=docs(q); renderAll(); },onErr);
-  db.collection("chats").onSnapshot(q=>{ chats=docs(q); if(hzOpen) renderChat(); },onErr);
+  db.collection("chats").onSnapshot(q=>{ chats=docs(q); if(hzOpen) renderChat(); hzDot(); },onErr);
   db.doc("meta/playbook").onSnapshot(x=>{ playbook=x.exists?(x.data().text||""):""; if(tab==="team") renderTeam(); },()=>{});
   db.doc("meta/goals").onSnapshot(x=>{ if(x.exists) goals={...goals,...x.data()}; renderAll(); },()=>{});
   db.doc("meta/company").onSnapshot(x=>{ company=x.exists?{trn:"",...x.data()}:{trn:""}; },()=>{});
