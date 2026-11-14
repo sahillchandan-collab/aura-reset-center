@@ -1133,12 +1133,15 @@ function renderToday(){ const t=dxb(), y=prevWork(t), d=dayStats(viewRep,t), fir
   const yTrials=mine(videos).filter(v=>v.brand==="ft"&&v.trialDate===y&&v.status==="trial");
   const dues=mine(shoots).filter(s=>shootDeadline(s)).sort((a,b)=>shootDeadline(a)-shootDeadline(b));
   const todayShoots=mine(shoots).filter(s=>s.date===t&&s.status==="scheduled");
-  const planToday=mine(videos).filter(v=>v.brand==="ft"&&PLANNED.includes(v.status)&&v.planFor===t);
+  const planToday=mine(videos).filter(v=>v.brand==="ft"&&[...PLANNED,"trial","live"].includes(v.status)&&v.planFor===t);
   const items=[
     ckItem(d.live>=goals.live,"Post yesterday's best trial reel live",d.live?esc(mine(videos).filter(v=>v.status==="live"&&dOf(v.postedAt)===t).map(v=>v.title).join(", ")):yTrials.length?`${yTrials.length} trial reels from yesterday to compare`:"No trial reels from yesterday",d.live?"":`<button class="btn sm or" type="button" data-compare>Pick winner</button>`,true),
     ckItem(d.needStats===0,goals.metricool?"Paste the Instagram link on yesterday's reels":"Record stats for yesterday's videos",d.needStats?(goals.metricool?`${d.needStats} still missing stats. Metricool fills them in at 08:13 and 20:13 once the reel's Instagram link is on the video.`:`${d.needStats} video${d.needStats>1?"s":""} still missing views, follows, shares, watch-through`):"All stats in",d.needStats?`<button class="btn sm" type="button" data-gostats>${goals.metricool?"Open":"Add stats"}</button>`:""),
     ckItem(d.followers!=null,goals.metricool?"Founder Tales followers (synced from Metricool)":"Log today's Founder Tales followers",d.followers!=null?`${d.followers.toLocaleString()}${d.gained!=null?` · ${d.gained>=0?"+":""}${d.gained} today`:""}`:"Takes 10 seconds",d.followers==null?`<button class="btn sm" type="button" data-followers>Log</button>`:""),
-    ...(planToday.length?[ckItem(false,"Today's plan (made "+(isSun(addDays(t,-1))?"Saturday":"yesterday")+")",planToday.map(v=>`<button type="button" class="btn ghost sm" data-vid="${esc(v.id)}" style="padding:2px 8px;margin:2px 4px 2px 0">${esc(v.title)}${v.postAt?" · "+esc(v.postAt.slice(11,16)):""}</button>`).join(""),"")]:[]),
+    ...planToday.map(v=>{ const made=["trial","live"].includes(v.status); const when=v.postAt?" · post "+esc(v.postAt.slice(11,16)):"";
+      const acts=made?"":`<span style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px"><button class="btn sm or" type="button" data-planmade="${esc(v.id)}">Made it</button><button class="btn sm" type="button" data-vid="${esc(v.id)}">Edit</button><button class="btn sm ghost" type="button" data-planmove="${esc(v.id)}">Move to ${isSun(addDays(t,1))?"Monday":"tomorrow"}</button><button class="btn sm ghost" type="button" data-plandrop="${esc(v.id)}">Drop</button></span>`;
+      return ckItem(made,`Today's plan: ${esc(v.title)}`,(made?`Made · ${v.status==="live"?"live":"trial reel"}${when}`:`${v.status==="editing"?"In editing":"Idea"}${when}${v.hook?" · "+esc(v.hook):""}`)+acts,
+        made?`<button class="btn sm" type="button" data-vid="${esc(v.id)}">Open</button>`:""); }),
     ckItem(d.trials>=goals.trials,`Make ${goals.trials} Founder Tales trial reels`,`${d.trials} of ${goals.trials} done`,d.trials<goals.trials?`<button class="btn sm or" type="button" data-newvid="ft-trial">+ Trial reel</button>`:""),
     ckItem(d.yontro>=goals.yontro,"Make today's Yontro.ae video",`${d.yontro} of ${goals.yontro} done`,d.yontro<goals.yontro?`<button class="btn sm" type="button" data-newvid="yontro">+ Yontro video</button>`:""),
     ...todayShoots.map(s=>ckItem(false,`Shoot: ${esc(s.client)}${s.time?" · "+esc(s.time):""}`,esc(s.location||""),`<button class="btn sm blue" type="button" data-shoot="${esc(s.id)}">Open</button>`)),
@@ -1356,6 +1359,12 @@ document.addEventListener("click",async e=>{
   if(d.tab){ tab=d.tab; renderAll(); scrollTo(0,0); return; }
   if(d.close!==undefined){ closeSheet(); return; }
   if(d.del){ if(!d.confirm){ d.confirm="1"; b.textContent="Tap again to delete"; return; } try{ await db.doc(d.coll+"/"+d.del).delete(); toast("Deleted."); closeSheet(); }catch(err){ toast("Couldn't delete."); } return; }
+  if(d.planmade||d.planmove||d.plandrop){ const id=d.planmade||d.planmove||d.plandrop; const v=videos.find(x=>x.id===id); if(!v) return; const now=Date.now(); const t=dxb();
+    try{
+      if(d.planmade){ await db.doc("videos/"+id).update({status:"trial",trialDate:t,updatedAt:now}); toast("Marked as made. Counted as today's trial reel."); videoSheet({...v,status:"trial",trialDate:t}); return; }
+      if(d.planmove){ const nd=nextWork(t); await db.doc("videos/"+id).update({planFor:nd,postAt:v.postAt?nd+v.postAt.slice(10):"",updatedAt:now}); toast("Moved to "+fmtShortD(nd)+"."); return; }
+      if(d.plandrop){ if(!confirm(`Drop "${v.title}"?`)) return; await db.doc("videos/"+id).update({status:"dropped",updatedAt:now}); toast("Dropped."); return; }
+    }catch(err){ toast("Couldn't save: "+(err?.message||err?.code||"error")); } return; }
   if(d.newvid){ if(!viewRep) return toast("Sign in first."); const t=dxb(); const pre=d.newvid==="ft-trial"?{brand:"ft",status:"trial",trialDate:t}:d.newvid==="ft-idea"?{brand:"ft",status:"idea",planFor:nextWork(t),postAt:nextWork(t)+"T19:00"}:{brand:"yontro",status:"editing"}; videoSheet(null,pre); return; }
   if(d.vid){ const v=videos.find(x=>x.id===d.vid); if(v) videoSheet(v); return; }
   if(d.stats){ const v=videos.find(x=>x.id===d.stats); if(v) statsSheet(v); return; }
