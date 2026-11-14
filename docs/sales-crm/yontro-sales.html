@@ -379,7 +379,7 @@ function renderShift(){
     :`<button class="btn green" type="button" id="punchIn">Punch in</button>`;
   el.innerHTML=`<div class="st"><span class="dot" aria-hidden="true"></span><span class="big">${status}</span><span class="clock">${since}</span></div>
   <div class="tag">Worked ${dur(st.worked)} · breaks ${dur(st.breakMs)} · in meetings ${dur(st.meetMs)}${st.firstIn?.place?` · started at ${esc(st.firstIn.place)}`:""}</div>
-  ${st.L.length?`<details><summary class="tag">Today's timeline</summary><div class="timeline">${st.L.map(e=>`<div><time>${hm(e.at)}</time><span>${esc({punch_in:"Punched in"+(e.place?" · "+e.place:""),punch_out:"Punched out"+(e.place?" · "+e.place:""),break_start:"Break started",break_end:"Break ended",meeting_in:"Checked in to meeting · "+(e.business||"")+(e.place?" @ "+e.place:""),meeting_out:"Checked out of meeting · "+(e.business||"")}[e.kind]||e.kind)}</span></div>`).join("")}</div></details>`:""}
+  ${st.L.length?`<details><summary class="tag">Today's timeline</summary><div class="timeline">${st.L.map(e=>`<div><time>${hm(e.at)}</time><span>${esc({punch_in:"Punched in"+(e.place?" · "+e.place:"")+(e.selfie===true?" · selfie":e.selfie===false?" · no photo":""),punch_out:"Punched out"+(e.place?" · "+e.place:""),break_start:"Break started",break_end:"Break ended",meeting_in:"Checked in to meeting · "+(e.business||"")+(e.place?" @ "+e.place:""),meeting_out:"Checked out of meeting · "+(e.business||"")}[e.kind]||e.kind)}</span></div>`).join("")}</div></details>`:""}
   <div class="btnrow">${btns}</div>`;
   const lm=$("#liveMeeting"); if(st.live&&self){ lm.hidden=false; lm.innerHTML=`<div class="head"><h2>Meeting with ${esc(st.live.business||"")}</h2><span class="clock tag">${dur(Date.now()-st.live.startAt)}</span></div><div class="tag">${esc(st.live.startPlace||"")}${st.live.startMap?` · <a href="${esc(st.live.startMap)}" target="_blank" rel="noopener">map</a>`:""}</div><label class="f" for="liveNotes">Notes (saved as you type, only for you and Hamza)<textarea id="liveNotes" style="min-height:140px" placeholder="What they need, budget, objections, decision maker, next step…">${esc(st.live.liveNotes||"")}</textarea></label><div class="btnrow"><button class="btn" type="button" data-mout="${esc(st.live.id)}">Check out of meeting</button></div>`; } else { lm.hidden=true; lm.innerHTML=""; }
 }
@@ -388,9 +388,27 @@ let notesT=null;
 document.addEventListener("input",e=>{ if(e.target.id!=="liveNotes"&&e.target.id!=="sheetNotes") return; const id=e.target.dataset.mid||shiftState(viewRep,dxb()).live?.id; if(!id) return; clearTimeout(notesT); const v=e.target.value; notesT=setTimeout(()=>{ db.doc("activities/"+id).update({liveNotes:v,updatedAt:Date.now()}).catch(()=>{}); },1200); });
 function punchInSheet(){
   $("#sheet").innerHTML=`<div class="head"><h2 id="sheetTitle">Punch in</h2><button class="btn ghost sm" type="button" data-close>Close</button></div>
-  <form id="punchForm" style="display:grid;gap:10px"><label class="f" for="pPlace">Where are you starting? (optional)<input id="pPlace" placeholder="e.g. Office, or first client visit in JLT"></label><button class="btn green" type="submit">Punch in now</button></form>`;
-  $("#sheetBg").hidden=false;
+  <form id="punchForm" style="display:grid;gap:10px">
+  <div style="display:grid;gap:8px;justify-items:start"><span class="tag">Step 1: take a selfie where you are. Only you and Sahill see it.</span>
+  <label class="btn or" for="pSelfie" id="pSelfieBtn">Take selfie</label><input id="pSelfie" type="file" accept="image/*" capture="user" hidden>
+  <img id="pSelfieImg" alt="Your punch-in selfie" hidden style="width:140px;height:140px;object-fit:cover;border-radius:14px;border:2px solid var(--line,#ddd)"></div>
+  <label class="f" for="pPlace">Step 2: where are you starting? (optional)<input id="pPlace" placeholder="e.g. Office, or first client visit in JLT"></label>
+  <button class="btn green" type="submit" id="pSubmit" disabled>Punch in now</button>
+  <button class="btn ghost sm" type="button" id="pNoCam" style="justify-self:start">Camera not working? Punch in without a photo</button></form>`;
+  selfieData=""; $("#sheetBg").hidden=false;
 }
+/* ---------- punch-in selfie ---------- */
+let selfieData="";
+const selfieCache={};
+function selfieShrink(file){ return new Promise((res,rej)=>{ const u=URL.createObjectURL(file); const img=new Image(); img.onload=()=>{ const k=Math.min(1,480/Math.max(img.naturalWidth,img.naturalHeight)); const c=document.createElement("canvas"); c.width=Math.max(1,Math.round(img.naturalWidth*k)); c.height=Math.max(1,Math.round(img.naturalHeight*k)); c.getContext("2d").drawImage(img,0,0,c.width,c.height); URL.revokeObjectURL(u); res(c.toDataURL("image/jpeg",0.72)); }; img.onerror=()=>{ URL.revokeObjectURL(u); rej(new Error("image")); }; img.src=u; }); }
+async function punchInWithSelfie(place){ const withPhoto=!!selfieData; const at=await logEvent("punch_in",{place,selfie:withPhoto}); if(withPhoto){ try{ await db.doc(`selfies/${me}/items/${at}`).set({repId:me,date:dxb(),at,img:selfieData}); }catch(_){ toast("Punched in, but the selfie didn't save."); } } selfieData=""; return at; }
+document.addEventListener("change",async e=>{ if(e.target.id!=="pSelfie") return; const f=e.target.files&&e.target.files[0]; if(!f) return; try{ selfieData=await selfieShrink(f); const im=$("#pSelfieImg"); if(im){ im.src=selfieData; im.hidden=false; } const b=$("#pSelfieBtn"); if(b) b.textContent="Retake selfie"; const sb=$("#pSubmit"); if(sb) sb.disabled=false; }catch(_){ toast("Couldn't read that photo. Try again."); } });
+document.addEventListener("click",async e=>{ const t=e.target.closest("#pNoCam,[data-selfiebig]"); if(!t) return;
+  if(t.id==="pNoCam"){ if(!confirm("Punch in without a selfie? Sahill will see that there was no photo.")) return; selfieData=""; await punchInWithSelfie(($("#pPlace")?.value||"").trim()); toast("Punched in without a photo."); closeSheet(); return; }
+  const src=selfieCache[t.dataset.selfiebig]; if(!src) return; $("#sheet").classList.remove("wide"); $("#sheet").innerHTML=`<div class="head"><h2 id="sheetTitle">Punch-in selfie</h2><button class="btn ghost sm" type="button" data-close>Close</button></div><img src="${src}" alt="Punch-in selfie" style="width:100%;max-width:480px;border-radius:14px">`; $("#sheetBg").hidden=false; });
+function selfieCell(rep,e){ if(!e) return "–"; if(e.selfie===false) return '<span class="tag" style="color:#b42318">No photo</span>'; if(!e.selfie) return "–"; const k=rep+"/"+e.at;
+  if(selfieCache[k]===undefined){ selfieCache[k]=null; db.doc(`selfies/${rep}/items/${e.at}`).get().then(d=>{ selfieCache[k]=d.exists?(d.data().img||""):""; document.querySelectorAll("img[data-selfiebig]").forEach(i=>{ if(i.dataset.selfiebig===k&&selfieCache[k]) i.src=selfieCache[k]; }); }).catch(()=>{ selfieCache[k]=""; }); }
+  return `<img data-selfiebig="${esc(k)}" ${selfieCache[k]?`src="${selfieCache[k]}"`:""} alt="Selfie at ${hm(e.at)}" style="width:44px;height:44px;object-fit:cover;border-radius:8px;cursor:zoom-in;background:#e8e6e1;display:block">`; }
 function punchOutSheet(){
   $("#sheet").innerHTML=`<div class="head"><h2 id="sheetTitle">Punch out</h2><button class="btn ghost sm" type="button" data-close>Close</button></div>
   <form id="punchOutForm" style="display:grid;gap:10px"><label class="f" for="poPlace">Where are you? (optional)<input id="poPlace" placeholder="e.g. Office, or client visit in JLT"></label><button class="btn" type="submit">Punch out now</button></form>`;
@@ -468,8 +486,8 @@ function renderTeam(){
   if(document.activeElement!==$("#playbook")) $("#playbook").value=playbook||PRODUCT;
   if(document.activeElement!==$("#trnIn")) $("#trnIn").value=company.trn||"";
   const repsA=[...new Set([...reps,...tlog.map(x=>x.repId)])].filter(r=>r&&r!==me);
-  $("#attTable").innerHTML=`<thead><tr><th>Name</th><th>Status</th><th>In</th><th>Started at</th><th>Out</th><th>Worked</th><th>Breaks</th><th>Meetings</th></tr></thead><tbody>${repsA.map(r=>{const st=shiftState(r,t); const s=st.live?"In meeting":st.brk?"On break":st.on?"On shift":st.outAt?"Done":"Not in";
-    return `<tr><td>${nameCell(r)}</td><td>${s}</td><td>${st.inAt?hm(st.inAt):"–"}</td><td>${esc(st.firstIn?.place||"–")}</td><td>${st.outAt?hm(st.outAt):"–"}</td><td>${st.inAt?dur(st.worked):"–"}</td><td>${st.inAt?dur(st.breakMs):"–"}</td><td>${dur(st.meetMs)}</td></tr>`;}).join("")||`<tr><td colspan="8">Nobody has punched in yet.</td></tr>`}</tbody>`;
+  $("#attTable").innerHTML=`<thead><tr><th>Name</th><th>Selfie</th><th>Status</th><th>In</th><th>Started at</th><th>Out</th><th>Worked</th><th>Breaks</th><th>Meetings</th></tr></thead><tbody>${repsA.map(r=>{const st=shiftState(r,t); const s=st.live?"In meeting":st.brk?"On break":st.on?"On shift":st.outAt?"Done":"Not in";
+    return `<tr><td>${nameCell(r)}</td><td>${selfieCell(r,st.firstIn)}</td><td>${s}</td><td>${st.inAt?hm(st.inAt):"–"}</td><td>${esc(st.firstIn?.place||"–")}</td><td>${st.outAt?hm(st.outAt):"–"}</td><td>${st.inAt?dur(st.worked):"–"}</td><td>${st.inAt?dur(st.breakMs):"–"}</td><td>${dur(st.meetMs)}</td></tr>`;}).join("")||`<tr><td colspan="9">Nobody has punched in yet.</td></tr>`}</tbody>`;
   $("#reportList").innerHTML=reports.length?reports.slice().sort((a,b)=>b.createdAt-a.createdAt).slice(0,8).map((r,i)=>`<details ${i===0?"open":""}><summary>${esc(new Date(r.createdAt).toLocaleString("en-GB",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit",timeZone:"Asia/Dubai"}))} · ${esc(r.title||"Report")}</summary><div style="white-space:pre-wrap;font-size:14px;margin-top:6px">${esc(r.body)}</div></details>`).join(""):'<div class="empty">No reports yet. Tap Ask Hamza for a report.</div>';
 
 }
@@ -1515,7 +1533,7 @@ document.addEventListener("click",async e=>{
 $("#sheetBg").addEventListener("click",e=>{ if(e.target.id==="sheetBg") closeSheet(); });
 document.addEventListener("keydown",e=>{ if(e.key==="Escape"&&!$("#kiosk").hidden) closeKiosk(); if(e.key==="Escape"&&!$("#sheetBg").hidden) closeSheet(); });
 document.addEventListener("submit",async e=>{
-  if(e.target.id==="punchForm"){ e.preventDefault(); await logEvent("punch_in",{place:$("#pPlace").value.trim()}); toast("Punched in. Have a great day."); closeSheet(); return; }
+  if(e.target.id==="punchForm"){ e.preventDefault(); if(!selfieData){ toast("Take a selfie first."); return; } await punchInWithSelfie($("#pPlace").value.trim()); toast("Punched in. Have a great day."); closeSheet(); return; }
   if(e.target.id==="punchOutForm"){ e.preventDefault(); const st=shiftState(viewRep,dxb()); if(st.brk) await logEvent("break_end"); if(st.live){ await db.doc("activities/"+st.live.id).update({endAt:Date.now(),done:true}); await logEvent("meeting_out",{activityId:st.live.id,business:st.live.business||""}); } await logEvent("punch_out",{place:$("#poPlace").value.trim()}); toast(`Punched out. You worked ${dur(shiftState(viewRep,dxb()).worked)}.`); closeSheet(); setTimeout(()=>dayReportAfterPunchOut(),600); return; }
   if(e.target.id==="meetInForm"){ e.preventDefault(); const id=e.target.dataset.id; const a=acts.find(x=>x.id===id); const place=$("#miPlace").value.trim(), map=$("#miMap").value.trim(); const at=Date.now(); await db.doc("activities/"+id).update({startAt:at,startPlace:place,startMap:/^https?:\/\//.test(map)?map:"",updatedAt:at}); await logEvent("meeting_in",{activityId:id,business:a?.business||"",place,map}); toast("Checked in. Take notes as you go."); closeSheet(); tab="today"; renderAll(); setTimeout(()=>$("#liveNotes")?.focus(),300); return; }
 });
