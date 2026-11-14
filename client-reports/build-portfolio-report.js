@@ -146,10 +146,9 @@ const p1 = page(1, `
   ${noDeed.length ? `<p class="note">${noDeed.map((p) => esc(p.building)).join(', ')} is not shown because its title deed has not been provided yet.</p>` : ''}`);
 
 // ---------- page 2: value table + apartment register ----------
-const growthRows = deeded.map((p) => `<tr><td><b>${esc(p.building)}</b><br><span class="muted">Unit ${esc(p.unit)} · ${fmt(p.area_sqft)} sq ft</span></td><td>${dmy(p.purchase_date)}</td>
+const growthRows = deeded.map((p) => `<tr><td><b>${esc(p.building)}</b><br><span class="muted">Unit ${esc(p.unit)} · floor ${p.floor} · ${fmt(p.area_sqft)} sq ft<br>Title deed ${esc(p.deed_no)}</span></td><td>${dmy(p.purchase_date)}</td>
   <td class="num">${fmt(p.purchase_price_aed)}</td><td class="num">${fmt(p.paidPsf)}</td><td class="num">${fmt(p.est.mid)}<br><span class="muted">${aedK(p.est.low)}–${aedK(p.est.high)}</span></td>
   <td class="num"><b>${p.valuation.hold_at_purchase ? '—' : (p.gain >= 0 ? '+' : '−') + fmt(Math.abs(p.gain))}</b><br><span class="muted">${p.valuation.hold_at_purchase ? 'held at cost' : pct(p.gainPct)}</span></td></tr>`).join('');
-const deedRows = deeded.map((p) => `<tr><td><b>${esc(p.building)}</b> · ${esc(p.unit)}</td><td>${p.floor}</td><td>${esc(p.parking)}</td><td>${esc(p.deed_no)}</td><td>${esc(p.mortgage)}</td></tr>`).join('');
 const p2 = page(2, `
   <h2 class="first">Value by apartment</h2>
   <table><thead><tr><th>Apartment</th><th>Purchased</th><th class="num">Price paid (AED)</th><th class="num">AED per sq ft paid</th><th class="num">Estimated value (AED)</th><th class="num">Change (AED)</th></tr></thead>
@@ -158,10 +157,8 @@ const p2 = page(2, `
   <h3 class="tight">How the values were estimated</h3>
   <div class="method">${deeded.map((p) => `<p><b>${esc(p.building)}, unit ${esc(p.unit)}.</b> ${esc(p.valuation.evidence)}</p>`).join('')}
   <p class="muted">These are desktop estimates from published resale prices applied to the size on each title deed, not formal valuations. Sources are listed on the last page.</p></div>
-  <h2>Title deed register</h2>
-  <table class="compact"><thead><tr><th>Apartment</th><th>Floor</th><th>Parking</th><th>Title deed no.</th><th>Mortgage</th></tr></thead><tbody>${deedRows}
-  ${noDeed.map((p) => `<tr><td><b>${esc(p.building)}</b> · ${esc(p.unit)}</td><td colspan="4" class="muted">Title deed not yet provided</td></tr>`).join('')}</tbody></table>
-  <p class="note">All apartments are registered with the Dubai Land Department in the sole name of ${esc(data.owner?.name || data.client.name)} (owner no. ${esc(data.client.dld_owner_no)}).</p>`);
+  <p class="note">All ${deeded.length} apartments are registered with the Dubai Land Department in the sole name of ${esc(data.owner?.name || data.client.name)} (owner no. ${esc(data.client.dld_owner_no)}), and ${deeded.every((p) => /not mortgaged/i.test(p.mortgage)) ? 'none is mortgaged' : 'some are mortgaged'}.</p>
+  ${noDeed.map((p) => `<p class="note">${esc(p.building)}: title deed not yet provided.</p>`).join('')}`);
 
 // ---------- page 3: current earnings ----------
 const contract = (t) => {
@@ -226,7 +223,7 @@ const basis = [
   ...props.filter((p) => p.t?.prior_same_rent).map((p) => `${esc(p.building)}: the tenant was in the flat before the current contract started, so January to July is counted at the current rent.`),
   ...props.filter((p) => p.t?.dates_inferred).map((p) => `${esc(p.building)}: contract taken as ${dmy(p.t.start)} to ${dmy(p.t.end)}, based on the last cheque dated 20/02/2027 and four quarterly cheques.`),
   ...props.filter((p) => p.t?.status === 'Vacant' && !(p.t.earned_2026 || []).length).map((p) => `${esc(p.building)}: no rent in ${year}.`),
-  ...props.filter((p) => p.t?.no_prior_rent).map((p) => `${esc(p.building)}: no rent is counted before the current contract started on ${dmy(p.t.start)}.`),
+  ...props.filter((p) => p.t?.no_prior_rent).map((p) => `${esc(p.building)}: ${p.purchase_date ? `bought on ${dmy(p.purchase_date)}; ` : ''}no rent is counted before the current contract started on ${dmy(p.t.start)}.`),
   `Service charges are the amounts billed for ${esc(data.service_charges.period)}. Botany Properties’ management fees are not included.`,
 ];
 const p5 = page(5, `
