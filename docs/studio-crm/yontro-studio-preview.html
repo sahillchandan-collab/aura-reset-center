@@ -1075,12 +1075,17 @@ const SST={scheduled:["Scheduled",""],shot:["Editing · first draft due","st-pro
 const VST={idea:["Idea",""],editing:["Editing","st-proposal"],trial:["Trial reel","st-meeting"],live:["Live","st-won"],dropped:["Dropped",""],done:["Done","st-won"]};
 
 /* ---------- day metrics & score ---------- */
+/* working days are Mon-Sat: "tomorrow" after Saturday is Monday, "yesterday" on Monday is Saturday */
+const isSun=d=>new Date(d+"T12:00:00Z").getUTCDay()===0;
+const nextWork=d=>{ let x=addDays(d,1); if(isSun(x)) x=addDays(x,1); return x; };
+const prevWork=d=>{ let x=addDays(d,-1); if(isSun(x)) x=addDays(x,-1); return x; };
+const PLANNED=["idea","editing"];
 function dayStats(rep,date){ const V=videos.filter(v=>v.repId===rep), S=shoots.filter(s=>s.repId===rep);
   const trials=V.filter(v=>v.brand==="ft"&&v.trialDate===date&&["trial","live","dropped"].includes(v.status));
   const live=V.filter(v=>v.brand==="ft"&&v.status==="live"&&dOf(v.postedAt)===date);
   const yontro=V.filter(v=>v.brand==="yontro"&&v.status==="done"&&v.doneDate===date);
-  const y=addDays(date,-1); const needStats=V.filter(v=>v.brand==="ft"&&(v.trialDate===y||dOf(v.postedAt)===y)&&!v.statsAt);
-  const ideasTom=V.filter(v=>v.brand==="ft"&&v.status==="idea"&&v.planFor===addDays(date,1));
+  const y=prevWork(date); const needStats=V.filter(v=>v.brand==="ft"&&(v.trialDate===y||dOf(v.postedAt)===y)&&!v.statsAt);
+  const ideasTom=V.filter(v=>v.brand==="ft"&&PLANNED.includes(v.status)&&v.planFor===nextWork(date));
   const ideasSched=ideasTom.filter(v=>v.postAt);
   const dEnd=new Date(date+"T23:59:59+04:00").getTime(), dStart=new Date(date+"T00:00:00+04:00").getTime();
   let met=0,missed=0; S.forEach(s=>{ const chk=[]; if(s.dueAt&&s.dueAt>=dStart&&s.dueAt<=dEnd) chk.push(s.sentAt?s.sentAt<=s.dueAt:Date.now()<s.dueAt?null:false); (s.revisions||[]).forEach(r=>{ if(r.dueAt>=dStart&&r.dueAt<=dEnd) chk.push(r.doneAt?r.doneAt<=r.dueAt:Date.now()<r.dueAt?null:false); }); chk.forEach(c=>{ if(c===true) met++; if(c===false) missed++; }); });
@@ -1100,7 +1105,7 @@ function dayStats(rep,date){ const V=videos.filter(v=>v.repId===rep), S=shoots.f
     punchIn:st.inAt?hm(st.inAt):null,punchOut:st.outAt?hm(st.outAt):null,worked:st.inAt?dur(st.worked):null,breaks:st.inAt?dur(st.breakMs):null,late:st.inAt?(new Date(st.inAt).toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit",hour12:false,timeZone:"Asia/Dubai"})>"10:15"):false,
     parts:{output:Math.round(out*100),ontime:Math.round(ontime*100),growth:Math.round(growth*100),discipline:Math.round(disc*100)},score}; }
 function vScore(v){ const s=v.stats||{}; return (+s.follows||0)*40+(+s.shares||0)*8+(+s.saves||0)*5+(+s.views||0)*0.05+(+s.wtr||0)*3+(+s.comments||0)*2+(+s.likes||0)*0.5; }
-function studioContext(){ const t=dxb(), d=dayStats(viewRep,t), y=dayStats(viewRep,addDays(t,-1));
+function studioContext(){ const t=dxb(), d=dayStats(viewRep,t), y=dayStats(viewRep,prevWork(t));
   const top=mine(videos).filter(v=>v.brand==="ft"&&v.stats).sort((a,b)=>vScore(b)-vScore(a)).slice(0,6).map(v=>`"${v.title}" hook: ${v.hook||"?"}; ${v.stats.views||0} views, ${v.stats.follows||0} follows, ${v.stats.shares||0} shares, WTR ${v.stats.wtr||"?"}%`).join(" | ");
   const due=mine(shoots).filter(s=>shootDeadline(s)).map(s=>`${s.client}: ${SST[s.status][0]} ${leftTxt(shootDeadline(s)-Date.now())}`).join("; ");
   const up=mine(shoots).filter(s=>s.status==="scheduled"&&s.date>=t).slice(0,5).map(s=>`${s.client} ${s.date} ${s.time||""} at ${s.location||"?"}`).join("; ");
@@ -1121,7 +1126,7 @@ function renderTabs(){ const pn=isOwner?ownerPending().length:0;
   document.querySelectorAll(".view").forEach(v=>v.hidden=v.id!=="v-"+tab); }
 function renderAll(){ ownerSubs(); renderWho(); renderTabs(); if(tab==="today") renderToday(); if(tab==="content") renderContent(); if(tab==="clients") renderClients(); if(tab==="cal") renderCal(); if(tab==="score") renderScore(); if(tab==="team") renderTeam(); if(tab==="papers"&&!document.activeElement?.closest?.("#v-papers form")) renderPapers(); if(hzOpen) renderChat(); }
 function ckItem(done,title,sub,btn,urgent){ return `<div class="item ${done?"done":""} ${urgent&&!done?"late":""}"><span class="ic" style="${done?"background:var(--green);color:#fff":""}">${done?"✓":"•"}</span><div style="min-width:0"><div class="t">${title}</div>${sub?`<div class="s">${sub}</div>`:""}</div>${btn||"<span></span>"}</div>`; }
-function renderToday(){ const t=dxb(), y=addDays(t,-1), d=dayStats(viewRep,t), first=(names[viewRep]||"").split(" ")[0];
+function renderToday(){ const t=dxb(), y=prevWork(t), d=dayStats(viewRep,t), first=(names[viewRep]||"").split(" ")[0];
   $("#todayDate").textContent=fmtLong(t).toUpperCase(); $("#hello").textContent=first?`Good ${new Date().toLocaleString("en-GB",{hour:"2-digit",hour12:false,timeZone:"Asia/Dubai"})<"12"?"morning":"day"}, ${first}`:"Today";
   renderShift(); renderMorning();
   const tile=(v,tg,l)=>`<div class="kpi"><b>${v}${tg?`<small> / ${tg}</small>`:""}</b><span>${l}</span>${tg?`<div class="bar"><i class="${v>=tg?"ok":""}" style="width:${Math.min(100,v/tg*100)}%"></i></div>`:""}</div>`;
@@ -1129,21 +1134,23 @@ function renderToday(){ const t=dxb(), y=addDays(t,-1), d=dayStats(viewRep,t), f
   const yTrials=mine(videos).filter(v=>v.brand==="ft"&&v.trialDate===y&&v.status==="trial");
   const dues=mine(shoots).filter(s=>shootDeadline(s)).sort((a,b)=>shootDeadline(a)-shootDeadline(b));
   const todayShoots=mine(shoots).filter(s=>s.date===t&&s.status==="scheduled");
+  const planToday=mine(videos).filter(v=>v.brand==="ft"&&PLANNED.includes(v.status)&&v.planFor===t);
   const items=[
     ckItem(d.live>=goals.live,"Post yesterday's best trial reel live",d.live?esc(mine(videos).filter(v=>v.status==="live"&&dOf(v.postedAt)===t).map(v=>v.title).join(", ")):yTrials.length?`${yTrials.length} trial reels from yesterday to compare`:"No trial reels from yesterday",d.live?"":`<button class="btn sm or" type="button" data-compare>Pick winner</button>`,true),
     ckItem(d.needStats===0,goals.metricool?"Paste the Instagram link on yesterday's reels":"Record stats for yesterday's videos",d.needStats?(goals.metricool?`${d.needStats} still missing stats. Metricool fills them in at 08:13 and 20:13 once the reel's Instagram link is on the video.`:`${d.needStats} video${d.needStats>1?"s":""} still missing views, follows, shares, watch-through`):"All stats in",d.needStats?`<button class="btn sm" type="button" data-gostats>${goals.metricool?"Open":"Add stats"}</button>`:""),
     ckItem(d.followers!=null,goals.metricool?"Founder Tales followers (synced from Metricool)":"Log today's Founder Tales followers",d.followers!=null?`${d.followers.toLocaleString()}${d.gained!=null?` · ${d.gained>=0?"+":""}${d.gained} today`:""}`:"Takes 10 seconds",d.followers==null?`<button class="btn sm" type="button" data-followers>Log</button>`:""),
+    ...(planToday.length?[ckItem(false,"Today's plan (made "+(isSun(addDays(t,-1))?"Saturday":"yesterday")+")",planToday.map(v=>`<button type="button" class="btn ghost sm" data-vid="${esc(v.id)}" style="padding:2px 8px;margin:2px 4px 2px 0">${esc(v.title)}${v.postAt?" · "+esc(v.postAt.slice(11,16)):""}</button>`).join(""),"")]:[]),
     ckItem(d.trials>=goals.trials,`Make ${goals.trials} Founder Tales trial reels`,`${d.trials} of ${goals.trials} done`,d.trials<goals.trials?`<button class="btn sm or" type="button" data-newvid="ft-trial">+ Trial reel</button>`:""),
     ckItem(d.yontro>=goals.yontro,"Make today's Yontro.ae video",`${d.yontro} of ${goals.yontro} done`,d.yontro<goals.yontro?`<button class="btn sm" type="button" data-newvid="yontro">+ Yontro video</button>`:""),
     ...todayShoots.map(s=>ckItem(false,`Shoot: ${esc(s.client)}${s.time?" · "+esc(s.time):""}`,esc(s.location||""),`<button class="btn sm blue" type="button" data-shoot="${esc(s.id)}">Open</button>`)),
     ...dues.map(s=>{ const ms=shootDeadline(s)-Date.now(); return ckItem(false,`${s.status==="revisions"?"Revision":"First edit"}: ${esc(s.client)}`,`<span class="due ${ms<0?"over":ms<12*3600e3?"soon":""}">${leftTxt(ms)}</span> · due ${esc(dtStr(shootDeadline(s)))}`,`<button class="btn sm" type="button" data-shoot="${esc(s.id)}">Open</button>`,ms<0); }),
-    ckItem(d.ideasTom>=goals.trials&&d.ideasSched>=goals.trials,`Plan tomorrow: ${goals.trials} ideas with post times`,`${d.ideasTom} ideas · ${d.ideasSched} scheduled`,`<span class="btnrow"><button class="btn sm" type="button" data-newvid="ft-idea">+ Idea</button><button class="btn sm dark" type="button" data-hzopen="ideas">Ask ${MGR1}</button></span>`),
+    ckItem(d.ideasTom>=goals.trials&&d.ideasSched>=goals.trials,`Plan ${isSun(addDays(t,1))?"Monday":"tomorrow"}: ${goals.trials} ideas with post times`,`${d.ideasTom} ideas · ${d.ideasSched} scheduled${d.ideasTom?": "+esc(mine(videos).filter(v=>v.brand==="ft"&&PLANNED.includes(v.status)&&v.planFor===nextWork(t)).map(v=>v.title).join(", ")):""}`,`<span class="btnrow"><button class="btn sm" type="button" data-newvid="ft-idea">+ Idea</button><button class="btn sm dark" type="button" data-hzopen="ideas">Ask ${MGR1}</button></span>`),
     ckItem(d.checkin,`Daily check-in with ${MGR1}`,d.checkin?"Done":"2 minutes, before you punch out",d.checkin?"":`<button class="btn sm or" type="button" data-go="checkin">Start</button>`)];
   const done=items.filter(x=>x.includes('item done')).length; $("#ckCount").textContent=`${done} of ${items.length} done`;
   $("#checklist").innerHTML=items.join("");
   $("#quick").innerHTML=[["ft-trial",ICON.play,"Trial reel"],["ft-idea",ICON.idea,"FT idea"],["yontro",ICON.cam,"Yontro video"],["shoot",ICON.cal,"Shoot"],["followers",ICON.team,"Followers"],["client",ICON.lead,"Client"]].map(([k,i,l])=>`<button type="button" ${k==="shoot"?"data-newshoot":k==="followers"?"data-followers":k==="client"?"data-newclient":`data-newvid="${k}"`}>${i}${l}</button>`).join("");
   renderWell(); renderDayReport(); renderPeriodCard(); }
-function renderMorning(){ const el=$("#morningCard"); const y=addDays(dxb(),-1); const rep=(DR[viewRep]||[]).find(r=>r.date===y)||(DR[viewRep]||[]).slice().sort((a,b)=>b.date.localeCompare(a.date))[0];
+function renderMorning(){ const el=$("#morningCard"); const y=prevWork(dxb()); const rep=(DR[viewRep]||[]).find(r=>r.date===y)||(DR[viewRep]||[]).slice().sort((a,b)=>b.date.localeCompare(a.date))[0];
   const ys=dayStats(viewRep,y); const mm=viewRep===me?(well.morning||MOTIV[dayNo()%MOTIV.length]):"";
   el.innerHTML=`<div class="coach"><div class="av" aria-hidden="true">J</div><div style="flex:1;min-width:0"><h2>Morning brief</h2><div class="tag">${MGR}, Head of Production</div></div></div>
   ${mm?`<div style="font-size:15px">${esc(mm)}</div>`:""}
@@ -1158,7 +1165,7 @@ function renderContent(){ const t=dxb(), V=mine(videos);
   $("#ftFollow").innerHTML=`<div class="head"><h2>Founder Tales followers</h2><button class="btn sm" type="button" data-followers>Log today</button></div>
    ${cur?`<div class="kpis" style="grid-template-columns:repeat(3,minmax(0,1fr))"><div class="kpi"><b>${cur.followers.toLocaleString()}</b><span>on ${esc(fmtShortD(cur.date))}</span></div><div class="kpi"><b>${wk?((cur.followers-wk.followers>=0?"+":"")+(cur.followers-wk.followers)):"–"}</b><span>last 7 days</span></div><div class="kpi"><b>${need}</b><span>needed a day</span></div></div>
    <div class="bar" style="height:10px"><i style="width:${Math.min(100,cur.followers/goals.ftTarget*100)}%"></i></div><div class="tag">Goal ${goals.ftTarget.toLocaleString()} by ${esc(fmtShort(goals.ftDate))} · ${daysLeft} days left</div>`:`<div class="empty">Log the follower count every day so we can see what each video brings.</div>`}`;
-  const yt=V.filter(v=>v.brand==="ft"&&v.trialDate===addDays(t,-1)&&["trial","live","dropped"].includes(v.status));
+  const yt=V.filter(v=>v.brand==="ft"&&v.trialDate===prevWork(t)&&["trial","live","dropped"].includes(v.status));
   $("#ftCompare").hidden=!yt.length; if(yt.length) $("#ftCompare").innerHTML=compareHTML(yt);
   const F={"ft-active":["Founder Tales",v=>v.brand==="ft"&&!["dropped"].includes(v.status)],"ideas":["Ideas",v=>v.status==="idea"],"live":["Live",v=>v.status==="live"],"yontro":["Yontro.ae",v=>v.brand==="yontro"],"dropped":["Dropped",v=>v.status==="dropped"],"best":["Best performers",v=>!!v.stats]};
   $("#vidChips").innerHTML=Object.entries(F).map(([k,[l]])=>`<button type="button" class="chip" data-vf="${k}" aria-pressed="${vidF===k}">${l}</button>`).join("");
@@ -1271,7 +1278,7 @@ function shootSheet(s,pre){ s=s||{}; const f={status:"scheduled",videos:3,...pre
    <div class="grid2"><label class="f" for="shRaw">Raw footage link<input id="shRaw" inputmode="url" value="${esc(f.footageLink||"")}"></label><label class="f" for="shEdit">Edit link<input id="shEdit" inputmode="url" value="${esc(f.editLink||"")}"></label></div>
    <label class="f" for="shNotes">Notes and client feedback<textarea id="shNotes">${esc(f.notes||"")}</textarea></label>
    <div class="btnrow"><button class="btn or" type="submit">${s.id?"Save":"Book shoot"}</button>${s.id?`<button class="btn ghost" type="button" data-del="${esc(s.id)}" data-coll="shoots">Delete</button>`:""}</div></form>`); }
-function pickWinnerSheet(){ const y=addDays(dxb(),-1); const L=mine(videos).filter(v=>v.brand==="ft"&&v.trialDate===y&&["trial","live","dropped"].includes(v.status));
+function pickWinnerSheet(){ const y=prevWork(dxb()); const L=mine(videos).filter(v=>v.brand==="ft"&&v.trialDate===y&&["trial","live","dropped"].includes(v.status));
   if(!L.length) return toast("No trial reels from yesterday."); openS(`<div class="head"><h2 id="sheetTitle">Pick yesterday's winner</h2><button class="btn ghost sm" type="button" data-close>Close</button></div>${compareHTML(L)}<div class="tag">Post the winner live. The other one is marked Dropped automatically.</div>`); }
 
 /* ---------- John (manager chat) ---------- */
@@ -1299,7 +1306,7 @@ async function john(text,opts={}){
   if(mode==="checkin") tools=[{name:"save_checkin",description:"Save today's check-in and your one-line feedback.",inputSchema:{type:"object",properties:{trials:{type:"number"},live:{type:"number"},yontro:{type:"number"},edits:{type:"number",description:"client edits or revisions sent today"},blockers:{type:"string"},feedback:{type:"string"}},required:["feedback"]},
     execute:async i=>{ await db.doc(`kpi/${rep}_${dxb()}`).set({repId:rep,date:dxb(),trials:+i.trials||0,live:+i.live||0,yontro:+i.yontro||0,edits:+i.edits||0,blockers:String(i.blockers||""),feedback:String(i.feedback||""),createdAt:Date.now()}); return "saved"; }}];
   if(mode==="ideas") tools=[{name:"save_idea",description:"Save a video idea to his list.",inputSchema:{type:"object",properties:{title:{type:"string"},hook:{type:"string"},concept:{type:"string"},brand:{type:"string",enum:["ft","yontro"]},planFor:{type:"string",description:"YYYY-MM-DD"}},required:["title","hook"]},
-    execute:async i=>{ const now=Date.now(); await db.collection("videos").add({repId:rep,brand:i.brand==="yontro"?"yontro":"ft",status:"idea",title:String(i.title),hook:String(i.hook||""),concept:String(i.concept||""),planFor:/^\d{4}-\d{2}-\d{2}$/.test(i.planFor||"")?i.planFor:addDays(dxb(),1),createdAt:now,updatedAt:now}); return "saved"; }}];
+    execute:async i=>{ const now=Date.now(); await db.collection("videos").add({repId:rep,brand:i.brand==="yontro"?"yontro":"ft",status:"idea",title:String(i.title),hook:String(i.hook||""),concept:String(i.concept||""),planFor:/^\d{4}-\d{2}-\d{2}$/.test(i.planFor||"")?i.planFor:nextWork(dxb()),createdAt:now,updatedAt:now}); return "saved"; }}];
   let reply="";
   try{ const r=await sample(msgs,{modelTier:"default",cache:false,...(tools?{tools}:{})}); reply=r.text.trim(); }
   catch(e){ reply=e?.code==="not_granted"?"I need Claude access on this page to talk. Allow it from the Permissions menu.":e?.code==="rate_limited"?"I'm busy right now. Try again in a few minutes.":"Something went wrong: "+(e?.message||e?.code||"error"); }
@@ -1350,12 +1357,12 @@ document.addEventListener("click",async e=>{
   if(d.tab){ tab=d.tab; renderAll(); scrollTo(0,0); return; }
   if(d.close!==undefined){ closeSheet(); return; }
   if(d.del){ if(!d.confirm){ d.confirm="1"; b.textContent="Tap again to delete"; return; } try{ await db.doc(d.coll+"/"+d.del).delete(); toast("Deleted."); closeSheet(); }catch(err){ toast("Couldn't delete."); } return; }
-  if(d.newvid){ if(!viewRep) return toast("Sign in first."); const t=dxb(); const pre=d.newvid==="ft-trial"?{brand:"ft",status:"trial",trialDate:t}:d.newvid==="ft-idea"?{brand:"ft",status:"idea",planFor:addDays(t,1),postAt:addDays(t,1)+"T19:00"}:{brand:"yontro",status:"editing"}; videoSheet(null,pre); return; }
+  if(d.newvid){ if(!viewRep) return toast("Sign in first."); const t=dxb(); const pre=d.newvid==="ft-trial"?{brand:"ft",status:"trial",trialDate:t}:d.newvid==="ft-idea"?{brand:"ft",status:"idea",planFor:nextWork(t),postAt:nextWork(t)+"T19:00"}:{brand:"yontro",status:"editing"}; videoSheet(null,pre); return; }
   if(d.vid){ const v=videos.find(x=>x.id===d.vid); if(v) videoSheet(v); return; }
   if(d.stats){ const v=videos.find(x=>x.id===d.stats); if(v) statsSheet(v); return; }
   if(d.golive){ const v=videos.find(x=>x.id===d.golive); if(v) goLiveSheet(v); return; }
   if(d.compare!==undefined){ pickWinnerSheet(); return; }
-  if(d.gostats!==undefined){ const y=addDays(dxb(),-1); const v=mine(videos).find(v=>v.brand==="ft"&&(v.trialDate===y||dOf(v.postedAt)===y)&&!v.statsAt); if(v) statsSheet(v); return; }
+  if(d.gostats!==undefined){ const y=prevWork(dxb()); const v=mine(videos).find(v=>v.brand==="ft"&&(v.trialDate===y||dOf(v.postedAt)===y)&&!v.statsAt); if(v) statsSheet(v); return; }
   if(d.followers!==undefined){ followersSheet(); return; }
   if(d.newclient!==undefined){ clientSheet(null); return; }
   if(d.client){ const c=clients.find(x=>x.id===d.client); if(c) clientSheet(c); return; }
@@ -1490,6 +1497,9 @@ renderTabs(); renderToday();
   if(me){ subApprovals(me); subWell(); db.collection(`data/users/${me}/well/chat`).onSnapshot(q=>{ wchats=docs(q); wLoaded=true; hzDot(); if(hzOpen&&mode==="well") renderChat(); weekendCheck(); },()=>{}); setTimeout(()=>{ try{ wellTick(); }catch(_){} },4000); }
   refreshNames(); subStaff(); setTimeout(()=>{ tourAuto().catch(()=>{}); },2500);
 })();
+
+/* refresh the screen whenever a form closes: data that arrived while it was open is shown straight away */
+(()=>{ const bg=document.getElementById("sheetBg"); if(!bg) return; new MutationObserver(()=>{ if(bg.hidden){ try{ renderAll(); }catch(_){} } }).observe(bg,{attributes:true,attributeFilter:["hidden"]}); })();
 /* ---------- period metrics (studio) ---------- */
 const PR_MGR="John Smith, Head of Production", PR_ROLE="Videographer", PR_BY="john";
 const PR_TARGETS=`per working day: ${goals.trials} Founder Tales trial reels, the best trial posted live, ${goals.yontro} Yontro.ae video, stats and followers logged, 2 ideas planned for tomorrow; client first edits within 48 hours of a shoot and revisions within 24 hours; Founder Tales goal ${goals.ftTarget} followers by ${goals.ftDate}; 10:00 to 19:00.`;
