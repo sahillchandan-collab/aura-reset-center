@@ -1,0 +1,4 @@
+
+# Client personal and financial data stays local, never pushed
+client-reports/**/*.json
+client-reports/**/source/
