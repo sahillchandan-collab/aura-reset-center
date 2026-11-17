@@ -1,3 +1,4 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>yontro.ae · Studio</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -325,21 +326,33 @@ function punchInSheet(){
   <img id="pSelfieImg" alt="Your punch-in selfie" hidden style="width:140px;height:140px;object-fit:cover;border-radius:14px;border:2px solid var(--line,#ddd)"></div>
   <label class="f" for="pPlace">Step 2: where are you starting? (optional)<input id="pPlace" placeholder="e.g. Office, or first client visit in JLT"></label>
   <button class="btn green" type="submit" id="pSubmit" disabled>Punch in now</button>
-  <button class="btn ghost sm" type="button" id="pNoCam" style="justify-self:start">Camera not working? Punch in without a photo</button></form>`;
+  <span class="tag" id="pSelfieMsg" role="status" style="color:#b42318;font-weight:700"></span><span class="tag">A selfie is mandatory to punch in. Camera not working? Open this page on your phone and punch in from there.</span></form>`;
   selfieData=""; $("#sheetBg").hidden=false;
 }
 /* ---------- punch-in selfie ---------- */
 let selfieData="";
-const selfieCache={};
+const selfieCache={}; let selfieCheck="", selfieFp="";
+function selfieHash(s){ let h=2166136261; for(let i=0;i<s.length;i++){ h^=s.charCodeAt(i); h=Math.imul(h,16777619); } return (h>>>0).toString(36)+"_"+s.length; }
+function selfieBlob(d){ const b=atob(d.split(",")[1]); const a=new Uint8Array(b.length); for(let i=0;i<b.length;i++) a[i]=b.charCodeAt(i); return new Blob([a],{type:"image/jpeg"}); }
+async function selfieVerify(d){ try{ if(!sample) return {ok:null}; const lim=await sample.limits(); if(!lim||!lim.images) return {ok:null};
+  const r=await sample("This image was submitted as a staff attendance selfie. Reply YES only if it is a real camera photo that clearly shows a live person's face, taken by that person. Reply NO if it is a screenshot, a photo of a screen, a picture of a printed or displayed photo, a document, an object, a place with no face, a drawing, or too dark or blurry to show a face. Answer on one line: YES, or NO followed by a short reason in plain words.",{images:[selfieBlob(d)],modelTier:"quick",cache:false});
+  const t=(r.text||"").trim(); if(/^yes\b/i.test(t)) return {ok:true}; if(/^no\b/i.test(t)) return {ok:false,why:t.replace(/^no\b[\s:,.\-]*/i,"").slice(0,140)}; return {ok:null}; }catch(_){ return {ok:null}; } }
 function selfieShrink(file){ return new Promise((res,rej)=>{ const u=URL.createObjectURL(file); const img=new Image(); img.onload=()=>{ const k=Math.min(1,480/Math.max(img.naturalWidth,img.naturalHeight)); const c=document.createElement("canvas"); c.width=Math.max(1,Math.round(img.naturalWidth*k)); c.height=Math.max(1,Math.round(img.naturalHeight*k)); c.getContext("2d").drawImage(img,0,0,c.width,c.height); URL.revokeObjectURL(u); res(c.toDataURL("image/jpeg",0.72)); }; img.onerror=()=>{ URL.revokeObjectURL(u); rej(new Error("image")); }; img.src=u; }); }
-async function punchInWithSelfie(place){ const withPhoto=!!selfieData; const at=await logEvent("punch_in",{place,selfie:withPhoto}); if(withPhoto){ try{ await db.doc(`selfies/${me}/items/${at}`).set({repId:me,date:dxb(),at,img:selfieData}); }catch(_){ toast("Punched in, but the selfie didn't save."); } } selfieData=""; return at; }
-document.addEventListener("change",async e=>{ if(e.target.id!=="pSelfie") return; const f=e.target.files&&e.target.files[0]; if(!f) return; try{ selfieData=await selfieShrink(f); const im=$("#pSelfieImg"); if(im){ im.src=selfieData; im.hidden=false; } const b=$("#pSelfieBtn"); if(b) b.textContent="Retake selfie"; const sb=$("#pSubmit"); if(sb) sb.disabled=false; }catch(_){ toast("Couldn't read that photo. Try again."); } });
+async function punchInWithSelfie(place){ const withPhoto=!!selfieData; const at=await logEvent("punch_in",{place,selfie:withPhoto,...(withPhoto?{selfieCheck:selfieCheck||"unchecked"}:{})}); selfieCheck=""; if(withPhoto){ try{ await db.doc(`selfies/${me}/items/${at}`).set({repId:me,date:dxb(),at,img:selfieData,fp:selfieFp}); if(selfieFp){ try{ const fr=db.doc(`selfies/${me}/items/fp`); const fd=await fr.get(); const fps=((fd.exists&&fd.data().fps)||[]).concat(selfieFp).slice(-60); await fr.set({repId:me,fps}); }catch(_){} } }catch(_){ toast("Punched in, but the selfie didn't save."); } } selfieData=""; selfieFp=""; return at; }
+document.addEventListener("change",async e=>{ if(e.target.id!=="pSelfie") return; const f=e.target.files&&e.target.files[0]; if(!f) return; const sb=$("#pSubmit"), b=$("#pSelfieBtn"), im=$("#pSelfieImg"), msg=$("#pSelfieMsg"); selfieData=""; selfieCheck=""; selfieFp=""; if(sb) sb.disabled=true;
+  const age=Date.now()-(f.lastModified||Date.now()); if(age>3*60*1000){ e.target.value=""; if(msg){ msg.style.color="#b42318"; msg.textContent="Not accepted: this photo wasn't taken just now. Tap Take selfie and use your camera; photos from the gallery aren't accepted."; } return; }
+  try{ const data=await selfieShrink(f); const fp=selfieHash(data); let used=[]; try{ const fd=await db.doc(`selfies/${me}/items/fp`).get(); used=(fd.exists&&fd.data().fps)||[]; }catch(_){}
+    if(used.includes(fp)){ e.target.value=""; if(im){ im.src=data; im.hidden=false; } if(msg){ msg.style.color="#b42318"; msg.textContent="Not accepted: this is the same photo as an earlier punch-in. Take a new selfie with your camera."; } return; } if(im){ im.src=data; im.hidden=false; } if(b) b.textContent="Checking photo…"; if(msg){ msg.style.color=""; msg.textContent="Checking your selfie…"; }
+    const v=await selfieVerify(data); if(b) b.textContent="Retake selfie"; e.target.value="";
+    if(v.ok===false){ if(msg){ msg.style.color="#b42318"; msg.textContent="Not accepted"+(v.why?": "+v.why:".")+" Take a clear selfie of your face."; } return; }
+    selfieData=data; selfieFp=fp; selfieCheck=v.ok===true?"ok":"unchecked"; if(msg){ msg.style.color="#067647"; msg.textContent="Selfie accepted."; } if(sb) sb.disabled=false;
+  }catch(_){ if(b) b.textContent="Take selfie"; toast("Couldn't read that photo. Try again."); } });
 document.addEventListener("click",async e=>{ const t=e.target.closest("#pNoCam,[data-selfiebig]"); if(!t) return;
-  if(t.id==="pNoCam"){ if(!confirm("Punch in without a selfie? Sahill will see that there was no photo.")) return; selfieData=""; await punchInWithSelfie(($("#pPlace")?.value||"").trim()); toast("Punched in without a photo."); closeSheet(); return; }
+  
   const src=selfieCache[t.dataset.selfiebig]; if(!src) return; $("#sheet").classList.remove("wide"); $("#sheet").innerHTML=`<div class="head"><h2 id="sheetTitle">Punch-in selfie</h2><button class="btn ghost sm" type="button" data-close>Close</button></div><img src="${src}" alt="Punch-in selfie" style="width:100%;max-width:480px;border-radius:14px">`; $("#sheetBg").hidden=false; });
 function selfieCell(rep,e){ if(!e) return "–"; if(e.selfie===false) return '<span class="tag" style="color:#b42318">No photo</span>'; if(!e.selfie) return "–"; const k=rep+"/"+e.at;
   if(selfieCache[k]===undefined){ selfieCache[k]=null; db.doc(`selfies/${rep}/items/${e.at}`).get().then(d=>{ selfieCache[k]=d.exists?(d.data().img||""):""; document.querySelectorAll("img[data-selfiebig]").forEach(i=>{ if(i.dataset.selfiebig===k&&selfieCache[k]) i.src=selfieCache[k]; }); }).catch(()=>{ selfieCache[k]=""; }); }
-  return `<img data-selfiebig="${esc(k)}" ${selfieCache[k]?`src="${selfieCache[k]}"`:""} alt="Selfie at ${hm(e.at)}" style="width:44px;height:44px;object-fit:cover;border-radius:8px;cursor:zoom-in;background:#e8e6e1;display:block">`; }
+  return `<img data-selfiebig="${esc(k)}" ${selfieCache[k]?`src="${selfieCache[k]}"`:""} alt="Selfie at ${hm(e.at)}" style="width:44px;height:44px;object-fit:cover;border-radius:8px;cursor:zoom-in;background:#e8e6e1;display:block">${e.selfieCheck==="unchecked"?'<span class="tag" style="color:#b54708;display:block">Unchecked</span>':""}`; }
 function punchOutSheet(){
   $("#sheet").innerHTML=`<div class="head"><h2 id="sheetTitle">Punch out</h2><button class="btn ghost sm" type="button" data-close>Close</button></div>
   <form id="punchOutForm" style="display:grid;gap:10px"><label class="f" for="poPlace">Where are you? (optional)<input id="poPlace" placeholder="e.g. Office, or client visit in JLT"></label><button class="btn" type="submit">Punch out now</button></form>`;
@@ -1545,3 +1558,5 @@ ${m.clientQuotas.map(q=>`| ${esc(q.client)} | ${esc(q.package||"")} | ${q.quota}
 Score parts (average): output ${m.parts.output} · edits on time ${m.parts.ontime} · growth ${m.parts.growth} · logging ${m.parts.discipline}.${m.bestDay?` Best day: **${fmtD(m.bestDay.date)}** (${m.bestDay.score}/100). Lowest: ${fmtD(m.lowestDay.date)} (${m.lowestDay.score}/100).`:""}`; }
 
 </script>
+
+</body></html>
